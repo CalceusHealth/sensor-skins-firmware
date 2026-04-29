@@ -1,0 +1,38 @@
+/*===========================================
+//
+// battery.h
+// Written by Alex Gilmour
+// Copyright (c) 2024, CarbonCircuits
+// All rights reserved.
+//
+//=========================================*/
+
+#ifndef BATTERY_H_
+#define BATTERY_H_
+
+#include <stdint.h>
+#include "configure_firmware.h"
+
+
+typedef enum battery_state_t
+{
+	battery_ok			= 'K',
+	battery_charging	= 'C',
+	battery_charged		= 'D',
+	battery_low			= 'L',
+	battery_unknown		= 'U'
+} battery_state_t;
+
+void battery_init();
+void battery_deinit();
+void battery_update(void);
+int32_t battery_pack_voltage_raw(void);
+
+battery_state_t battery_current_state(void);
+
+uint16_t battery_pack_voltage_mv(void);
+uint8_t battery_pack_charge_from_mv(uint16_t bat_voltage);
+uint8_t battery_pack_charge(void); // 100 = 100%, 0=0%
+
+#endif // BATTERY_H_ 
+

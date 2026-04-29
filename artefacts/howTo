@@ -1,0 +1,34 @@
+QB for battery. ;rb 0 0 L
+QT for device time. ;RT 479
+QP for pending record index range. ;RP 4294967295,0
+QA for all stored record index range. ;RA 0,0
+
+
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_rhs_v00020019_sensorskins.zip /sdcard/Download/
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_lhs_v00020019_sensorskins.zip /sdcard/Download/
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_*_v00020020_sensorskins.zip /sdcard/Download/
+
+
+
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_rhs_v00020020_sensorskins.zip /sdcard/Download/
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_lhs_v00020020_sensorskins.zip /sdcard/Download/
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_*_v00020020_sensorskins.zip /sdcard/Download/
+
+
+  2. On the phone, open nRF DFU.
+  3. Select the required `stream_*` or `nostream_*` zip from Downloads.
+  4. Keep nRF DFU ready with the file selected.
+
+CR
+
+
+  with newline / enter.
+
+  9. The device will disconnect and reboot into DFU mode.
+  10. Immediately switch back to nRF DFU.
+  11. Scan for SS_DFU.
+  12. Select it and start the update.
+
+  5. Compare those values, or send them to me and I’ll do it.
+
+artefacts/out/stream_lhs_v00020019_sensorskins.zip

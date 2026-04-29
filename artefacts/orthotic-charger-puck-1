@@ -1,0 +1,204 @@
+1. Overview
+The Orthotic Charger is a wireless charging system designed to recharge orthotic device batteries via inductive coupling. The system uses a parallel resonant transmitter coil configuration driven by an ATTiny1616 microcontroller, with USB-C power input and LED status indication.
+
+2. Circuit Design
+2.1 Power Supply
+USB-C input via USB4120-03-C connector with CC1/CC2 pull-down resistors (5.1kΩ)
+
+200mA resettable fuse (F1) for overcurrent protection
+
+Ferrite bead (BLM18KG471) for EMI filtering
+
+ESD protection via D5V0L1B2WS TVS diode
+
+Schottky diode (PMEG6010CEJ) for reverse polarity protection
+
+2.2 Coil Driver
+P-channel MOSFET (DMG2305UX) as high-side switch (Q1)
+
+Dual N-channel MOSFETs (DMN2046U) for low-side drive (Q2, Q3 - DNF)
+
+Flyback diode (BAS16XV2T5G) for coil protection
+
+100µF bulk capacitors (C6, C8) for energy storage
+
+2.3 Sensing & Feedback
+ADC_VBUS: USB voltage monitoring via resistor divider (R5/R6: 10kΩ each)
+
+ADC_VCOIL: Coil voltage sensing via resistor divider (R10/R11: 10kΩ each)
+
+RGB LED (19-337C) for status indication with current limiting resistors (R: 750Ω, G: 150Ω, B: 200Ω)
+
+2.4 Connectors
+J2: 3-pin programming header (5V, GND, RESET_UPDI)
+
+J3: 3-pin coil connection (one lead across pins 1&2, one lead on pin 3)
+
+3. Wireless Charging Configuration
+3.1 Coil Options
+Designation
+
+Part Number
+
+Status
+
+Small Coil
+
+WR111180-49F5-G
+
+Broken during testing
+
+Large Coil
+
+WR151580-48F2-G
+
+In use (current)
+
+ 
+
+3.2 Configuration Testing Results
+Multiple configurations were tested to optimize power transfer:
+
+Best configuration: Parallel resonant TX with large coil, high drive only, small coil RX → 3.592V into 470Ω
+
+Current configuration: Large+Large coil (for robustness) → 3.178V into 470Ω
+
+1kΩ load achieved full 4.9V output
+
+Optimal duty cycle: 25% (balances charge current vs. coil self-heating)
+
+4. Performance Specifications
+Parameter
+
+Value
+
+Charge Current (nominal)
+
+~5 mA
+
+Charge Current (max tested)
+
+~10 mA (requires thermal testing)
+
+TX Current @ 5mA charge
+
+~130 mA
+
+TX Current @ 10mA charge
+
+~200 mA
+
+Dead Battery Charge Current
+
+~5.5 mA
+
+Full Recharge Time (0-100%)
+
+~20 hours
+
+Expected Use Case
+
+80% → 100% top-up charging
+
+5. Dead Battery Boot Issue & Solution
+Problem: Very dead batteries caused the system to draw ~3mA and never boot. Root cause traced to nRF chip drawing excessive current on high-impedance power supplies, holding input voltage at the regulator enable threshold (1.58V).
+
+Solution implemented:
+
+Added bulk capacitance across battery terminals (dead batteries have very high impedance due to protection circuit)
+
+Added 470kΩ/100kΩ resistor divider + 1µF capacitor on regulator enable pin
+
+Note: Alternative regulators were investigated but current unit was retained due to cost considerations.
+
+6. Coil Detection Feature
+The charger implements coil detection to identify when an orthotic is present:
+
+Detection mechanism: Mutual resonance causes sense voltage increase when coils are co-located
+
+LED indication: Yellow (appears green) → White when orthotic detected
+
+Alternative colour scheme available: Red → Blue (if preferred)
+
+Testing Results (4 units):
+
+2 units: Functioning as expected
+
+1 unit: Detection threshold too low
+
+1 unit: Detection threshold too high
+
+Recommendation: Migrate coil detection from PWM-off sensing to single excitation pulse method. Coil detection currently disabled to prevent charging issues.
+
+7. Build & Assembly Notes
+7.1 Programming
+All 4 units successfully flashed via UPDI interface (J2 connector)
+
+One unit had glue in programming holes - required additional effort
+
+7.2 Assembly Procedure
+Plug housing LED hole with clear hot glue
+
+Insert PCBA into housing, apply hot glue through mounting holes
+
+Mount coil with 0.6mm thick VHB tape
+
+Route and secure coil wires
+
+Install magnet with S pole facing outward (critical for proper alignment)
+
+Fit test against orthotic device
+
+Pot coil area with black hot glue, keeping layer thin over magnet
+
+Smooth with hot air, cool with fan
+
+Fill any voids (especially around magnet) with additional hot glue after cooling/settling
+
+8. PCB Specifications
+Parameter
+
+Specification
+
+Layers
+
+2
+
+Board Thickness
+
+1.0mm (40 mil)
+
+Material
+
+FR4
+
+Copper Weight
+
+35µm (1oz)
+
+Surface Finish
+
+SnPb HASL
+
+Soldermask
+
+Black
+
+Silkscreen
+
+White
+
+Manufacturing Standard
+
+IPC-A-600 Class 2
+
+9. Outstanding Items & Recommendations
+Thermal testing: Validate 10mA charge rate (200mA TX current) for self-heating limits
+
+Coil detection: Implement single excitation pulse method to replace PWM-off detection
+
+LED colours: Confirm preferred colour scheme (yellow→white vs red→blue)
+
+Current calibration: Current consumption at 25% duty cycle appears lower than previous testing - verify calibration
+
+Small coil procurement: Order replacement WR111180-49F5-G units if optimal configuration (large TX + small RX) is desired

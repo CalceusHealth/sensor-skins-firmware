@@ -1,0 +1,17 @@
+A whole bunch of progress; to summarise:
+
+An alternative coil WR151580-48F2-G (“large” coil) was identified to replace the existing WR111180-49F5-G (“small” coil) if its power output was found to be lacking.
+
+Testing of the wireless circuit through various configurations (high+low drive on tx vs. high drive only, series vs. parallel resonant tx coil, and the various combinations of small and large coils, flyback vs. resonant on both tx and rx) showed that the best combination was parallel resonant tx with large coil, high drive only, feeding a small coil on rx. This gave a voltage of 3.592V feeding a 470R load.
+
+During testing, the small coil broke - so proceeded with the large+large coil configuration for now for robustness reasons (3.178V into 470R).
+
+Going back to 1k load gave the full 4.9V needed. Increasing the drive current to the tx coil increased this to a point - but self heating of the coil was a problem. A 25% duty cycle was found to be the best - giving a charge current of ~5.5mA into a dead battery, while requiring 130mA into the charger unit.
+
+Adding a (very dead) battery to the system caused it to draw ~3mA and never boot. This was traced back to the nRF which seems to use a large amount of current on high impedance power supplies, which holds the input voltage at the enable voltage of the nRF (1.58V). Various options were tested; what was found to work was adding bulk capacitance across the battery (when dead, they have a very high impedance due to the protection circuit holding them almost open) plus adding a 470k/100k resistor divider + 1u cap on the enable pin for the regulator - other regulators were investigated at the time of ordering the circuit but we went with the currently selected unit because of cost. 
+
+Circuit is now working and charging at 5mA - we can increase to 10mA but then current for the tx coil jumps from 130mA to 200mA - we just need to test for heat. At 5mA the unit will recharge the battery from dead in around 20h - but we’re only expecting people to charge from 80% to 100% or so.
+
+The “coil detection” on the driver PCBA has also been tested and limits implemented - the detection is slight but is there, and it’ll give a small bump in voltage when the two coils are co-located and the mutual resonance causes the sense voltage to increase. LED colour changes from “yellow” (looks like it’s green) to white - we can change this to red to blue or something if we prefer.
+
+
