@@ -1,0 +1,536 @@
+/*===========================================
+//
+// measure.c
+// Written by Alex Gilmour
+// Copyright (c) 2024, CarbonCircuits
+// All rights reserved.
+//
+//=========================================*/
+
+#include "measure.h"
+#include "configure_firmware.h"
+#include "gpio.h"
+#include "adc.h"
+#include "lmt01.h"
+#include "flash.h"
+
+#define AVERAGE_SIZE	5
+
+static inline int32_t find_average(int32_t* data) {
+	int32_t ret_val = 0;
+	for (uint8_t i=0; i<AVERAGE_SIZE; ++i) {
+		ret_val += data[i];
+	}
+	ret_val /= AVERAGE_SIZE;
+	return ret_val;
+}
+
+#define MEAS_SETTLING	10000
+
+#define MIN_CAP		500
+#define MAX_CAP		10000
+#define MIN_TEMP	-1000
+#define MAX_TEMP	7500
+#define MIN_FSR		0
+#define MAX_FSR		5000
+
+
+#define FSR_MIN	50 // for subtraction
+
+#define CAL_C1S		0
+#define CAL_C1N		0
+#define CAL_C2S		0
+#define CAL_C2N		0
+#define CAL_C3S		0
+#define CAL_C3N		0
+#define CAL_C4S		0
+#define CAL_C4N		0
+#define CAL_C5S		0 // note "S" is furthest from big toe
+#define CAL_C5N		0
+#define CAL_C6S		0
+#define CAL_C6N		0
+
+
+/*
+// calibrate to 2050
+#ifdef REID_LHS
+#define CAL_C1S		-1280/3
+#define CAL_C1N		-1405/3
+#define CAL_C2S		1225/3
+#define CAL_C2N		-55/3
+#define CAL_C3S		-595/3
+#define CAL_C3N		-620/3
+#define CAL_C4S		3850/3
+#define CAL_C4N		-510/3
+#else
+#define CAL_C1S		-60/3
+#define CAL_C1N		-570/3
+#define CAL_C2S		2090/3
+#define CAL_C2N		650/3
+#define CAL_C3S		1460/3
+#define CAL_C3N		900/3
+#define CAL_C4S		1640/3
+#define CAL_C4N		835/3
+#endif*/
+
+int32_t cap1s_average[AVERAGE_SIZE];
+int32_t cap1n_average[AVERAGE_SIZE];
+int32_t cap2s_average[AVERAGE_SIZE];
+int32_t cap2n_average[AVERAGE_SIZE];
+int32_t cap3s_average[AVERAGE_SIZE];
+int32_t cap3n_average[AVERAGE_SIZE];
+int32_t cap4s_average[AVERAGE_SIZE];
+int32_t cap4n_average[AVERAGE_SIZE];
+int32_t cap5s_average[AVERAGE_SIZE];
+int32_t cap5n_average[AVERAGE_SIZE];
+int32_t cap6s_average[AVERAGE_SIZE];
+int32_t cap6n_average[AVERAGE_SIZE];
+
+uint8_t average_counter = 0;
+
+void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
+{
+	nrf_gpio_pin_clear(PIN_FSR_S0);
+	nrf_gpio_pin_clear(PIN_FSR_S1);
+    nrf_gpio_pin_clear(PIN_FSR_S2);
+	nrf_gpio_pin_clear(PIN_CAP_S0);
+	nrf_gpio_pin_clear(PIN_CAP_S1);
+    nrf_gpio_pin_clear(PIN_CAP_S2);
+	
+	nrf_gpio_pin_clear(PIN_MUX_ON);
+	adc_read_bank1(); // clear the ADC
+	adc_read_bank2(); // clear the ADC
+	adc_read_bank3(); // clear the ADC
+	adc_init();
+	data->time_ms = system_time_ms();
+	data->vdd_mv = adc_read_vdd_mv();
+	
+	static int16_t temp_counter = 0;
+	static uint8_t temp_sensor = 0;
+
+	++temp_counter;
+	if ((force_temp != 0)||(temp_counter >= MEASURE_TEMP_EVERY_N)) {
+		temp_counter = 0;
+		if (++temp_sensor >= 5) temp_sensor = 0;
+		switch (temp_sensor) {
+		default:
+			temp_sensor = 0;
+		case 0:
+			data->temp1 = lmt01_get_temp(PIN_TEMP_S0);
+			break;
+		case 1:
+			data->temp2 = lmt01_get_temp(PIN_TEMP_S1);
+			break;
+		case 2:
+			data->temp3 = lmt01_get_temp(PIN_TEMP_S2);
+			break;
+		case 3:
+			data->temp4 = lmt01_get_temp(PIN_TEMP_S3);
+			break;
+		case 4:
+			data->temp5 = lmt01_get_temp(PIN_TEMP_S4);
+			break;
+		}
+	}
+	
+	if (++average_counter >= AVERAGE_SIZE) average_counter = 0;
+	
+	// SET 0/8/16
+	nrf_gpio_pin_clear(PIN_FSR_S0);
+	nrf_gpio_pin_clear(PIN_FSR_S1);
+    nrf_gpio_pin_clear(PIN_FSR_S2);
+	// shouldn't be anything here anyway
+	#ifdef REID_LHS
+	#else
+	#endif
+
+	// SET 1/9/17
+    nrf_gpio_pin_set(PIN_FSR_S0);
+	system_delay_cycles(MEAS_SETTLING);
+    adc_read_bank1();
+    adc_read_bank2();
+    adc_read_bank3();
+	#ifdef REID_LHS
+	data->fsr12 = adc_read_bank1();
+	data->fsr14 = adc_read_bank2();
+	data->fsr17 = adc_read_bank3();
+	#else
+	data->fsr7 = adc_read_bank1();
+	data->fsr8 = adc_read_bank2();
+	data->fsr16 = adc_read_bank3();
+	#endif
+	
+	// SET 2/10/18
+    nrf_gpio_pin_set(PIN_FSR_S1);
+    nrf_gpio_pin_clear(PIN_FSR_S0);
+	system_delay_cycles(MEAS_SETTLING);
+    adc_read_bank1();
+    adc_read_bank2();
+    adc_read_bank3();
+	#ifdef REID_LHS
+	data->fsr9 = adc_read_bank1();
+	data->fsr11 = adc_read_bank2();
+	data->fsr18 = adc_read_bank3();
+	#else
+	data->fsr2 = adc_read_bank1();
+	data->fsr3 = adc_read_bank2();
+	data->fsr15 = adc_read_bank3();
+	#endif
+
+	// SET 3/11/19
+    nrf_gpio_pin_set(PIN_FSR_S0);
+	system_delay_cycles(MEAS_SETTLING);
+    adc_read_bank1();
+    adc_read_bank2();
+    adc_read_bank3();
+	#ifdef REID_LHS
+	data->fsr1 = adc_read_bank1();
+	data->fsr10 = adc_read_bank2();
+	adc_read_bank3();
+	#else
+	data->fsr6 = adc_read_bank1();
+	data->fsr4 = adc_read_bank2();
+	adc_read_bank3();
+	#endif
+
+	// SET 4/12/20
+	nrf_gpio_pin_set(PIN_FSR_S2);
+	nrf_gpio_pin_clear(PIN_FSR_S1);
+    nrf_gpio_pin_clear(PIN_FSR_S0);
+	system_delay_cycles(MEAS_SETTLING);
+    adc_read_bank1();
+    adc_read_bank2();
+    adc_read_bank3();
+	#ifdef REID_LHS
+	data->fsr13 = adc_read_bank1();
+	data->fsr5 = adc_read_bank2();
+	data->fsr19 = adc_read_bank3();
+	#else
+	data->fsr13 = adc_read_bank1();
+	data->fsr5 = adc_read_bank2();
+	data->fsr19 = adc_read_bank3();
+	#endif
+
+	// SET 5/13/21
+    nrf_gpio_pin_set(PIN_FSR_S0);
+	system_delay_cycles(MEAS_SETTLING);
+    adc_read_bank1();
+    adc_read_bank2();
+    adc_read_bank3();
+	#ifdef REID_LHS
+	data->fsr6 = adc_read_bank1();
+	data->fsr4 = adc_read_bank2();
+	adc_read_bank3();
+	#else
+	data->fsr1 = adc_read_bank1();
+	data->fsr10 = adc_read_bank2();
+	adc_read_bank3();
+	#endif
+
+	// SET 6/14/22
+    nrf_gpio_pin_set(PIN_FSR_S1);
+    nrf_gpio_pin_clear(PIN_FSR_S0);
+	system_delay_cycles(MEAS_SETTLING);
+    adc_read_bank1();
+    adc_read_bank2();
+    adc_read_bank3();
+	#ifdef REID_LHS
+	data->fsr2 = adc_read_bank1();
+	data->fsr8 = adc_read_bank2();
+	data->fsr15 = adc_read_bank3();
+	#else
+	data->fsr9 = adc_read_bank1();
+	data->fsr14 = adc_read_bank2();
+	data->fsr17 = adc_read_bank3();
+	#endif
+
+	// SET 7/15/23
+    nrf_gpio_pin_set(PIN_FSR_S0);
+	system_delay_cycles(MEAS_SETTLING);
+    adc_read_bank1();
+    adc_read_bank2();
+    adc_read_bank3();
+	#ifdef REID_LHS
+	data->fsr7 = adc_read_bank1();
+	data->fsr3 = adc_read_bank2();
+	data->fsr16 = adc_read_bank3();
+	#else
+	data->fsr12 = adc_read_bank1();
+	data->fsr11 = adc_read_bank2();
+	data->fsr18 = adc_read_bank3();
+	#endif
+
+	nrf_gpio_pin_clear(PIN_FSR_S0);
+	nrf_gpio_pin_clear(PIN_FSR_S1);
+    nrf_gpio_pin_clear(PIN_FSR_S2);
+	
+	
+	
+	// SET 0/8
+	nrf_gpio_pin_clear(PIN_CAP_S0);
+	nrf_gpio_pin_clear(PIN_CAP_S1);
+    nrf_gpio_pin_clear(PIN_CAP_S2);
+	system_delay_cycles(MEAS_SETTLING);
+	// shouldn't be anything here anyway
+	#ifdef REID_LHS
+	#else
+	#endif
+
+	// SET 1/9
+    nrf_gpio_pin_set(PIN_CAP_S0);
+	system_delay_cycles(MEAS_SETTLING);
+	#ifdef REID_LHS
+	cap1n_average[average_counter] = adc_read_cap1();
+	data->cap1n = find_average(cap1n_average)-CAL_C1N;
+	cap6n_average[average_counter] = adc_read_cap2();
+	data->cap6n = find_average(cap6n_average)-CAL_C6N;
+	#else
+	cap2s_average[average_counter] = adc_read_cap1();
+	data->cap2s = find_average(cap2s_average)-CAL_C2S;
+	cap4n_average[average_counter] = adc_read_cap2();
+	data->cap4n = find_average(cap4n_average)-CAL_C4N;
+	#endif
+	
+	// SET 2/10
+    nrf_gpio_pin_set(PIN_CAP_S1);
+    nrf_gpio_pin_clear(PIN_CAP_S0);
+	system_delay_cycles(MEAS_SETTLING);
+	#ifdef REID_LHS
+	cap5n_average[average_counter] = adc_read_cap1();
+	data->cap5n = find_average(cap5n_average)-CAL_C5N;
+	cap6s_average[average_counter] = adc_read_cap2();
+	data->cap6s = find_average(cap6s_average)-CAL_C6S;
+	#else
+	cap2n_average[average_counter] = adc_read_cap1();
+	data->cap2n = find_average(cap2n_average)-CAL_C2N;
+	cap4s_average[average_counter] = adc_read_cap2();
+	data->cap4s = find_average(cap4s_average)-CAL_C4S;
+	#endif
+
+	// SET 3/11
+    nrf_gpio_pin_set(PIN_CAP_S0);
+	system_delay_cycles(MEAS_SETTLING);
+	#ifdef REID_LHS
+	/*cap_average[average_counter] = adc_read_cap1();
+	data->cap = find_average(cap_average)-CAL_C;
+	cap_average[average_counter] = adc_read_cap2();
+	data->cap = find_average(cap_average)-CAL_C;*/
+	#else
+	/*cap_average[average_counter] = adc_read_cap1();
+	data->cap = find_average(cap_average)-CAL_C;
+	cap_average[average_counter] = adc_read_cap2();
+	data->cap = find_average(cap_average)-CAL_C;*/
+	#endif
+
+	// SET 4/12
+	nrf_gpio_pin_set(PIN_CAP_S2);
+	nrf_gpio_pin_clear(PIN_CAP_S1);
+    nrf_gpio_pin_clear(PIN_CAP_S0);
+	system_delay_cycles(MEAS_SETTLING);
+	#ifdef REID_LHS
+	cap5s_average[average_counter] = adc_read_cap1();
+	data->cap5s = find_average(cap5s_average)-CAL_C5S;
+	cap3s_average[average_counter] = adc_read_cap2();
+	data->cap3s = find_average(cap3s_average)-CAL_C3S;
+	#else
+	cap1s_average[average_counter] = adc_read_cap1();
+	data->cap1s = find_average(cap1s_average)-CAL_C1S;
+	cap3s_average[average_counter] = adc_read_cap2();
+	data->cap3s = find_average(cap3s_average)-CAL_C3S;
+	#endif
+
+	// SET 5/13
+    nrf_gpio_pin_set(PIN_CAP_S0);
+	system_delay_cycles(MEAS_SETTLING);
+	#ifdef REID_LHS
+	cap2s_average[average_counter] = adc_read_cap1();
+	data->cap2s = find_average(cap2s_average)-CAL_C2S;
+	cap3n_average[average_counter] = adc_read_cap2();
+	data->cap3n = find_average(cap3n_average)-CAL_C3N;
+	#else
+	cap5n_average[average_counter] = adc_read_cap1();
+	data->cap5n = find_average(cap5n_average)-CAL_C5N;
+	cap3n_average[average_counter] = adc_read_cap2();
+	data->cap3n = find_average(cap3n_average)-CAL_C3N;
+	#endif
+
+	// SET 6/14
+    nrf_gpio_pin_set(PIN_CAP_S1);
+    nrf_gpio_pin_clear(PIN_CAP_S0);
+	system_delay_cycles(MEAS_SETTLING);
+	#ifdef REID_LHS
+	cap1s_average[average_counter] = adc_read_cap1();
+	data->cap1s = find_average(cap1s_average)-CAL_C1S;
+	cap4s_average[average_counter] = adc_read_cap2();
+	data->cap4s = find_average(cap4s_average)-CAL_C4S;
+	#else
+	cap1n_average[average_counter] = adc_read_cap1();
+	data->cap1n = find_average(cap1n_average)-CAL_C1N;
+	cap6s_average[average_counter] = adc_read_cap2();
+	data->cap6s = find_average(cap6s_average)-CAL_C6S;
+	#endif
+
+	// SET 7/15
+    nrf_gpio_pin_set(PIN_CAP_S0);
+	system_delay_cycles(MEAS_SETTLING);
+	#ifdef REID_LHS
+	cap2n_average[average_counter] = adc_read_cap1();
+	data->cap2n = find_average(cap2n_average)-CAL_C2N;
+	cap4n_average[average_counter] = adc_read_cap2();
+	data->cap4n = find_average(cap4n_average)-CAL_C4N;
+	#else
+	cap5s_average[average_counter] = adc_read_cap1();
+	data->cap5s = find_average(cap5s_average)-CAL_C5S;
+	cap6n_average[average_counter] = adc_read_cap2();
+	data->cap6n = find_average(cap6n_average)-CAL_C6N;
+	#endif
+
+	nrf_gpio_pin_clear(PIN_FSR_S0);
+	nrf_gpio_pin_clear(PIN_FSR_S1);
+    nrf_gpio_pin_clear(PIN_FSR_S2);
+	nrf_gpio_pin_clear(PIN_CAP_S0);
+	nrf_gpio_pin_clear(PIN_CAP_S1);
+    nrf_gpio_pin_clear(PIN_CAP_S2);
+	nrf_gpio_pin_set(PIN_MUX_ON);
+
+
+	if (data->fsr1  > FSR_MIN) data->fsr1  -=FSR_MIN; else data->fsr1  = 0;
+	if (data->fsr2  > FSR_MIN) data->fsr2  -=FSR_MIN; else data->fsr2  = 0;
+	if (data->fsr3  > FSR_MIN) data->fsr3  -=FSR_MIN; else data->fsr3  = 0;
+	if (data->fsr4  > FSR_MIN) data->fsr4  -=FSR_MIN; else data->fsr4  = 0;
+	if (data->fsr5  > FSR_MIN) data->fsr5  -=FSR_MIN; else data->fsr5  = 0;
+	if (data->fsr6  > FSR_MIN) data->fsr6  -=FSR_MIN; else data->fsr6  = 0;
+	if (data->fsr7  > FSR_MIN) data->fsr7  -=FSR_MIN; else data->fsr7  = 0;
+	if (data->fsr8  > FSR_MIN) data->fsr8  -=FSR_MIN; else data->fsr8  = 0;
+	if (data->fsr9  > FSR_MIN) data->fsr9  -=FSR_MIN; else data->fsr9  = 0;
+	if (data->fsr10 > FSR_MIN) data->fsr10 -=FSR_MIN; else data->fsr10 = 0;
+	if (data->fsr11 > FSR_MIN) data->fsr11 -=FSR_MIN; else data->fsr11 = 0;
+	if (data->fsr12 > FSR_MIN) data->fsr12 -=FSR_MIN; else data->fsr12 = 0;
+	if (data->fsr13 > FSR_MIN) data->fsr13 -=FSR_MIN; else data->fsr13 = 0;
+	if (data->fsr14 > FSR_MIN) data->fsr14 -=FSR_MIN; else data->fsr14 = 0;
+	if (data->fsr15 > FSR_MIN) data->fsr15 -=FSR_MIN; else data->fsr15 = 0;
+	if (data->fsr16 > FSR_MIN) data->fsr16 -=FSR_MIN; else data->fsr16 = 0;
+	if (data->fsr17 > FSR_MIN) data->fsr17 -=FSR_MIN; else data->fsr17 = 0;
+	if (data->fsr18 > FSR_MIN) data->fsr18 -=FSR_MIN; else data->fsr18 = 0;
+	if (data->fsr19 > FSR_MIN) data->fsr19 -=FSR_MIN; else data->fsr19 = 0;
+
+	adc_deinit();
+}
+
+void measure_update_summary(reid_ble_summary_packet_t* summary, reid_ble_packet_t* data)
+{
+	if (summary->time_s_start > (data->time_ms/1000)) summary->time_s_start = (uint32_t) (data->time_ms/1000);
+	if (summary->time_s_end   < (data->time_ms/1000)) summary->time_s_end =   (uint32_t) (data->time_ms/1000);
+
+	if (summary->num_samples < 65534) summary->num_samples += 1;
+
+	if (summary->vdd_mv_min < data->vdd_mv) summary->vdd_mv_min = data->vdd_mv;
+
+	if ((data->fsr1  >= MIN_FSR)&&(data->fsr1  <= MAX_FSR)&&(summary->fsr1_max  < data->fsr1 )) summary->fsr1_max  = data->fsr1;
+	if ((data->fsr2  >= MIN_FSR)&&(data->fsr2  <= MAX_FSR)&&(summary->fsr2_max  < data->fsr2 )) summary->fsr2_max  = data->fsr2;
+	if ((data->fsr3  >= MIN_FSR)&&(data->fsr3  <= MAX_FSR)&&(summary->fsr3_max  < data->fsr3 )) summary->fsr3_max  = data->fsr3;
+	if ((data->fsr4  >= MIN_FSR)&&(data->fsr4  <= MAX_FSR)&&(summary->fsr4_max  < data->fsr4 )) summary->fsr4_max  = data->fsr4;
+	if ((data->fsr5  >= MIN_FSR)&&(data->fsr5  <= MAX_FSR)&&(summary->fsr5_max  < data->fsr5 )) summary->fsr5_max  = data->fsr5;
+	if ((data->fsr6  >= MIN_FSR)&&(data->fsr6  <= MAX_FSR)&&(summary->fsr6_max  < data->fsr6 )) summary->fsr6_max  = data->fsr6;
+	if ((data->fsr7  >= MIN_FSR)&&(data->fsr7  <= MAX_FSR)&&(summary->fsr7_max  < data->fsr7 )) summary->fsr7_max  = data->fsr7;
+	if ((data->fsr8  >= MIN_FSR)&&(data->fsr8  <= MAX_FSR)&&(summary->fsr8_max  < data->fsr8 )) summary->fsr8_max  = data->fsr8;
+	if ((data->fsr9  >= MIN_FSR)&&(data->fsr9  <= MAX_FSR)&&(summary->fsr9_max  < data->fsr9 )) summary->fsr9_max  = data->fsr9;
+	if ((data->fsr10 >= MIN_FSR)&&(data->fsr10 <= MAX_FSR)&&(summary->fsr10_max < data->fsr10)) summary->fsr10_max = data->fsr10;
+	if ((data->fsr11 >= MIN_FSR)&&(data->fsr11 <= MAX_FSR)&&(summary->fsr11_max < data->fsr1 )) summary->fsr11_max = data->fsr11;
+	if ((data->fsr12 >= MIN_FSR)&&(data->fsr12 <= MAX_FSR)&&(summary->fsr12_max < data->fsr2 )) summary->fsr12_max = data->fsr12;
+	if ((data->fsr13 >= MIN_FSR)&&(data->fsr13 <= MAX_FSR)&&(summary->fsr13_max < data->fsr3 )) summary->fsr13_max = data->fsr13;
+	if ((data->fsr14 >= MIN_FSR)&&(data->fsr14 <= MAX_FSR)&&(summary->fsr14_max < data->fsr4 )) summary->fsr14_max = data->fsr14;
+	if ((data->fsr15 >= MIN_FSR)&&(data->fsr15 <= MAX_FSR)&&(summary->fsr15_max < data->fsr5 )) summary->fsr15_max = data->fsr15;
+	if ((data->fsr16 >= MIN_FSR)&&(data->fsr16 <= MAX_FSR)&&(summary->fsr16_max < data->fsr6 )) summary->fsr16_max = data->fsr16;
+	if ((data->fsr17 >= MIN_FSR)&&(data->fsr17 <= MAX_FSR)&&(summary->fsr17_max < data->fsr7 )) summary->fsr17_max = data->fsr17;
+	if ((data->fsr18 >= MIN_FSR)&&(data->fsr18 <= MAX_FSR)&&(summary->fsr18_max < data->fsr8 )) summary->fsr18_max = data->fsr18;
+	if ((data->fsr19 >= MIN_FSR)&&(data->fsr19 <= MAX_FSR)&&(summary->fsr19_max < data->fsr9 )) summary->fsr19_max = data->fsr19;
+
+	if ((data->temp1 >= MIN_TEMP)&&(data->temp1 <= MAX_TEMP)&&(summary->temp1_max < data->temp1)) summary->temp1_max = data->temp1;
+	if ((data->temp2 >= MIN_TEMP)&&(data->temp2 <= MAX_TEMP)&&(summary->temp2_max < data->temp2)) summary->temp2_max = data->temp2;
+	if ((data->temp3 >= MIN_TEMP)&&(data->temp3 <= MAX_TEMP)&&(summary->temp3_max < data->temp3)) summary->temp3_max = data->temp3;
+	if ((data->temp4 >= MIN_TEMP)&&(data->temp4 <= MAX_TEMP)&&(summary->temp4_max < data->temp4)) summary->temp4_max = data->temp4;
+	if ((data->temp5 >= MIN_TEMP)&&(data->temp5 <= MAX_TEMP)&&(summary->temp5_max < data->temp5)) summary->temp5_max = data->temp5;
+
+	if ((data->cap1n >= MIN_CAP)&&(data->cap1n <= MAX_CAP)&&(data->cap1s >= MIN_CAP)&&(data->cap1s <= MAX_CAP)) {
+		int16_t cap_delta = data->cap1n - data->cap1s;
+		if (summary->cap1_delta_min > cap_delta) summary->cap1_delta_min = cap_delta;
+		if (summary->cap1_delta_max < cap_delta) summary->cap1_delta_max = cap_delta;
+	}
+
+	if ((data->cap2n >= MIN_CAP)&&(data->cap2n <= MAX_CAP)&&(data->cap2s >= MIN_CAP)&&(data->cap2s <= MAX_CAP)) {
+		int16_t cap_delta = data->cap2n - data->cap2s;
+		if (summary->cap2_delta_min > cap_delta) summary->cap2_delta_min = cap_delta;
+		if (summary->cap2_delta_max < cap_delta) summary->cap2_delta_max = cap_delta;
+	}
+
+	if ((data->cap3n >= MIN_CAP)&&(data->cap3n <= MAX_CAP)&&(data->cap3s >= MIN_CAP)&&(data->cap3s <= MAX_CAP)) {
+		int16_t cap_delta = data->cap3n - data->cap3s;
+		if (summary->cap3_delta_min > cap_delta) summary->cap3_delta_min = cap_delta;
+		if (summary->cap3_delta_max < cap_delta) summary->cap3_delta_max = cap_delta;
+	}
+
+	if ((data->cap4n >= MIN_CAP)&&(data->cap4n <= MAX_CAP)&&(data->cap4s >= MIN_CAP)&&(data->cap4s <= MAX_CAP)) {
+		int16_t cap_delta = data->cap4n - data->cap4s;
+		if (summary->cap4_delta_min > cap_delta) summary->cap4_delta_min = cap_delta;
+		if (summary->cap4_delta_max < cap_delta) summary->cap4_delta_max = cap_delta;
+	}
+
+	if ((data->cap5n >= MIN_CAP)&&(data->cap5n <= MAX_CAP)&&(data->cap5s >= MIN_CAP)&&(data->cap5s <= MAX_CAP)) {
+		int16_t cap_delta = data->cap5n - data->cap5s;
+		if (summary->cap5_delta_min > cap_delta) summary->cap5_delta_min = cap_delta;
+		if (summary->cap5_delta_max < cap_delta) summary->cap5_delta_max = cap_delta;
+	}
+
+	if ((data->cap6n >= MIN_CAP)&&(data->cap6n <= MAX_CAP)&&(data->cap6s >= MIN_CAP)&&(data->cap6s <= MAX_CAP)) {
+		int16_t cap_delta = data->cap4n - data->cap4s;
+		if (summary->cap6_delta_min > cap_delta) summary->cap6_delta_min = cap_delta;
+		if (summary->cap6_delta_max < cap_delta) summary->cap6_delta_max = cap_delta;
+	}
+}
+
+void measure_reset_summary(reid_ble_summary_packet_t* summary)
+{
+	summary->time_s_start = 0xFFFFFFFF;
+	summary->time_s_end = 0;
+	summary->num_samples = 0;
+	summary->vdd_mv_min = 9999;
+	summary->index = flash_next_high_index();
+	summary->is_synced = 0xFFFF;
+	summary->fsr1_max = 0;
+	summary->fsr2_max = 0;
+	summary->fsr3_max = 0;
+	summary->fsr4_max = 0;
+	summary->fsr5_max = 0;
+	summary->fsr6_max = 0;
+	summary->fsr7_max = 0;
+	summary->fsr8_max = 0;
+	summary->fsr9_max = 0;
+	summary->fsr10_max = 0;
+	summary->fsr11_max = 0;
+	summary->fsr12_max = 0;
+	summary->fsr13_max = 0;
+	summary->fsr14_max = 0;
+	summary->fsr15_max = 0;
+	summary->fsr16_max = 0;
+	summary->fsr17_max = 0;
+	summary->fsr18_max = 0;
+	summary->fsr19_max = 0;
+	summary->temp1_max = MIN_TEMP-1;
+	summary->temp2_max = MIN_TEMP-1;
+	summary->temp3_max = MIN_TEMP-1;
+	summary->temp4_max = MIN_TEMP-1;
+	summary->temp5_max = MIN_TEMP-1;
+	summary->cap1_delta_min = 9999;
+	summary->cap1_delta_max = -9999;
+	summary->cap2_delta_min = 9999;
+	summary->cap2_delta_max = -9999;
+	summary->cap3_delta_min = 9999;
+	summary->cap3_delta_max = -9999;
+	summary->cap4_delta_min = 9999;
+	summary->cap4_delta_max = -9999;
+	summary->cap5_delta_min = 9999;
+	summary->cap5_delta_max = -9999;
+	summary->cap6_delta_min = 9999;
+	summary->cap6_delta_max = -9999;
+}

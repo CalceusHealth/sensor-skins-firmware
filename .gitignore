@@ -1,0 +1,13 @@
+.codex/
+*.emSession
+desktop.ini
+*.bin
+*.dat
+manifest.json
+*.key
+
+artefacts/out/
+firmware/reid_ble_aginic_v2.06LHS_dfu/
+firmware/reid_ble_aginic_v2.06RHS_dfu/
+firmware/ble_app_firmware_v2_R6/reid_ble_aginic_v2.06LHS_dfu/
+firmware/ble_app_firmware_v2_R6/reid_ble_aginic_v2.06RHS_dfu/
