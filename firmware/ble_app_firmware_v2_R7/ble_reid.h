@@ -42,6 +42,7 @@ void ble_reid_force_disconnect(void);
 void ble_advertise_again(void);
 
 void ble_reid_tx(uint8_t* data, uint16_t length);
+uint16_t ble_reid_max_tx_len(void);
 uint8_t ble_is_connected(void);
 
 #endif // #define BLE_REID_H

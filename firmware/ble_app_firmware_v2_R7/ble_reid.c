@@ -249,6 +249,11 @@ void ble_reid_tx(uint8_t* data, uint16_t length)
 	#endif // #ifdef WAIT_FOR_TX_OF_EVERY_PACKET
 }
 
+uint16_t ble_reid_max_tx_len(void)
+{
+	return m_ble_nus_max_data_len;
+}
+
 uint8_t ble_is_connected(void)
 {
 	return ble_connection_status;

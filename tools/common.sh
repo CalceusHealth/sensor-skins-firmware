@@ -78,13 +78,11 @@ set_staged_stream_mode() {
     stream)
       sed -i \
         -e 's@^//\([[:space:]]*#define[[:space:]]\+SEND_EVERY_MEAS_OVER_BLE\)@\1@' \
-        -e 's@^//\([[:space:]]*#define[[:space:]]\+SEND_BLE_MEAS_AS_ASCII\)@\1@' \
         "${configure_file}"
       ;;
     nostream)
       sed -i \
         -e 's@^[[:space:]]*#define[[:space:]]\+SEND_EVERY_MEAS_OVER_BLE@//	#define SEND_EVERY_MEAS_OVER_BLE@' \
-        -e 's@^[[:space:]]*#define[[:space:]]\+SEND_BLE_MEAS_AS_ASCII@//	#define SEND_BLE_MEAS_AS_ASCII@' \
         "${configure_file}"
       ;;
     *)

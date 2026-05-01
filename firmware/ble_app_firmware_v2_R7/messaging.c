@@ -106,6 +106,15 @@ void msg_process_packet(void)
 			{
 				case MSG_QUERY_SYSINFO:
 				{
+					const char* stream_capability = "UNKNOWN";
+
+#ifdef STREAM_PROTOCOL_ASCII_V1
+					stream_capability = "ASCII_V1_TS";
+#endif
+#ifdef STREAM_PROTOCOL_BINARY_V2
+					stream_capability = "BINARY_V2";
+#endif
+
 					msg_tx_buffer_end = 0;
 					msg_add_sync();
 					msg_add_byte(MSG_TYPE_RESPONSE);
@@ -114,10 +123,11 @@ void msg_process_packet(void)
 						msg_tx_buffer_end += snprintf(
 							(uint8_t*)msg_tx_buffer+msg_tx_buffer_end,
 							MSG_TX_BUFFER_SIZE-msg_tx_buffer_end,
-							"UID=%08X%08X,VER=%08X",
+							"UID=%08X%08X,VER=%08X,STREAM=%s",
 							(unsigned int)(flash_sysdata.device_id >> 32),
 							(unsigned int)(flash_sysdata.device_id & 0xFFFFFFFFu),
-							flash_sysdata.device_version
+							flash_sysdata.device_version,
+							stream_capability
 						);
 					msg_add_endline();
 					ble_reid_tx((uint8_t*) msg_tx_buffer, msg_tx_buffer_end);
@@ -134,7 +144,7 @@ void msg_process_packet(void)
 					battery_query_pause = 1;
 					system_wait_for_ms_no_bg(MAIN_LOOP_TIME_MS + 10);
 					battery_update();
-					battery_raw = battery_pack_voltage_raw();
+					battery_raw = adc_read_vbat_raw_fresh();
 					battery_mv = battery_pack_voltage_mv();
 					battery_pct = battery_pack_charge();
 					battery_state = battery_current_state();

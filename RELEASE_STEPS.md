@@ -42,8 +42,8 @@ artefacts/out/
 Typical filenames:
 
 ```text
-stream_sleep_lhs_v00020021_sensorskins.zip
-stream_sleep_rhs_v00020021_sensorskins.zip
+stream_sleep_lhs_v00020023_sensorskins.zip
+stream_sleep_rhs_v00020023_sensorskins.zip
 ```
 
 ## Build and package `nostream_sleep`
@@ -65,8 +65,8 @@ stream_sleep_rhs_v00020021_sensorskins.zip
 Typical filenames:
 
 ```text
-nostream_sleep_lhs_v00020021_sensorskins.zip
-nostream_sleep_rhs_v00020021_sensorskins.zip
+nostream_sleep_lhs_v00020023_sensorskins.zip
+nostream_sleep_rhs_v00020023_sensorskins.zip
 ```
 
 ## Notes
@@ -76,4 +76,10 @@ nostream_sleep_rhs_v00020021_sensorskins.zip
 - The stream mode (`stream` / `nostream`) is applied automatically.
 - The `_sleep_` part of the filename appears because `ENABLE_SLEEP_SMART_IDLE`
   is enabled in the staged `configure_firmware.h`.
-- The `v00020021` part comes from `DEVICE_FW_VERSION`.
+- The current repo default protocol is timestamped ASCII (`ASCII_V1_TS`).
+- Binary stream work is being developed separately and should not replace the
+  ASCII line until the app decoder is ready.
+- The `v00020023` part comes from `DEVICE_FW_VERSION`.
+- Before testing or releasing a new build, update
+  `artefacts/firmware_build_matrix.md` and make a local git commit so the exact
+  source state can be recovered.

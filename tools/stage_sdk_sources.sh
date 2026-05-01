@@ -16,11 +16,11 @@ STREAM_MODE="${3:-stream}"
 
 require_dir "${SDK_ROOT}/components"
 require_dir "${REPO_ROOT}/firmware/ble_app_firmware_v2_R7"
-require_dir "${REPO_ROOT}/firmware/ble_app_firmware_v2_R6/secure_bootloader_calceus/secure_bootloader_calceus"
+require_dir "${REPO_ROOT}/firmware/secure_bootloader_calceus"
 
 APP_SRC="${REPO_ROOT}/firmware/ble_app_firmware_v2_R7/"
 APP_DST="$(sdk_app_dir "${SDK_ROOT}")"
-BOOT_SRC="${REPO_ROOT}/firmware/ble_app_firmware_v2_R6/secure_bootloader_calceus/secure_bootloader_calceus/"
+BOOT_SRC="${REPO_ROOT}/firmware/secure_bootloader_calceus/"
 BOOT_DST="$(sdk_bootloader_dir "${SDK_ROOT}")"
 RETARGET_FILE="${SDK_ROOT}/components/libraries/uart/retarget.c"
 

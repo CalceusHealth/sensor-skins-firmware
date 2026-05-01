@@ -33,7 +33,7 @@
 {                                                   \
     .resistor_p = NRF_SAADC_RESISTOR_PULLUP,        \
     .resistor_n = NRF_SAADC_RESISTOR_DISABLED,      \
-    .gain       = NRF_SAADC_GAIN1,                \
+    .gain       = FSR_ADC_GAIN,                   \
     .reference  = NRF_SAADC_REFERENCE_VDD4,         \
     .acq_time   = NRF_SAADC_ACQTIME_10US,           \
     .mode       = NRF_SAADC_MODE_DIFFERENTIAL,      \
@@ -49,7 +49,7 @@
 {                                                   \
     .resistor_p = NRF_SAADC_RESISTOR_PULLUP,        \
     .resistor_n = NRF_SAADC_RESISTOR_DISABLED,      \
-    .gain       = NRF_SAADC_GAIN1,                \
+    .gain       = FSR_ADC_GAIN,                   \
     .reference  = NRF_SAADC_REFERENCE_VDD4,         \
     .acq_time   = NRF_SAADC_ACQTIME_10US,           \
     .mode       = NRF_SAADC_MODE_DIFFERENTIAL,      \
@@ -62,7 +62,7 @@
 {                                                   \
     .resistor_p = NRF_SAADC_RESISTOR_PULLUP,        \
     .resistor_n = NRF_SAADC_RESISTOR_DISABLED,      \
-    .gain       = NRF_SAADC_GAIN1,                \
+    .gain       = FSR_ADC_GAIN,                   \
     .reference  = NRF_SAADC_REFERENCE_VDD4,         \
     .acq_time   = NRF_SAADC_ACQTIME_10US,           \
     .mode       = NRF_SAADC_MODE_DIFFERENTIAL,      \

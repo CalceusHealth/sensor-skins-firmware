@@ -13,6 +13,12 @@
 #include "configure_firmware.h"
 #include <stdint.h>
 
+#define REID_STREAM_BINARY_V2_MAGIC 0x5353u
+#define REID_STREAM_BINARY_V2_VERSION 2u
+#define REID_STREAM_BINARY_V2_FRAME_SENSOR_ROWS 1u
+#define REID_STREAM_BINARY_V2_FLAG_FSR_X4 0x01u
+#define REID_STREAM_BINARY_V2_FLAG_CAP_X3 0x02u
+
 #pragma pack(push,1)
 typedef struct reid_ble_packet_t {
 	uint64_t time_ms;
@@ -54,6 +60,27 @@ typedef struct reid_ble_packet_t {
 	uint16_t cap6s;
 	uint16_t cap6n;
 } reid_ble_packet_t;
+#pragma pack(pop)
+
+#pragma pack(push,1)
+typedef struct reid_ble_stream_frame_v2_header_t {
+	uint16_t magic;
+	uint8_t version;
+	uint8_t frame_type;
+	uint8_t flags;
+	uint8_t row_count;
+	uint16_t sequence;
+	uint64_t base_time_ms;
+} reid_ble_stream_frame_v2_header_t;
+#pragma pack(pop)
+
+#pragma pack(push,1)
+typedef struct reid_ble_stream_row_v2_t {
+	uint16_t delta_time_ms;
+	uint16_t fsr[19];
+	int16_t temp[5];
+	uint16_t cap[12];
+} reid_ble_stream_row_v2_t;
 #pragma pack(pop)
 
 #pragma pack(push,1)

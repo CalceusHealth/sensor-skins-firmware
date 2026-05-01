@@ -12,7 +12,11 @@
 #define CONFIGURE_FIRMWARE_H_
 
 
-#define DEVICE_FW_VERSION	0x00020021
+#define DEVICE_FW_VERSION	0x00020023
+
+#define FSR_ADC_GAIN NRF_SAADC_GAIN1_2
+
+#define STREAM_BINARY_V2_MAX_ROWS 3
 
 // final release switches
 	#define ENABLE_CODE_PROTECT
@@ -25,9 +29,19 @@
 //	#define ENABLE_SHUTDOWN
 	#define WAIT_FOR_TX_OF_EVERY_PACKET
 	#define SEND_EVERY_MEAS_OVER_BLE
-	#define SEND_BLE_MEAS_AS_ASCII
+	#define STREAM_PROTOCOL_ASCII_V1
+//	#define STREAM_PROTOCOL_BINARY_V2
 
 #define MAIN_LOOP_TIME_MS	125
+#define STREAM_BINARY_V2_MAX_LATENCY_MS (2 * MAIN_LOOP_TIME_MS)
+
+#if defined(STREAM_PROTOCOL_ASCII_V1) && defined(STREAM_PROTOCOL_BINARY_V2)
+#error Only one stream protocol may be enabled
+#endif
+
+#if !defined(STREAM_PROTOCOL_ASCII_V1) && !defined(STREAM_PROTOCOL_BINARY_V2)
+#error A stream protocol must be enabled
+#endif
 
 /*#define MEASURE_TEMP_EVERY_N	(60*1000/MAIN_LOOP_TIME_MS)
 #define NEW_SUMMARY_EVERY_N		(300*1000/MAIN_LOOP_TIME_MS)*/
