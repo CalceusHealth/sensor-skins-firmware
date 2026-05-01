@@ -1,3 +1,4 @@
+.codex
 .codex/
 *.emSession
 desktop.ini
@@ -11,3 +12,4 @@ firmware/reid_ble_aginic_v2.06LHS_dfu/
 firmware/reid_ble_aginic_v2.06RHS_dfu/
 firmware/ble_app_firmware_v2_R6/reid_ble_aginic_v2.06LHS_dfu/
 firmware/ble_app_firmware_v2_R6/reid_ble_aginic_v2.06RHS_dfu/
+firmware/*_alex/
