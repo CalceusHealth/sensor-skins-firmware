@@ -33,6 +33,9 @@
 void system_init(void);
 void system_deinit(void);
 
+void system_wdt_init(void);
+void system_wdt_kick(void);
+
 //#define system_reset()	NVIC_SystemReset()
 
 #define safe_disable_interrupt()	CRITICAL_REGION_ENTER()
