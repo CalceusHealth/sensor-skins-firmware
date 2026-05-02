@@ -260,7 +260,7 @@ int main(void)
 				if (ble_data.fsr17 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
 				if (ble_data.fsr18 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
 				if (ble_data.fsr19 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-			} while (num_low_sensors >= FSR_SLEEP_NUM);
+			} while ((num_low_sensors >= FSR_SLEEP_NUM) && (!gpio_bq_pg_asserted()) && (!gpio_bq_chg_asserted()));
             ble_advertise_again();
 		}
 	}
