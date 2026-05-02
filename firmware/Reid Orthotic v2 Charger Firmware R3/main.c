@@ -107,7 +107,7 @@ int main(void)
 		LED1_G_PORT.OUTSET = (1 << LED1_G_PIN);
 		LED1_B_PORT.OUTSET = (1 << LED1_B_PIN);
 		coil_init();
-		coil_set_power(25);
+		coil_set_power(75); // increased from 25 (~10.5% duty) to 75 (~31.6% duty) for faster charge; max is 100 (~43.9% duty)
 		wait_for_ms(10000);
 		power_on = 98;
 	}
