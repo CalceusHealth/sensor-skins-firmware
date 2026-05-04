@@ -13,6 +13,7 @@
 #include "nrf_delay.h"
 #include "flash.h"
 #include "nrf_nvmc.h"
+#include "nrf.h"
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
@@ -29,6 +30,20 @@ static void system_ticks_timer_handler(void * p_context);
 
 APP_TIMER_DEF(system_tick_timer);
 
+void system_wdt_init(void)
+{
+	NRF_WDT->CONFIG = (WDT_CONFIG_HALT_Pause << WDT_CONFIG_HALT_Pos) |
+	                  (WDT_CONFIG_SLEEP_Run  << WDT_CONFIG_SLEEP_Pos);
+	NRF_WDT->CRV    = 60 * 32768 - 1;
+	NRF_WDT->RREN   = WDT_RREN_RR0_Enabled << WDT_RREN_RR0_Pos;
+	NRF_WDT->TASKS_START = 1;
+}
+
+void system_wdt_kick(void)
+{
+	NRF_WDT->RR[0] = WDT_RR_RR_Reload;
+}
+
 void system_init(void)
 {
 	system_time_ticks = 0;
@@ -36,15 +51,17 @@ void system_init(void)
 
     err_code = app_timer_init();
     //APP_ERROR_CHECK(err_code); // is always NRF_SUCCESS
-	
+
 	err_code = app_timer_create(&system_tick_timer, APP_TIMER_MODE_REPEATED, system_ticks_timer_handler);
 	if (err_code == NRF_SUCCESS) err_code = app_timer_start(system_tick_timer, APP_TIMER_TICKS(SYSTEM_TIME_TICKS_RESOLUTION), NULL);
 
 	err_code = nrf_pwr_mgmt_init();
 	//APP_ERROR_CHECK(err_code); // is always NRF_SUCCESS
-	
+
 	// disable brownout
 	((NRF_POWER_Type*) 0x40000000UL)->POFCON = (POWER_POFCON_THRESHOLD_V17<<POWER_POFCON_THRESHOLD_Pos)|(POWER_POFCON_POF_Disabled << POWER_POFCON_POF_Pos);
+
+	system_wdt_init();
 }
 
 void system_deinit(void)
@@ -135,6 +152,7 @@ void system_delay_cycles(int32_t cycles)
 
 void system_sleep(void)
 {
+	system_wdt_kick();
 	msg_process_packet();
     #ifdef ENABLE_DEBUG
 	NRF_LOG_PROCESS();
