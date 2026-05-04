@@ -408,7 +408,7 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 	stream_flush_pending(1);
 	flush_summary_if_pending(summary_counter);
 	system_wait_for_ms_no_bg(250);
-	ble_reid_force_disconnect();
+	ble_reid_enter_lifeline();
 
 	while (1)
 	{
@@ -424,6 +424,7 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 		}
 
 		if (battery_sleep_protection_required()) continue;
+		if (ble_is_connected()) break;
 
 		measure_sensors((reid_ble_packet_t*) &ble_data,0);
 		if (sensor_activity_detected((reid_ble_packet_t*) &ble_data, &previous_ble_data, has_previous_ble_data)) break;

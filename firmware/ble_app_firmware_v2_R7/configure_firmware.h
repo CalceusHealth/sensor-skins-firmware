@@ -107,6 +107,10 @@
 //#define APP_ADV_INTERVAL				1636
 //#define APP_ADV_INTERVAL				2056
 
+// Slow advertising interval used by the BLE lifeline (sleep-state advertising).
+// 8000 units * 0.625 ms = 5 seconds between adverts. ~5 uA average system current.
+#define APP_ADV_INTERVAL_SLOW			8000
+
 
 #define MSG_TX_BUFFER_SIZE				1024ul
 #define MSG_RX_BUFFER_SIZE				256ul

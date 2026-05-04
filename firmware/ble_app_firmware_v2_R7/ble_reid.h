@@ -39,6 +39,7 @@ void ble_reid_init(void);
 void ble_reid_deinit(void);
 
 void ble_reid_force_disconnect(void);
+void ble_reid_enter_lifeline(void);
 void ble_advertise_again(void);
 
 void ble_reid_tx(uint8_t* data, uint16_t length);

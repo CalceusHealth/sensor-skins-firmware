@@ -156,6 +156,9 @@ ble_stack_init - initializes the SoftDevice and the BLE event interrupt
 	init.config.ble_adv_fast_enabled  = true;
 	init.config.ble_adv_fast_interval = APP_ADV_INTERVAL;
 	init.config.ble_adv_fast_timeout  = APP_ADV_DURATION;
+	init.config.ble_adv_slow_enabled  = true;
+	init.config.ble_adv_slow_interval = APP_ADV_INTERVAL_SLOW;
+	init.config.ble_adv_slow_timeout  = 0;  // 0 = advertise forever
 	init.evt_handler = on_adv_evt;
 
 	m_advertising.adv_data = ble_reid_adv;
@@ -222,6 +225,15 @@ void ble_reid_force_disconnect(void)
 	sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
 	ble_advertising_start(&m_advertising, BLE_ADV_MODE_IDLE);
 	sd_ble_gap_adv_stop(m_advertising.adv_handle);
+}
+
+void ble_reid_enter_lifeline(void)
+{
+	if (m_conn_handle != BLE_CONN_HANDLE_INVALID) {
+		sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
+	}
+	sd_ble_gap_adv_stop(m_advertising.adv_handle);
+	ble_advertising_start(&m_advertising, BLE_ADV_MODE_SLOW);
 }
 
 void ble_advertise_again(void)
@@ -400,7 +412,7 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
 			//system_shutdown();
 			#endif
 			(void) sd_ble_gap_adv_stop(m_advertising.adv_handle);
-			ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
+			ble_advertising_start(&m_advertising, BLE_ADV_MODE_SLOW);
             break;
         default:
             break;
