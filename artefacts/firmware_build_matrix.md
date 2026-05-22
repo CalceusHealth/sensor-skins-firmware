@@ -45,6 +45,8 @@ These are the builds that should be considered current and reproducible.
 
 | status | version | side | stream | sleep | protocol | sample_rate | fsr_gain | `QI` `STREAM=` | package | sha256 | git_commit |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| active | `v00020023` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v00020023_sensorskins.zip` | `84599d5f3d052bd445268a82b2e04b7f44183c63efe1bae35ece6b66985030b7` | `a867666` |
+| active | `v00020023` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v00020023_sensorskins.zip` | `ec3cfa26b1ac0f7aeda7e664d5d9da97f6a077c93a6a28c955a286880ce55cdc` | `a867666` |
 | active | `v00020023` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020023_sensorskins.zip` | `d633722a5db1790413ec474675e194ba0e89292bb559c59f11c1e001508b5a6b` | `317f680` |
 | active | `v00020023` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v00020023_sensorskins.zip` | `cc947176bcc2e2c562797e57ea7a718c4849f659a63bd394352fcb99c8d710fd` | `317f680` |
 
@@ -61,6 +63,8 @@ field use.
 
 These packages currently exist in `artefacts/out/`:
 
+- `nostream_sleep_lhs_v00020023_sensorskins.zip`
+- `nostream_sleep_rhs_v00020023_sensorskins.zip`
 - `nostream_lhs_v00020019_sensorskins.zip`
 - `nostream_lhs_v00020020_sensorskins.zip`
 - `nostream_rhs_v00020019_sensorskins.zip`
@@ -116,6 +120,8 @@ ready:
 
 | planned_version | protocol | sample_rate | notes |
 |---|---|---|---|
+| `v00020025` (IMU bring-up) | `ASCII_V1_TS` | `8Hz` | First firmware to actually wake the LSM6DSM IMU. Adds `i2c_init()`+`lsm6dsm_init()` in `main_init()`, boot RTT log of WHO_AM_I, per-loop IMU RTT log, and a new BLE/serial query `;QD` returning `WHO=0x6A AX=.. AY=.. AZ=.. GX=.. GY=.. GZ=.. T=..`. Build as `nostream` for first hardware validation. Source committed, not yet built. |
 | next binary test | `BINARY_V2` | `8Hz` | First end-to-end app decode validation |
 | next binary rate test | `BINARY_V2` | `10Hz` | First rate increase after decode validation |
 | later binary rate test | `BINARY_V2` | `12-15Hz` | Only after row integrity and battery checks |
+| later binary + IMU | `BINARY_V2` | `8Hz` | Append `int16 imu_acc[3] + int16 imu_gyro[3]` to `reid_ble_stream_row_v2_t` (74 → 86 B/row); new flag `REID_STREAM_BINARY_V2_FLAG_IMU 0x04`; drops max rows/frame from 3 → 2 at MTU 247. Needs host decoder support. |

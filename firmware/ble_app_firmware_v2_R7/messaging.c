@@ -13,6 +13,7 @@
 #include "system.h"
 #include "battery.h"
 #include "adc.h"
+#include "lsm6dsm.h"
 #include <stdio.h>
 
 typedef enum msg_rx_state_t
@@ -317,6 +318,30 @@ void msg_process_packet(void)
 					break;
 				}
 
+				case MSG_QUERY_IMU:
+				{
+					uint8_t whoami = lsm6dsm_whoami();
+					lsm6dsm_update();
+
+					msg_tx_buffer_end = 0;
+					msg_add_sync();
+					msg_add_byte(MSG_TYPE_RESPONSE);
+					msg_add_byte(MSG_QUERY_IMU);
+					msg_add_delim();
+					msg_tx_buffer_end += snprintf(
+						(uint8_t*)(msg_tx_buffer+msg_tx_buffer_end),
+						MSG_TX_BUFFER_SIZE-msg_tx_buffer_end,
+						"WHO=0x%02X AX=%d AY=%d AZ=%d GX=%d GY=%d GZ=%d T=%d",
+						whoami,
+						lsm6dsm_read_ax(), lsm6dsm_read_ay(), lsm6dsm_read_az(),
+						lsm6dsm_read_gx(), lsm6dsm_read_gy(), lsm6dsm_read_gz(),
+						lsm6dsm_read_temp()
+					);
+					msg_add_endline();
+					ble_reid_tx((uint8_t*) msg_tx_buffer, msg_tx_buffer_end);
+					break;
+				}
+
 				default:
 				{
 					msg_tx_error(MSG_ERROR_BAD_QUERY);
@@ -510,6 +535,7 @@ void msg_rx_next_byte(uint8_t rx_byte)
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_RECORD_MULTIPLE))	{msg_rx_type = MSG_QUERY_RECORD_MULTIPLE;	msg_rx_state = RX_STATE_PAYLOAD;	msg_rx_buffer_end = 0;}
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_LAST_DATA))			{msg_rx_type = MSG_QUERY_LAST_DATA;			msg_rx_state = RX_STATE_STOP;		msg_rx_buffer_end = 0;}
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_FRESH_DATA))		{msg_rx_type = MSG_QUERY_FRESH_DATA;		msg_rx_state = RX_STATE_STOP;		msg_rx_buffer_end = 0;}
+				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_IMU))				{msg_rx_type = MSG_QUERY_IMU;				msg_rx_state = RX_STATE_STOP;		msg_rx_buffer_end = 0;}
 				else																{msg_tx_error(MSG_ERROR_BAD_QUERY);	msg_rx_resync();}
 			}
 			else if (msg_rx_cq == MSG_TYPE_COMMAND)

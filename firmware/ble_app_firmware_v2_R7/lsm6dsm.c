@@ -71,6 +71,15 @@ void lsm6dsm_deinit(void)
 	//i2c_write(I2C_ADDRESS_LSM6DSM,4,data,true);
 }
 
+uint8_t lsm6dsm_whoami(void)
+{
+	uint8_t reg = LSM6DSM_ADDRESS_WHO_AM_I;
+	uint8_t value = 0;
+	if (i2c_write(I2C_ADDRESS_LSM6DSM, 1, &reg, true) != 0) return 0;
+	if (i2c_read(I2C_ADDRESS_LSM6DSM, 1, &value) != 0) return 0;
+	return value;
+}
+
 void lsm6dsm_update(void)
 {
 	uint8_t data[14];
