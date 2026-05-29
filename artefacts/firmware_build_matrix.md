@@ -7,6 +7,9 @@ branch.
 
 Use it to track:
 
+- **what changed in each firmware version** (see Version history / changelog)
+- **which version is currently built and deployed to the orthotics**
+- **what features are next to test, then next to implement** (see Experimental tracks)
 - which firmware features are in a build
 - which DFU zip packages exist on disk
 - which side (`lhs` / `rhs`) was built
@@ -31,13 +34,28 @@ Use it to track:
 - Sample rate: `8Hz`, `10Hz`, `12Hz`, `15Hz`, etc.
 - FSR gain: currently `GAIN1_2` for the active high-force test line
 
-## Current repo defaults
+## Current status
+
+- **Flashed to orthotics: `v00020024` (stream / `ASCII_V1_TS`)** — the streaming build is what's currently on the devices. Adds watchdog recovery + BLE sleep "lifeline" advertising (commit `45a3f6e`). The matching `nostream` v00020024 build is also packaged but is not the flashed variant.
+- **Source HEAD: `v00020025`** — IMU bring-up, committed and pushed (`f6d7ca9` on `tim`) but **not yet built or flashed**. Tracked under Experimental tracks → IMU test.
+
+Repo defaults (unchanged across the current line):
 
 - Firmware source: `firmware/ble_app_firmware_v2_R7`
-- Current version macro: `0x00020023`
-- Current default stream protocol in repo: `ASCII_V1_TS`
-- Current default sample rate in repo: `8Hz` (`MAIN_LOOP_TIME_MS=125`)
-- Current default FSR gain in repo: `NRF_SAADC_GAIN1_2`
+- Default stream protocol: `ASCII_V1_TS`
+- Default sample rate: `8Hz` (`MAIN_LOOP_TIME_MS=125`)
+- Default FSR gain: `NRF_SAADC_GAIN1_2`
+
+## Version history / changelog
+
+Newest first. "flashed" = on the orthotics now; "built" = packaged but not flashed; "source only" = committed but not yet built.
+
+| version | state | changes | commit |
+|---|---|---|---|
+| `v00020025` | source only — next to build/test | Wake the LSM6DSM IMU: `i2c_init()`+`lsm6dsm_init()` in `main_init()`, `lsm6dsm_whoami()` + WHO_AM_I check, boot + per-loop RTT logging, new `;QD` BLE/serial query returning `WHO/AX/AY/AZ/GX/GY/GZ/T`. | `f6d7ca9` |
+| `v00020024` | **flashed to orthotics (stream)** | Watchdog timer to recover from frozen sleep states; BLE "lifeline" slow advertising during sleep states. | `45a3f6e` |
+| `v00020023` | superseded | ASCII_V1_TS line with `sleep`, `GAIN1_2`, `8Hz`; binary-stream scaffold added (compile-tested, not packaged). | `317f680` / `064bbd6` |
+| `≤ v00020022` | historical | Earlier `stream`/`nostream` packages; see zip inventory and `git log`. | — |
 
 ## Active tracked builds
 
@@ -45,24 +63,41 @@ These are the builds that should be considered current and reproducible.
 
 | status | version | side | stream | sleep | protocol | sample_rate | fsr_gain | `QI` `STREAM=` | package | sha256 | git_commit |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| active | `v00020023` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v00020023_sensorskins.zip` | `84599d5f3d052bd445268a82b2e04b7f44183c63efe1bae35ece6b66985030b7` | `a867666` |
-| active | `v00020023` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v00020023_sensorskins.zip` | `ec3cfa26b1ac0f7aeda7e664d5d9da97f6a077c93a6a28c955a286880ce55cdc` | `a867666` |
-| active | `v00020023` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020023_sensorskins.zip` | `d633722a5db1790413ec474675e194ba0e89292bb559c59f11c1e001508b5a6b` | `317f680` |
-| active | `v00020023` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v00020023_sensorskins.zip` | `cc947176bcc2e2c562797e57ea7a718c4849f659a63bd394352fcb99c8d710fd` | `317f680` |
+| **flashed** | `v00020024` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020024_sensorskins.zip` | `dd2f1eff77211eaf8c67f62867c0d169c9792486fbfbb52e746cbcd9b4f6c8fa` | `45a3f6e` |
+| **flashed** | `v00020024` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v00020024_sensorskins.zip` | `2cd45c6e6fa086017c88ab486401b8cf32283ceaf3c30b63fdad5d1f69d4148a` | `45a3f6e` |
+| built (not flashed) | `v00020024` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v00020024_sensorskins.zip` | `888da4c2aa627f4cb5505014a106b874e0faaa2beb99b72dc5353b384c50a9d2` | `45a3f6e` |
+| built (not flashed) | `v00020024` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v00020024_sensorskins.zip` | `0c5f70d65780354a37c3bd70a27f0a652e6ff61dc1aa15557c6ee4db12f9ce9e` | `45a3f6e` |
+| superseded | `v00020023` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v00020023_sensorskins.zip` | `84599d5f3d052bd445268a82b2e04b7f44183c63efe1bae35ece6b66985030b7` | `a867666` |
+| superseded | `v00020023` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v00020023_sensorskins.zip` | `ec3cfa26b1ac0f7aeda7e664d5d9da97f6a077c93a6a28c955a286880ce55cdc` | `a867666` |
+| superseded | `v00020023` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020023_sensorskins.zip` | `d633722a5db1790413ec474675e194ba0e89292bb559c59f11c1e001508b5a6b` | `317f680` |
+| superseded | `v00020023` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v00020023_sensorskins.zip` | `cc947176bcc2e2c562797e57ea7a718c4849f659a63bd394352fcb99c8d710fd` | `317f680` |
 
-## Experimental tracked variants
+## Experimental tracks (in progress)
 
-These variants are in source or compile-tested, but are not yet packaged for
-field use.
+Two experimental tracks run alongside the stable deployed line. Neither is
+flashed to orthotics yet.
 
-| status | version | side | stream | sleep | protocol | sample_rate | fsr_gain | package | notes |
-|---|---|---|---|---|---|---|---|---|---|
-| compile-tested only | `v00020023` | `lhs/rhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none yet | Binary stream scaffold builds cleanly but is not yet packaged or app-integrated |
+### 1. IMU test — `v00020025`
+
+- **State:** source written, committed + pushed (`f6d7ca9` on `tim`); not yet built.
+- **Next:** build `nostream` LHS/RHS, flash, confirm `WHO_AM_I = 0x6A` over RTT and via the `;QD` query, then sanity-check the accel/gyro/temp sample.
+- **On success:** record the built packages as a row in Active tracked builds and fold the IMU into the stable line.
+
+### 2. Binary stream test — `BINARY_V2`
+
+- **State:** scaffold compile-tested on `v00020023`; not packaged or app-integrated.
+- **Next:** build + first end-to-end app decode validation at `8Hz`.
+- **Then:** raise sample rate `10Hz` → `12–15Hz`, only after row-integrity and battery checks.
+- **Later:** combined binary + IMU — append `int16 imu_acc[3] + int16 imu_gyro[3]` to `reid_ble_stream_row_v2_t` (74 → 86 B/row), add flag `REID_STREAM_BINARY_V2_FLAG_IMU 0x04` (drops max rows/frame 3 → 2 at MTU 247); needs host decoder support.
 
 ## Existing zip inventory on disk
 
 These packages currently exist in `artefacts/out/`:
 
+- `nostream_sleep_lhs_v00020024_sensorskins.zip`
+- `nostream_sleep_rhs_v00020024_sensorskins.zip`
+- `stream_sleep_lhs_v00020024_sensorskins.zip`
+- `stream_sleep_rhs_v00020024_sensorskins.zip`
 - `nostream_sleep_lhs_v00020023_sensorskins.zip`
 - `nostream_sleep_rhs_v00020023_sensorskins.zip`
 - `nostream_lhs_v00020019_sensorskins.zip`
@@ -112,16 +147,3 @@ For every meaningful firmware change:
    - sha256
    - git commit
 5. Only then hand the package to app testing or device DFU.
-
-## Next planned variants
-
-These should remain separate from the stable ASCII line until app support is
-ready:
-
-| planned_version | protocol | sample_rate | notes |
-|---|---|---|---|
-| `v00020025` (IMU bring-up) | `ASCII_V1_TS` | `8Hz` | First firmware to actually wake the LSM6DSM IMU. Adds `i2c_init()`+`lsm6dsm_init()` in `main_init()`, boot RTT log of WHO_AM_I, per-loop IMU RTT log, and a new BLE/serial query `;QD` returning `WHO=0x6A AX=.. AY=.. AZ=.. GX=.. GY=.. GZ=.. T=..`. Build as `nostream` for first hardware validation. Source committed, not yet built. |
-| next binary test | `BINARY_V2` | `8Hz` | First end-to-end app decode validation |
-| next binary rate test | `BINARY_V2` | `10Hz` | First rate increase after decode validation |
-| later binary rate test | `BINARY_V2` | `12-15Hz` | Only after row integrity and battery checks |
-| later binary + IMU | `BINARY_V2` | `8Hz` | Append `int16 imu_acc[3] + int16 imu_gyro[3]` to `reid_ble_stream_row_v2_t` (74 → 86 B/row); new flag `REID_STREAM_BINARY_V2_FLAG_IMU 0x04`; drops max rows/frame from 3 → 2 at MTU 247. Needs host decoder support. |

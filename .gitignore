@@ -7,7 +7,6 @@ desktop.ini
 manifest.json
 *.key
 
-artefacts/out/
 artefacts/claude-status.md
 artefacts/session-data/
 artefacts/pins.png
