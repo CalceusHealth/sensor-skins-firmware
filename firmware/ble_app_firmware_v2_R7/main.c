@@ -99,12 +99,6 @@ static void main_init(void)
 	log_init();
 	#endif
 	lmt01_init();
-	i2c_init();
-	lsm6dsm_init();
-	#ifdef ENABLE_DEBUG
-	NRF_LOG_INFO("LSM6DSM WHO_AM_I = 0x%02X (expect 0x%02X)", lsm6dsm_whoami(), LSM6DSM_WHO_AM_I_VALUE);
-	NRF_LOG_FLUSH();
-	#endif
 	msg_init();
     //ble_reid_init(); // inside msg_init()
 }
@@ -528,11 +522,6 @@ int main(void)
 			ble_data.cap4s,\
 			ble_data.cap5s,\
 			ble_data.cap6s);
-		lsm6dsm_update();
-		NRF_LOG_INFO("IMU acc %d,%d,%d gyro %d,%d,%d temp %d",\
-			lsm6dsm_read_ax(), lsm6dsm_read_ay(), lsm6dsm_read_az(),\
-			lsm6dsm_read_gx(), lsm6dsm_read_gy(), lsm6dsm_read_gz(),\
-			lsm6dsm_read_temp());
 		NRF_LOG_FLUSH();
 		#endif
         

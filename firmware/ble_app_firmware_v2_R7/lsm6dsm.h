@@ -15,18 +15,13 @@
 #include "i2c.h"
 #include "configure_firmware.h"
 
-#define I2C_ADDRESS_LSM6DSM	(0b01101010)	// SA0 strapped low on Reid Orthotic v2 -> 0x6A
+#define I2C_ADDRESS_LSM6DSM	(0b01101010)
 
-#define LSM6DSM_ADDRESS_WHO_AM_I		(0x0F)
-#define LSM6DSM_WHO_AM_I_VALUE			(0x6A)
 #define LSM6DSM_ADDRESS_CTRL1_XL		(0x10)
 #define LSM6DSM_ADDRESS_OUT_TEMP_L		(0x20)
 
 void lsm6dsm_init(void);
 void lsm6dsm_deinit(void);
-
-// Reads the WHO_AM_I register directly over I2C; returns LSM6DSM_WHO_AM_I_VALUE (0x6A) when the part is present and reachable.
-uint8_t lsm6dsm_whoami(void);
 
 void lsm6dsm_update(void);
 
