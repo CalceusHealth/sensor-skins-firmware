@@ -34,10 +34,20 @@ Use it to track:
 - Sample rate: `8Hz`, `10Hz`, `12Hz`, `15Hz`, etc.
 - FSR gain: currently `GAIN1_2` for the active high-force test line
 
+## Branch model
+
+- **`main`** — Alex's original/imported firmware baselines. Not used for builds.
+- **`tim`** — the stable line we build and flash for testing. Keep experimental
+  (IMU / sample-rate / binary-stream) work **off** this branch.
+- **`experimental`** — IMU bring-up and sample-rate / `BINARY_V2` POC work.
+  Branched from `tim`; the IMU commit (`f6d7ca9`, `v00020025`) was reverted off
+  `tim` and lives here.
+
 ## Current status
 
 - **Flashed to orthotics: `v00020024` (stream / `ASCII_V1_TS`)** — the streaming build is what's currently on the devices. Adds watchdog recovery + BLE sleep "lifeline" advertising (commit `45a3f6e`). The matching `nostream` v00020024 build is also packaged but is not the flashed variant.
-- **Source HEAD: `v00020025`** — IMU bring-up, committed and pushed (`f6d7ca9` on `tim`) but **not yet built or flashed**. Tracked under Experimental tracks → IMU test.
+- **Built, awaiting test: `v00020026` (stream / `ASCII_V1_TS`)** — battery moving-average reseed-on-recharge fix on top of the deployed `v00020024` line (IMU kept off `tim`). `tim` HEAD; LHS/RHS stream packages built (`dfb7ac0`). Next to flash + test.
+- **`experimental` HEAD: `v00020025`** — IMU bring-up (`f6d7ca9`), reverted off `tim`, not yet built or flashed. Tracked under Experimental tracks → IMU test.
 
 Repo defaults (unchanged across the current line):
 
@@ -52,7 +62,8 @@ Newest first. "flashed" = on the orthotics now; "built" = packaged but not flash
 
 | version | state | changes | commit |
 |---|---|---|---|
-| `v00020025` | source only — next to build/test | Wake the LSM6DSM IMU: `i2c_init()`+`lsm6dsm_init()` in `main_init()`, `lsm6dsm_whoami()` + WHO_AM_I check, boot + per-loop RTT logging, new `;QD` BLE/serial query returning `WHO/AX/AY/AZ/GX/GY/GZ/T`. | `f6d7ca9` |
+| `v00020026` | **built, awaiting test (stream)** | Battery: reseed the vbat moving average when a fresh reading jumps >150 mV above the average (recharge), so reported voltage/% snaps to the real level instead of washing stale low samples out over minutes. Built on the `v00020024` line; no IMU. | `dfb7ac0` (`tim`) |
+| `v00020025` | experimental branch — not built | Wake the LSM6DSM IMU: `i2c_init()`+`lsm6dsm_init()` in `main_init()`, `lsm6dsm_whoami()` + WHO_AM_I check, boot + per-loop RTT logging, new `;QD` BLE/serial query returning `WHO/AX/AY/AZ/GX/GY/GZ/T`. Reverted off `tim` (`6de6441`); lives on `experimental`. Build is currently blocked by a 7-arg `NRF_LOG_INFO` (`LOG_INTERNAL_7`) at `main.c` that must be split into two ≤6-arg calls. | `f6d7ca9` |
 | `v00020024` | **flashed to orthotics (stream)** | Watchdog timer to recover from frozen sleep states; BLE "lifeline" slow advertising during sleep states. | `45a3f6e` |
 | `v00020023` | superseded | ASCII_V1_TS line with `sleep`, `GAIN1_2`, `8Hz`; binary-stream scaffold added (compile-tested, not packaged). | `317f680` / `064bbd6` |
 | `≤ v00020022` | historical | Earlier `stream`/`nostream` packages; see zip inventory and `git log`. | — |
@@ -63,6 +74,8 @@ These are the builds that should be considered current and reproducible.
 
 | status | version | side | stream | sleep | protocol | sample_rate | fsr_gain | `QI` `STREAM=` | package | sha256 | git_commit |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| built — awaiting test | `v00020026` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020026_sensorskins.zip` | `9ddf67d03c56ae3f2e210248b8017caaf1cc84da2716463422103f34eb8ddce3` | `dfb7ac0` |
+| built — awaiting test | `v00020026` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v00020026_sensorskins.zip` | `44eac1513a7632db8489881d1d1e5050b5acbb31b3f74ee37ce468da43a3d992` | `dfb7ac0` |
 | **flashed** | `v00020024` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020024_sensorskins.zip` | `dd2f1eff77211eaf8c67f62867c0d169c9792486fbfbb52e746cbcd9b4f6c8fa` | `45a3f6e` |
 | **flashed** | `v00020024` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v00020024_sensorskins.zip` | `2cd45c6e6fa086017c88ab486401b8cf32283ceaf3c30b63fdad5d1f69d4148a` | `45a3f6e` |
 | built (not flashed) | `v00020024` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v00020024_sensorskins.zip` | `888da4c2aa627f4cb5505014a106b874e0faaa2beb99b72dc5353b384c50a9d2` | `45a3f6e` |
@@ -77,11 +90,12 @@ These are the builds that should be considered current and reproducible.
 Two experimental tracks run alongside the stable deployed line. Neither is
 flashed to orthotics yet.
 
-### 1. IMU test — `v00020025`
+### 1. IMU test — `v00020025` (on `experimental`)
 
-- **State:** source written, committed + pushed (`f6d7ca9` on `tim`); not yet built.
-- **Next:** build `nostream` LHS/RHS, flash, confirm `WHO_AM_I = 0x6A` over RTT and via the `;QD` query, then sanity-check the accel/gyro/temp sample.
-- **On success:** record the built packages as a row in Active tracked builds and fold the IMU into the stable line.
+- **State:** source written on `experimental` (`f6d7ca9`); reverted off `tim` (`6de6441`); not yet built.
+- **Blocker:** build fails on a 7-arg `NRF_LOG_INFO` ("IMU acc … temp", `LOG_INTERNAL_7` undefined) in `main.c`. `NRF_LOG_INFO` supports ≤6 varargs — split into two calls before building.
+- **Next:** fix the log call, build `nostream` LHS/RHS, flash, confirm `WHO_AM_I = 0x6A` over RTT and via the `;QD` query, then sanity-check the accel/gyro/temp sample.
+- **On success:** record the built packages as a row in Active tracked builds and merge the IMU back into `tim`.
 
 ### 2. Binary stream test — `BINARY_V2`
 
@@ -94,6 +108,8 @@ flashed to orthotics yet.
 
 These packages currently exist in `artefacts/out/`:
 
+- `stream_sleep_lhs_v00020026_sensorskins.zip`
+- `stream_sleep_rhs_v00020026_sensorskins.zip`
 - `nostream_sleep_lhs_v00020024_sensorskins.zip`
 - `nostream_sleep_rhs_v00020024_sensorskins.zip`
 - `stream_sleep_lhs_v00020024_sensorskins.zip`
