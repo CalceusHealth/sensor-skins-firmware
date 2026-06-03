@@ -45,6 +45,11 @@ static uint16_t bat_voltage = 0;
 static int32_t bat_voltage_raw = 0;
 uint16_t batt_charging_hysteresis = 0;
 #define VBAT_AVERAGE_N 10
+// A fresh reading this far above the running average is treated as a recharge:
+// the moving-average history is flushed so the report snaps to the true level
+// instead of washing stale low samples out one slot at a time. Above sample
+// noise, well below a real charge step.
+#define VBAT_JUMP_RESEED_MV 150
 static volatile uint16_t vbat_average_buffer[VBAT_AVERAGE_N] = {0};
 static volatile int16_t vbat_average_counter = -1;
 
@@ -65,7 +70,11 @@ void battery_update(void)
 	uint16_t batt_reading = adc_vbat_raw_to_mv(batt_raw);
 	bat_voltage_raw = batt_raw;
 	if ((batt_reading > 500)&&(batt_reading < 5000)) {
-		if (vbat_average_counter < 0) {
+		// First sample after boot, or a clear step up (recharge): drop stale
+		// history and reseed every slot with the fresh reading. Upward-only so
+		// genuine discharge readings stay smoothed.
+		if ((vbat_average_counter < 0) ||
+		    ((int32_t)batt_reading - (int32_t)bat_voltage > VBAT_JUMP_RESEED_MV)) {
 			for (uint16_t i=0; i<VBAT_AVERAGE_N; ++i) vbat_average_buffer[i] = batt_reading;
             vbat_average_counter = 0;
 		} else {
