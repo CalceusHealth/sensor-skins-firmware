@@ -124,9 +124,16 @@ Build configuration:
 
 ## Package a BLE DFU zip
 
-The repo contains the private key used in the R6 source tree:
+Packaging a DFU zip requires the signing private key at:
 
 - `firmware/ble_app_firmware_v2_R6/reid_ble_aginic_v2.06_source/calceus_private.key`
+
+This key is **not** committed to the repo (`*.key` is in `.gitignore`). It must
+already be present locally at that path for `package_dfu.sh` to sign the
+package. If you are setting up a fresh checkout, copy the key in from a trusted
+local backup before packaging. For CI builds, it is supplied via the
+`CALCEUS_DFU_PRIVATE_KEY` GitHub Actions secret (see
+`.github/workflows/firmware-build.yml`).
 
 After building the application, generate a DFU package:
 
