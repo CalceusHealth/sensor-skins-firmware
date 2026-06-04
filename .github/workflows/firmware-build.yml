@@ -1,0 +1,206 @@
+# Sensor Skins firmware build
+#
+# Builds the orthotic application from `firmware/ble_app_firmware_v2_R7` for all
+# live variants ({lhs,rhs} x {stream,nostream}, sleep always on) using the same
+# `tools/*.sh` scripts documented in BUILDING.md / RELEASE_STEPS.md, then signs
+# the Nordic DFU zips and publishes them.
+#
+# Where the builds go:
+#   * Every run  -> uploaded as workflow "artifacts" (download from the run page).
+#   * tim pushes -> also published as a GitHub Release with the DFU zips attached
+#                   as direct-download assets (easiest to grab + flash from a phone).
+#
+# ONE-TIME SETUP REQUIRED (the signing key is .gitignored, so it is NOT in the repo):
+#   Add the contents of `calceus_private.key` as a repository secret named
+#   CALCEUS_DFU_PRIVATE_KEY  (Settings -> Secrets and variables -> Actions -> New secret).
+#   Without it, the app .hex files still build and upload, but the signed DFU
+#   zips cannot be produced.
+
+name: Firmware Build (Sensor Skins DFU)
+
+on:
+  push:
+    branches:
+      - tim
+      - experimental
+      - claude/firmware-build-github-action-Vfdr4   # this dev branch, for testing the workflow
+  workflow_dispatch: {}   # lets you trigger a build by hand from the GitHub UI / phone
+
+# Cancel an in-progress build if you push again to the same branch (fast iteration).
+concurrency:
+  group: firmware-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # needed to create the Release on tim
+
+env:
+  # nRF5 SDK (must match the project: 15.3.0). Pinned for reproducibility.
+  SDK_VERSION: "15.3.0_59ac345"
+  SDK_URL: "https://developer.nordicsemi.com/nRF5_SDK/nRF5_SDK_v15.x.x/nRF5_SDK_15.3.0_59ac345.zip"
+  # SEGGER Embedded Studio (free for Nordic device development; emBuild needs no license activation).
+  SES_URL: "https://www.segger.com/downloads/embedded-studio/Setup_EmbeddedStudio_linux_x64.tar.gz"
+  SES_CACHE_KEY: "ses-nordic-v1"   # bump this string to force a fresh SES download
+  # Nordic nrfutil (new unified tool; the nrf5sdk-tools plugin provides `pkg generate`).
+  NRFUTIL_URL: "https://files.nordicsemi.com/ui/api/v1/download?repoKey=swtools&path=nrfutil/x86_64-unknown-linux-gnu/nrfutil"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install host packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget curl tar xz-utils unzip rsync python3 xvfb
+
+      # ---- nRF5 SDK 15.3.0 (cached) ----------------------------------------
+      - name: Cache nRF5 SDK
+        id: cache-sdk
+        uses: actions/cache@v4
+        with:
+          path: ~/sdk
+          key: nrf5-sdk-${{ env.SDK_VERSION }}
+
+      - name: Download nRF5 SDK
+        if: steps.cache-sdk.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/sdk"
+          cd "$HOME/sdk"
+          wget -q -O sdk.zip "$SDK_URL"
+          unzip -q sdk.zip
+          rm -f sdk.zip
+
+      # ---- SEGGER Embedded Studio (cached) ---------------------------------
+      - name: Cache SEGGER Embedded Studio
+        id: cache-ses
+        uses: actions/cache@v4
+        with:
+          path: ~/segger
+          key: ${{ env.SES_CACHE_KEY }}
+
+      - name: Install SEGGER Embedded Studio
+        if: steps.cache-ses.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/ses_dl"
+          cd "$HOME/ses_dl"
+          wget -q -O ses.tar.gz "$SES_URL"
+          tar -xzf ses.tar.gz
+          installer="$(find . -maxdepth 2 -type f -name 'install_segger_embedded_studio*' | head -n1)"
+          [ -n "$installer" ] || { echo "Could not find the SES installer in the archive"; exit 1; }
+          chmod +x "$installer"
+          # --copy-files-to performs an unattended install; xvfb-run guards against any X dependency.
+          xvfb-run -a "$installer" --copy-files-to "$HOME/segger"
+          cd "$HOME" && rm -rf "$HOME/ses_dl"
+
+      - name: Put emBuild on PATH
+        run: |
+          set -euo pipefail
+          embuild="$(find "$HOME/segger" -path '*/bin/emBuild' -type f | head -n1)"
+          [ -n "$embuild" ] || { echo "emBuild not found after install"; exit 1; }
+          echo "$(dirname "$embuild")" >> "$GITHUB_PATH"
+          echo "Found emBuild at: $embuild"
+
+      # ---- nrfutil + DFU plugin --------------------------------------------
+      - name: Install nrfutil
+        run: |
+          set -euo pipefail
+          wget -q -O nrfutil "$NRFUTIL_URL"
+          chmod +x nrfutil
+          sudo mv nrfutil /usr/local/bin/
+          nrfutil install nrf5sdk-tools
+          nrfutil --version || true
+
+      # ---- Signing key from secret -----------------------------------------
+      - name: Install DFU signing key
+        id: signing
+        env:
+          DFU_KEY: ${{ secrets.CALCEUS_DFU_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          KEY_PATH="firmware/ble_app_firmware_v2_R6/reid_ble_aginic_v2.06_source/calceus_private.key"
+          if [ -n "${DFU_KEY:-}" ]; then
+            mkdir -p "$(dirname "$KEY_PATH")"
+            printf '%s' "$DFU_KEY" > "$KEY_PATH"
+            echo "have_key=true" >> "$GITHUB_OUTPUT"
+            echo "Signing key installed from secret."
+          else
+            echo "have_key=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::CALCEUS_DFU_PRIVATE_KEY secret not set - will build .hex but cannot sign DFU zips."
+          fi
+
+      # ---- Build every variant ---------------------------------------------
+      - name: Build firmware variants
+        id: meta
+        run: |
+          set -euo pipefail
+          chmod +x tools/*.sh
+          SDK_ROOT="$HOME/sdk/nRF5_SDK_${SDK_VERSION}"
+          [ -d "$SDK_ROOT/components" ] || { echo "SDK not found at $SDK_ROOT"; ls "$HOME/sdk"; exit 1; }
+
+          VER_HEX="$(sed -n 's/^#define DEVICE_FW_VERSION[[:space:]]*0x\([0-9A-Fa-f]\+\).*/\1/p' \
+            firmware/ble_app_firmware_v2_R7/configure_firmware.h | head -n1)"
+          echo "fw_version=v${VER_HEX}" >> "$GITHUB_OUTPUT"
+          echo "Firmware version: v${VER_HEX}"
+
+          # Start from a clean output dir so we only publish THIS run's builds
+          # (the repo ships older zips under artefacts/out; harmless to clear here,
+          # nothing is committed back from CI).
+          mkdir -p artefacts/out
+          find artefacts/out -maxdepth 1 -name '*.zip' -delete || true
+          find artefacts/out -maxdepth 1 -name '*.hex' -delete || true
+
+          HEX_OUT="$SDK_ROOT/examples/ble_peripheral/reid_ble_aginic_v2/pca10040/s112/ses/Output/Release/Exe/ble_app_aginic_v2.hex"
+
+          for side in lhs rhs; do
+            for mode in stream nostream; do
+              echo "::group::Build ${mode} ${side}"
+              ./tools/build_app.sh "$SDK_ROOT" "$side" Release "$mode"
+              # Each build overwrites the same hex, so copy it out per-variant.
+              cp "$HEX_OUT" "artefacts/out/ble_app_aginic_v2_${mode}_${side}_v${VER_HEX}.hex"
+              if [ "${{ steps.signing.outputs.have_key }}" = "true" ]; then
+                ./tools/package_dfu.sh "$SDK_ROOT" "$side"
+              fi
+              echo "::endgroup::"
+            done
+          done
+
+          echo "----- Built artefacts -----"
+          ls -la artefacts/out/
+
+      # ---- Publish ----------------------------------------------------------
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sensor-skins-firmware-${{ steps.meta.outputs.fw_version }}-${{ github.run_number }}
+          path: |
+            artefacts/out/*.zip
+            artefacts/out/*.hex
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish Release (tim only)
+        if: github.ref_name == 'tim'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: fw-${{ steps.meta.outputs.fw_version }}-r${{ github.run_number }}
+          name: "Sensor Skins ${{ steps.meta.outputs.fw_version }} (build #${{ github.run_number }})"
+          body: |
+            Automated firmware build from `tim` @ ${{ github.sha }}.
+
+            **Firmware version:** ${{ steps.meta.outputs.fw_version }}
+
+            Download the matching `*_sensorskins.zip` and flash it over Nordic DFU.
+            The currently-deployed line uses the **`stream`** (`ASCII_V1_TS`) build;
+            pick `lhs` or `rhs` to match the orthotic side.
+
+            `.hex` files are also attached for direct SWD flashing.
+          files: |
+            artefacts/out/*.zip
+            artefacts/out/*.hex
+          fail_on_unmatched_files: true
