@@ -12,7 +12,7 @@
 #define CONFIGURE_FIRMWARE_H_
 
 
-#define DEVICE_FW_VERSION	0x00020026
+#define DEVICE_FW_VERSION	0x00020027
 
 #define FSR_ADC_GAIN NRF_SAADC_GAIN1_2
 
@@ -30,6 +30,7 @@
 	#define WAIT_FOR_TX_OF_EVERY_PACKET
 	#define SEND_EVERY_MEAS_OVER_BLE
 	#define STREAM_PROTOCOL_ASCII_V1
+//	#define ENABLE_FLASH_SUMMARY	// legacy 5-min summary-to-flash; OFF for stream/nostream (raw-NVMC write drops BLE every ~343s). Enabled only for the `summary` build variant.
 //	#define STREAM_PROTOCOL_BINARY_V2
 
 #define MAIN_LOOP_TIME_MS	125

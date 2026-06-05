@@ -30,6 +30,7 @@ Use it to track:
 
 - Side: `lhs` or `rhs`
 - Streaming: `stream` or `nostream`
+- Flash summary: `ENABLE_FLASH_SUMMARY` OFF (default, `stream`/`nostream`) or ON (`summary` variant only). The legacy 5-min summary-to-flash write uses raw `NRF_NVMC`, which stalls the SoftDevice radio and drops the BLE link every ~343s while connected (`flash_write_record` cadence = `NEW_SUMMARY_EVERY_N` measurements ≈ 342.86s). Gated OFF from v00020027 so streaming/diagnostic builds no longer disconnect. The `summary` variant (for `;QR`/`;QM` record retrieval) re-enables it and should move to `nrf_fstorage_sd` so it can persist without dropping the link.
 - Stream protocol: `ASCII_V1_TS` or `BINARY_V2`
 - Sample rate: `8Hz`, `10Hz`, `12Hz`, `15Hz`, etc.
 - FSR gain: currently `GAIN1_2` for the active high-force test line
@@ -62,6 +63,7 @@ Newest first. "flashed" = on the orthotics now; "built" = packaged but not flash
 
 | version | state | changes | commit |
 |---|---|---|---|
+| `v00020027` | source only — awaiting build/test | Gate the legacy 5-min summary-to-flash write behind new `ENABLE_FLASH_SUMMARY` (default OFF). `flash_write_record()` writes via raw `NRF_NVMC`, which stalls the SoftDevice radio and drops the BLE link every ~343s while connected (diagnosed from S3 logs: deterministic on both feet, ≈342.86s = `NEW_SUMMARY_EVERY_N` cadence). `stream`/`nostream` builds now compile it out → no more periodic disconnect. The `summary` build re-enables it (raw-NVMC for now; should become `nrf_fstorage_sd`). On the `v00020026` line; no IMU. | _(pending)_ |
 | `v00020026` | **built, awaiting test (stream)** | Battery: reseed the vbat moving average when a fresh reading jumps >150 mV above the average (recharge), so reported voltage/% snaps to the real level instead of washing stale low samples out over minutes. Built on the `v00020024` line; no IMU. | `dfb7ac0` (`tim`) |
 | `v00020025` | experimental branch — not built | Wake the LSM6DSM IMU: `i2c_init()`+`lsm6dsm_init()` in `main_init()`, `lsm6dsm_whoami()` + WHO_AM_I check, boot + per-loop RTT logging, new `;QD` BLE/serial query returning `WHO/AX/AY/AZ/GX/GY/GZ/T`. Reverted off `tim` (`6de6441`); lives on `experimental`. Build is currently blocked by a 7-arg `NRF_LOG_INFO` (`LOG_INTERNAL_7`) at `main.c` that must be split into two ≤6-arg calls. | `f6d7ca9` |
 | `v00020024` | **flashed to orthotics (stream)** | Watchdog timer to recover from frozen sleep states; BLE "lifeline" slow advertising during sleep states. | `45a3f6e` |

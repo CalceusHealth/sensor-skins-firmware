@@ -3,16 +3,9 @@ QT for device time. ;RT 479
 QP for pending record index range. ;RP 4294967295,0
 QA for all stored record index range. ;RA 0,0
 
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_*_v00020026_sensorskins.zip /sdcard/Download/
 
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_rhs_v00020019_sensorskins.zip /sdcard/Download/
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_lhs_v00020019_sensorskins.zip /sdcard/Download/
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_*_v00020020_sensorskins.zip /sdcard/Download/
-
-
-
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_rhs_v00020020_sensorskins.zip /sdcard/Download/
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_lhs_v00020020_sensorskins.zip /sdcard/Download/
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_*_v00020020_sensorskins.zip /sdcard/Download/
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_*_v00020026_sensorskins.zip /sdcard/Download/
 
 
   2. On the phone, open nRF DFU.

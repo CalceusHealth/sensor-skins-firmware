@@ -174,7 +174,9 @@ static uint8_t sensor_activity_detected(const reid_ble_packet_t* current, const 
 static void flush_summary_if_pending(int32_t* summary_counter)
 {
 	if (*summary_counter > 0) {
+#ifdef ENABLE_FLASH_SUMMARY
 		flash_write_record((reid_ble_summary_packet_t*) &summary_data);
+#endif
 		measure_reset_summary((reid_ble_summary_packet_t*) &summary_data);
 		*summary_counter = 0;
 	}
@@ -472,7 +474,15 @@ int main(void)
 		measure_sensors((reid_ble_packet_t*) &ble_data,0);
         measure_update_summary((reid_ble_summary_packet_t*) &summary_data, (reid_ble_packet_t*) &ble_data);
 		if (++summary_counter >= NEW_SUMMARY_EVERY_N) {
+#ifdef ENABLE_FLASH_SUMMARY
+			// Persist the 5-minute summary to flash. Gated OFF in the stream and
+			// nostream builds: flash_write_record() writes via raw NRF_NVMC, which
+			// stalls the SoftDevice radio and drops the BLE link every ~343s while
+			// connected. Only the dedicated `summary` build enables this (for
+			// ;QR/;QM record retrieval); it should move to nrf_fstorage_sd so it
+			// can persist without dropping the link. See the firmware build matrix.
 			flash_write_record((reid_ble_summary_packet_t*) &summary_data);
+#endif
 			measure_reset_summary((reid_ble_summary_packet_t*) &summary_data);
 			summary_counter = 0;
 		}
