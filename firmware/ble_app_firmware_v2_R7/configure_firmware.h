@@ -12,7 +12,13 @@
 #define CONFIGURE_FIRMWARE_H_
 
 
-#define DEVICE_FW_VERSION	0x00020027
+// Firmware version, reported to the app as MAJOR.MINOR.PATCH (e.g. 2.0.40).
+// Encoded into a uint32 as (MAJOR<<16)|(MINOR<<8)|PATCH so the on-flash layout is
+// identical to the old hand-written hex (0x00020028 == 2.0.40, 0x00020027 == 2.0.39).
+#define DEVICE_FW_VERSION_MAJOR	2
+#define DEVICE_FW_VERSION_MINOR	0
+#define DEVICE_FW_VERSION_PATCH	40
+#define DEVICE_FW_VERSION	((DEVICE_FW_VERSION_MAJOR << 16) | (DEVICE_FW_VERSION_MINOR << 8) | DEVICE_FW_VERSION_PATCH)
 
 #define FSR_ADC_GAIN NRF_SAADC_GAIN1_2
 

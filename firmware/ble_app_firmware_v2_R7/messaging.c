@@ -123,10 +123,12 @@ void msg_process_packet(void)
 						msg_tx_buffer_end += snprintf(
 							(uint8_t*)msg_tx_buffer+msg_tx_buffer_end,
 							MSG_TX_BUFFER_SIZE-msg_tx_buffer_end,
-							"UID=%08X%08X,VER=%08X,STREAM=%s",
+							"UID=%08X%08X,VER=%u.%u.%u,STREAM=%s",
 							(unsigned int)(flash_sysdata.device_id >> 32),
 							(unsigned int)(flash_sysdata.device_id & 0xFFFFFFFFu),
-							flash_sysdata.device_version,
+							(unsigned int)((flash_sysdata.device_version >> 16) & 0xFF),
+							(unsigned int)((flash_sysdata.device_version >> 8) & 0xFF),
+							(unsigned int)(flash_sysdata.device_version & 0xFF),
 							stream_capability
 						);
 					msg_add_endline();

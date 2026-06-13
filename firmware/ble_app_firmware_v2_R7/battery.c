@@ -68,6 +68,20 @@ void battery_update(void)
 {
 	int32_t batt_raw = adc_read_vbat_raw();
 	uint16_t batt_reading = adc_vbat_raw_to_mv(batt_raw);
+
+	// adc_read_vbat_raw() yields to a busy SAADC (e.g. mid-stream, or sensor
+	// measurement holding the ADC) and returns 0 if it can't get the converter
+	// idle within ~10ms. A 0 here failed the validity guard below, so the whole
+	// update became a no-op: the moving-average buffer was never written and kept
+	// its stale pre-charge samples indefinitely. With the update silently skipped,
+	// the buffer never self-heals after a recharge and the >150mV reseed never
+	// runs either (it lives inside the same guard). Fall back to a forced fresh
+	// conversion so every update contributes a real sample.
+	if ((batt_reading <= 500) || (batt_reading >= 5000)) {
+		batt_raw = adc_read_vbat_raw_fresh();
+		batt_reading = adc_vbat_raw_to_mv(batt_raw);
+	}
+
 	bat_voltage_raw = batt_raw;
 	if ((batt_reading > 500)&&(batt_reading < 5000)) {
 		// First sample after boot, or a clear step up (recharge): drop stale

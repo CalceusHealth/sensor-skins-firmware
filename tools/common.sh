@@ -91,24 +91,35 @@ set_staged_stream_mode() {
   esac
 }
 
+extract_app_version_components() {
+  local configure_file="$1"
+  local major minor patch
+
+  major="$(sed -n 's/^#define[[:space:]]\+DEVICE_FW_VERSION_MAJOR[[:space:]]\+\([0-9]\+\).*$/\1/p' "${configure_file}" | head -n 1)"
+  minor="$(sed -n 's/^#define[[:space:]]\+DEVICE_FW_VERSION_MINOR[[:space:]]\+\([0-9]\+\).*$/\1/p' "${configure_file}" | head -n 1)"
+  patch="$(sed -n 's/^#define[[:space:]]\+DEVICE_FW_VERSION_PATCH[[:space:]]\+\([0-9]\+\).*$/\1/p' "${configure_file}" | head -n 1)"
+  [[ -n "${major}" && -n "${minor}" && -n "${patch}" ]] \
+    || die "Could not parse DEVICE_FW_VERSION_MAJOR/MINOR/PATCH from ${configure_file}"
+
+  printf '%s %s %s\n' "${major}" "${minor}" "${patch}"
+}
+
 extract_app_version_dec() {
   local configure_file="$1"
-  local version_hex
+  local major minor patch
 
-  version_hex="$(sed -n 's/^#define DEVICE_FW_VERSION[[:space:]]*0x\([0-9A-Fa-f]\+\)$/\1/p' "${configure_file}" | head -n 1)"
-  [[ -n "${version_hex}" ]] || die "Could not parse DEVICE_FW_VERSION from ${configure_file}"
-
-  printf '%d\n' "$((16#${version_hex}))"
+  read -r major minor patch < <(extract_app_version_components "${configure_file}")
+  # Same packed uint32 the firmware stores (MAJOR<<16|MINOR<<8|PATCH), used as the
+  # nrfutil --application-version so the bootloader's monotonic downgrade check holds.
+  printf '%d\n' "$(( (major << 16) | (minor << 8) | patch ))"
 }
 
 extract_app_version_tag() {
   local configure_file="$1"
-  local version_hex
+  local major minor patch
 
-  version_hex="$(sed -n 's/^#define DEVICE_FW_VERSION[[:space:]]*0x\([0-9A-Fa-f]\+\)$/\1/p' "${configure_file}" | head -n 1)"
-  [[ -n "${version_hex}" ]] || die "Could not parse DEVICE_FW_VERSION from ${configure_file}"
-
-  printf 'v%s\n' "${version_hex}"
+  read -r major minor patch < <(extract_app_version_components "${configure_file}")
+  printf 'v%d.%d.%d\n' "${major}" "${minor}" "${patch}"
 }
 
 extract_stream_mode_tag() {
