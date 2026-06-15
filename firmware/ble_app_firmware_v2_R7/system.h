@@ -52,6 +52,14 @@ void system_wait_for_ms(uint32_t ms);
 void system_wait_for_ms_no_bg(uint32_t ms);
 void system_delay_cycles(int32_t cycles);
 
+// Free-running CPU cycle counter (DWT CYCCNT) for microsecond-resolution
+// profiling (system_time_ms only has ~5ms granularity). Wraps every ~67s;
+// take uint32 deltas. Used to characterise measure_sensors() cost for the
+// binary-stream sample-rate ceiling (SEN-53).
+void system_cycle_counter_init(void);
+uint32_t system_cycles(void);
+#define SYSTEM_CYCLES_PER_US	(SYSTEM_AHB_FREQ / 1000000U)
+
 void system_sleep(void);
 void system_shutdown(void);
 void system_reboot(void);

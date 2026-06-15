@@ -44,9 +44,22 @@ void system_wdt_kick(void)
 	NRF_WDT->RR[0] = WDT_RR_RR_Reload;
 }
 
+void system_cycle_counter_init(void)
+{
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	DWT->CYCCNT = 0;
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+}
+
+uint32_t system_cycles(void)
+{
+	return DWT->CYCCNT;
+}
+
 void system_init(void)
 {
 	system_time_ticks = 0;
+	system_cycle_counter_init();
 	ret_code_t err_code;
 
     err_code = app_timer_init();

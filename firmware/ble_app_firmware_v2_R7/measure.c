@@ -13,6 +13,9 @@
 #include "adc.h"
 #include "lmt01.h"
 #include "flash.h"
+#include "battery.h"
+#include "system.h"
+#include "nrf_log.h"
 
 #define AVERAGE_SIZE	5
 
@@ -90,6 +93,7 @@ uint8_t average_counter = 0;
 
 void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 {
+	uint32_t meas_t0 = system_cycles(); // profile per-frame measurement cost (SEN-53)
 	nrf_gpio_pin_clear(PIN_FSR_S0);
 	nrf_gpio_pin_clear(PIN_FSR_S1);
     nrf_gpio_pin_clear(PIN_FSR_S2);
@@ -104,6 +108,19 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	adc_init();
 	data->time_ms = system_time_ms();
 	data->vdd_mv = adc_read_vdd_mv();
+
+	// Sample vbat in-sequence on a slow, frame-rate-independent cadence. The
+	// SAADC is idle here (we just ran adc_init() + the vdd read), so this read
+	// always succeeds -- no busy/0 path, no forced-fresh teardown. Gating on
+	// elapsed time (not frame count) keeps it at one read per VBAT_SAMPLE_PERIOD_MS
+	// regardless of stream rate, so high-rate streaming never pays for it and the
+	// low-battery average/protection stays reliable. See battery_submit_raw().
+	static uint64_t last_vbat_ms = 0;
+	if ((last_vbat_ms == 0) || (data->time_ms - last_vbat_ms >= VBAT_SAMPLE_PERIOD_MS)) {
+		last_vbat_ms = data->time_ms;
+		int32_t vbat_raw = adc_read_vbat_raw();
+		if (vbat_raw > 0) battery_submit_raw(vbat_raw);
+	}
 	
 	static int16_t temp_counter = 0;
 	static uint8_t temp_sensor = 0;
@@ -415,6 +432,20 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	if (data->fsr19 > FSR_MIN) data->fsr19 -=FSR_MIN; else data->fsr19 = 0;
 
 	adc_deinit();
+
+#ifdef ENABLE_DEBUG
+	// Per-frame measurement cost in us (DWT). ~1-in-N frames also includes the
+	// VBAT_SAMPLE_PERIOD_MS vbat read above, so expect periodic higher samples.
+	// This is the binding-constraint input for the binary-stream rate ceiling.
+	{
+		static uint16_t meas_log_div = 0;
+		uint32_t meas_us = (system_cycles() - meas_t0) / SYSTEM_CYCLES_PER_US;
+		if (++meas_log_div >= 40) {
+			meas_log_div = 0;
+			NRF_LOG_INFO("measure_sensors: %u us", (unsigned)meas_us);
+		}
+	}
+#endif
 }
 
 void measure_update_summary(reid_ble_summary_packet_t* summary, reid_ble_packet_t* data)

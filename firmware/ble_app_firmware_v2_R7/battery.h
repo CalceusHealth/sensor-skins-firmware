@@ -26,6 +26,11 @@ typedef enum battery_state_t
 void battery_init();
 void battery_deinit();
 void battery_update(void);
+// Feed one raw vbat ADC sample into the moving average / protection value.
+// Call from a context where the SAADC is already idle (e.g. mid measurement
+// sequence). battery_update() is the read-and-submit convenience for the
+// sleep loop / QB query where it owns the idle converter.
+void battery_submit_raw(int32_t batt_raw);
 int32_t battery_pack_voltage_raw(void);
 
 battery_state_t battery_current_state(void);

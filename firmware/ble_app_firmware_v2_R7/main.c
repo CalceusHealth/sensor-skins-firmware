@@ -459,7 +459,12 @@ int main(void)
 		static uint8_t charging_state_sample_divider = 0;
 		if (++battery_update_divider >= 8) {
 			battery_update_divider = 0;
-			battery_update();
+			// vbat is acquired in-sequence by measure_sensors() on its own
+			// time-based cadence (VBAT_SAMPLE_PERIOD_MS), so no ADC read here --
+			// this slot only samples charge state and checks the protection
+			// floor against the already-maintained average. Keeping the read out
+			// of this frame-counted slot is what makes it rate-independent for
+			// the high-rate binary stream.
 			if (++charging_state_sample_divider >= CHARGING_STATE_SAMPLE_EVERY_N_BATTERY_UPDATES) {
 				charging_state_sample_divider = 0;
 				update_charging_state_history();

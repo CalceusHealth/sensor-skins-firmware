@@ -17,7 +17,7 @@
 // identical to the old hand-written hex (0x00020028 == 2.0.40, 0x00020027 == 2.0.39).
 #define DEVICE_FW_VERSION_MAJOR	2
 #define DEVICE_FW_VERSION_MINOR	0
-#define DEVICE_FW_VERSION_PATCH	40
+#define DEVICE_FW_VERSION_PATCH	43
 #define DEVICE_FW_VERSION	((DEVICE_FW_VERSION_MAJOR << 16) | (DEVICE_FW_VERSION_MINOR << 8) | DEVICE_FW_VERSION_PATCH)
 
 #define FSR_ADC_GAIN NRF_SAADC_GAIN1_2
@@ -35,9 +35,9 @@
 //	#define ENABLE_SHUTDOWN
 	#define WAIT_FOR_TX_OF_EVERY_PACKET
 	#define SEND_EVERY_MEAS_OVER_BLE
-	#define STREAM_PROTOCOL_ASCII_V1
+//	#define STREAM_PROTOCOL_ASCII_V1
 //	#define ENABLE_FLASH_SUMMARY	// legacy 5-min summary-to-flash; OFF for stream/nostream (raw-NVMC write drops BLE every ~343s). Enabled only for the `summary` build variant.
-//	#define STREAM_PROTOCOL_BINARY_V2
+	#define STREAM_PROTOCOL_BINARY_V2	// SEN-53: binary stream migration (>8Hz). ASCII_V1 above disabled (exactly one allowed).
 
 #define MAIN_LOOP_TIME_MS	125
 #define STREAM_BINARY_V2_MAX_LATENCY_MS (2 * MAIN_LOOP_TIME_MS)
@@ -73,6 +73,12 @@
 #define CHARGE_RECOVERY_VBAT_MIN_MV				3450
 #define CHARGING_IDLE_SLEEP_TIMEOUT_MS			15000
 #define IDLE_SLEEP_TIMEOUT_MS					180000
+// How often vbat is sampled for the battery average / low-battery protection.
+// Decoupled from the sensor frame rate (8Hz now, 50-100Hz binary later): one
+// vbat read per period regardless of stream rate, so it never burdens the
+// sample-rate ceiling. Kept short enough that the average (VBAT_AVERAGE_N deep)
+// reacts to the acute discharge knee near LOW_BATTERY_SLEEP_MIN_MV within ~1 min.
+#define VBAT_SAMPLE_PERIOD_MS					5000
 #define BLE_ACTIVITY_HOLD_MS					120000
 #define FSR_DELTA_THRESHOLD						150
 #define FSR_DELTA_WAKE_MIN						2
