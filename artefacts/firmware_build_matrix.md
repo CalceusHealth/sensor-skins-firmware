@@ -47,15 +47,18 @@ Use it to track:
 ## Current status
 
 - **Flashed to orthotics: `v00020024` (stream / `ASCII_V1_TS`)** — the streaming build is what's currently on the devices. Adds watchdog recovery + BLE sleep "lifeline" advertising (commit `45a3f6e`). The matching `nostream` v00020024 build is also packaged but is not the flashed variant.
-- **Built, awaiting test: `v2.0.40` (stream + nostream / `ASCII_V1_TS`)** — busy-ADC battery-average fix: the reported level now snaps to the real charged value after a recharge (previously the moving-average update silently no-op'd whenever the SAADC was busy, so the reseed was bypassed and the average stayed stale). First build to report `VER` as `MAJOR.MINOR.PATCH` (`2.0.40`). Folds in the `v00020027` flash-summary gating and the `v00020026` reseed; no IMU. `tim` HEAD; LHS/RHS built for **both** stream and nostream (`44e3ace`). Supersedes `v00020026`/`v00020027`. Next to flash + test as a pair.
+- **Latest build: `v2.0.43` (stream + nostream / `BINARY_V2`)** — first binary-stream build (SEN-53): `STREAM_PROTOCOL_BINARY_V2` enabled as the default protocol for the >8 Hz migration, plus DWT µs profiling of `measure_sensors()` to characterise the sample-rate ceiling. Built on `f7b9ee6` (`tim`). Awaiting on-target ceiling characterisation with the desktop binary parser.
+- **Deployed for field test: `v2.0.42` (ASCII_V1_TS)** — SEN-48 deterministic vbat acquisition (in-sequence read, decoupled ~5 s cadence, `VBAT_AVERAGE_N` 10→6); kills the v2.0.40 `_fresh`-fallback no-op that froze the average under ADC contention. Flashed to the two field units now being drained in-shoe to validate the 3250 mV protection. ASCII; folded into `f7b9ee6` (rebuild needs `STREAM_PROTOCOL_BINARY_V2` disabled).
+- **`v2.0.41` (ASCII_V1_TS)** — monotonic charge-curve clamp in `battery_pack_charge()` (reported % holds/climbs across a charge session instead of cratering on plug-in). Reporting-only. ASCII; folded into `f7b9ee6`.
+- **Superseded: `v2.0.40` (stream + nostream / `ASCII_V1_TS`)** — busy-ADC battery-average fix (the `_fresh` fallback, later found to be a no-op — see SEN-48); first `MAJOR.MINOR.PATCH` version reporting. `44e3ace`. Superseded by `v2.0.42`.
 - **Superseded: `v00020026` (stream)** — battery moving-average reseed-on-recharge fix on top of the deployed `v00020024` line (`dfb7ac0`). Rolled into the `v2.0.40` build.
 - **`experimental` HEAD: `v00020025`** — IMU bring-up (`f6d7ca9`), reverted off `tim`, not yet built or flashed. Tracked under Experimental tracks → IMU test.
 
 Repo defaults (unchanged across the current line):
 
 - Firmware source: `firmware/ble_app_firmware_v2_R7`
-- Default stream protocol: `ASCII_V1_TS`
-- Default sample rate: `8Hz` (`MAIN_LOOP_TIME_MS=125`)
+- Default stream protocol: **`BINARY_V2`** (as of `v2.0.43` / `f7b9ee6`; was `ASCII_V1_TS` through `v2.0.42`)
+- Default sample rate: `8Hz` (`MAIN_LOOP_TIME_MS=125`) — to be raised under SEN-53 once the ceiling is characterised
 - Default FSR gain: `NRF_SAADC_GAIN1_2`
 
 ## Version history / changelog
@@ -64,7 +67,10 @@ Newest first. "flashed" = on the orthotics now; "built" = packaged but not flash
 
 | version | state | changes | commit |
 |---|---|---|---|
-| `v2.0.40` | **built, awaiting test (stream + nostream)** | Battery: `battery_update()` no longer becomes a no-op when `adc_read_vbat_raw()` returns 0 on a busy SAADC — it falls back to a forced fresh conversion, so the moving average always lands a real sample and the reported level snaps correctly after a recharge. (The >150 mV reseed alone was being bypassed because it lives inside the dropped-sample validity guard.) Also switches version reporting to `MAJOR.MINOR.PATCH`: `VER=2.0.40` (was hex), explicit `DEVICE_FW_VERSION_MAJOR/MINOR/PATCH` defines composing the same packed uint32 (`0x00020028`), and `tools/common.sh` derives `vX.Y.Z` filenames + the packed `--application-version` (131112). **Wire-format change**: the app `VER=` parser must accept `X.Y.Z` (SEN-47). Folds in the `v00020027` flash-summary gating; no IMU. | `44e3ace` (`tim`) |
+| `v2.0.43` | **built — latest (stream + nostream, BINARY_V2)** | SEN-53: enable `STREAM_PROTOCOL_BINARY_V2` (ASCII_V1 off) as the default stream protocol for the >8 Hz migration. Add DWT µs profiling (`system_cycle_counter_init`/`system_cycles` in system.c) + a periodic `NRF_LOG_INFO("measure_sensors: %u us")` (every 40 frames) to find the per-frame measurement ceiling. Frame format unchanged (16 B header + 74 B rows, `measure.h`). Desktop decoder added in `sensor_gui/controllers/ble_controller.py`. | `f7b9ee6` (`tim`) |
+| `v2.0.42` | **deployed for field test (ASCII_V1_TS)** | SEN-48: deterministic vbat acquisition. vbat read in-sequence in `measure_sensors()` (SAADC guaranteed idle) on a ~5 s time gate (`VBAT_SAMPLE_PERIOD_MS`), decoupled from frame rate; `battery_update()` split into `battery_submit_raw()` (averaging) + read-and-submit for sleep/QB; removed the awake per-8-frame ADC read in main.c; `VBAT_AVERAGE_N` 10→6 (~30 s window, trips the 3250 mV floor within ~1 min). Removes the v2.0.40 `_fresh`-fallback no-op that froze the average under ADC contention. ASCII; source folded into `f7b9ee6` (rebuild needs `STREAM_PROTOCOL_BINARY_V2` off). | `f7b9ee6` (`tim`) |
+| `v2.0.41` | built (ASCII_V1_TS) | Monotonic charge-curve clamp in `battery_pack_charge()`: while charging, reported % is seeded from the last resting value and only holds/climbs, so plugging in no longer craters the number (dual-curve seam). Reporting-only — sleep matrix keys off averaged mV. ASCII; folded into `f7b9ee6`. | `f7b9ee6` (`tim`) |
+| `v2.0.40` | superseded by `v2.0.42` | Battery: `battery_update()` no longer becomes a no-op when `adc_read_vbat_raw()` returns 0 on a busy SAADC — it falls back to a forced fresh conversion, so the moving average always lands a real sample and the reported level snaps correctly after a recharge. (The >150 mV reseed alone was being bypassed because it lives inside the dropped-sample validity guard.) Also switches version reporting to `MAJOR.MINOR.PATCH`: `VER=2.0.40` (was hex), explicit `DEVICE_FW_VERSION_MAJOR/MINOR/PATCH` defines composing the same packed uint32 (`0x00020028`), and `tools/common.sh` derives `vX.Y.Z` filenames + the packed `--application-version` (131112). **Wire-format change**: the app `VER=` parser must accept `X.Y.Z` (SEN-47). Folds in the `v00020027` flash-summary gating; no IMU. | `44e3ace` (`tim`) |
 | `v00020027` | source only — built as part of `v2.0.40` | Gate the legacy 5-min summary-to-flash write behind new `ENABLE_FLASH_SUMMARY` (default OFF). `flash_write_record()` writes via raw `NRF_NVMC`, which stalls the SoftDevice radio and drops the BLE link every ~343s while connected (diagnosed from S3 logs: deterministic on both feet, ≈342.86s = `NEW_SUMMARY_EVERY_N` cadence). `stream`/`nostream` builds now compile it out → no more periodic disconnect. The `summary` build re-enables it (raw-NVMC for now; should become `nrf_fstorage_sd`). On the `v00020026` line; no IMU. | `32dcabf` |
 | `v00020026` | **built, awaiting test (stream)** | Battery: reseed the vbat moving average when a fresh reading jumps >150 mV above the average (recharge), so reported voltage/% snaps to the real level instead of washing stale low samples out over minutes. Built on the `v00020024` line; no IMU. | `dfb7ac0` (`tim`) |
 | `v00020025` | experimental branch — not built | Wake the LSM6DSM IMU: `i2c_init()`+`lsm6dsm_init()` in `main_init()`, `lsm6dsm_whoami()` + WHO_AM_I check, boot + per-loop RTT logging, new `;QD` BLE/serial query returning `WHO/AX/AY/AZ/GX/GY/GZ/T`. Reverted off `tim` (`6de6441`); lives on `experimental`. Build is currently blocked by a 7-arg `NRF_LOG_INFO` (`LOG_INTERNAL_7`) at `main.c` that must be split into two ≤6-arg calls. | `f6d7ca9` |
@@ -78,10 +84,24 @@ These are the builds that should be considered current and reproducible.
 
 | status | version | side | stream | sleep | protocol | sample_rate | fsr_gain | `QI` `STREAM=` | package | sha256 | git_commit |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| built — awaiting test | `v2.0.40` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v2.0.40_sensorskins.zip` | `94bc8a30af3ad45450c2a9d503bc73d27c0fc812807df4ab7972c461ad7ec8f7` | `44e3ace` |
-| built — awaiting test | `v2.0.40` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v2.0.40_sensorskins.zip` | `e7a2f0db59ded1d0b9e84e9c9a5a221e36f010d9ed45046d68d55d5b4b5c0464` | `44e3ace` |
-| built — awaiting test | `v2.0.40` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.40_sensorskins.zip` | `01a635ab6f29e001387335892934778c55114344f3272a793d6310ae69354a36` | `44e3ace` |
-| built — awaiting test | `v2.0.40` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.40_sensorskins.zip` | `a052f11359383bee1eef0b230fd47ae3d2b3a34a5371ba003a0cc220fa7befcd` | `44e3ace` |
+| built — latest | `v2.0.43` | `lhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_lhs_v2.0.43_sensorskins.zip` | `b36f174c8ba554ca8bc3c0eb6a88b4e949bbae35c2360e47ba47cc136cabce6b` | `f7b9ee6` |
+| built — latest | `v2.0.43` | `rhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_rhs_v2.0.43_sensorskins.zip` | `b5b6f176b21d1a1028dd680457423c848c600256fd745f459ebc3183e2756018` | `f7b9ee6` |
+| built — latest | `v2.0.43` | `lhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.43_sensorskins.zip` | `0d4ef315675dca3b84470e6a3ba15577b260d9a5ffc4d7a47d057758e192771c` | `f7b9ee6` |
+| built — latest | `v2.0.43` | `rhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.43_sensorskins.zip` | `15933d88fd2b9fe05916587530ac1a2658890dc4c6111ee6684a1c164eb4194c` | `f7b9ee6` |
+| deployed — field test | `v2.0.42` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v2.0.42_sensorskins.zip` | `01abf9ee823ef9bfe8a1d71d26368045818325e7b340b9579548559e0fb64075` | `f7b9ee6` † |
+| deployed — field test | `v2.0.42` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v2.0.42_sensorskins.zip` | `7764cad8ef04bdca4286f3ff2ea494b654677b6c11d8e448a23ea67c2fa72704` | `f7b9ee6` † |
+| deployed — field test | `v2.0.42` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.42_sensorskins.zip` | `79c882bddabf2b7c4dd4e7a9722990825aa8c535ee6db0ffaa3203db129e8742` | `f7b9ee6` † |
+| deployed — field test | `v2.0.42` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.42_sensorskins.zip` | `7339f475259bb5bf17597e247c866089ce3b3aaf305f43c4962c37c6b41f1ae6` | `f7b9ee6` † |
+| built | `v2.0.41` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v2.0.41_sensorskins.zip` | `a6adb24f0cb016f06ea20c00eede5857dfce89a98f7e1e74648a90582c289686` | `f7b9ee6` † |
+| built | `v2.0.41` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v2.0.41_sensorskins.zip` | `1b24c9ab4793c6d359cb62d57a645dc9716ebb7268ec0a8925ab4c613ac46535` | `f7b9ee6` † |
+| built | `v2.0.41` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.41_sensorskins.zip` | `321fffd2b362b582f14c3c44d05c208d5c08abe757dbe493f5be5ef992d0c899` | `f7b9ee6` † |
+| built | `v2.0.41` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.41_sensorskins.zip` | `22789436dfaf38f44a33c793669fed2e663867585bc873d850ecc64b7326195c` | `f7b9ee6` † |
+| superseded by `v2.0.42` | `v2.0.40` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v2.0.40_sensorskins.zip` | `94bc8a30af3ad45450c2a9d503bc73d27c0fc812807df4ab7972c461ad7ec8f7` | `44e3ace` |
+| superseded by `v2.0.42` | `v2.0.40` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v2.0.40_sensorskins.zip` | `e7a2f0db59ded1d0b9e84e9c9a5a221e36f010d9ed45046d68d55d5b4b5c0464` | `44e3ace` |
+| superseded by `v2.0.42` | `v2.0.40` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.40_sensorskins.zip` | `01a635ab6f29e001387335892934778c55114344f3272a793d6310ae69354a36` | `44e3ace` |
+| superseded by `v2.0.42` | `v2.0.40` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.40_sensorskins.zip` | `a052f11359383bee1eef0b230fd47ae3d2b3a34a5371ba003a0cc220fa7befcd` | `44e3ace` |
+
+† `v2.0.41`/`v2.0.42` are ASCII intermediate builds whose source is folded into `f7b9ee6` (which builds `BINARY_V2` by default). To reproduce them, build `f7b9ee6` with `STREAM_PROTOCOL_BINARY_V2` disabled and `STREAM_PROTOCOL_ASCII_V1` enabled, at the matching `DEVICE_FW_VERSION_PATCH`. Only `v2.0.43` is reproducible from `f7b9ee6` as-is.
 | superseded by `v2.0.40` | `v00020026` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020026_sensorskins.zip` | `9ddf67d03c56ae3f2e210248b8017caaf1cc84da2716463422103f34eb8ddce3` | `dfb7ac0` |
 | superseded by `v2.0.40` | `v00020026` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v00020026_sensorskins.zip` | `44eac1513a7632db8489881d1d1e5050b5acbb31b3f74ee37ce468da43a3d992` | `dfb7ac0` |
 | **flashed** | `v00020024` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020024_sensorskins.zip` | `dd2f1eff77211eaf8c67f62867c0d169c9792486fbfbb52e746cbcd9b4f6c8fa` | `45a3f6e` |
@@ -116,6 +136,14 @@ flashed to orthotics yet.
 
 These packages currently exist in `artefacts/out/`:
 
+- `stream_sleep_lhs_v2.0.43_sensorskins.zip` (BINARY_V2)
+- `stream_sleep_rhs_v2.0.43_sensorskins.zip` (BINARY_V2)
+- `nostream_sleep_lhs_v2.0.43_sensorskins.zip` (BINARY_V2)
+- `nostream_sleep_rhs_v2.0.43_sensorskins.zip` (BINARY_V2)
+- `stream_sleep_lhs_v2.0.42_sensorskins.zip` / `_rhs_` (ASCII; deployed for field test)
+- `nostream_sleep_lhs_v2.0.42_sensorskins.zip` / `_rhs_` (ASCII)
+- `stream_sleep_lhs_v2.0.41_sensorskins.zip` / `_rhs_` (ASCII) + `nostream_*_v2.0.41`
+- `stream_sleep_lhs_v2.0.39_sensorskins.zip` / `_rhs_` (ASCII)
 - `stream_sleep_lhs_v2.0.40_sensorskins.zip`
 - `stream_sleep_rhs_v2.0.40_sensorskins.zip`
 - `nostream_sleep_lhs_v2.0.40_sensorskins.zip`
