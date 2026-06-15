@@ -124,12 +124,14 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 		if (vbat_raw > 0) battery_submit_raw(vbat_raw);
 	}
 	
-	static int16_t temp_counter = 0;
+	static uint64_t last_temp_ms = 0;
 	static uint8_t temp_sensor = 0;
 
-	++temp_counter;
-	if ((force_temp != 0)||(temp_counter >= MEASURE_TEMP_EVERY_N)) {
-		temp_counter = 0;
+	// Time-based temp cadence (SEN-58): LMT01 is a ~90ms blocking read, so gate
+	// on elapsed time (not frame count) -> stays slow regardless of stream rate.
+	// One sensor per TEMP_SAMPLE_PERIOD_MS; each of 5 sensors every 5x that.
+	if ((force_temp != 0) || (last_temp_ms == 0) || (data->time_ms - last_temp_ms >= TEMP_SAMPLE_PERIOD_MS)) {
+		last_temp_ms = data->time_ms;
 		if (++temp_sensor >= 5) temp_sensor = 0;
 		switch (temp_sensor) {
 		default:

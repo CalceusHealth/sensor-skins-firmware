@@ -17,7 +17,7 @@
 // identical to the old hand-written hex (0x00020028 == 2.0.40, 0x00020027 == 2.0.39).
 #define DEVICE_FW_VERSION_MAJOR	2
 #define DEVICE_FW_VERSION_MINOR	0
-#define DEVICE_FW_VERSION_PATCH	46
+#define DEVICE_FW_VERSION_PATCH	48
 #define DEVICE_FW_VERSION	((DEVICE_FW_VERSION_MAJOR << 16) | (DEVICE_FW_VERSION_MINOR << 8) | DEVICE_FW_VERSION_PATCH)
 
 #define FSR_ADC_GAIN NRF_SAADC_GAIN1_2
@@ -59,7 +59,12 @@
 #define NEW_SUMMARY_EVERY_N		(300*1000/MAIN_LOOP_TIME_MS)*/
 
 //#define MEASURE_TEMP_EVERY_N	(12*1000/MAIN_LOOP_TIME_MS) // each measurement iteration will cycle through a different sensor
-#define MEASURE_TEMP_EVERY_N	(80) // each measurement iteration will cycle through a different sensor
+#define MEASURE_TEMP_EVERY_N	(80) // (legacy, frame-count) superseded by TEMP_SAMPLE_PERIOD_MS
+// Time-based temp cadence (SEN-58): the LMT01 read is a ~90ms blocking pulse-count,
+// so gate it on elapsed time, not frame count -- otherwise at high stream rates it
+// fires far too often (e.g. every 0.8s at 100Hz) and stalls the loop. One sensor
+// per period -> each of the 5 sensors updated every 5x this. 60s -> 5min/sensor.
+#define TEMP_SAMPLE_PERIOD_MS	60000
 #define NEW_SUMMARY_EVERY_N		(300*1000/MAIN_LOOP_TIME_MS)
 
 #define MSG_MAX_RECORDS_PER_REQUEST		101

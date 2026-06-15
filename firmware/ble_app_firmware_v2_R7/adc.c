@@ -375,7 +375,9 @@ int32_t adc_read_bank1(void)
 	adc_current_state = ADC_ONESHOT;
     nrfx_saadc_channel_uninit(0);
 	nrfx_saadc_channel_init(0,&adc_channel_bank1);
-	nrfx_saadc_sample_convert(0,&adc_result);
+	// SEN-58 step 2a: throwaway settle-convert removed (redundant — the channel
+	// is already settled by measure_sensors' discard read + MEAS_SETTLING). The
+	// loop below still sums ADC_AVG_SAMPLES, so the value scale is unchanged.
     for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i) {
 		nrfx_saadc_sample_convert(0,&adc_result);
 		reading += adc_result;
@@ -396,7 +398,6 @@ int32_t adc_read_bank2(void)
 	adc_current_state = ADC_ONESHOT;
     nrfx_saadc_channel_uninit(0);
 	nrfx_saadc_channel_init(0,&adc_channel_bank2);
-	nrfx_saadc_sample_convert(0,&adc_result);
     for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i) {
 		nrfx_saadc_sample_convert(0,&adc_result);
 		reading += adc_result;
@@ -418,7 +419,6 @@ int32_t adc_read_bank3(void)
 	adc_current_state = ADC_ONESHOT;
     nrfx_saadc_channel_uninit(0);
 	nrfx_saadc_channel_init(0,&adc_channel_bank3);
-	nrfx_saadc_sample_convert(0,&adc_result);
     for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i) {
 		nrfx_saadc_sample_convert(0,&adc_result);
 		reading += adc_result;
