@@ -27,6 +27,9 @@
 void adc_init(void);
 void adc_deinit(void);
 
+// SEN-58: bracket the FSR mux loop so the 3 banks are read in one EasyDMA scan.
+void adc_banks_begin(void);
+void adc_banks_end(void);
 int32_t adc_read_bank1(void);
 int32_t adc_read_bank2(void);
 int32_t adc_read_bank3(void);

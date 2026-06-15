@@ -364,69 +364,76 @@ uint16_t adc_read_vdd_mv(void)
 	else return 0;
 }
 
+// ---- SEN-58 step 2: EasyDMA bank scan -------------------------------------
+// The 3 FSR bank channels are read in ONE DMA scan per call instead of 3
+// separate blocking single-channel reads, eliminating the per-conversion driver
+// overhead. measure_sensors() brackets its FSR mux loop with adc_banks_begin()/
+// adc_banks_end(); within that window adc_read_bank1() runs the scan + caches
+// all 3 results, and adc_read_bank2()/bank3() return the cache (they are always
+// called immediately after bank1 in measure.c). Scale is preserved: the scan is
+// summed ADC_AVG_SAMPLES times, matching the old "sum of N samples" per bank.
+#define ADC_BANK_SCAN_TIMEOUT 200000u
+static nrf_saadc_value_t bank_scan_buf[3];
+static int32_t bank_cache[3];
+
+void adc_banks_begin(void)
+{
+	// Configure channels 0/1/2 = bank1/2/3 for scan mode (active_channels == 3).
+	nrf_gpio_cfg(PIN_FSR_CH0, GPIO_PIN_CNF_DIR_Input, GPIO_PIN_CNF_INPUT_Disconnect, GPIO_PIN_CNF_PULL_Disabled, GPIO_PIN_CNF_DRIVE_H0D1, GPIO_PIN_CNF_SENSE_Disabled);
+	nrf_gpio_cfg(PIN_FSR_CH1, GPIO_PIN_CNF_DIR_Input, GPIO_PIN_CNF_INPUT_Disconnect, GPIO_PIN_CNF_PULL_Disabled, GPIO_PIN_CNF_DRIVE_H0D1, GPIO_PIN_CNF_SENSE_Disabled);
+	nrf_gpio_cfg(PIN_FSR_CH2, GPIO_PIN_CNF_DIR_Input, GPIO_PIN_CNF_INPUT_Disconnect, GPIO_PIN_CNF_PULL_Disabled, GPIO_PIN_CNF_DRIVE_H0D1, GPIO_PIN_CNF_SENSE_Disabled);
+	nrfx_saadc_channel_uninit(0);
+	nrfx_saadc_channel_uninit(1);
+	nrfx_saadc_channel_uninit(2);
+	nrfx_saadc_channel_init(0,&adc_channel_bank1);
+	nrfx_saadc_channel_init(1,&adc_channel_bank2);
+	nrfx_saadc_channel_init(2,&adc_channel_bank3);
+	adc_current_state = ADC_IDLE;
+}
+
+void adc_banks_end(void)
+{
+	// Release the scan channels so the cap/vbat single-channel reads behave as
+	// before (channel 0 is left for the next read to reconfigure).
+	nrfx_saadc_channel_uninit(1);
+	nrfx_saadc_channel_uninit(2);
+	adc_current_state = ADC_IDLE;
+}
+
+static void adc_banks_scan(void)
+{
+	bank_cache[0] = 0; bank_cache[1] = 0; bank_cache[2] = 0;
+	for (uint8_t s=0; s<ADC_AVG_SAMPLES; ++s) {
+		uint32_t to;
+		adc_current_state = ADC_RUNNING;
+		if (nrfx_saadc_buffer_convert(bank_scan_buf, 3) != NRFX_SUCCESS) { adc_current_state = ADC_IDLE; return; }
+		// buffer_convert triggered TASKS_START; wait STARTED, then SAMPLE the scan.
+		to = 0; while ((nrf_saadc_event_check(NRF_SAADC_EVENT_STARTED) == 0) && (++to < ADC_BANK_SCAN_TIMEOUT)) {}
+		if (nrfx_saadc_sample() != NRFX_SUCCESS) { nrfx_saadc_abort(); adc_current_state = ADC_IDLE; return; }
+		// handler sets ADC_DONE on END (buffer of 3 filled = one scan of 3 channels).
+		to = 0; while ((adc_current_state != ADC_DONE) && (++to < ADC_BANK_SCAN_TIMEOUT)) {}
+		if (adc_current_state != ADC_DONE) { nrfx_saadc_abort(); adc_current_state = ADC_IDLE; return; }
+		adc_current_state = ADC_IDLE;
+		bank_cache[0] += bank_scan_buf[0];
+		bank_cache[1] += bank_scan_buf[1];
+		bank_cache[2] += bank_scan_buf[2];
+	}
+	if (bank_cache[0]<0) bank_cache[0]=0;
+	if (bank_cache[1]<0) bank_cache[1]=0;
+	if (bank_cache[2]<0) bank_cache[2]=0;
+}
+
 int32_t adc_read_bank1(void)
 {
-	int32_t reading = 0;
-    nrf_saadc_value_t adc_result = 0;
-
 	if ((adc_current_state != ADC_IDLE)||(nrfx_saadc_is_busy())) return 0;
-    nrf_gpio_cfg(PIN_FSR_CH0, GPIO_PIN_CNF_DIR_Input, GPIO_PIN_CNF_INPUT_Disconnect, GPIO_PIN_CNF_PULL_Disabled, GPIO_PIN_CNF_DRIVE_H0D1, GPIO_PIN_CNF_SENSE_Disabled);
-	
-	adc_current_state = ADC_ONESHOT;
-    nrfx_saadc_channel_uninit(0);
-	nrfx_saadc_channel_init(0,&adc_channel_bank1);
-	// SEN-58 step 2a: throwaway settle-convert removed (redundant — the channel
-	// is already settled by measure_sensors' discard read + MEAS_SETTLING). The
-	// loop below still sums ADC_AVG_SAMPLES, so the value scale is unchanged.
-    for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i) {
-		nrfx_saadc_sample_convert(0,&adc_result);
-		reading += adc_result;
-	}
-    adc_current_state = ADC_IDLE;
-	if (reading<0)reading=0;
-    return reading;
+	adc_banks_scan();           // one DMA scan of all 3 banks -> bank_cache[0..2]
+	return bank_cache[0];
 }
 
-int32_t adc_read_bank2(void)
-{
-	int32_t reading = 0;
-    nrf_saadc_value_t adc_result = 0;
-
-	if ((adc_current_state != ADC_IDLE)||(nrfx_saadc_is_busy())) return 0;
-    nrf_gpio_cfg(PIN_FSR_CH1, GPIO_PIN_CNF_DIR_Input, GPIO_PIN_CNF_INPUT_Disconnect, GPIO_PIN_CNF_PULL_Disabled, GPIO_PIN_CNF_DRIVE_H0D1, GPIO_PIN_CNF_SENSE_Disabled);
-	
-	adc_current_state = ADC_ONESHOT;
-    nrfx_saadc_channel_uninit(0);
-	nrfx_saadc_channel_init(0,&adc_channel_bank2);
-    for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i) {
-		nrfx_saadc_sample_convert(0,&adc_result);
-		reading += adc_result;
-	}
-    adc_current_state = ADC_IDLE;
-	if (reading<0)reading=0;
-    return reading;
-}
-
-int32_t adc_read_bank3(void)
-{
-	int32_t reading = 0;
-	nrfx_err_t ret_err;
-    nrf_saadc_value_t adc_result = 0;
-
-	if ((adc_current_state != ADC_IDLE)||(nrfx_saadc_is_busy())) return 0;
-    nrf_gpio_cfg(PIN_FSR_CH2, GPIO_PIN_CNF_DIR_Input, GPIO_PIN_CNF_INPUT_Disconnect, GPIO_PIN_CNF_PULL_Disabled, GPIO_PIN_CNF_DRIVE_H0D1, GPIO_PIN_CNF_SENSE_Disabled);
-	
-	adc_current_state = ADC_ONESHOT;
-    nrfx_saadc_channel_uninit(0);
-	nrfx_saadc_channel_init(0,&adc_channel_bank3);
-    for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i) {
-		nrfx_saadc_sample_convert(0,&adc_result);
-		reading += adc_result;
-	}
-    adc_current_state = ADC_IDLE;
-	if (reading<0)reading=0;
-    return reading;
-}
+// bank2/bank3 return the cache filled by the preceding bank1 scan (measure.c
+// always calls bank1 first in each trio). No extra conversion.
+int32_t adc_read_bank2(void) { return bank_cache[1]; }
+int32_t adc_read_bank3(void) { return bank_cache[2]; }
 
 uint32_t adc_generate_random(void)
 {

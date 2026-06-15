@@ -156,6 +156,8 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	
 	if (++average_counter >= AVERAGE_SIZE) average_counter = 0;
 	
+	adc_banks_begin(); // SEN-58: read the 3 FSR banks via one EasyDMA scan per mux step
+
 	// SET 0/8/16
 	nrf_gpio_pin_clear(PIN_FSR_S0);
 	nrf_gpio_pin_clear(PIN_FSR_S1);
@@ -287,6 +289,8 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	
 	
 	
+	adc_banks_end(); // SEN-58: release scan channels before the CAP reads
+
 	// SET 0/8
 	nrf_gpio_pin_clear(PIN_CAP_S0);
 	nrf_gpio_pin_clear(PIN_CAP_S1);
