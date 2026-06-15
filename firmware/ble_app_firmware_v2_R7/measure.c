@@ -35,6 +35,10 @@ static inline int32_t find_average(int32_t* data) {
 }
 
 #define MEAS_SETTLING	10000
+// SEN-58: cap mux settling, separate from FSR's MEAS_SETTLING so cap can be tuned
+// without touching FSR. The 8 cap settle busy-loops dominate the CAP-section time
+// (conversions + channel-init ruled out empirically).
+#define CAP_SETTLING	2000
 
 #define MIN_CAP		500
 #define MAX_CAP		10000
@@ -299,7 +303,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	nrf_gpio_pin_clear(PIN_CAP_S0);
 	nrf_gpio_pin_clear(PIN_CAP_S1);
     nrf_gpio_pin_clear(PIN_CAP_S2);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	// shouldn't be anything here anyway
 	#ifdef REID_LHS
 	#else
@@ -307,7 +311,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 
 	// SET 1/9
     nrf_gpio_pin_set(PIN_CAP_S0);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	#ifdef REID_LHS
 	cap1n_average[average_counter] = adc_read_cap1();
 	data->cap1n = find_average(cap1n_average)-CAL_C1N;
@@ -323,7 +327,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	// SET 2/10
     nrf_gpio_pin_set(PIN_CAP_S1);
     nrf_gpio_pin_clear(PIN_CAP_S0);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	#ifdef REID_LHS
 	cap5n_average[average_counter] = adc_read_cap1();
 	data->cap5n = find_average(cap5n_average)-CAL_C5N;
@@ -338,7 +342,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 
 	// SET 3/11
     nrf_gpio_pin_set(PIN_CAP_S0);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	#ifdef REID_LHS
 	/*cap_average[average_counter] = adc_read_cap1();
 	data->cap = find_average(cap_average)-CAL_C;
@@ -355,7 +359,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	nrf_gpio_pin_set(PIN_CAP_S2);
 	nrf_gpio_pin_clear(PIN_CAP_S1);
     nrf_gpio_pin_clear(PIN_CAP_S0);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	#ifdef REID_LHS
 	cap5s_average[average_counter] = adc_read_cap1();
 	data->cap5s = find_average(cap5s_average)-CAL_C5S;
@@ -370,7 +374,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 
 	// SET 5/13
     nrf_gpio_pin_set(PIN_CAP_S0);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	#ifdef REID_LHS
 	cap2s_average[average_counter] = adc_read_cap1();
 	data->cap2s = find_average(cap2s_average)-CAL_C2S;
@@ -386,7 +390,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	// SET 6/14
     nrf_gpio_pin_set(PIN_CAP_S1);
     nrf_gpio_pin_clear(PIN_CAP_S0);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	#ifdef REID_LHS
 	cap1s_average[average_counter] = adc_read_cap1();
 	data->cap1s = find_average(cap1s_average)-CAL_C1S;
@@ -401,7 +405,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 
 	// SET 7/15
     nrf_gpio_pin_set(PIN_CAP_S0);
-	system_delay_cycles(MEAS_SETTLING);
+	system_delay_cycles(CAP_SETTLING);
 	#ifdef REID_LHS
 	cap2n_average[average_counter] = adc_read_cap1();
 	data->cap2n = find_average(cap2n_average)-CAL_C2N;
