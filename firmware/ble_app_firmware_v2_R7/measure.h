@@ -13,6 +13,9 @@
 #include "configure_firmware.h"
 #include <stdint.h>
 
+// Last measure_sensors() duration in microseconds (DWT). Exposed for ;QI MEASUS=.
+extern volatile uint32_t measure_last_us;
+
 #define REID_STREAM_BINARY_V2_MAGIC 0x5353u
 #define REID_STREAM_BINARY_V2_VERSION 2u
 #define REID_STREAM_BINARY_V2_FRAME_SENSOR_ROWS 1u

@@ -45,6 +45,7 @@
 #define MSG_COMMAND_KEEPAWAKE				'K' // sets bench keep-awake mode with payload 0 or 1
 #define MSG_COMMAND_SETTIME					'T' // sets time in seconds as a uint32_t e.g. as an epoch
 #define MSG_COMMAND_SESSION_ACTIVE			'X' // sets explicit session active mode with payload 0 or 1
+#define MSG_COMMAND_SET_RATE				'F' // sets the stream sample rate in Hz at runtime, e.g. ";CF 20" (NB 'R' is reboot)
 #define MSG_COMMAND_RECORD_SYNCED			'S' // marks the record with the indicated index (if it exists) with the "synced" byte.
 #define MSG_COMMAND_RECORD_SYNCED_MULTIPLE	'M' // marks all records within the given indices
 

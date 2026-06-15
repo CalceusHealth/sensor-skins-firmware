@@ -17,6 +17,7 @@
 extern volatile reid_ble_packet_t ble_data;
 extern volatile reid_ble_summary_packet_t summary_data;
 extern volatile uint8_t battery_query_pause;
+extern volatile uint16_t main_loop_period_ms;
 extern volatile uint8_t bench_keepawake;
 extern volatile uint8_t session_active;
 extern volatile uint64_t last_ble_activity_ms;

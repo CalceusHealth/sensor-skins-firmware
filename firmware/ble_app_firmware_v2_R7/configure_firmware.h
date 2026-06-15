@@ -17,7 +17,7 @@
 // identical to the old hand-written hex (0x00020028 == 2.0.40, 0x00020027 == 2.0.39).
 #define DEVICE_FW_VERSION_MAJOR	2
 #define DEVICE_FW_VERSION_MINOR	0
-#define DEVICE_FW_VERSION_PATCH	43
+#define DEVICE_FW_VERSION_PATCH	45
 #define DEVICE_FW_VERSION	((DEVICE_FW_VERSION_MAJOR << 16) | (DEVICE_FW_VERSION_MINOR << 8) | DEVICE_FW_VERSION_PATCH)
 
 #define FSR_ADC_GAIN NRF_SAADC_GAIN1_2
@@ -39,8 +39,13 @@
 //	#define ENABLE_FLASH_SUMMARY	// legacy 5-min summary-to-flash; OFF for stream/nostream (raw-NVMC write drops BLE every ~343s). Enabled only for the `summary` build variant.
 	#define STREAM_PROTOCOL_BINARY_V2	// SEN-53: binary stream migration (>8Hz). ASCII_V1 above disabled (exactly one allowed).
 
-#define MAIN_LOOP_TIME_MS	125
+#define MAIN_LOOP_TIME_MS	125		// default loop period (8Hz); runtime value lives in main_loop_period_ms, settable via ;CF <hz>
 #define STREAM_BINARY_V2_MAX_LATENCY_MS (2 * MAIN_LOOP_TIME_MS)
+// Bounds for the runtime ;CF <hz> sample-rate command (SEN-57). Requesting above
+// the real ceiling just makes the loop run measurement-bound; the achieved rate
+// (device_time_ms deltas) then reveals the ceiling.
+#define MIN_STREAM_RATE_HZ	1
+#define MAX_STREAM_RATE_HZ	200
 
 #if defined(STREAM_PROTOCOL_ASCII_V1) && defined(STREAM_PROTOCOL_BINARY_V2)
 #error Only one stream protocol may be enabled

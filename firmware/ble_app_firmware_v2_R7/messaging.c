@@ -13,6 +13,7 @@
 #include "system.h"
 #include "battery.h"
 #include "adc.h"
+#include "measure.h"
 #include <stdio.h>
 
 typedef enum msg_rx_state_t
@@ -123,13 +124,15 @@ void msg_process_packet(void)
 						msg_tx_buffer_end += snprintf(
 							(uint8_t*)msg_tx_buffer+msg_tx_buffer_end,
 							MSG_TX_BUFFER_SIZE-msg_tx_buffer_end,
-							"UID=%08X%08X,VER=%u.%u.%u,STREAM=%s",
+							"UID=%08X%08X,VER=%u.%u.%u,STREAM=%s,LOOPMS=%u,MEASUS=%u",
 							(unsigned int)(flash_sysdata.device_id >> 32),
 							(unsigned int)(flash_sysdata.device_id & 0xFFFFFFFFu),
 							(unsigned int)((flash_sysdata.device_version >> 16) & 0xFF),
 							(unsigned int)((flash_sysdata.device_version >> 8) & 0xFF),
 							(unsigned int)(flash_sysdata.device_version & 0xFF),
-							stream_capability
+							stream_capability,
+							(unsigned int)main_loop_period_ms,
+							(unsigned int)measure_last_us
 						);
 					msg_add_endline();
 					ble_reid_tx((uint8_t*) msg_tx_buffer, msg_tx_buffer_end);
@@ -427,6 +430,22 @@ void msg_process_packet(void)
 					break;
 				}
 
+				case MSG_COMMAND_SET_RATE:
+				{
+					uint32_t hz = 0;
+					msg_rx_buffer[msg_rx_buffer_end] = 0;
+					msg_rx_buffer[MSG_RX_BUFFER_SIZE-1] = 0;
+					if (sscanf((uint8_t*)msg_rx_buffer,"%u",&hz)<1) {
+						msg_tx_error(MSG_ERROR_BAD_COMMAND);
+						break;
+					}
+					if (hz < MIN_STREAM_RATE_HZ) hz = MIN_STREAM_RATE_HZ;
+					if (hz > MAX_STREAM_RATE_HZ) hz = MAX_STREAM_RATE_HZ;
+					main_loop_period_ms = (uint16_t)(1000u / hz);
+					msg_tx_ack(MSG_COMMAND_SET_RATE);
+					break;
+				}
+
 				default:
 				{
 					msg_tx_error(MSG_ERROR_BAD_COMMAND);
@@ -521,6 +540,7 @@ void msg_rx_next_byte(uint8_t rx_byte)
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_COMMAND_SETTIME))			{msg_rx_type = MSG_COMMAND_SETTIME;			msg_rx_state = RX_STATE_PAYLOAD;	msg_rx_buffer_end = 0;}
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_COMMAND_RECORD_SYNCED))			{msg_rx_type = MSG_COMMAND_RECORD_SYNCED;			msg_rx_state = RX_STATE_PAYLOAD; msg_rx_buffer_end = 0;}
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_COMMAND_RECORD_SYNCED_MULTIPLE))	{msg_rx_type = MSG_COMMAND_RECORD_SYNCED_MULTIPLE;	msg_rx_state = RX_STATE_PAYLOAD; msg_rx_buffer_end = 0;}
+				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_COMMAND_SET_RATE))			{msg_rx_type = MSG_COMMAND_SET_RATE;		msg_rx_state = RX_STATE_PAYLOAD;	msg_rx_buffer_end = 0;}
 				else																{msg_tx_error(MSG_ERROR_BAD_COMMAND);msg_rx_resync();}
 			}
 			else

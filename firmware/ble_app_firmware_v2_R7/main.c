@@ -53,6 +53,9 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 volatile reid_ble_packet_t ble_data = {0};
 volatile reid_ble_summary_packet_t summary_data = {0};
 volatile uint8_t battery_query_pause = 0;
+// Runtime main-loop period (ms) = stream sample rate. Default from the compile
+// constant; settable live via the ;CF <hz> command (SEN-57).
+volatile uint16_t main_loop_period_ms = MAIN_LOOP_TIME_MS;
 volatile uint8_t bench_keepawake = 0;
 volatile uint8_t session_active = 0;
 volatile uint64_t last_ble_activity_ms = 0;
@@ -447,7 +450,7 @@ int main(void)
 
 	while (1)
 	{
-		while (system_time_ms() < (timer + MAIN_LOOP_TIME_MS)) system_sleep();
+		while (system_time_ms() < (timer + main_loop_period_ms)) system_sleep();
         timer = system_time_ms();
 
 		if (battery_query_pause) {

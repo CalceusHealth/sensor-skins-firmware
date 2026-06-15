@@ -17,6 +17,9 @@
 #include "system.h"
 #include "nrf_log.h"
 
+// Last measure_sensors() duration in microseconds (DWT). Read by ;QI (MEASUS=).
+volatile uint32_t measure_last_us = 0;
+
 #define AVERAGE_SIZE	5
 
 static inline int32_t find_average(int32_t* data) {
@@ -433,16 +436,17 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 
 	adc_deinit();
 
-#ifdef ENABLE_DEBUG
-	// Per-frame measurement cost in us (DWT). ~1-in-N frames also includes the
+	// Per-frame measurement cost in us (DWT), stored every frame so ;QI can
+	// report it (MEASUS=) without RTT -- the binding-constraint input for the
+	// binary-stream rate ceiling (SEN-53/58). ~1-in-N frames also includes the
 	// VBAT_SAMPLE_PERIOD_MS vbat read above, so expect periodic higher samples.
-	// This is the binding-constraint input for the binary-stream rate ceiling.
+	measure_last_us = (system_cycles() - meas_t0) / SYSTEM_CYCLES_PER_US;
+#ifdef ENABLE_DEBUG
 	{
 		static uint16_t meas_log_div = 0;
-		uint32_t meas_us = (system_cycles() - meas_t0) / SYSTEM_CYCLES_PER_US;
 		if (++meas_log_div >= 40) {
 			meas_log_div = 0;
-			NRF_LOG_INFO("measure_sensors: %u us", (unsigned)meas_us);
+			NRF_LOG_INFO("measure_sensors: %u us", (unsigned)measure_last_us);
 		}
 	}
 #endif
