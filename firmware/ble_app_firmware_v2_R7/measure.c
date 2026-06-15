@@ -105,15 +105,14 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
     nrf_gpio_pin_clear(PIN_CAP_S2);
 	
 	nrf_gpio_pin_clear(PIN_MUX_ON);
-	adc_read_bank1(); // clear the ADC
-	adc_read_bank2(); // clear the ADC
-	adc_read_bank3(); // clear the ADC
-	adc_init();
+	// SEN-58 step 1: the SAADC is initialised once at startup (main_init) and
+	// left running -- no per-frame adc_init()/adc_deinit() teardown. (The old
+	// pre-init "clear the ADC" bank reads were no-ops on the torn-down driver.)
 	data->time_ms = system_time_ms();
 	data->vdd_mv = adc_read_vdd_mv();
 
 	// Sample vbat in-sequence on a slow, frame-rate-independent cadence. The
-	// SAADC is idle here (we just ran adc_init() + the vdd read), so this read
+	// SAADC is idle here (inited once at startup, just after the vdd read), so this read
 	// always succeeds -- no busy/0 path, no forced-fresh teardown. Gating on
 	// elapsed time (not frame count) keeps it at one read per VBAT_SAMPLE_PERIOD_MS
 	// regardless of stream rate, so high-rate streaming never pays for it and the
@@ -434,7 +433,9 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	if (data->fsr18 > FSR_MIN) data->fsr18 -=FSR_MIN; else data->fsr18 = 0;
 	if (data->fsr19 > FSR_MIN) data->fsr19 -=FSR_MIN; else data->fsr19 = 0;
 
-	adc_deinit();
+	// SEN-58 step 1: no per-frame adc_deinit() -- SAADC stays initialised
+	// (analog auto-powers only during sampling, so idle draw is negligible;
+	// flagged for the SEN-49 sleep-current audit to confirm).
 
 	// Per-frame measurement cost in us (DWT), stored every frame so ;QI can
 	// report it (MEASUS=) without RTT -- the binding-constraint input for the
