@@ -19,6 +19,9 @@
 
 // Last measure_sensors() duration in microseconds (DWT). Read by ;QI (MEASUS=).
 volatile uint32_t measure_last_us = 0;
+// Last CAP-section duration in us (DWT). Read by ;QI (CAPUS=) to split the
+// per-frame budget (caps are the dominant cost after the bank scan -- SEN-58).
+volatile uint32_t measure_cap_us = 0;
 
 #define AVERAGE_SIZE	5
 
@@ -290,6 +293,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	
 	
 	adc_banks_end(); // SEN-58: release scan channels before the CAP reads
+	uint32_t cap_t0 = system_cycles(); // SEN-58: profile the CAP-section cost
 
 	// SET 0/8
 	nrf_gpio_pin_clear(PIN_CAP_S0);
@@ -417,6 +421,7 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	nrf_gpio_pin_clear(PIN_CAP_S1);
     nrf_gpio_pin_clear(PIN_CAP_S2);
 	nrf_gpio_pin_set(PIN_MUX_ON);
+	measure_cap_us = (system_cycles() - cap_t0) / SYSTEM_CYCLES_PER_US; // SEN-58 CAP-section cost
 
 
 	if (data->fsr1  > FSR_MIN) data->fsr1  -=FSR_MIN; else data->fsr1  = 0;
