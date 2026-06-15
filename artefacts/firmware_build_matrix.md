@@ -47,7 +47,8 @@ Use it to track:
 ## Current status
 
 - **Flashed to orthotics: `v00020024` (stream / `ASCII_V1_TS`)** — the streaming build is what's currently on the devices. Adds watchdog recovery + BLE sleep "lifeline" advertising (commit `45a3f6e`). The matching `nostream` v00020024 build is also packaged but is not the flashed variant.
-- **Latest build: `v2.0.45` (stream + nostream / `BINARY_V2`)** — runtime `;CF <hz>` rate command (SEN-57) + `;QI LOOPMS/MEASUS` instrumentation. Bench baseline (RHS): MEASUS ≈ 38.7 ms → ~25.8 Hz measurement-bound ceiling; `;CF` confirmed (LOOPMS 125→33, persists until reboot). Built on `35467f4` (`tim`). Next: SEN-58 SAADC efficiency rework to drop MEASUS.
+- **Latest build: `v2.0.46` (stream + nostream / `BINARY_V2`)** — SEN-58 step 1: SAADC inited once at startup, no per-frame `adc_init()`/`adc_deinit()`. **Measured MEASUS 38.7 ms → 10.9 ms (~3.5×)** — the per-frame teardown was the dominant cost. CF-30 median frame 40→35 ms (no longer measurement-floored). Built on `c596faf` (`tim`). Next: SEN-58 step 2 (single EasyDMA bank scan) + step 5 (non-blocking temp).
+- **Superseded: `v2.0.45` (BINARY_V2)** — `;CF` + `;QI LOOPMS/MEASUS` (baseline harness, MEASUS 38.7 ms). Rolled into `v2.0.46`.
 - **Superseded: `v2.0.43`/`v2.0.44` (BINARY_V2)** — first binary build (SEN-53) and the `;CF` command (SEN-57); rolled into `v2.0.45`.
 - **Deployed for field test: `v2.0.42` (ASCII_V1_TS)** — SEN-48 deterministic vbat acquisition (in-sequence read, decoupled ~5 s cadence, `VBAT_AVERAGE_N` 10→6); kills the v2.0.40 `_fresh`-fallback no-op that froze the average under ADC contention. Flashed to the two field units now being drained in-shoe to validate the 3250 mV protection. ASCII; folded into `f7b9ee6` (rebuild needs `STREAM_PROTOCOL_BINARY_V2` disabled).
 - **`v2.0.41` (ASCII_V1_TS)** — monotonic charge-curve clamp in `battery_pack_charge()` (reported % holds/climbs across a charge session instead of cratering on plug-in). Reporting-only. ASCII; folded into `f7b9ee6`.
@@ -68,7 +69,8 @@ Newest first. "flashed" = on the orthotics now; "built" = packaged but not flash
 
 | version | state | changes | commit |
 |---|---|---|---|
-| `v2.0.45` | **built — latest (stream + nostream, BINARY_V2)** | `;QI` now reports `,LOOPMS=<ms>,MEASUS=<us>` — active loop period (confirms `;CF`) + last `measure_sensors()` cost (the measurement floor), readable without RTT; `measure_last_us` stored each frame. Desktop parses/prints them. | `35467f4` (`tim`) |
+| `v2.0.46` | **built — latest (stream + nostream, BINARY_V2)** | SEN-58 step 1: SAADC inited once (main_init); removed per-frame `adc_init()`/`adc_deinit()` + 3 pre-init no-op "clear" reads from `measure_sensors()`. **MEASUS 38.7 ms → 10.9 ms** measured on RHS; CF-30 median frame 40→35 ms. No wire/format change. | `c596faf` (`tim`) |
+| `v2.0.45` | superseded by `v2.0.46` | `;QI` now reports `,LOOPMS=<ms>,MEASUS=<us>` — active loop period (confirms `;CF`) + last `measure_sensors()` cost (the measurement floor), readable without RTT; `measure_last_us` stored each frame. Desktop parses/prints them. | `35467f4` (`tim`) |
 | `v2.0.44` | superseded by `v2.0.45` | SEN-57: runtime `;CF <hz>` command — `main_loop_period_ms` becomes a live variable (default `MAIN_LOOP_TIME_MS`), clamped 1..200 Hz, wired into the RX parser + handler. Foundation for the in-app rate sweep / user "modes". Folded into `35467f4`. | `35467f4` (`tim`) |
 | `v2.0.43` | superseded by `v2.0.45` | SEN-53: enable `STREAM_PROTOCOL_BINARY_V2` (ASCII_V1 off) as the default stream protocol for the >8 Hz migration. Add DWT µs profiling (`system_cycle_counter_init`/`system_cycles` in system.c) + a periodic `NRF_LOG_INFO("measure_sensors: %u us")` (every 40 frames) to find the per-frame measurement ceiling. Frame format unchanged (16 B header + 74 B rows, `measure.h`). Desktop decoder added in `sensor_gui/controllers/ble_controller.py`. | `f7b9ee6` (`tim`) |
 | `v2.0.42` | **deployed for field test (ASCII_V1_TS)** | SEN-48: deterministic vbat acquisition. vbat read in-sequence in `measure_sensors()` (SAADC guaranteed idle) on a ~5 s time gate (`VBAT_SAMPLE_PERIOD_MS`), decoupled from frame rate; `battery_update()` split into `battery_submit_raw()` (averaging) + read-and-submit for sleep/QB; removed the awake per-8-frame ADC read in main.c; `VBAT_AVERAGE_N` 10→6 (~30 s window, trips the 3250 mV floor within ~1 min). Removes the v2.0.40 `_fresh`-fallback no-op that froze the average under ADC contention. ASCII; source folded into `f7b9ee6` (rebuild needs `STREAM_PROTOCOL_BINARY_V2` off). | `f7b9ee6` (`tim`) |
@@ -87,10 +89,14 @@ These are the builds that should be considered current and reproducible.
 
 | status | version | side | stream | sleep | protocol | sample_rate | fsr_gain | `QI` `STREAM=` | package | sha256 | git_commit |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| built — latest | `v2.0.45` | `lhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_lhs_v2.0.45_sensorskins.zip` | `47d4f4958ebce078ae2314d4625007510bcaf41adcb0816dd120e2f01d43a545` | `35467f4` |
-| built — latest | `v2.0.45` | `rhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_rhs_v2.0.45_sensorskins.zip` | `a1ea802750abc99e1e8b538ea6ca834330b36e73a823d867cf73a435f98b31cb` | `35467f4` |
-| built — latest | `v2.0.45` | `lhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.45_sensorskins.zip` | `1a5b12223f43dcbc1a605840633f85d6225267c811d07816adf7912a5a90900e` | `35467f4` |
-| built — latest | `v2.0.45` | `rhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.45_sensorskins.zip` | `c19a7809e3a4e9b82e2e63ce3efe20224b1d0d3371f50ee9fd4b5aabcad0b93f` | `35467f4` |
+| built — latest | `v2.0.46` | `lhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz`* | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_lhs_v2.0.46_sensorskins.zip` | `4389b356c7384151114186bd503e71138a0d2b84d8601fcf56f7c21aad5b6327` | `c596faf` |
+| built — latest | `v2.0.46` | `rhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz`* | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_rhs_v2.0.46_sensorskins.zip` | `26a3c2499705f23f003fe3550bf4098d2b043f4bcd41437dd03512e4ec74f227` | `c596faf` |
+| built — latest | `v2.0.46` | `lhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz`* | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.46_sensorskins.zip` | `433038bc86de6fec3bc8c68303684b03a3425547498fc970d993a8847c82b86c` | `c596faf` |
+| built — latest | `v2.0.46` | `rhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz`* | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.46_sensorskins.zip` | `8d485e4c747a4083d1f593768e9b5e5a02c0fcc9871183dfa18c90f6cc487327` | `c596faf` |
+| superseded by `v2.0.46` | `v2.0.45` | `lhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_lhs_v2.0.45_sensorskins.zip` | `47d4f4958ebce078ae2314d4625007510bcaf41adcb0816dd120e2f01d43a545` | `35467f4` |
+| superseded by `v2.0.46` | `v2.0.45` | `rhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_rhs_v2.0.45_sensorskins.zip` | `a1ea802750abc99e1e8b538ea6ca834330b36e73a823d867cf73a435f98b31cb` | `35467f4` |
+| superseded by `v2.0.46` | `v2.0.45` | `lhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.45_sensorskins.zip` | `1a5b12223f43dcbc1a605840633f85d6225267c811d07816adf7912a5a90900e` | `35467f4` |
+| superseded by `v2.0.46` | `v2.0.45` | `rhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.45_sensorskins.zip` | `c19a7809e3a4e9b82e2e63ce3efe20224b1d0d3371f50ee9fd4b5aabcad0b93f` | `35467f4` |
 | superseded by `v2.0.45` | `v2.0.43` | `lhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_lhs_v2.0.43_sensorskins.zip` | `b36f174c8ba554ca8bc3c0eb6a88b4e949bbae35c2360e47ba47cc136cabce6b` | `f7b9ee6` |
 | superseded by `v2.0.45` | `v2.0.43` | `rhs` | `stream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_rhs_v2.0.43_sensorskins.zip` | `b5b6f176b21d1a1028dd680457423c848c600256fd745f459ebc3183e2756018` | `f7b9ee6` |
 | superseded by `v2.0.45` | `v2.0.43` | `lhs` | `nostream` | `sleep` | `BINARY_V2` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.43_sensorskins.zip` | `0d4ef315675dca3b84470e6a3ba15577b260d9a5ffc4d7a47d057758e192771c` | `f7b9ee6` |
@@ -107,6 +113,8 @@ These are the builds that should be considered current and reproducible.
 | superseded by `v2.0.42` | `v2.0.40` | `rhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_rhs_v2.0.40_sensorskins.zip` | `e7a2f0db59ded1d0b9e84e9c9a5a221e36f010d9ed45046d68d55d5b4b5c0464` | `44e3ace` |
 | superseded by `v2.0.42` | `v2.0.40` | `lhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_lhs_v2.0.40_sensorskins.zip` | `01a635ab6f29e001387335892934778c55114344f3272a793d6310ae69354a36` | `44e3ace` |
 | superseded by `v2.0.42` | `v2.0.40` | `rhs` | `nostream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | none | `artefacts/out/nostream_sleep_rhs_v2.0.40_sensorskins.zip` | `a052f11359383bee1eef0b230fd47ae3d2b3a34a5371ba003a0cc220fa7befcd` | `44e3ace` |
+
+`*` `8Hz` is the default; from `v2.0.44` the rate is runtime-settable via `;CF <hz>` (SEN-57), 1–200 Hz, measurement-bound ceiling per SEN-58.
 
 † `v2.0.41`/`v2.0.42` are ASCII intermediate builds whose source is folded into `f7b9ee6` (which builds `BINARY_V2` by default). To reproduce them, build `f7b9ee6` with `STREAM_PROTOCOL_BINARY_V2` disabled and `STREAM_PROTOCOL_ASCII_V1` enabled, at the matching `DEVICE_FW_VERSION_PATCH`. Only `v2.0.43` is reproducible from `f7b9ee6` as-is.
 | superseded by `v2.0.40` | `v00020026` | `lhs` | `stream` | `sleep` | `ASCII_V1_TS` | `8Hz` | `GAIN1_2` | `ASCII_V1_TS` | `artefacts/out/stream_sleep_lhs_v00020026_sensorskins.zip` | `9ddf67d03c56ae3f2e210248b8017caaf1cc84da2716463422103f34eb8ddce3` | `dfb7ac0` |
@@ -143,7 +151,8 @@ flashed to orthotics yet.
 
 These packages currently exist in `artefacts/out/`:
 
-- `stream_sleep_{lhs,rhs}_v2.0.45_sensorskins.zip` + `nostream_*` (BINARY_V2; `;CF`+`;QI` instrumentation — latest)
+- `stream_sleep_{lhs,rhs}_v2.0.46_sensorskins.zip` + `nostream_*` (BINARY_V2; SEN-58 step 1, MEASUS ~10.9ms — latest)
+- `stream_sleep_{lhs,rhs}_v2.0.45_sensorskins.zip` + `nostream_*` (BINARY_V2; `;CF`+`;QI` instrumentation)
 - `stream_sleep_{lhs,rhs}_v2.0.44_sensorskins.zip` + `nostream_*` (BINARY_V2; `;CF` command, folded into 35467f4)
 - `stream_sleep_lhs_v2.0.43_sensorskins.zip` (BINARY_V2)
 - `stream_sleep_rhs_v2.0.43_sensorskins.zip` (BINARY_V2)
