@@ -44,6 +44,7 @@ static uint8_t sensor_activity_detected(const reid_ble_packet_t* current, const 
 static void flush_summary_if_pending(int32_t* summary_counter);
 static void stream_reset_pending(void);
 static void stream_send_measurement(const reid_ble_packet_t* data);
+static void stream_send_temp(const reid_ble_packet_t* data);
 static void stream_flush_pending(uint8_t force);
 static void update_charging_state_history(void);
 static uint8_t battery_sleep_protection_required(void);
@@ -288,12 +289,6 @@ static void stream_send_measurement(const reid_ble_packet_t* data)
 	row->fsr[17] = data->fsr18 * 4;
 	row->fsr[18] = data->fsr19 * 4;
 
-	row->temp[0] = data->temp1;
-	row->temp[1] = data->temp2;
-	row->temp[2] = data->temp3;
-	row->temp[3] = data->temp4;
-	row->temp[4] = data->temp5;
-
 	row->cap[0] = data->cap1s * 3;
 	row->cap[1] = data->cap1n * 3;
 	row->cap[2] = data->cap2s * 3;
@@ -306,6 +301,14 @@ static void stream_send_measurement(const reid_ble_packet_t* data)
 	row->cap[9] = data->cap5n * 3;
 	row->cap[10] = data->cap6s * 3;
 	row->cap[11] = data->cap6n * 3;
+
+	// SEN-68 (v3): IMU accel/gyro, refreshed by lsm6dsm_update() in measure_sensors.
+	row->acc[0] = lsm6dsm_read_ax();
+	row->acc[1] = lsm6dsm_read_ay();
+	row->acc[2] = lsm6dsm_read_az();
+	row->gyro[0] = lsm6dsm_read_gx();
+	row->gyro[1] = lsm6dsm_read_gy();
+	row->gyro[2] = lsm6dsm_read_gz();
 
 	stream_binary_v2_state.row_time_ms[stream_binary_v2_state.row_count] = data->time_ms;
 	++stream_binary_v2_state.row_count;
@@ -346,7 +349,7 @@ static void stream_flush_pending(uint8_t force)
 		.magic = REID_STREAM_BINARY_V2_MAGIC,
 		.version = REID_STREAM_BINARY_V2_VERSION,
 		.frame_type = REID_STREAM_BINARY_V2_FRAME_SENSOR_ROWS,
-		.flags = REID_STREAM_BINARY_V2_FLAG_FSR_X4 | REID_STREAM_BINARY_V2_FLAG_CAP_X3,
+		.flags = REID_STREAM_BINARY_V2_FLAG_FSR_X4 | REID_STREAM_BINARY_V2_FLAG_CAP_X3 | REID_STREAM_BINARY_V2_FLAG_IMU,
 		.row_count = rows_to_send,
 		.sequence = stream_binary_v2_state.sequence++,
 		.base_time_ms = first_time_ms,
@@ -370,6 +373,35 @@ static void stream_flush_pending(uint8_t force)
 	}
 #else
 	(void) force;
+#endif
+}
+
+// SEN-68 (v3): temp moved out of the sensor row into its own low-rate frame
+// (frame_type 2). Sent ~1 Hz; temp only changes every 60 s/sensor so this is
+// cheap (26 B) and keeps the sensor row at 76 B / 3-per-frame. Non-blocking TX.
+static void stream_send_temp(const reid_ble_packet_t* data)
+{
+#ifdef STREAM_PROTOCOL_BINARY_V2
+	if (!ble_is_connected()) return;
+	static uint16_t temp_sequence = 0;
+	uint8_t buf[sizeof(reid_ble_stream_frame_v2_header_t) + sizeof(reid_ble_stream_temp_v3_t)] = {0};
+	reid_ble_stream_frame_v2_header_t header = {
+		.magic = REID_STREAM_BINARY_V2_MAGIC,
+		.version = REID_STREAM_BINARY_V2_VERSION,
+		.frame_type = REID_STREAM_BINARY_V2_FRAME_TEMP,
+		.flags = 0,
+		.row_count = 1,
+		.sequence = temp_sequence++,
+		.base_time_ms = data->time_ms,
+	};
+	reid_ble_stream_temp_v3_t temp = {
+		.temp = { data->temp1, data->temp2, data->temp3, data->temp4, data->temp5 },
+	};
+	memcpy(buf, &header, sizeof(header));
+	memcpy(buf + sizeof(header), &temp, sizeof(temp));
+	ble_reid_tx_stream(buf, sizeof(buf));
+#else
+	(void) data;
 #endif
 }
 
@@ -562,6 +594,12 @@ int main(void)
 		#ifdef SEND_EVERY_MEAS_OVER_BLE
 		#if defined(STREAM_PROTOCOL_ASCII_V1) || defined(STREAM_PROTOCOL_BINARY_V2)
 		stream_send_measurement((reid_ble_packet_t*) &ble_data);
+		// SEN-68 (v3): emit the low-rate temp frame ~1 Hz (temp is no longer in the row).
+		static uint64_t last_temp_frame_ms = 0;
+		if ((last_temp_frame_ms == 0) || (ble_data.time_ms - last_temp_frame_ms >= 1000)) {
+			last_temp_frame_ms = ble_data.time_ms;
+			stream_send_temp((reid_ble_packet_t*) &ble_data);
+		}
 		#else
 		static uint8_t ble_message[150] = {0};
 		ble_message[0] = ';';

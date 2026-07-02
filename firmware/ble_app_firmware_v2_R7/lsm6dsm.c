@@ -28,8 +28,11 @@ void lsm6dsm_init(void)
 	// FIFO_MODE = 000 (bypass)
 	uint8_t data[12];
 	data[0] = LSM6DSM_ADDRESS_CTRL1_XL;
-	data[1] = 0b00110100; // ACC: 208 Hz, 16g full scale, no BW filter; first 4 bits: 0010 = 26, 11=52,100=104,101=208
-	data[2] = 0b00111100; // GYRO: 208 Hz, 2000dps full scale, no BW filter
+	// ODR field [7:4]: 0011=52, 0100=104, 0101=208 Hz. SEN-68: was 0011 (52 Hz) --
+	// too slow for a 100 Hz read (samples repeat). Set 0101 = 208 Hz so each 10 ms
+	// stream read gets a fresh sample (~4.8 ms sample period). FS unchanged.
+	data[1] = 0b01010100; // ACC: 208 Hz, 16g full scale, no BW filter
+	data[2] = 0b01011100; // GYRO: 208 Hz, 2000dps full scale, no BW filter
 	data[3] = 0b01000100; // no resets, buffer values, autoinc r/w, LSB in lower address
 	// data[3] = 0b10000001; // does reset of memory and software
 	data[4] = 0b00000000;

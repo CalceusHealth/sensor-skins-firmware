@@ -15,6 +15,7 @@
 #include "flash.h"
 #include "battery.h"
 #include "system.h"
+#include "lsm6dsm.h"
 #include "nrf_log.h"
 
 // Last measure_sensors() duration in microseconds (DWT). Read by ;QI (MEASUS=).
@@ -161,8 +162,13 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 		}
 	}
 	
+	// SEN-68: refresh the IMU every frame (I2C burst ~0.5 ms). The buffered
+	// accel/gyro are read straight into the stream row by stream_send_measurement.
+	// At 208 Hz ODR each 10 ms read gets a fresh sample.
+	lsm6dsm_update();
+
 	if (++average_counter >= AVERAGE_SIZE) average_counter = 0;
-	
+
 	adc_banks_begin(); // SEN-58: read the 3 FSR banks via one EasyDMA scan per mux step
 
 	// SET 0/8/16

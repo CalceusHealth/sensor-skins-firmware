@@ -19,10 +19,16 @@ extern volatile uint32_t measure_last_us;
 extern volatile uint32_t measure_cap_us;
 
 #define REID_STREAM_BINARY_V2_MAGIC 0x5353u
-#define REID_STREAM_BINARY_V2_VERSION 2u
+// SEN-68: bumped 2 -> 3. Row layout changed: temp[5] moved OUT of the per-row
+// payload into its own low-rate frame (frame_type 2), and IMU acc[3]+gyro[3]
+// (int16) appended. Net row 74 -> 76 B, so 3 rows/frame still fit at MTU 247.
+// Hosts must branch on this version byte (v2 = 74 B temp-in-row, no IMU).
+#define REID_STREAM_BINARY_V2_VERSION 3u
 #define REID_STREAM_BINARY_V2_FRAME_SENSOR_ROWS 1u
+#define REID_STREAM_BINARY_V2_FRAME_TEMP 2u   // SEN-68: low-rate temp frame (temp[5])
 #define REID_STREAM_BINARY_V2_FLAG_FSR_X4 0x01u
 #define REID_STREAM_BINARY_V2_FLAG_CAP_X3 0x02u
+#define REID_STREAM_BINARY_V2_FLAG_IMU 0x04u  // SEN-68: rows carry acc[3]+gyro[3]
 
 #pragma pack(push,1)
 typedef struct reid_ble_packet_t {
@@ -79,13 +85,24 @@ typedef struct reid_ble_stream_frame_v2_header_t {
 } reid_ble_stream_frame_v2_header_t;
 #pragma pack(pop)
 
+// SEN-68 (v3): 76 B. temp[5] removed (now its own frame_type 2); IMU appended.
+// Layout: delta_time(2) + fsr[19](38) + cap[12](24) + acc[3](6) + gyro[3](6).
 #pragma pack(push,1)
 typedef struct reid_ble_stream_row_v2_t {
 	uint16_t delta_time_ms;
 	uint16_t fsr[19];
-	int16_t temp[5];
 	uint16_t cap[12];
+	int16_t acc[3];   // IMU accel x,y,z (raw LSB, +/-16g = 2048 LSB/g)
+	int16_t gyro[3];  // IMU gyro  x,y,z (raw LSB, +/-2000dps = 16.4 LSB/dps)
 } reid_ble_stream_row_v2_t;
+#pragma pack(pop)
+
+// SEN-68 (v3): low-rate temp payload, sent as frame_type 2 (~1 Hz). Same 16 B
+// header, row_count=1, then this struct.
+#pragma pack(push,1)
+typedef struct reid_ble_stream_temp_v3_t {
+	int16_t temp[5];
+} reid_ble_stream_temp_v3_t;
 #pragma pack(pop)
 
 #pragma pack(push,1)
