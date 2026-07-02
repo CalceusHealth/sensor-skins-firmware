@@ -3,7 +3,7 @@ QT for device time. ;RT 479
 QP for pending record index range. ;RP 4294967295,0
 QA for all stored record index range. ;RA 0,0
 
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_*_v2.0.53_sensorskins.zip /sdcard/Download/
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_*_v2.0.54_sensorskins.zip /sdcard/Download/
 
 adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_*_v2.0.53_sensorskins.zip /sdcard/Download/
 
