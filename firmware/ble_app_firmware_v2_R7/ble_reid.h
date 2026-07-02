@@ -43,6 +43,7 @@ void ble_reid_enter_lifeline(void);
 void ble_advertise_again(void);
 
 void ble_reid_tx(uint8_t* data, uint16_t length);
+void ble_reid_tx_stream(uint8_t* data, uint16_t length); // SEN-59: non-blocking, for the high-rate stream flush
 uint16_t ble_reid_max_tx_len(void);
 uint8_t ble_is_connected(void);
 

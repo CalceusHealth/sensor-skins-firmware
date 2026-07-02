@@ -16,9 +16,14 @@
 #define NUS_SERVICE_UUID_TYPE           BLE_UUID_TYPE_VENDOR_BEGIN                  /**< UUID type for the Nordic UART Service (vendor specific). */
 #define APP_BLE_OBSERVER_PRIO           3                                           /**< Application's BLE observer priority. You shouldn't need to modify this value. */
 #define APP_ADV_DURATION                18000                                       /**< The advertising duration (3 minutes) in units of 10 milliseconds. */
-#define MIN_CONN_INTERVAL               MSEC_TO_UNITS(10, UNIT_1_25_MS)             /**< Minimum acceptable connection interval (20 ms), Connection interval uses 1.25 ms units. */
-#define MAX_CONN_INTERVAL               MSEC_TO_UNITS(20, UNIT_1_25_MS)             /**< Maximum acceptable connection interval (75 ms), Connection interval uses 1.25 ms units. */
-#define SLAVE_LATENCY                   1                                           /**< Slave latency. */
+// SEN-59: tightened for high-rate streaming. At 100 Hz / 3-rows-per-frame we
+// emit ~33 notifications/s; a long connection interval caps notifications/event
+// and forces the TX path to stall the measurement loop. Ask for the fastest the
+// phone will grant (Android honours 7.5 ms; iOS floors at 15 ms) and drop slave
+// latency to 0 so the peripheral never skips a connection event while streaming.
+#define MIN_CONN_INTERVAL               MSEC_TO_UNITS(7.5, UNIT_1_25_MS)            /**< Minimum acceptable connection interval (7.5 ms). */
+#define MAX_CONN_INTERVAL               MSEC_TO_UNITS(15, UNIT_1_25_MS)             /**< Maximum acceptable connection interval (15 ms). */
+#define SLAVE_LATENCY                   0                                           /**< Slave latency (0 for streaming throughput). */
 #define CONN_SUP_TIMEOUT                MSEC_TO_UNITS(4000, UNIT_10_MS)             /**< Connection supervisory timeout (4 seconds), Supervision Timeout uses 10 ms units. */
 #define FIRST_CONN_PARAMS_UPDATE_DELAY  APP_TIMER_TICKS(5000)                       /**< Time from initiating event (connect or start of notification) to first time sd_ble_gap_conn_param_update is called (5 seconds). */
 #define NEXT_CONN_PARAMS_UPDATE_DELAY   APP_TIMER_TICKS(30000)                      /**< Time between each call to sd_ble_gap_conn_param_update after the first call (30 seconds). */
@@ -259,6 +264,19 @@ void ble_reid_tx(uint8_t* data, uint16_t length)
 	#else // #ifdef WAIT_FOR_TX_OF_EVERY_PACKET
 	} while (0);
 	#endif // #ifdef WAIT_FOR_TX_OF_EVERY_PACKET
+}
+
+// SEN-59: non-blocking TX for the high-rate stream. Unlike ble_reid_tx() (which
+// busy-waits on NRF_ERROR_RESOURCES for bulk query/record responses), this
+// enqueues once and returns. If the SoftDevice TX queue is momentarily full we
+// drop this frame rather than stall the 10 ms measurement loop -- a stalled loop
+// produces rows late and is itself the cause of the 20 ms device-clock gaps seen
+// at 100 Hz. With the tightened connection interval the queue rarely fills.
+void ble_reid_tx_stream(uint8_t* data, uint16_t length)
+{
+	if (ble_is_connected()==0) return;
+	uint16_t len = length;
+	(void) ble_nus_data_send(&m_nus, data, &len, m_conn_handle);
 }
 
 uint16_t ble_reid_max_tx_len(void)

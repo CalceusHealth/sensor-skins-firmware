@@ -358,7 +358,7 @@ static void stream_flush_pending(uint8_t force)
 		row.delta_time_ms = (uint16_t)(stream_binary_v2_state.row_time_ms[i] - first_time_ms);
 		memcpy(frame_buffer + header_len + (i * row_len), &row, row_len);
 	}
-	ble_reid_tx(frame_buffer, frame_len);
+	ble_reid_tx_stream(frame_buffer, frame_len); // SEN-59: non-blocking, don't stall the measurement loop
 
 	if (rows_to_send < stream_binary_v2_state.row_count) {
 		const uint8_t remaining = stream_binary_v2_state.row_count - rows_to_send;
