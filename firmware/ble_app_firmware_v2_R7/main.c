@@ -485,8 +485,15 @@ int main(void)
 				idle_sleep_ms = 0;
 				charging_idle_sleep_ms = 0;
 				enter_device_sleep(&timer, &summary_counter, 1);
+				continue;
 			}
-			continue;
+			// SEN-59: do NOT skip measurement for battery housekeeping. The work
+			// above is cheap (no blocking ADC -- vbat is read in-sequence inside
+			// measure_sensors), so the old unconditional `continue` here dropped a
+			// sample every 8th loop: a deterministic 12.5% loss = the ~87.5 Hz
+			// ceiling at a 100 Hz target (a 20 ms device-clock gap every 7th row,
+			// confirmed regular in walk-test data). Fall through and measure this
+			// slot too. This -- not BLE transport -- was the dominant "frame loss".
 		}
 		measure_sensors((reid_ble_packet_t*) &ble_data,0);
         measure_update_summary((reid_ble_summary_packet_t*) &summary_data, (reid_ble_packet_t*) &ble_data);
