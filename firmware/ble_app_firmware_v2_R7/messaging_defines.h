@@ -39,6 +39,7 @@
 #define MSG_QUERY_RECORD_MULTIPLE			'M' // returns all records within the given indices (if none exist, it will nack; if less than expected number of records exist, it will do nothing except send the records that do exist)
 #define MSG_QUERY_LAST_DATA					'L' // returns the most recently measured data
 #define MSG_QUERY_FRESH_DATA				'F' // performs a new measurement and returns this data
+#define MSG_QUERY_IMU						'U' // IMU (LSM6DSM) bring-up: WHO_AM_I + fresh raw temp/accel/gyro (SEN-54)
 
 #define MSG_COMMAND_REBOOT					'R' // reboots the device
 #define MSG_COMMAND_ERASEALL				'E' // erases all data

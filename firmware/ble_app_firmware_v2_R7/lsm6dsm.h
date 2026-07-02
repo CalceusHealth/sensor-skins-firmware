@@ -17,11 +17,17 @@
 
 #define I2C_ADDRESS_LSM6DSM	(0b01101010)
 
+#define LSM6DSM_ADDRESS_WHO_AM_I		(0x0F)
+#define LSM6DSM_WHO_AM_I_VALUE			(0x6A)
 #define LSM6DSM_ADDRESS_CTRL1_XL		(0x10)
 #define LSM6DSM_ADDRESS_OUT_TEMP_L		(0x20)
 
 void lsm6dsm_init(void);
 void lsm6dsm_deinit(void);
+
+// Reads the WHO_AM_I identity register (expect LSM6DSM_WHO_AM_I_VALUE).
+// Returns the register byte (0..255), or -1 on I2C bus error.
+int16_t lsm6dsm_whoami(void);
 
 void lsm6dsm_update(void);
 

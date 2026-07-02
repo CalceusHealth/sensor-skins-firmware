@@ -102,6 +102,15 @@ static void main_init(void)
 	log_init();
 	#endif
 	lmt01_init();
+	// IMU bring-up (SEN-54): I2C + LSM6DSM. i2c_init() is otherwise only invoked
+	// by the i2c.c bus-recovery path, so it must be started here before any
+	// LSM6DSM access. Streaming the IMU into the frame is deferred (SEN-68).
+	i2c_init();
+	lsm6dsm_init();
+	#ifdef ENABLE_DEBUG
+	NRF_LOG_INFO("LSM6DSM WHO_AM_I=0x%02X (expect 0x%02X)", lsm6dsm_whoami(), LSM6DSM_WHO_AM_I_VALUE);
+	NRF_LOG_FLUSH();
+	#endif
 	msg_init();
     //ble_reid_init(); // inside msg_init()
 }

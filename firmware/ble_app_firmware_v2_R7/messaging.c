@@ -14,6 +14,7 @@
 #include "battery.h"
 #include "adc.h"
 #include "measure.h"
+#include "lsm6dsm.h"
 #include <stdio.h>
 
 typedef enum msg_rx_state_t
@@ -98,8 +99,17 @@ static inline void msg_tx_error(uint8_t reason)
 
 void msg_process_packet(void)
 {
+	// Re-entrancy guard: a handler that busy-waits on a peripheral (e.g. the IMU
+	// query's I2C transfers) pumps system_sleep(), which calls back into here
+	// while RX state is still RX_STATE_STOP -- without this the same packet would
+	// be processed and answered recursively. Main-context only, so a plain flag
+	// is sufficient.
+	static volatile uint8_t msg_processing = 0;
+	if (msg_processing) return;
+
 	if (msg_packet_received())
 	{
+		msg_processing = 1;
 		last_ble_activity_ms = system_time_ms();
 		if (msg_rx_cq == MSG_TYPE_QUERY)
 		{
@@ -323,6 +333,38 @@ void msg_process_packet(void)
 					break;
 				}
 
+				case MSG_QUERY_IMU:
+				{
+					// IMU bring-up (SEN-54): identity check + fresh raw sample.
+					// WAI_OK=1 confirms WHO_AM_I matched; rotating the board should
+					// move AX/AY/AZ (gravity) and GX/GY/GZ (rotation) sanely.
+					int16_t whoami = lsm6dsm_whoami();
+					lsm6dsm_update();
+
+					msg_tx_buffer_end = 0;
+					msg_add_sync();
+					msg_add_byte(MSG_TYPE_RESPONSE);
+					msg_add_byte(MSG_QUERY_IMU);
+					msg_add_delim();
+					msg_tx_buffer_end += snprintf(
+						(uint8_t*)msg_tx_buffer+msg_tx_buffer_end,
+						MSG_TX_BUFFER_SIZE-msg_tx_buffer_end,
+						"WHOAMI=0x%02X,WAI_OK=%u,T=%d,AX=%d,AY=%d,AZ=%d,GX=%d,GY=%d,GZ=%d",
+						(unsigned int)(whoami & 0xFF),
+						(unsigned int)(whoami == LSM6DSM_WHO_AM_I_VALUE),
+						(int)lsm6dsm_read_temp(),
+						(int)lsm6dsm_read_ax(),
+						(int)lsm6dsm_read_ay(),
+						(int)lsm6dsm_read_az(),
+						(int)lsm6dsm_read_gx(),
+						(int)lsm6dsm_read_gy(),
+						(int)lsm6dsm_read_gz()
+					);
+					msg_add_endline();
+					ble_reid_tx((uint8_t*) msg_tx_buffer, msg_tx_buffer_end);
+					break;
+				}
+
 				default:
 				{
 					msg_tx_error(MSG_ERROR_BAD_QUERY);
@@ -455,6 +497,7 @@ void msg_process_packet(void)
 			}
 		}
 		msg_rx_enable();
+		msg_processing = 0;
 	}
 }
 
@@ -532,6 +575,7 @@ void msg_rx_next_byte(uint8_t rx_byte)
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_RECORD_MULTIPLE))	{msg_rx_type = MSG_QUERY_RECORD_MULTIPLE;	msg_rx_state = RX_STATE_PAYLOAD;	msg_rx_buffer_end = 0;}
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_LAST_DATA))			{msg_rx_type = MSG_QUERY_LAST_DATA;			msg_rx_state = RX_STATE_STOP;		msg_rx_buffer_end = 0;}
 				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_FRESH_DATA))		{msg_rx_type = MSG_QUERY_FRESH_DATA;		msg_rx_state = RX_STATE_STOP;		msg_rx_buffer_end = 0;}
+				else if (ASCII_ISEQUAL_NOCASE(rx_byte,MSG_QUERY_IMU))				{msg_rx_type = MSG_QUERY_IMU;				msg_rx_state = RX_STATE_STOP;		msg_rx_buffer_end = 0;}
 				else																{msg_tx_error(MSG_ERROR_BAD_QUERY);	msg_rx_resync();}
 			}
 			else if (msg_rx_cq == MSG_TYPE_COMMAND)
