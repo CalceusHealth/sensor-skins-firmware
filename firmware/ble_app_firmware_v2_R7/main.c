@@ -45,6 +45,7 @@ static void flush_summary_if_pending(int32_t* summary_counter);
 static void stream_reset_pending(void);
 static void stream_send_measurement(const reid_ble_packet_t* data);
 static void stream_send_temp(const reid_ble_packet_t* data);
+static void stream_send_battery(const reid_ble_packet_t* data);
 static void stream_flush_pending(uint8_t force);
 static void update_charging_state_history(void);
 static uint8_t battery_sleep_protection_required(void);
@@ -405,6 +406,38 @@ static void stream_send_temp(const reid_ble_packet_t* data)
 #endif
 }
 
+// Battery frame (frame_type 3, ~1 Hz). Streams the AVERAGED vbat so in-session
+// drain / battery-life metrics have a real time series (previously vbat was
+// frozen per session because QB can't be polled during native streaming).
+static void stream_send_battery(const reid_ble_packet_t* data)
+{
+#ifdef STREAM_PROTOCOL_BINARY_V2
+	if (!ble_is_connected()) return;
+	static uint16_t batt_sequence = 0;
+	uint8_t buf[sizeof(reid_ble_stream_frame_v2_header_t) + sizeof(reid_ble_stream_battery_v3_t)] = {0};
+	reid_ble_stream_frame_v2_header_t header = {
+		.magic = REID_STREAM_BINARY_V2_MAGIC,
+		.version = REID_STREAM_BINARY_V2_VERSION,
+		.frame_type = REID_STREAM_BINARY_V2_FRAME_BATTERY,
+		.flags = 0,
+		.row_count = 1,
+		.sequence = batt_sequence++,
+		.base_time_ms = data->time_ms,
+	};
+	reid_ble_stream_battery_v3_t batt = {
+		.vbat_mv = battery_pack_voltage_mv(),
+		.vbat_raw = (int16_t) battery_pack_voltage_raw(),
+		.pct = battery_pack_charge(),
+		.state = (uint8_t) battery_current_state(),
+	};
+	memcpy(buf, &header, sizeof(header));
+	memcpy(buf + sizeof(header), &batt, sizeof(batt));
+	ble_reid_tx_stream(buf, sizeof(buf));
+#else
+	(void) data;
+#endif
+}
+
 static void update_charging_state_history(void)
 {
 	uint8_t is_charging = (battery_current_state() == battery_charging);
@@ -599,6 +632,12 @@ int main(void)
 		if ((last_temp_frame_ms == 0) || (ble_data.time_ms - last_temp_frame_ms >= 1000)) {
 			last_temp_frame_ms = ble_data.time_ms;
 			stream_send_temp((reid_ble_packet_t*) &ble_data);
+		}
+		// Battery: low-rate vbat frame ~1 Hz for in-session drain metrics.
+		static uint64_t last_batt_frame_ms = 0;
+		if ((last_batt_frame_ms == 0) || (ble_data.time_ms - last_batt_frame_ms >= 1000)) {
+			last_batt_frame_ms = ble_data.time_ms;
+			stream_send_battery((reid_ble_packet_t*) &ble_data);
 		}
 		#else
 		static uint8_t ble_message[150] = {0};

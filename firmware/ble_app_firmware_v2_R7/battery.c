@@ -152,76 +152,37 @@ uint8_t battery_pack_charge_from_mv(uint16_t bat_voltage) // 100 = 100%, 0=0%
 		report_counter = 0;
 	}
 
-	/*if ((gpio_bat_pg_asserted() != 0)&&(gpio_bat_chg_asserted()==0)) {
-		return 100;
-	} else*/ if ((gpio_bq_pg_asserted())||(gpio_bq_chg_asserted())) {
-		if      (bat_voltage >= batv_chg_100) return 100;
-		else if (bat_voltage >= batv_chg_90)  return  90 + (((bat_voltage - batv_chg_90)*10) / (batv_chg_100 - batv_chg_90));
-		else if (bat_voltage >= batv_chg_80)  return  80 + (((bat_voltage - batv_chg_80)*10) / (batv_chg_90  - batv_chg_80));
-		else if (bat_voltage >= batv_chg_70)  return  70 + (((bat_voltage - batv_chg_70)*10) / (batv_chg_80  - batv_chg_70));
-		else if (bat_voltage >= batv_chg_60)  return  60 + (((bat_voltage - batv_chg_60)*10) / (batv_chg_70  - batv_chg_60));
-		else if (bat_voltage >= batv_chg_50)  return  50 + (((bat_voltage - batv_chg_50)*10) / (batv_chg_60  - batv_chg_50));
-		else if (bat_voltage >= batv_chg_40)  return  40 + (((bat_voltage - batv_chg_40)*10) / (batv_chg_50  - batv_chg_40));
-		else if (bat_voltage >= batv_chg_30)  return  30 + (((bat_voltage - batv_chg_30)*10) / (batv_chg_40  - batv_chg_30));
-		else if (bat_voltage >= batv_chg_20)  return  20 + (((bat_voltage - batv_chg_20)*10) / (batv_chg_30  - batv_chg_20));
-		else if (bat_voltage >= batv_chg_10)  return  10 + (((bat_voltage - batv_chg_10)*10) / (batv_chg_20  - batv_chg_10));
-		else if (bat_voltage >= batv_chg_0)	  return   0 + (((bat_voltage - batv_chg_0)*10)  / (batv_chg_10  - batv_chg_0));
-		else return 0;
-	} else {
-		if      (bat_voltage >= batv_100) return 100;
-		else if (bat_voltage >= batv_90)  return  90 + (((bat_voltage - batv_90)*10) / (batv_100 - batv_90));
-		else if (bat_voltage >= batv_80)  return  80 + (((bat_voltage - batv_80)*10) / (batv_90  - batv_80));
-		else if (bat_voltage >= batv_70)  return  70 + (((bat_voltage - batv_70)*10) / (batv_80  - batv_70));
-		else if (bat_voltage >= batv_60)  return  60 + (((bat_voltage - batv_60)*10) / (batv_70  - batv_60));
-		else if (bat_voltage >= batv_50)  return  50 + (((bat_voltage - batv_50)*10) / (batv_60  - batv_50));
-		else if (bat_voltage >= batv_40)  return  40 + (((bat_voltage - batv_40)*10) / (batv_50  - batv_40));
-		else if (bat_voltage >= batv_30)  return  30 + (((bat_voltage - batv_30)*10) / (batv_40  - batv_30));
-		else if (bat_voltage >= batv_20)  return  20 + (((bat_voltage - batv_20)*10) / (batv_30  - batv_20));
-		else if (bat_voltage >= batv_10)  return  10 + (((bat_voltage - batv_10)*10) / (batv_20  - batv_10));
-		else if (bat_voltage >= batv_0)	  return   0 + (((bat_voltage - batv_0)*10)  / (batv_10  - batv_0));
-		else return 0;
-	}
+	// SINGLE CURVE (battery reliability): always use the resting/discharge table
+	// regardless of charge state. The old dual-curve design switched to batv_chg_*
+	// whenever PG/CHG was asserted; the two tables disagree by tens of % at the
+	// same mV (e.g. 3780mV = 52% resting vs 9% charging) and the switch had no
+	// debounce, so every plug event or PG/CHG flicker made the reported level leap
+	// -- the main cause of the erratic battery number on and off charge. Charge
+	// status is still surfaced separately via battery_current_state(); only the %
+	// mapping is unified here. (batv_chg_* retained but unused.)
+	if      (bat_voltage >= batv_100) return 100;
+	else if (bat_voltage >= batv_90)  return  90 + (((bat_voltage - batv_90)*10) / (batv_100 - batv_90));
+	else if (bat_voltage >= batv_80)  return  80 + (((bat_voltage - batv_80)*10) / (batv_90  - batv_80));
+	else if (bat_voltage >= batv_70)  return  70 + (((bat_voltage - batv_70)*10) / (batv_80  - batv_70));
+	else if (bat_voltage >= batv_60)  return  60 + (((bat_voltage - batv_60)*10) / (batv_70  - batv_60));
+	else if (bat_voltage >= batv_50)  return  50 + (((bat_voltage - batv_50)*10) / (batv_60  - batv_50));
+	else if (bat_voltage >= batv_40)  return  40 + (((bat_voltage - batv_40)*10) / (batv_50  - batv_40));
+	else if (bat_voltage >= batv_30)  return  30 + (((bat_voltage - batv_30)*10) / (batv_40  - batv_30));
+	else if (bat_voltage >= batv_20)  return  20 + (((bat_voltage - batv_20)*10) / (batv_30  - batv_20));
+	else if (bat_voltage >= batv_10)  return  10 + (((bat_voltage - batv_10)*10) / (batv_20  - batv_10));
+	else if (bat_voltage >= batv_0)	  return   0 + (((bat_voltage - batv_0)*10)  / (batv_10  - batv_0));
+	else return 0;
 }
 
-// Reported charge %, with a monotonic clamp across a charge session.
-//
-// battery_pack_charge_from_mv() switches between the discharge table (batv_*)
-// and the elevated charge table (batv_chg_*) the instant PG/CHG asserts. The two
-// tables disagree by a lot at the same mV (e.g. 3780mV = 52% resting but only 9%
-// on the charge curve; 4139mV = 99% resting but 82% charging), so plugging in
-// made the reported level appear to crater (and unplugging made it leap). The
-// charge curve is only meaningful once charge current has actually lifted the
-// terminal voltage; right at plug-in the cell is still near its resting OCV and
-// the charge table mis-reads it as nearly empty.
-//
-// Fix: while charging, seed a floor from the last resting report and never let
-// the number fall below it or below the highest % already reached this charge
-// session. The cell only gains charge while plugged in, so a non-decreasing
-// report is physically correct: plug-in holds steady, then climbs. This affects
-// only the reported pct -- the sleep matrix keys off the averaged mV, not %.
+// Reported charge %, single-curve. Previously this switched between a discharge
+// table and an elevated charge table on PG/CHG and applied a monotonic clamp to
+// hide the seam -- but the undebounced switch was itself the main source of the
+// erratic reported level. Now battery_pack_charge_from_mv() uses one curve, so
+// this is a thin wrapper. The sleep matrix keys off the averaged mV, not %.
 uint8_t battery_pack_charge(void)
 {
-	uint8_t curve_pct = battery_pack_charge_from_mv(battery_pack_voltage_mv());
-	uint8_t charging = ((gpio_bq_pg_asserted())||(gpio_bq_chg_asserted())) ? 1 : 0;
-
-	static uint8_t was_charging = 0;
-	static uint8_t charge_session_pct = 0; // running floor while charging
-	static uint8_t last_reported_pct = 0;  // last value handed out (resting ref)
-
-	if (charging) {
-		if (!was_charging) {
-			// Entering charge: hold at the last resting % instead of dropping
-			// to the charge-curve value for the still-unlifted terminal voltage.
-			charge_session_pct = last_reported_pct;
-			was_charging = 1;
-		}
-		if (curve_pct > charge_session_pct) charge_session_pct = curve_pct;
-		last_reported_pct = charge_session_pct;
-		return charge_session_pct;
-	}
-
-	// Off charge: report the discharge curve directly (accurate at rest).
-	was_charging = 0;
-	last_reported_pct = curve_pct;
-	return curve_pct;
+	// Single-curve now (see battery_pack_charge_from_mv): there is no charge/
+	// discharge seam to paper over, so the old monotonic clamp / charge-session
+	// floor is gone. Report the resting-curve % of the averaged mv directly.
+	return battery_pack_charge_from_mv(battery_pack_voltage_mv());
 }

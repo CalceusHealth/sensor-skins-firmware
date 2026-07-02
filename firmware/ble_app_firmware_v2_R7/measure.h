@@ -25,7 +25,8 @@ extern volatile uint32_t measure_cap_us;
 // Hosts must branch on this version byte (v2 = 74 B temp-in-row, no IMU).
 #define REID_STREAM_BINARY_V2_VERSION 3u
 #define REID_STREAM_BINARY_V2_FRAME_SENSOR_ROWS 1u
-#define REID_STREAM_BINARY_V2_FRAME_TEMP 2u   // SEN-68: low-rate temp frame (temp[5])
+#define REID_STREAM_BINARY_V2_FRAME_TEMP 2u      // SEN-68: low-rate temp frame (temp[5])
+#define REID_STREAM_BINARY_V2_FRAME_BATTERY 3u   // battery: low-rate vbat frame (drain metrics)
 #define REID_STREAM_BINARY_V2_FLAG_FSR_X4 0x01u
 #define REID_STREAM_BINARY_V2_FLAG_CAP_X3 0x02u
 #define REID_STREAM_BINARY_V2_FLAG_IMU 0x04u  // SEN-68: rows carry acc[3]+gyro[3]
@@ -103,6 +104,21 @@ typedef struct reid_ble_stream_row_v2_t {
 typedef struct reid_ble_stream_temp_v3_t {
 	int16_t temp[5];
 } reid_ble_stream_temp_v3_t;
+#pragma pack(pop)
+
+// Battery: low-rate frame (frame_type 3, ~1 Hz). Carries the AVERAGED vbat (mv)
+// -- the value to use for in-session drain / battery-life metrics -- plus the
+// fresh raw ADC (diagnostic), reported % (single-curve) and state char. Sent as
+// a stream frame so it's captured during native recording (the QB query can't be
+// polled while the native BLE owner is streaming, which is why per-row vbat was
+// frozen in earlier session CSVs).
+#pragma pack(push,1)
+typedef struct reid_ble_stream_battery_v3_t {
+	uint16_t vbat_mv;    // averaged pack voltage (mv) -- use this for drain
+	int16_t  vbat_raw;   // fresh raw ADC sample (diagnostic; noisy)
+	uint8_t  pct;        // reported charge % (single resting curve)
+	uint8_t  state;      // battery_state_t char: 'K'/'C'/'D'/'L'/'U'
+} reid_ble_stream_battery_v3_t;
 #pragma pack(pop)
 
 #pragma pack(push,1)
