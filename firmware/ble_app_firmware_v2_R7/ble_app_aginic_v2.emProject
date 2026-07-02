@@ -31,7 +31,7 @@
       linker_printf_width_precision_supported="Yes"
       linker_scanf_fmt_level="long"
       linker_section_placement_file="flash_placement.xml"
-      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x19000;FLASH_SIZE=0x67000;RAM_START=0x20002500;RAM_SIZE=0xdb00"
+      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x19000;FLASH_SIZE=0x67000;RAM_START=0x20003500;RAM_SIZE=0xcb00"
       linker_section_placements_segments="FLASH RX 0x0 0x80000;RAM RWX 0x20000000 0x10000"
       macros="CMSIS_CONFIG_TOOL=../../../../../../external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar"
       project_directory=""
@@ -145,7 +145,7 @@
       c_preprocessor_undefinitions="BOARD_PCA10040"
       debug_additional_load_file="../../../../../../components/softdevice/s112/hex/s112_nrf52_6.1.1_softdevice.hex"
       gcc_optimization_level="Debug"
-      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x19000;FLASH_SIZE=0x67000;RAM_START=0x20002500;RAM_SIZE=0xdb00"
+      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x19000;FLASH_SIZE=0x67000;RAM_START=0x20003500;RAM_SIZE=0xcb00"
       speed="4000"
       target_disconnect_script="TargetInterface.resetAndStop()" />
     <folder Name="App Reid">

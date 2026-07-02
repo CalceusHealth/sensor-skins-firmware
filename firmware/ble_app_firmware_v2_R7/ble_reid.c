@@ -78,6 +78,20 @@ ble_stack_init - initializes the SoftDevice and the BLE event interrupt
 	static uint32_t ram_start = 0;															// Configure the BLE stack using the default settings.
 	err_code = nrf_sdh_ble_default_cfg_set(APP_BLE_CONN_CFG_TAG, &ram_start);
 	APP_ERROR_CHECK(err_code);
+
+	// SEN-59: deepen the HVN notification queue (default = 1). A depth-1 queue
+	// means at most one notification per connection event -- a hard ~1/interval
+	// cap that leaves the 100 Hz stream ~14% short, and with two feet sharing one
+	// phone the starved foot drops bursts (40-50 ms gaps seen on v2.0.55 LEFT).
+	// A deeper queue lets several notifications buffer and drain per connection
+	// event. Costs a little SoftDevice RAM -> RAM_START raised in the .emProject.
+	ble_cfg_t ble_cfg;
+	memset(&ble_cfg, 0, sizeof(ble_cfg));
+	ble_cfg.conn_cfg.conn_cfg_tag = APP_BLE_CONN_CFG_TAG;
+	ble_cfg.conn_cfg.params.gatts_conn_cfg.hvn_tx_queue_size = 4;
+	err_code = sd_ble_cfg_set(BLE_CONN_CFG_GATTS, &ble_cfg, ram_start);
+	APP_ERROR_CHECK(err_code);
+
 	err_code = nrf_sdh_ble_enable(&ram_start);												// Enable BLE stack.
 	APP_ERROR_CHECK(err_code);
 
