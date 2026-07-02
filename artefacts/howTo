@@ -5,7 +5,7 @@ QA for all stored record index range. ;RA 0,0
 
 adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/nostream_*_v2.0.54_sensorskins.zip /sdcard/Download/
 
-adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_*_v2.0.55_sensorskins.zip /sdcard/Download/
+adb push /home/salmoneller/Git/sensor-skins-firmware/artefacts/out/stream_*_v2.0.56_sensorskins.zip /sdcard/Download/
 
 
   2. On the phone, open nRF DFU.
