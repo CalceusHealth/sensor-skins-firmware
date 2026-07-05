@@ -185,6 +185,24 @@ void system_shutdown(void)
 	#endif
 }
 
+// SEN-106: firmware UVLO -- the last barrier before unrecoverable deep
+// discharge (bare cell with no PCM, board UVLO provision R58 unfitted, POF
+// disabled above). Arms the charger PG line (active low, externally pulled up
+// to VBAT) as the System OFF wake source, then powers everything down
+// (~0.3 uA; no BLE at all). Wake = puck contact or SWD reset. System OFF wake
+// is a full reset, so boot lands in the normal protection logic: recovery
+// sleep on the charger until the debounced 3450 mV exit.
+void system_enter_deep_shutdown(void)
+{
+	nrf_gpio_cfg_sense_input(PIN_BQ_PG, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
+	if (nrf_sdh_is_enabled()) {
+		(void) sd_power_system_off();
+	} else {
+		NRF_POWER->SYSTEMOFF = 1;
+	}
+	while (1) { __WFE(); } // not reached; debugger-emulated System OFF backstop
+}
+
 void system_reboot(void)
 {
 	//sd_card_force_write_data();

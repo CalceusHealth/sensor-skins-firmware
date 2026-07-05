@@ -36,6 +36,8 @@ int32_t battery_pack_voltage_raw(void);
 // Advances per submitted sample (not per query); used to debounce clearing
 // the low-battery protection latch.
 uint8_t battery_wake_streak(void);
+// SEN-106: consecutive fresh averages below SYSTEM_OFF_VBAT_MV (firmware UVLO).
+uint8_t battery_shutdown_streak(void);
 
 battery_state_t battery_current_state(void);
 

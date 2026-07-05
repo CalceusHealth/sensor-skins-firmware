@@ -33,6 +33,10 @@
 void system_init(void);
 void system_deinit(void);
 
+// SEN-106: firmware UVLO. System OFF (~0.3 uA), wake only via the charger PG
+// line (GPIO sense) or reset. Does not return.
+void system_enter_deep_shutdown(void);
+
 void system_wdt_init(void);
 void system_wdt_kick(void);
 

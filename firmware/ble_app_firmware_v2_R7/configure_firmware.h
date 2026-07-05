@@ -91,6 +91,13 @@
 // unless charging is confirmed. Protects the critically low cell from being
 // held at a 7.5-15 ms connection interval.
 #define PROTECTION_CONN_EJECT_MS					30000
+// SEN-106: firmware UVLO. Below this averaged vbat (2 consecutive fresh
+// samples, in protection sleep, not charging) the device enters nRF System
+// OFF (~0.3 uA; no BLE at all) and wakes only via the charger PG line or
+// reset. The cell has no PCM and the board UVLO (R58) is unfitted -- this is
+// the last firmware barrier before unrecoverable deep discharge.
+#define SYSTEM_OFF_VBAT_MV						3100
+#define SYSTEM_OFF_CONFIRM_SAMPLES				2
 #define CHARGE_RECOVERY_VBAT_MIN_MV				3450
 #define CHARGING_IDLE_SLEEP_TIMEOUT_MS			15000
 #define IDLE_SLEEP_TIMEOUT_MS					180000

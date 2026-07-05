@@ -572,6 +572,13 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 		}
 
 		if (recovery_sleep) {
+			// SEN-106: firmware UVLO. If the cell keeps falling through
+			// protection sleep, power off entirely (~0.3 uA, wake = puck/reset)
+			// before deep-discharge damage. Never while on the puck.
+			if (!charging_confirmed && !gpio_bq_pg_asserted() &&
+				(battery_shutdown_streak() >= SYSTEM_OFF_CONFIRM_SAMPLES)) {
+				system_enter_deep_shutdown(); // does not return
+			}
 			// SEN-103: the lifeline advertising stays connectable and commands
 			// are still served (system_sleep pumps msg_process_packet), so a
 			// phone can hold a 7.5-15 ms link against a critically low cell.

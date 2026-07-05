@@ -67,6 +67,8 @@ static volatile uint8_t vbat_jump_streak = 0;
 // by re-reading one cached average. Consumed by battery_sleep_protection_
 // required() in main.c to clear the low-battery latch.
 static volatile uint8_t vbat_wake_streak = 0;
+// SEN-106: consecutive fresh averages below the System OFF floor.
+static volatile uint8_t vbat_shutdown_streak = 0;
 
 void battery_init()
 {
@@ -119,6 +121,17 @@ void battery_submit_raw(int32_t batt_raw)
 	// SEN-101: per-sample wake-floor streak for the protection latch debounce.
 	if (bat_voltage >= LOW_BATTERY_WAKE_MIN_MV) { if (vbat_wake_streak < 0xFF) ++vbat_wake_streak; }
 	else vbat_wake_streak = 0;
+
+	// SEN-106: per-sample below-System-OFF-floor streak (firmware UVLO).
+	if ((bat_voltage > 500) && (bat_voltage < SYSTEM_OFF_VBAT_MV)) { if (vbat_shutdown_streak < 0xFF) ++vbat_shutdown_streak; }
+	else vbat_shutdown_streak = 0;
+}
+
+// SEN-106: consecutive fresh averages below SYSTEM_OFF_VBAT_MV. Consumed by
+// the recovery-sleep loop to trigger system_enter_deep_shutdown().
+uint8_t battery_shutdown_streak(void)
+{
+	return vbat_shutdown_streak;
 }
 
 // SEN-101: how many consecutive fresh averages have been at/above the
