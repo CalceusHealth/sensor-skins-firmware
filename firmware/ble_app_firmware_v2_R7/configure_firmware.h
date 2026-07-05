@@ -86,6 +86,11 @@
 // SEN-101: consecutive fresh averages >= the wake floor needed to clear the
 // low-battery latch (debounces IR-drop rest recovery / relaxation spikes).
 #define LOW_BATTERY_WAKE_CONFIRM_SAMPLES			2
+// SEN-103: a central connecting during protection sleep gets this long (enough
+// for the app to read ;QB and show "battery critical") before being ejected --
+// unless charging is confirmed. Protects the critically low cell from being
+// held at a 7.5-15 ms connection interval.
+#define PROTECTION_CONN_EJECT_MS					30000
 #define CHARGE_RECOVERY_VBAT_MIN_MV				3450
 #define CHARGING_IDLE_SLEEP_TIMEOUT_MS			15000
 #define IDLE_SLEEP_TIMEOUT_MS					180000

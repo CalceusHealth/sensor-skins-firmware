@@ -555,6 +555,7 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 	// wake-on-motion latch or a BLE connection. Housekeeping (vbat average for
 	// the protection floor + charging history) runs every 12th check (~60 s).
 	uint8_t battery_check_divider = SLEEP_BATTERY_CHECK_EVERY_N; // immediate first check
+	uint64_t protection_conn_since_ms = 0;
 	while (1)
 	{
 		while (system_time_ms() < (*timer + SLEEP_CHECK_EVERY_MS)) system_sleep();
@@ -567,6 +568,21 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 		}
 
 		if (recovery_sleep) {
+			// SEN-103: the lifeline advertising stays connectable and commands
+			// are still served (system_sleep pumps msg_process_packet), so a
+			// phone can hold a 7.5-15 ms link against a critically low cell.
+			// Give it PROTECTION_CONN_EJECT_MS to read ;QB and surface "battery
+			// critical", then eject back to slow advertising -- unless charging
+			// is confirmed (user is at the puck; let them watch it recover).
+			if (ble_is_connected() && !charging_confirmed) {
+				if (protection_conn_since_ms == 0) protection_conn_since_ms = system_time_ms();
+				if (system_time_ms() - protection_conn_since_ms >= PROTECTION_CONN_EJECT_MS) {
+					protection_conn_since_ms = 0;
+					ble_reid_enter_lifeline(); // disconnect + resume slow advertising
+				}
+			} else {
+				protection_conn_since_ms = 0;
+			}
 			if (battery_sleep_protection_required()) continue;
 			break;
 		}
