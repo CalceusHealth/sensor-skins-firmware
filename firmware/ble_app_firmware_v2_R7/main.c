@@ -583,8 +583,12 @@ int main(void)
 	main_init();
 	uint64_t timer = 0;
 	static int32_t summary_counter = 0;
-	uint32_t idle_sleep_ms = 0;
-	uint32_t charging_idle_sleep_ms = 0;
+	// SEN-100: idle timers are wall-clock timestamps (0 = not idling), not
+	// per-loop accumulators -- the old += MAIN_LOOP_TIME_MS counted 125 ms per
+	// iteration regardless of the runtime ;CF rate (14.4 s timeout at 100 Hz,
+	// 24 min at 1 Hz).
+	uint64_t idle_since_ms = 0;
+	uint64_t charging_idle_since_ms = 0;
 
 	while (1)
 	{
@@ -621,8 +625,8 @@ int main(void)
 				update_charging_state_history();
 			}
 			if (battery_sleep_protection_required()) {
-				idle_sleep_ms = 0;
-				charging_idle_sleep_ms = 0;
+				idle_since_ms = 0;
+				charging_idle_since_ms = 0;
 				enter_device_sleep(&timer, &summary_counter, 1);
 				continue;
 			}
@@ -646,7 +650,7 @@ int main(void)
 		// query traffic (e.g. periodic ;QB polls) is served at the slow cadence
 		// and neither blocks entry nor forces exit.
 		{
-			static uint32_t idle_connected_wait_ms = 0;
+			static uint64_t idle_connected_since_ms = 0; // SEN-100: wall clock, 0 = not counting
 			static uint16_t last_seen_period_ms = 0;
 			uint8_t rate_changed = (last_seen_period_ms != 0) && (last_seen_period_ms != main_loop_period_ms);
 			last_seen_period_ms = main_loop_period_ms;
@@ -655,23 +659,23 @@ int main(void)
 				if (!ble_is_connected() || session_active || bench_keepawake ||
 					sensor_active_now || rate_changed || lsm6dsm_motion_detected()) {
 					idle_connected = 0;
-					idle_connected_wait_ms = 0;
+					idle_connected_since_ms = 0;
 					lsm6dsm_exit_wom();
 				}
 			} else if (ble_is_connected() && !session_active && !bench_keepawake) {
 				uint8_t motion_recent = (last_motion_ms != 0) && ((system_time_ms() - last_motion_ms) <= 2000);
 				if (sensor_active_now || motion_recent) {
-					idle_connected_wait_ms = 0;
+					idle_connected_since_ms = 0;
 				} else {
-					idle_connected_wait_ms += main_loop_period_ms;
-					if (idle_connected_wait_ms >= IDLE_CONNECTED_TIMEOUT_MS) {
-						idle_connected_wait_ms = 0;
+					if (idle_connected_since_ms == 0) idle_connected_since_ms = system_time_ms();
+					if (system_time_ms() - idle_connected_since_ms >= IDLE_CONNECTED_TIMEOUT_MS) {
+						idle_connected_since_ms = 0;
 						idle_connected = 1;
 						lsm6dsm_enter_wom();
 					}
 				}
 			} else {
-				idle_connected_wait_ms = 0;
+				idle_connected_since_ms = 0;
 			}
 		}
         measure_update_summary((reid_ble_summary_packet_t*) &summary_data, (reid_ble_packet_t*) &ble_data);
@@ -766,27 +770,27 @@ int main(void)
 		#endif
 		
 		if (battery_sleep_protection_required()) {
-			idle_sleep_ms = 0;
-			charging_idle_sleep_ms = 0;
+			idle_since_ms = 0;
+			charging_idle_since_ms = 0;
 			enter_device_sleep(&timer, &summary_counter, 1);
 		} else if (ble_activity_detected()) {
-			idle_sleep_ms = 0;
-			charging_idle_sleep_ms = 0;
+			idle_since_ms = 0;
+			charging_idle_since_ms = 0;
 		} else if (sensor_active_now) {
-			idle_sleep_ms = 0;
-			charging_idle_sleep_ms = 0;
+			idle_since_ms = 0;
+			charging_idle_since_ms = 0;
 		} else if (charging_confirmed) {
-			idle_sleep_ms = 0;
-			if (charging_idle_sleep_ms < CHARGING_IDLE_SLEEP_TIMEOUT_MS) charging_idle_sleep_ms += MAIN_LOOP_TIME_MS;
-			if (charging_idle_sleep_ms >= CHARGING_IDLE_SLEEP_TIMEOUT_MS) {
-				charging_idle_sleep_ms = 0;
+			idle_since_ms = 0;
+			if (charging_idle_since_ms == 0) charging_idle_since_ms = system_time_ms();
+			if (system_time_ms() - charging_idle_since_ms >= CHARGING_IDLE_SLEEP_TIMEOUT_MS) {
+				charging_idle_since_ms = 0;
 				enter_device_sleep(&timer, &summary_counter, 0);
 			}
 		} else {
-			charging_idle_sleep_ms = 0;
-			if (idle_sleep_ms < IDLE_SLEEP_TIMEOUT_MS) idle_sleep_ms += MAIN_LOOP_TIME_MS;
-			if (idle_sleep_ms >= IDLE_SLEEP_TIMEOUT_MS) {
-				idle_sleep_ms = 0;
+			charging_idle_since_ms = 0;
+			if (idle_since_ms == 0) idle_since_ms = system_time_ms();
+			if (system_time_ms() - idle_since_ms >= IDLE_SLEEP_TIMEOUT_MS) {
+				idle_since_ms = 0;
 				enter_device_sleep(&timer, &summary_counter, 0);
 			}
 		}

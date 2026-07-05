@@ -158,7 +158,9 @@ void msg_process_packet(void)
 					battery_state_t battery_state = battery_unknown;
 
 					battery_query_pause = 1;
-					system_wait_for_ms_no_bg(MAIN_LOOP_TIME_MS + 10);
+					// SEN-100: wait one *runtime* loop period (;CF-settable), not the
+					// compile-time constant, so the pause actually covers a loop slot.
+					system_wait_for_ms_no_bg(main_loop_period_ms + 10);
 					battery_update();
 					battery_raw = adc_read_vbat_raw_fresh();
 					battery_mv = battery_pack_voltage_mv();
