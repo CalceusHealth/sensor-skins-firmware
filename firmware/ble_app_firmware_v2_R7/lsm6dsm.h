@@ -20,10 +20,22 @@
 #define LSM6DSM_ADDRESS_WHO_AM_I		(0x0F)
 #define LSM6DSM_WHO_AM_I_VALUE			(0x6A)
 #define LSM6DSM_ADDRESS_CTRL1_XL		(0x10)
+#define LSM6DSM_ADDRESS_WAKE_UP_SRC		(0x1B)
 #define LSM6DSM_ADDRESS_OUT_TEMP_L		(0x20)
+#define LSM6DSM_ADDRESS_TAP_CFG			(0x58)
+#define LSM6DSM_ADDRESS_WAKE_UP_THS		(0x5B)
+#define LSM6DSM_WAKE_UP_SRC_WU_IA		(0x08)
 
 void lsm6dsm_init(void);
 void lsm6dsm_deinit(void);
+
+// SEN-95 sleep power management. enter_wom: gyro power-down + accel low-power
+// 52 Hz with the wake-on-motion engine armed (~5 uA vs ~0.5 mA at 208 Hz A+G).
+// exit_wom: restore the full-rate init config. motion_detected: poll the
+// latched wake-on-motion flag (reading clears it); call from the sleep loop.
+void lsm6dsm_enter_wom(void);
+void lsm6dsm_exit_wom(void);
+uint8_t lsm6dsm_motion_detected(void);
 
 // Reads the WHO_AM_I identity register (expect LSM6DSM_WHO_AM_I_VALUE).
 // Returns the register byte (0..255), or -1 on I2C bus error.

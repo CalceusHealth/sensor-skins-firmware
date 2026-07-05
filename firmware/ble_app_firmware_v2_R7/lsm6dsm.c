@@ -65,13 +65,76 @@ void lsm6dsm_deinit(void)
 	lsm6dsm_buffered_gy = 0;
 	lsm6dsm_buffered_gz = 0;
 
-	uint8_t data[4];
+	// SEN-95: full power-down (ODR=0 both blocks). No SW_RESET here -- a reset
+	// would drop IF_INC/BDU and require a full re-init to talk to it again.
+	uint8_t data[3];
 	data[0] = LSM6DSM_ADDRESS_CTRL1_XL;
-	data[1] = 0b00000100; // ACC: power down
-	data[2] = 0b00001100; // GYRO: power down
-	data[3] = 0b11000101; // does reset of memory and software
-    
-	//i2c_write(I2C_ADDRESS_LSM6DSM,4,data,true);
+	data[1] = 0b00000000; // ACC: ODR=0 power down
+	data[2] = 0b00000000; // GYRO: ODR=0 power down
+
+	i2c_write(I2C_ADDRESS_LSM6DSM,3,data,false);
+}
+
+// SEN-95: sleep-mode IMU config. Gyro fully off; accel at 52 Hz in low-power
+// mode (XL_HM_MODE=1 is already set by lsm6dsm_init and 52 Hz qualifies), FS
+// dropped to 2 g so the wake-on-motion threshold LSB is 31.25 mg (at 16 g the
+// LSB is 250 mg -- far too coarse). WAKE_UP_THS=2 -> ~62.5 mg, DUR=0 -> one
+// sample above threshold wakes. Latched (LIR) so a 5 s poll cannot miss a
+// short jolt; reading WAKE_UP_SRC clears the latch.
+void lsm6dsm_enter_wom(void)
+{
+	uint8_t data[3];
+
+	data[0] = LSM6DSM_ADDRESS_CTRL1_XL;
+	data[1] = 0b00110000; // ACC: 52 Hz, 2g full scale
+	data[2] = 0b00000000; // GYRO: ODR=0 power down
+	i2c_write(I2C_ADDRESS_LSM6DSM,3,data,false);
+
+	data[0] = LSM6DSM_ADDRESS_WAKE_UP_THS;
+	data[1] = 0x02; // threshold: 2 * 31.25 mg = 62.5 mg (FS 2g)
+	data[2] = 0x00; // WAKE_UP_DUR: wake on first sample above threshold
+	i2c_write(I2C_ADDRESS_LSM6DSM,3,data,false);
+
+	data[0] = LSM6DSM_ADDRESS_TAP_CFG;
+	data[1] = 0b10000001; // INTERRUPTS_ENABLE | LIR (latched wake flag)
+	i2c_write(I2C_ADDRESS_LSM6DSM,2,data,false);
+
+	// The slope filter re-settles on the mode change and can latch a spurious
+	// wake; give it a couple of 52 Hz samples then clear the flag so the sleep
+	// loop starts from a clean state.
+	system_delay_cycles(3000000); // ~46 ms at 64 MHz
+	(void) lsm6dsm_motion_detected();
+}
+
+// SEN-95: restore the full-rate config (identical to lsm6dsm_init: 208 Hz,
+// 16g / 2000 dps) and disarm the wake engine. Gyro turn-on is ~70 ms, so the
+// first frames after wake carry stale gyro values -- reconnect takes longer.
+void lsm6dsm_exit_wom(void)
+{
+	uint8_t data[3];
+
+	data[0] = LSM6DSM_ADDRESS_TAP_CFG;
+	data[1] = 0b00000000; // interrupts off, latch off
+	i2c_write(I2C_ADDRESS_LSM6DSM,2,data,false);
+
+	data[0] = LSM6DSM_ADDRESS_CTRL1_XL;
+	data[1] = 0b01010100; // ACC: 208 Hz, 16g full scale (as lsm6dsm_init)
+	data[2] = 0b01011100; // GYRO: 208 Hz, 2000dps full scale (as lsm6dsm_init)
+	i2c_write(I2C_ADDRESS_LSM6DSM,3,data,false);
+}
+
+// SEN-95: poll the latched wake-on-motion flag. Repeated-start register read
+// (same pattern as lsm6dsm_whoami). Returns nonzero if motion was seen since
+// the last poll. On I2C error returns 0 -- BLE connection remains a wake
+// source, so a broken bus degrades to connect-to-wake rather than stuck-awake.
+uint8_t lsm6dsm_motion_detected(void)
+{
+	uint8_t reg = LSM6DSM_ADDRESS_WAKE_UP_SRC;
+	uint8_t val = 0;
+	if (i2c_write(I2C_ADDRESS_LSM6DSM,1,&reg,true) != 0) return 0;
+	system_delay_cycles(10000);
+	if (i2c_read(I2C_ADDRESS_LSM6DSM,1,&val) != 0) return 0;
+	return (val & LSM6DSM_WAKE_UP_SRC_WU_IA) ? 1 : 0;
 }
 
 int16_t lsm6dsm_whoami(void)

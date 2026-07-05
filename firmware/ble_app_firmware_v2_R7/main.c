@@ -488,6 +488,10 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 	flush_summary_if_pending(summary_counter);
 	system_wait_for_ms_no_bg(250);
 	ble_reid_enter_lifeline();
+	// SEN-95: IMU into wake-on-motion (gyro off, accel low-power) for the whole
+	// sleep -- previously it kept running at 208 Hz A+G (~0.5 mA) and was the
+	// dominant sleep drain (deep-discharge kill chain, see SLEEP_LOGIC_V2_PROPOSAL).
+	lsm6dsm_enter_wom();
 
 	while (1)
 	{
@@ -504,12 +508,14 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 
 		if (battery_sleep_protection_required()) continue;
 		if (ble_is_connected()) break;
+		if (lsm6dsm_motion_detected()) break; // SEN-95: latched wake-on-motion
 
 		measure_sensors((reid_ble_packet_t*) &ble_data,0);
 		if (sensor_activity_detected((reid_ble_packet_t*) &ble_data, &previous_ble_data, has_previous_ble_data)) break;
 		if (count_low_fsr_sensors((reid_ble_packet_t*) &ble_data) < FSR_SLEEP_NUM) break;
 	}
 
+	lsm6dsm_exit_wom(); // SEN-95: restore 208 Hz A+G for the awake stream
 	ble_advertise_again();
 }
 
