@@ -109,6 +109,8 @@ These are the builds that should be considered current and reproducible.
 
 | status | version | side | stream | sleep | protocol | sample_rate | fsr_gain | `QI` `STREAM=` | package | sha256 | git_commit |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| built — latest (sleep v2; bench-verify vbat first) | `v2.0.60` | `lhs` | `nostream` | `sleep` | `BINARY_V2 v3` | `100Hz`* | `GAIN1_2` | `BINARY_V2` | `artefacts/out/nostream_sleep_lhs_v2.0.60_sensorskins.zip` | `71475d9be9ea0910d550f187d73b3201ffcd520c4a11924a4bc8752591e20235` | `458a3dc` |
+| built — latest (sleep v2; bench-verify vbat first) | `v2.0.60` | `rhs` | `nostream` | `sleep` | `BINARY_V2 v3` | `100Hz`* | `GAIN1_2` | `BINARY_V2` | `artefacts/out/nostream_sleep_rhs_v2.0.60_sensorskins.zip` | `78852caadfb96e9a40206b47711e691a3d0bd7ca7014e1a2b71bad52b95ad8a0` | `458a3dc` |
 | built — latest (sleep v2; bench-verify vbat first) | `v2.0.60` | `lhs` | `stream` | `sleep` | `BINARY_V2 v3` | `100Hz`* | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_lhs_v2.0.60_sensorskins.zip` | `725b15bc645d0f0c69b5d454e8c7508a86c30ef4b6227d7956a848798602326d` | `458a3dc` |
 | built — latest (sleep v2; bench-verify vbat first) | `v2.0.60` | `rhs` | `stream` | `sleep` | `BINARY_V2 v3` | `100Hz`* | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_rhs_v2.0.60_sensorskins.zip` | `14cf8bccd5a6ffca1beaaffbef490be356721517e23d63abc180a5542bf61c7d` | `458a3dc` |
 | superseded (IMU v3 + battery) | `v2.0.59` | `lhs` | `stream` | `sleep` | `BINARY_V2 v3` | `100Hz`* | `GAIN1_2` | `BINARY_V2` | `artefacts/out/stream_sleep_lhs_v2.0.59_sensorskins.zip` | `a3bff9ffeaa0a184de32106df2c3cad5a2fa55bc4a55bad29c673ecc856810e9` | `d698fb6` |
