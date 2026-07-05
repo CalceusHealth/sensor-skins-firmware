@@ -131,10 +131,13 @@ void msg_process_packet(void)
 					msg_add_byte(MSG_TYPE_RESPONSE);
 					msg_add_byte(MSG_QUERY_SYSINFO);
 					msg_add_delim();
+						// SEN-104: SESSION= exposes the ;CX latch so the app can verify its
+						// reconcile-on-connect actually landed; RATE= is the derived Hz for
+						// symmetry with the app's ;CF writes.
 						msg_tx_buffer_end += snprintf(
 							(uint8_t*)msg_tx_buffer+msg_tx_buffer_end,
 							MSG_TX_BUFFER_SIZE-msg_tx_buffer_end,
-							"UID=%08X%08X,VER=%u.%u.%u,STREAM=%s,LOOPMS=%u,MEASUS=%u,CAPUS=%u",
+							"UID=%08X%08X,VER=%u.%u.%u,STREAM=%s,LOOPMS=%u,MEASUS=%u,CAPUS=%u,SESSION=%u,RATE=%u",
 							(unsigned int)(flash_sysdata.device_id >> 32),
 							(unsigned int)(flash_sysdata.device_id & 0xFFFFFFFFu),
 							(unsigned int)((flash_sysdata.device_version >> 16) & 0xFF),
@@ -143,7 +146,9 @@ void msg_process_packet(void)
 							stream_capability,
 							(unsigned int)main_loop_period_ms,
 							(unsigned int)measure_last_us,
-							(unsigned int)measure_cap_us
+							(unsigned int)measure_cap_us,
+							(unsigned int)(session_active ? 1 : 0),
+							(unsigned int)(main_loop_period_ms ? (1000u / main_loop_period_ms) : 0)
 						);
 					msg_add_endline();
 					ble_reid_tx((uint8_t*) msg_tx_buffer, msg_tx_buffer_end);
