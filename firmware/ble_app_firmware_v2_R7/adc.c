@@ -158,7 +158,16 @@ static const nrf_saadc_channel_config_t adc_channel_cap2_low	= ADC_CHANNEL_CONFI
 
 static const nrfx_saadc_config_t adc_config = ADC_DEFAULT_CONFIG;
 
-#define VDIV_VBAT_R1	(21)
+// SEN-102: the R4 divider is R43:R44 = 100k:100k (÷2) with C2 = 100n, giving
+// the ADC node a 5 ms time constant. The old 21:10 (×3.1) constant was an
+// empirical calibration that compensated for sampling at exactly 1τ (the old
+// 5 ms settle reads ~63% of VBAT/2; 3.1 ≈ 2/(1-e^-1)) — i.e. accuracy rode on
+// C2 tolerance and code-path timing, not on a real ratio. Reads now settle
+// >=6τ (VBAT_SETTLE_MS) and use the true ÷2, which is ratio-metric and
+// per-unit robust. This also makes the fresh (QB RAW) and in-sequence paths
+// agree in scale (closes the SEN-52 "fresh reads ~1.5x high" mystery).
+// BENCH-VERIFY against a multimeter on >=3 units before field rollout.
+#define VDIV_VBAT_R1	(10)
 #define VDIV_VBAT_R2	(10)
 
 typedef enum adc_current_state_t
@@ -243,7 +252,21 @@ static void adc_event_handler(nrfx_saadc_evt_t const *p_event)
 	}
 }
 
-int32_t adc_read_vbat_raw(void)
+// SEN-102: enable the gated divider so it can settle (>=6 tau = VBAT_SETTLE_MS)
+// before adc_read_vbat_raw_presettled() samples it. Split out so the awake
+// measurement sequence can settle across frames instead of blocking ~30 ms.
+void adc_vbat_settle_begin(void)
+{
+    nrf_gpio_cfg_output(PIN_VBAT_ON);
+    nrf_gpio_pin_set(PIN_VBAT_ON);
+}
+
+// SEN-102: convert an already-settled divider (adc_vbat_settle_begin called
+// >= VBAT_SETTLE_MS earlier). Clears the divider gate when done. A sample
+// taken with the gate accidentally off reads ~0 and is rejected by
+// battery_submit_raw's 500 mV validity floor, so stale settle state after a
+// sleep transition degrades to one skipped sample, not a bad average.
+int32_t adc_read_vbat_raw_presettled(void)
 {
 	int32_t reading = 0;
 	nrfx_err_t ret_err;
@@ -258,12 +281,9 @@ int32_t adc_read_vbat_raw(void)
 		if (adc_current_state == ADC_DONE) adc_current_state = ADC_IDLE;
 	}
 
-	if ((adc_current_state != ADC_IDLE)||(nrfx_saadc_is_busy())) return 0;
-	
+	if ((adc_current_state != ADC_IDLE)||(nrfx_saadc_is_busy())) { nrf_gpio_pin_clear(PIN_VBAT_ON); return 0; }
+
 	adc_current_state = ADC_ONESHOT;
-    nrf_gpio_cfg_output(PIN_VBAT_ON);
-    nrf_gpio_pin_set(PIN_VBAT_ON);
-	nrf_delay_ms(5);
     ret_err = nrfx_saadc_channel_uninit(0);
 	if (ret_err == NRFX_SUCCESS) ret_err = nrfx_saadc_channel_init(0,&adc_channel_vbat);
 	for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i)
@@ -276,6 +296,16 @@ int32_t adc_read_vbat_raw(void)
 	if (reading<0)reading=0;
     if (ret_err == NRFX_SUCCESS) return reading;
 	else return 0;
+}
+
+// Blocking read: settle + convert. For contexts with no frame budget (sleep
+// loop, QB query). The awake path settles across frames via
+// adc_vbat_settle_begin()/adc_read_vbat_raw_presettled() (see measure.c).
+int32_t adc_read_vbat_raw(void)
+{
+	adc_vbat_settle_begin();
+	nrf_delay_ms(VBAT_SETTLE_MS);
+	return adc_read_vbat_raw_presettled();
 }
 
 uint16_t adc_read_vbat_mv(void)
@@ -297,7 +327,7 @@ int32_t adc_read_vbat_raw_fresh(void)
 
     nrf_gpio_cfg_output(PIN_VBAT_ON);
     nrf_gpio_pin_set(PIN_VBAT_ON);
-	nrf_delay_ms(5);
+	nrf_delay_ms(VBAT_SETTLE_MS); // SEN-102: full settle; now same scale as the normal path
 
 	for (uint8_t i=0; i<ADC_AVG_SAMPLES; ++i)
 	{

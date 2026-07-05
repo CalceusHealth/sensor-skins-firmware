@@ -23,6 +23,9 @@
 
 #define ADC_AVG_SAMPLES	(2)
 #define ADC_TOP			(4096l)
+// SEN-102: vbat divider settle time before sampling. The ADC node RC is
+// (100k||100k)*100n = 5 ms; 30 ms = 6 tau (99.75% settled, ratio-metric).
+#define VBAT_SETTLE_MS	(30)
 
 void adc_init(void);
 void adc_deinit(void);
@@ -39,6 +42,10 @@ uint16_t adc_read_bank3_mv(void);
 uint16_t adc_read_vdd_mv(void);
 uint16_t adc_read_vbat_mv(void);
 int32_t adc_read_vbat_raw(void);
+// SEN-102: split settle/convert so the awake measurement sequence can let the
+// 100k:100k divider settle across frames instead of blocking VBAT_SETTLE_MS.
+void adc_vbat_settle_begin(void);
+int32_t adc_read_vbat_raw_presettled(void);
 uint16_t adc_read_vbat_mv_fresh(void);
 int32_t adc_read_vbat_raw_fresh(void);
 uint16_t adc_vbat_raw_to_mv(int32_t reading);

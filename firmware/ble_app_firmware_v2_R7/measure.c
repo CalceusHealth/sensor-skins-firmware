@@ -125,11 +125,22 @@ void measure_sensors(reid_ble_packet_t* data, uint8_t force_temp)
 	// elapsed time (not frame count) keeps it at one read per VBAT_SAMPLE_PERIOD_MS
 	// regardless of stream rate, so high-rate streaming never pays for it and the
 	// low-battery average/protection stays reliable. See battery_submit_raw().
+	// SEN-102: two-phase read -- enable the gated divider one frame, sample on a
+	// later frame once >= VBAT_SETTLE_MS has elapsed. A blocking 30 ms settle
+	// here would stall ~3 frames at 100 Hz every 5 s; this way the settle costs
+	// zero frame time (divider on-time ~30 ms..1 frame period, ~20 uA while on).
 	static uint64_t last_vbat_ms = 0;
-	if ((last_vbat_ms == 0) || (data->time_ms - last_vbat_ms >= VBAT_SAMPLE_PERIOD_MS)) {
+	static uint64_t vbat_settle_started_ms = 0;
+	if (vbat_settle_started_ms != 0) {
+		if (data->time_ms - vbat_settle_started_ms >= VBAT_SETTLE_MS) {
+			vbat_settle_started_ms = 0;
+			int32_t vbat_raw = adc_read_vbat_raw_presettled();
+			if (vbat_raw > 0) battery_submit_raw(vbat_raw);
+		}
+	} else if ((last_vbat_ms == 0) || (data->time_ms - last_vbat_ms >= VBAT_SAMPLE_PERIOD_MS)) {
 		last_vbat_ms = data->time_ms;
-		int32_t vbat_raw = adc_read_vbat_raw();
-		if (vbat_raw > 0) battery_submit_raw(vbat_raw);
+		adc_vbat_settle_begin();
+		vbat_settle_started_ms = data->time_ms;
 	}
 	
 	static uint64_t last_temp_ms = 0;
