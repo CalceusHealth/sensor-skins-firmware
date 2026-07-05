@@ -69,10 +69,13 @@
 
 #define MSG_MAX_RECORDS_PER_REQUEST		101
 
-#define FSR_SLEEP_THRESHOLD		10
-#define FSR_SLEEP_NUM			15 // this many under the threshold
-#define SLEEP_NUM_MEAS			600 // for this many consecutive measurements
 #define SLEEP_CHECK_EVERY_MS	5000 // check every N after sleeping
+// SEN-99: vbat/charge housekeeping runs every Nth sleep check (12 x 5 s = 60 s)
+// -- at ~uA sleep drain the protection floor moves over hours, not seconds.
+// (FSR_SLEEP_THRESHOLD/FSR_SLEEP_NUM level-wake removed: static shoe pressure
+// held >=5 channels above 10 counts and oscillated the device awake; wake is
+// now IMU motion or BLE connection only.)
+#define SLEEP_BATTERY_CHECK_EVERY_N	12
 
 #define CHARGING_STATE_SAMPLE_EVERY_N_BATTERY_UPDATES	5
 #define CHARGING_STATE_HISTORY_SAMPLES				5

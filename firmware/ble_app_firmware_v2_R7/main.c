@@ -37,7 +37,6 @@
 static void log_init(void);
 static void main_init(void);
 static void main_deinit(void);
-static uint16_t count_low_fsr_sensors(const reid_ble_packet_t* data);
 static uint16_t count_fsr_delta_score(const reid_ble_packet_t* current, const reid_ble_packet_t* previous);
 static uint16_t count_cap_delta_score(const reid_ble_packet_t* current, const reid_ble_packet_t* previous);
 static uint8_t sensor_activity_detected(const reid_ble_packet_t* current, const reid_ble_packet_t* previous, uint8_t has_previous);
@@ -123,33 +122,6 @@ static void main_init(void)
 	#endif
 	msg_init();
     //ble_reid_init(); // inside msg_init()
-}
-
-static uint16_t count_low_fsr_sensors(const reid_ble_packet_t* data)
-{
-	uint16_t num_low_sensors = 0;
-
-	if (data->fsr1 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr2 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr3 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr4 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr5 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr6 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr7 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr8 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr9 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr10 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr11 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr12 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr13 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr14 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr15 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr16 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr17 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr18 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-	if (data->fsr19 < FSR_SLEEP_THRESHOLD) ++num_low_sensors;
-
-	return num_low_sensors;
 }
 
 static uint16_t count_fsr_delta_score(const reid_ble_packet_t* current, const reid_ble_packet_t* previous)
@@ -563,18 +535,32 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 	flush_summary_if_pending(summary_counter);
 	system_wait_for_ms_no_bg(250);
 	ble_reid_enter_lifeline();
-	// SEN-95: IMU into wake-on-motion (gyro off, accel low-power) for the whole
+	// SEN-95: IMU into wake-on-motion (gyro off, accel low-power) for normal
 	// sleep -- previously it kept running at 208 Hz A+G (~0.5 mA) and was the
 	// dominant sleep drain (deep-discharge kill chain, see SLEEP_LOGIC_V2_PROPOSAL).
-	lsm6dsm_enter_wom();
+	// Protection (recovery) sleep powers the IMU down entirely: motion must not
+	// wake a critically low cell, so the wake engine buys nothing there.
+	if (recovery_sleep) lsm6dsm_deinit();
+	else lsm6dsm_enter_wom();
 
+	// SEN-99: the sleep loop no longer measures FSR/CAP at all. The old
+	// level-based wake (>=5 FSRs above 10 counts) oscillated in-shoe-unworn
+	// devices awake ~97% of the time, and the delta wake compared against a
+	// baseline frozen at sleep entry so slow cap/thermal drift caused spurious
+	// wakes. You cannot don or use the insole without motion: wake is the IMU
+	// wake-on-motion latch or a BLE connection. Housekeeping (vbat average for
+	// the protection floor + charging history) runs every 12th check (~60 s).
+	uint8_t battery_check_divider = SLEEP_BATTERY_CHECK_EVERY_N; // immediate first check
 	while (1)
 	{
 		while (system_time_ms() < (*timer + SLEEP_CHECK_EVERY_MS)) system_sleep();
 		*timer = system_time_ms();
 
-		battery_update();
-		update_charging_state_history();
+		if (++battery_check_divider >= SLEEP_BATTERY_CHECK_EVERY_N) {
+			battery_check_divider = 0;
+			battery_update();
+			update_charging_state_history();
+		}
 
 		if (recovery_sleep) {
 			if (battery_sleep_protection_required()) continue;
@@ -584,12 +570,9 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 		if (battery_sleep_protection_required()) continue;
 		if (ble_is_connected()) break;
 		if (lsm6dsm_motion_detected()) { last_motion_ms = system_time_ms(); break; } // SEN-95: latched wake-on-motion
-
-		measure_sensors((reid_ble_packet_t*) &ble_data,0);
-		if (sensor_activity_detected((reid_ble_packet_t*) &ble_data, &previous_ble_data, has_previous_ble_data)) break;
-		if (count_low_fsr_sensors((reid_ble_packet_t*) &ble_data) < FSR_SLEEP_NUM) break;
 	}
 
+	if (recovery_sleep) lsm6dsm_init(); // was fully powered down; restore config
 	lsm6dsm_exit_wom(); // SEN-95: restore 208 Hz A+G for the awake stream
 	ble_advertise_again();
 }
