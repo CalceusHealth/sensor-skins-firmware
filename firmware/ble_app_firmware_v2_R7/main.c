@@ -165,15 +165,19 @@ static uint8_t sensor_activity_detected(const reid_ble_packet_t* current, const 
 	return (fsr_delta_score >= FSR_DELTA_WAKE_MIN) || (cap_delta_score >= CAP_DELTA_WAKE_MIN);
 }
 
+// Legacy summary flush at sleep entry. No-op on stream/nostream builds (the
+// summary path is compiled out entirely -- binary stream is the product path).
 static void flush_summary_if_pending(int32_t* summary_counter)
 {
-	if (*summary_counter > 0) {
 #ifdef ENABLE_FLASH_SUMMARY
+	if (*summary_counter > 0) {
 		flash_write_record((reid_ble_summary_packet_t*) &summary_data);
-#endif
 		measure_reset_summary((reid_ble_summary_packet_t*) &summary_data);
 		*summary_counter = 0;
 	}
+#else
+	(void) summary_counter;
+#endif
 }
 
 static void stream_reset_pending(void)
@@ -698,20 +702,21 @@ int main(void)
 				idle_connected_since_ms = 0;
 			}
 		}
+#ifdef ENABLE_FLASH_SUMMARY
+		// Legacy diabetic-use-case summary path (5-min max/min records to flash
+		// for ;QR/;QM retrieval). The product direction is the binary stream;
+		// stream/nostream builds compile ALL of this out -- no per-frame summary
+		// computation, no flash writes. Only the dedicated `summary` build
+		// enables it. NB flash_write_record() uses raw NRF_NVMC, which stalls
+		// the SoftDevice radio and drops the BLE link every ~343s while
+		// connected; it should move to nrf_fstorage_sd if ever revived.
         measure_update_summary((reid_ble_summary_packet_t*) &summary_data, (reid_ble_packet_t*) &ble_data);
 		if (++summary_counter >= NEW_SUMMARY_EVERY_N) {
-#ifdef ENABLE_FLASH_SUMMARY
-			// Persist the 5-minute summary to flash. Gated OFF in the stream and
-			// nostream builds: flash_write_record() writes via raw NRF_NVMC, which
-			// stalls the SoftDevice radio and drops the BLE link every ~343s while
-			// connected. Only the dedicated `summary` build enables this (for
-			// ;QR/;QM record retrieval); it should move to nrf_fstorage_sd so it
-			// can persist without dropping the link. See the firmware build matrix.
 			flash_write_record((reid_ble_summary_packet_t*) &summary_data);
-#endif
 			measure_reset_summary((reid_ble_summary_packet_t*) &summary_data);
 			summary_counter = 0;
 		}
+#endif
 
 		#ifdef ENABLE_DEBUG
 		NRF_LOG_INFO("Reading at %u, vdd=%umV", ble_data.time_ms, ble_data.vdd_mv);
