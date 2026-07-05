@@ -90,6 +90,18 @@
 // reacts to the acute discharge knee near LOW_BATTERY_SLEEP_MIN_MV within ~1 min.
 #define VBAT_SAMPLE_PERIOD_MS					5000
 #define BLE_ACTIVITY_HOLD_MS					120000
+// SEN-96: motion/load-gated session latch. While session_active (;CX 1) the
+// device stays awake only if connected, recently disconnected, recently moved,
+// or carrying a worn-shaped static load -- so a forgotten session with shoes
+// off no longer burns to the battery floor. Constants field-validated against
+// 9 S3 sitting sessions (worst genuine guard gap 85 s -> 300 s holds give >3x
+// margin; see SLEEP_LOGIC_V2_PROPOSAL.md "Sitting-session validation").
+#define SESSION_DISCONNECT_GRACE_MS				300000
+#define MOTION_HOLD_MS							300000
+#define WORN_LOAD_HOLD_MS						300000
+#define WORN_LOAD_THRESHOLD						25		// firmware-raw FSR counts
+#define WORN_LOAD_WINDOW_MS						5000	// median window
+#define MOTION_AWAKE_DELTA_LSB					128		// ~62.5 mg at 16g FS (0.488 mg/LSB)
 #define FSR_DELTA_THRESHOLD						150
 #define FSR_DELTA_WAKE_MIN						2
 #define CAP_DELTA_THRESHOLD						80

@@ -70,6 +70,10 @@ static uint8_t charging_confirmed = 0;
 static uint8_t low_battery_sleep_latched = 0;
 static reid_ble_packet_t previous_ble_data = {0};
 static uint8_t has_previous_ble_data = 0;
+// SEN-96: hold timestamps for the motion/load-gated session latch. 0 = never.
+static uint64_t last_disconnect_ms = 0;
+static uint64_t last_motion_ms = 0;
+static uint64_t last_worn_load_ms = 0;
 
 #ifdef STREAM_PROTOCOL_BINARY_V2
 typedef struct stream_binary_v2_state_t {
@@ -473,11 +477,78 @@ static uint8_t battery_sleep_protection_required(void)
 	return (charging_confirmed != 0) && (battery_mv < CHARGE_RECOVERY_VBAT_MIN_MV);
 }
 
+// SEN-96: refresh the motion and worn-load hold timestamps from the frame just
+// measured. Motion = frame-to-frame accel delta on any axis (buffered IMU
+// values, 208 Hz awake config). Worn load = any single FSR channel whose
+// WORN_LOAD_WINDOW_MS-window median is >= WORN_LOAD_THRESHOLD; "median >= T"
+// is evaluated exactly as "at least half the window's samples >= T". The load
+// hold is only *consulted* while session_active (see session_intent_active),
+// so static preload outside a session can never hold the device awake.
+static void update_activity_holds(const reid_ble_packet_t* current)
+{
+	static int16_t prev_ax = 0, prev_ay = 0, prev_az = 0;
+	static uint8_t has_prev_acc = 0;
+	int16_t ax = lsm6dsm_read_ax();
+	int16_t ay = lsm6dsm_read_ay();
+	int16_t az = lsm6dsm_read_az();
+
+	if (has_prev_acc) {
+		int32_t dx = (int32_t)ax - prev_ax; if (dx < 0) dx = -dx;
+		int32_t dy = (int32_t)ay - prev_ay; if (dy < 0) dy = -dy;
+		int32_t dz = (int32_t)az - prev_az; if (dz < 0) dz = -dz;
+		if ((dx >= MOTION_AWAKE_DELTA_LSB) || (dy >= MOTION_AWAKE_DELTA_LSB) || (dz >= MOTION_AWAKE_DELTA_LSB)) {
+			last_motion_ms = current->time_ms;
+		}
+	}
+	prev_ax = ax; prev_ay = ay; prev_az = az;
+	has_prev_acc = 1;
+
+	static uint64_t load_win_start_ms = 0;
+	static uint16_t load_win_samples = 0;
+	static uint16_t load_win_hits[19] = {0};
+	const uint16_t* fsr = &current->fsr1;
+
+	if (load_win_start_ms == 0) load_win_start_ms = current->time_ms;
+	if (load_win_samples < 0xFFFF) ++load_win_samples;
+	for (uint8_t i = 0; i < 19; ++i) {
+		if (fsr[i] >= WORN_LOAD_THRESHOLD) ++load_win_hits[i];
+	}
+	if (current->time_ms - load_win_start_ms >= WORN_LOAD_WINDOW_MS) {
+		for (uint8_t i = 0; i < 19; ++i) {
+			if ((uint32_t)load_win_hits[i] * 2u >= load_win_samples) {
+				last_worn_load_ms = current->time_ms;
+				break;
+			}
+		}
+		load_win_start_ms = current->time_ms;
+		load_win_samples = 0;
+		memset(load_win_hits, 0, sizeof(load_win_hits));
+	}
+}
+
+// SEN-96: the session latch (;CX 1) holds the device awake only while there is
+// evidence the session is still real: a live connection, a recent disconnect
+// (brief mid-recording BLE drops -- the flag's original purpose), recent
+// motion, or a worn-shaped static load (long-seated wearer, phone away). A
+// forgotten session with shoes off runs out of all four and sleeps; the flag
+// itself survives so a reconnecting app finds consistent state.
+static uint8_t session_intent_active(void)
+{
+	uint64_t now = system_time_ms();
+
+	if (!session_active) return 0;
+	if (ble_is_connected()) return 1;
+	if ((last_disconnect_ms != 0) && ((now - last_disconnect_ms) <= SESSION_DISCONNECT_GRACE_MS)) return 1;
+	if ((last_motion_ms != 0) && ((now - last_motion_ms) <= MOTION_HOLD_MS)) return 1;
+	if ((last_worn_load_ms != 0) && ((now - last_worn_load_ms) <= WORN_LOAD_HOLD_MS)) return 1;
+	return 0;
+}
+
 static uint8_t ble_activity_detected(void)
 {
 	uint64_t now = system_time_ms();
 
-	if (bench_keepawake || session_active || ble_is_connected()) return 1;
+	if (bench_keepawake || session_intent_active() || ble_is_connected()) return 1;
 	if (last_ble_activity_ms == 0) return 0;
 	return (now - last_ble_activity_ms) <= BLE_ACTIVITY_HOLD_MS;
 }
@@ -508,7 +579,7 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 
 		if (battery_sleep_protection_required()) continue;
 		if (ble_is_connected()) break;
-		if (lsm6dsm_motion_detected()) break; // SEN-95: latched wake-on-motion
+		if (lsm6dsm_motion_detected()) { last_motion_ms = system_time_ms(); break; } // SEN-95: latched wake-on-motion
 
 		measure_sensors((reid_ble_packet_t*) &ble_data,0);
 		if (sensor_activity_detected((reid_ble_packet_t*) &ble_data, &previous_ble_data, has_previous_ble_data)) break;
@@ -536,6 +607,14 @@ int main(void)
 		if (battery_query_pause) {
 			battery_query_pause = 0;
 			continue;
+		}
+
+		// SEN-96: record connection-drop instants for the session grace window.
+		static uint8_t prev_ble_connected = 0;
+		{
+			uint8_t now_connected = ble_is_connected();
+			if (prev_ble_connected && !now_connected) last_disconnect_ms = system_time_ms();
+			prev_ble_connected = now_connected;
 		}
 
 		static uint8_t battery_update_divider = 0;
@@ -567,6 +646,7 @@ int main(void)
 			// slot too. This -- not BLE transport -- was the dominant "frame loss".
 		}
 		measure_sensors((reid_ble_packet_t*) &ble_data,0);
+		update_activity_holds((reid_ble_packet_t*) &ble_data); // SEN-96: motion + worn-load holds
         measure_update_summary((reid_ble_summary_packet_t*) &summary_data, (reid_ble_packet_t*) &ble_data);
 		if (++summary_counter >= NEW_SUMMARY_EVERY_N) {
 #ifdef ENABLE_FLASH_SUMMARY
