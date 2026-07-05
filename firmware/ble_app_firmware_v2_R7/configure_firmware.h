@@ -96,6 +96,12 @@
 // off no longer burns to the battery floor. Constants field-validated against
 // 9 S3 sitting sessions (worst genuine guard gap 85 s -> 300 s holds give >3x
 // margin; see SLEEP_LOGIC_V2_PROPOSAL.md "Sitting-session validation").
+// SEN-98: IDLE_CONNECTED — connected but no session/motion/deltas for the
+// timeout: keep the link but drop to a slow internal cadence + IMU
+// wake-on-motion, instead of streaming at full rate to an idle phone all day.
+// Snaps back to the user's ;CF rate on any command/session/motion/deltas.
+#define IDLE_CONNECTED_TIMEOUT_MS				120000
+#define IDLE_CONNECTED_PERIOD_MS				500
 #define SESSION_DISCONNECT_GRACE_MS				300000
 #define MOTION_HOLD_MS							300000
 #define WORN_LOAD_HOLD_MS						300000

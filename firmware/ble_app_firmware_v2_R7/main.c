@@ -74,6 +74,10 @@ static uint8_t has_previous_ble_data = 0;
 static uint64_t last_disconnect_ms = 0;
 static uint64_t last_motion_ms = 0;
 static uint64_t last_worn_load_ms = 0;
+// SEN-98: IDLE_CONNECTED — connected but idle: internal cadence drops to
+// IDLE_CONNECTED_PERIOD_MS and the IMU goes to wake-on-motion. The user's ;CF
+// rate (main_loop_period_ms) is untouched and resumes on exit.
+static uint8_t idle_connected = 0;
 
 #ifdef STREAM_PROTOCOL_BINARY_V2
 typedef struct stream_binary_v2_state_t {
@@ -601,7 +605,9 @@ int main(void)
 
 	while (1)
 	{
-		while (system_time_ms() < (timer + main_loop_period_ms)) system_sleep();
+		// SEN-98: in IDLE_CONNECTED the loop runs at the slow internal cadence;
+		// otherwise at the ;CF-set stream period.
+		while (system_time_ms() < (timer + (idle_connected ? IDLE_CONNECTED_PERIOD_MS : main_loop_period_ms))) system_sleep();
         timer = system_time_ms();
 
 		if (battery_query_pause) {
@@ -647,6 +653,44 @@ int main(void)
 		}
 		measure_sensors((reid_ble_packet_t*) &ble_data,0);
 		update_activity_holds((reid_ble_packet_t*) &ble_data); // SEN-96: motion + worn-load holds
+		uint8_t sensor_active_now = sensor_activity_detected((reid_ble_packet_t*) &ble_data, &previous_ble_data, has_previous_ble_data);
+
+		// SEN-98: IDLE_CONNECTED state machine. Exit on anything that means the
+		// connection is being used again: disconnect (normal idle->sleep path
+		// takes over), session start, bench latch, sensor deltas, real motion
+		// (WoM engine — the frame-delta path is parked at zero in WoM mode), or
+		// a ;CF rate change (the user asked for a specific stream rate). Plain
+		// query traffic (e.g. periodic ;QB polls) is served at the slow cadence
+		// and neither blocks entry nor forces exit.
+		{
+			static uint32_t idle_connected_wait_ms = 0;
+			static uint16_t last_seen_period_ms = 0;
+			uint8_t rate_changed = (last_seen_period_ms != 0) && (last_seen_period_ms != main_loop_period_ms);
+			last_seen_period_ms = main_loop_period_ms;
+
+			if (idle_connected) {
+				if (!ble_is_connected() || session_active || bench_keepawake ||
+					sensor_active_now || rate_changed || lsm6dsm_motion_detected()) {
+					idle_connected = 0;
+					idle_connected_wait_ms = 0;
+					lsm6dsm_exit_wom();
+				}
+			} else if (ble_is_connected() && !session_active && !bench_keepawake) {
+				uint8_t motion_recent = (last_motion_ms != 0) && ((system_time_ms() - last_motion_ms) <= 2000);
+				if (sensor_active_now || motion_recent) {
+					idle_connected_wait_ms = 0;
+				} else {
+					idle_connected_wait_ms += main_loop_period_ms;
+					if (idle_connected_wait_ms >= IDLE_CONNECTED_TIMEOUT_MS) {
+						idle_connected_wait_ms = 0;
+						idle_connected = 1;
+						lsm6dsm_enter_wom();
+					}
+				}
+			} else {
+				idle_connected_wait_ms = 0;
+			}
+		}
         measure_update_summary((reid_ble_summary_packet_t*) &summary_data, (reid_ble_packet_t*) &ble_data);
 		if (++summary_counter >= NEW_SUMMARY_EVERY_N) {
 #ifdef ENABLE_FLASH_SUMMARY
@@ -745,7 +789,7 @@ int main(void)
 		} else if (ble_activity_detected()) {
 			idle_sleep_ms = 0;
 			charging_idle_sleep_ms = 0;
-		} else if (sensor_activity_detected((reid_ble_packet_t*) &ble_data, &previous_ble_data, has_previous_ble_data)) {
+		} else if (sensor_active_now) {
 			idle_sleep_ms = 0;
 			charging_idle_sleep_ms = 0;
 		} else if (charging_confirmed) {

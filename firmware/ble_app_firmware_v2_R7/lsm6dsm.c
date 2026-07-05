@@ -17,6 +17,11 @@ static volatile int16_t lsm6dsm_buffered_az;
 static volatile int16_t lsm6dsm_buffered_gx;
 static volatile int16_t lsm6dsm_buffered_gy;
 static volatile int16_t lsm6dsm_buffered_gz;
+// SEN-95/98: nonzero while the wake-on-motion low-power config is active.
+// lsm6dsm_update() is a no-op in this mode and the buffered values are held
+// at zero, so stream rows emitted at reduced cadence carry an unambiguous
+// "IMU off" instead of 2g-scaled or stale samples.
+static volatile uint8_t lsm6dsm_wom_active = 0;
 
 
 
@@ -85,6 +90,15 @@ void lsm6dsm_enter_wom(void)
 {
 	uint8_t data[3];
 
+	lsm6dsm_wom_active = 1;
+	lsm6dsm_buffered_temp = 0;
+	lsm6dsm_buffered_ax = 0;
+	lsm6dsm_buffered_ay = 0;
+	lsm6dsm_buffered_az = 0;
+	lsm6dsm_buffered_gx = 0;
+	lsm6dsm_buffered_gy = 0;
+	lsm6dsm_buffered_gz = 0;
+
 	data[0] = LSM6DSM_ADDRESS_CTRL1_XL;
 	data[1] = 0b00110000; // ACC: 52 Hz, 2g full scale
 	data[2] = 0b00000000; // GYRO: ODR=0 power down
@@ -112,6 +126,8 @@ void lsm6dsm_enter_wom(void)
 void lsm6dsm_exit_wom(void)
 {
 	uint8_t data[3];
+
+	lsm6dsm_wom_active = 0;
 
 	data[0] = LSM6DSM_ADDRESS_TAP_CFG;
 	data[1] = 0b00000000; // interrupts off, latch off
@@ -150,6 +166,8 @@ int16_t lsm6dsm_whoami(void)
 
 void lsm6dsm_update(void)
 {
+	if (lsm6dsm_wom_active) return; // SEN-95/98: buffers stay zeroed in WoM mode
+
 	uint8_t data[14];
 	data[0] = LSM6DSM_ADDRESS_OUT_TEMP_L;
 	i2c_write(I2C_ADDRESS_LSM6DSM,1,data,true);
