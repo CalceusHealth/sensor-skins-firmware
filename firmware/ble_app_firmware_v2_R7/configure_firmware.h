@@ -83,6 +83,9 @@
 #define CHARGING_STATE_CLEAR_AFTER_NON_C_SAMPLES	3
 #define LOW_BATTERY_SLEEP_MIN_MV					3250
 #define LOW_BATTERY_WAKE_MIN_MV					3450
+// SEN-101: consecutive fresh averages >= the wake floor needed to clear the
+// low-battery latch (debounces IR-drop rest recovery / relaxation spikes).
+#define LOW_BATTERY_WAKE_CONFIRM_SAMPLES			2
 #define CHARGE_RECOVERY_VBAT_MIN_MV				3450
 #define CHARGING_IDLE_SLEEP_TIMEOUT_MS			15000
 #define IDLE_SLEEP_TIMEOUT_MS					180000

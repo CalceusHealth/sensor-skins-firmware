@@ -441,7 +441,11 @@ static uint8_t battery_sleep_protection_required(void)
 	uint16_t battery_mv = battery_pack_voltage_mv();
 
 	if (low_battery_sleep_latched) {
-		if (battery_mv >= LOW_BATTERY_WAKE_MIN_MV) low_battery_sleep_latched = 0;
+		// SEN-101: clearing the latch needs LOW_BATTERY_WAKE_CONFIRM_SAMPLES
+		// consecutive fresh averages at/above the wake floor -- one rest-
+		// recovery or relaxation-spike sample on an aged cell must not wake a
+		// device that will immediately sag back below the 3250 floor.
+		if (battery_wake_streak() >= LOW_BATTERY_WAKE_CONFIRM_SAMPLES) low_battery_sleep_latched = 0;
 		else return 1;
 	}
 

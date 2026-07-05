@@ -32,6 +32,10 @@ void battery_update(void);
 // sleep loop / QB query where it owns the idle converter.
 void battery_submit_raw(int32_t batt_raw);
 int32_t battery_pack_voltage_raw(void);
+// SEN-101: consecutive fresh averages at/above LOW_BATTERY_WAKE_MIN_MV.
+// Advances per submitted sample (not per query); used to debounce clearing
+// the low-battery protection latch.
+uint8_t battery_wake_streak(void);
 
 battery_state_t battery_current_state(void);
 

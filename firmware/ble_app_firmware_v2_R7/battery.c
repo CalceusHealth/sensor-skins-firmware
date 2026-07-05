@@ -53,8 +53,20 @@ uint16_t batt_charging_hysteresis = 0;
 // instead of washing stale low samples out one slot at a time. Above sample
 // noise, well below a real charge step.
 #define VBAT_JUMP_RESEED_MV 150
+// SEN-101: require this many CONSECUTIVE qualifying samples before flushing.
+// One relaxation spike on a degraded high-impedance cell (the known field
+// failure mode) must not reseed the average high and instantly cancel
+// low-battery protection. A real recharge qualifies on every sample, so the
+// snap still lands within ~10 s at the 5 s vbat cadence.
+#define VBAT_JUMP_RESEED_SAMPLES 2
 static volatile uint16_t vbat_average_buffer[VBAT_AVERAGE_N] = {0};
 static volatile int16_t vbat_average_counter = -1;
+static volatile uint8_t vbat_jump_streak = 0;
+// SEN-101: consecutive fresh *averages* at/above the protection wake floor.
+// Tracked here (per sample, not per query) so the debounce can't be satisfied
+// by re-reading one cached average. Consumed by battery_sleep_protection_
+// required() in main.c to clear the low-battery latch.
+static volatile uint8_t vbat_wake_streak = 0;
 
 void battery_init()
 {
@@ -81,13 +93,19 @@ void battery_submit_raw(int32_t batt_raw)
 
 	bat_voltage_raw = batt_raw;
 	if ((batt_reading > 500)&&(batt_reading < 5000)) {
-		// First sample after boot, or a clear step up (recharge): drop stale
-		// history and reseed every slot with the fresh reading. Upward-only so
-		// genuine discharge readings stay smoothed.
-		if ((vbat_average_counter < 0) ||
-		    ((int32_t)batt_reading - (int32_t)bat_voltage > VBAT_JUMP_RESEED_MV)) {
+		// First sample after boot, or a debounced step up (recharge): drop
+		// stale history and reseed every slot with the fresh reading.
+		// Upward-only so genuine discharge readings stay smoothed; SEN-101:
+		// two consecutive qualifying samples required so a single relaxation
+		// spike on a high-impedance cell can't flush the average.
+		uint8_t jump = ((int32_t)batt_reading - (int32_t)bat_voltage > VBAT_JUMP_RESEED_MV);
+		if (jump) { if (vbat_jump_streak < 0xFF) ++vbat_jump_streak; }
+		else vbat_jump_streak = 0;
+
+		if ((vbat_average_counter < 0) || (vbat_jump_streak >= VBAT_JUMP_RESEED_SAMPLES)) {
 			for (uint16_t i=0; i<VBAT_AVERAGE_N; ++i) vbat_average_buffer[i] = batt_reading;
             vbat_average_counter = 0;
+			vbat_jump_streak = 0;
 		} else {
 			if (++vbat_average_counter >= VBAT_AVERAGE_N) vbat_average_counter = 0;
 			vbat_average_buffer[vbat_average_counter] = batt_reading;
@@ -97,6 +115,18 @@ void battery_submit_raw(int32_t batt_raw)
 	for (uint16_t i=0; i<VBAT_AVERAGE_N; ++i) average += vbat_average_buffer[i];
 	if (average != 0) average /= VBAT_AVERAGE_N;
 	bat_voltage = average;
+
+	// SEN-101: per-sample wake-floor streak for the protection latch debounce.
+	if (bat_voltage >= LOW_BATTERY_WAKE_MIN_MV) { if (vbat_wake_streak < 0xFF) ++vbat_wake_streak; }
+	else vbat_wake_streak = 0;
+}
+
+// SEN-101: how many consecutive fresh averages have been at/above the
+// protection wake floor (LOW_BATTERY_WAKE_MIN_MV). Advances only when a new
+// sample lands, so polling can't satisfy the debounce.
+uint8_t battery_wake_streak(void)
+{
+	return vbat_wake_streak;
 }
 
 // Acquire one vbat sample and process it. Call only where the SAADC is
