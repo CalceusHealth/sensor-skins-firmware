@@ -83,3 +83,33 @@ nostream_sleep_rhs_v00020023_sensorskins.zip
 - Before testing or releasing a new build, update
   `artefacts/firmware_build_matrix.md` and make a local git commit so the exact
   source state can be recovered.
+
+## Publish to the mobile app (in-app DFU)
+
+Once the signed zips are in `artefacts/out/`, publish them so the Sensor Skins
+app can offer the update over the air. This uploads the zips and (re)generates
+`manifest.json` in the `calceus-dev-firmware` bucket. See
+`docs/FIRMWARE_DISTRIBUTION.md` for the manifest schema, compatibility gating,
+and the one-time IAM setup.
+
+```bash
+# Inspect the manifest locally first (no AWS needed):
+./tools/publish_firmware.sh \
+  --protocol ASCII_V1_TS \
+  --min-app-version 9 \
+  --dry-run \
+  artefacts/out/stream_sleep_lhs_v2.0.59_sensorskins.zip \
+  artefacts/out/stream_sleep_rhs_v2.0.59_sensorskins.zip
+
+# Publish for real (requires AWS CLI with write access to the bucket):
+./tools/publish_firmware.sh \
+  --protocol ASCII_V1_TS \
+  --min-app-version 9 \
+  artefacts/out/stream_sleep_lhs_v2.0.59_sensorskins.zip \
+  artefacts/out/stream_sleep_rhs_v2.0.59_sensorskins.zip
+```
+
+- Always publish `lhs` and `rhs` together, in one invocation (the manifest is
+  regenerated from exactly the files you pass).
+- `--protocol` must match the build's stream wire format so the app only offers
+  builds it can decode. `--min-app-version` is the app `versionCode` floor.
