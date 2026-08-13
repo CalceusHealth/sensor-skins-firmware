@@ -10,8 +10,8 @@ if [[ $# -ne 1 ]]; then
 fi
 
 SDK_ROOT="$(cd "$1" && pwd)"
-SOFTDEVICE_HEX="${SDK_ROOT}/components/softdevice/s112/hex/s112_nrf52_6.1.1_softdevice.hex"
-BOOT_HEX="$(sdk_bootloader_dir "${SDK_ROOT}")/pca10040_ble/ses/Output/Release/Exe/secure_bootloader_ble_s112_calceus.hex"
+SOFTDEVICE_HEX="${SDK_ROOT}/components/softdevice/s132/hex/s132_nrf52_6.1.1_softdevice.hex"
+BOOT_HEX="$(sdk_bootloader_dir "${SDK_ROOT}")/pca10040_ble/ses/Output/Release/Exe/secure_bootloader_ble_s132_calceus.hex"
 APP_HEX="$(sdk_app_dir "${SDK_ROOT}")/Output/Release/Exe/ble_app_aginic_v2.hex"
 
 require_file "${SOFTDEVICE_HEX}"

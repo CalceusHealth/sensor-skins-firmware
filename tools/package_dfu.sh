@@ -11,8 +11,8 @@ SIDE="${2:-lhs}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 source "${SCRIPT_DIR}/common.sh"
-HEX_PATH="${SDK_ROOT}/examples/ble_peripheral/reid_ble_aginic_v2/pca10040/s112/ses/Output/Release/Exe/ble_app_aginic_v2.hex"
-CONFIG_PATH="${SDK_ROOT}/examples/ble_peripheral/reid_ble_aginic_v2/pca10040/s112/ses/configure_firmware.h"
+HEX_PATH="$(sdk_app_dir "${SDK_ROOT}")/Output/Release/Exe/ble_app_aginic_v2.hex"
+CONFIG_PATH="$(sdk_app_dir "${SDK_ROOT}")/configure_firmware.h"
 KEY_PATH="${REPO_ROOT}/firmware/ble_app_firmware_v2_R6/reid_ble_aginic_v2.06_source/calceus_private.key"
 OUT_DIR="${REPO_ROOT}/artefacts/out"
 
@@ -50,7 +50,7 @@ nrfutil pkg generate \
   --hw-version 52 \
   --application-version "${APP_VERSION}" \
   --application "${HEX_PATH}" \
-  --sd-req 0xB8 \
+  --sd-req 0xB7 \
   --app-boot-validation NO_VALIDATION \
   --key-file "${KEY_PATH}" \
   "${OUT_FILE}"

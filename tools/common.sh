@@ -39,7 +39,7 @@ find_embuild() {
 
 sdk_app_dir() {
   local sdk_root="$1"
-  printf '%s\n' "${sdk_root}/examples/ble_peripheral/reid_ble_aginic_v2/pca10040/s112/ses"
+  printf '%s\n' "${sdk_root}/examples/ble_peripheral/reid_ble_aginic_v2/pca10040/s132/ses"
 }
 
 sdk_bootloader_dir() {

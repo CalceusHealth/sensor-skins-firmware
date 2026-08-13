@@ -15,7 +15,7 @@ CONFIG="${2:-Release}"
 "${SCRIPT_DIR}/stage_sdk_sources.sh" "${SDK_ROOT}" lhs >/dev/null
 
 PROJECT_DIR="$(sdk_bootloader_dir "${SDK_ROOT}")/pca10040_ble/ses"
-PROJECT_FILE="${PROJECT_DIR}/secure_bootloader_ble_s112_calceus_Release.emProject"
+PROJECT_FILE="${PROJECT_DIR}/secure_bootloader_ble_s132_calceus_Release.emProject"
 EMBUILD="$(find_embuild)"
 
 require_file "${PROJECT_FILE}"
@@ -24,4 +24,4 @@ require_file "${PROJECT_FILE}"
 
 echo
 echo "Bootloader build complete."
-echo "HEX: ${PROJECT_DIR}/Output/${CONFIG}/Exe/secure_bootloader_ble_s112_calceus.hex"
+echo "HEX: ${PROJECT_DIR}/Output/${CONFIG}/Exe/secure_bootloader_ble_s132_calceus.hex"

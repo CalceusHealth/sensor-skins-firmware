@@ -26,8 +26,10 @@ RETARGET_FILE="${SDK_ROOT}/components/libraries/uart/retarget.c"
 
 mkdir -p "${APP_DST}" "${BOOT_DST}"
 
-rsync -a --delete "${APP_SRC}" "${APP_DST}/"
-rsync -a --delete "${BOOT_SRC}" "${BOOT_DST}/"
+# Keep build outputs: app and bootloader share this staging step, so a bare
+# --delete would wipe the other project's already-built hex on every re-stage.
+rsync -a --delete --exclude 'Output/' "${APP_SRC}" "${APP_DST}/"
+rsync -a --delete --exclude 'Output/' "${BOOT_SRC}" "${BOOT_DST}/"
 
 set_staged_side "${APP_DST}/configure_firmware.h" "${SIDE}"
 set_staged_stream_mode "${APP_DST}/configure_firmware.h" "${STREAM_MODE}"
@@ -54,6 +56,12 @@ if patch not in text:
     text = text.replace(marker, patch, 1)
     path.write_text(text)
 PY
+
+# SDK 15.3 predates C23-era GCC: the old-style empty parameter list () on
+# nrf_svc_func_t now means (void), breaking the 4-arg call in nrf_svc_handler.c.
+SVC_FUNCTION_HEADER="${SDK_ROOT}/components/libraries/svc/nrf_svc_function.h"
+sed -i 's@typedef uint32_t (\*nrf_svc_func_t)();@typedef uint32_t (*nrf_svc_func_t)(uint32_t, uint32_t, uint32_t, uint32_t);@' \
+  "${SVC_FUNCTION_HEADER}"
 
 echo "Staged application sources to ${APP_DST}"
 echo "Staged bootloader sources to ${BOOT_DST}"
