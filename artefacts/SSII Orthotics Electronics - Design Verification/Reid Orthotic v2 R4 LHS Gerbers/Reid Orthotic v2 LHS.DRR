@@ -1,0 +1,18 @@
+---------------------------------------------------------------------------
+NCDrill File Report For: Reid Orthotic v2 LHS.CSPCBDoc   5/09/2024  11:29:00 AM
+---------------------------------------------------------------------------
+
+Layer Pair : Layer 1 (Top) to Layer 4 (Bottom)
+ASCII Plated RoundHoles File : Reid Orthotic v2 LHS-Plated.TXT
+ASCII Non-Plated RoundHoles File : Reid Orthotic v2 LHS-NonPlated.TXT
+
+Tool         Hole Size           Hole Type     Hole Count Plated       Tool Travel
+---------------------------------------------------------------------------
+T1        0.2mm (7.874mil)         Round          287              382.83 mm (15.07 Inch)
+T2        0.3mm (11.811mil)        Round          9                60.76 mm (2.39 Inch)
+T3        0.7mm (27.559mil)        Round          40               50.86 mm (2.00 Inch)
+T4        1mm (39.37mil)           Round          3         NPTH   7.21 mm (0.28 Inch)
+---------------------------------------------------------------------------
+Totals                                            339              501.65 mm (19.75 Inch)
+
+Total Processing Time (hh:mm:ss) : 00:00:00
