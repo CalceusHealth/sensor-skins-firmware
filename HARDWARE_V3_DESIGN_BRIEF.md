@@ -162,4 +162,12 @@ The unifying observation: **every field failure is a hand-soldered flying-wire j
 
 ## 7. Linear references
 
-*(pending Linear MCP authorization — to be appended)*
+No PCB/CAD design artifacts are stored in Linear; the hardware trail lives in these issues:
+
+- **[SEN-179](https://linear.app/calceus-health/issue/SEN-179/hardware-v3-pcb-integrated-recharge-coil-protected-battery-flex)** — *this work*: Hardware v3 tracking issue (design brief + next actions checklist), Firmware project.
+- **[SEN-105](https://linear.app/calceus-health/issue/SEN-105/sleep-v2-11-hardware-charge-current-80-ma-exceeds-cell-max-70-ma-iset)** (Backlog) — the ISET 5.1k → 10k charge-current rework; §5.5's interim fix. Should be executed on existing prototypes regardless of v3.
+- **[SEN-102](https://linear.app/calceus-health/issue/SEN-102/sleep-v2-8-vbat-scale-is-a-timing-artifact-divider-is-2-31-constant)** (In Progress) — vbat ÷2 divider / ×3.1 timing artifact; superseded in v3 by the MAX17048 fuel-gauge recommendation.
+- **[SEN-106](https://linear.app/calceus-health/issue/SEN-106/sleep-v2-12-firmware-uvlo-system-off-below-3100-mv-wake-on-charger-pg)** (Done) — firmware UVLO (System OFF < 3100 mV); the PCM in the recommended protected pack becomes the hardware backstop beneath it.
+- **[SEN-87](https://linear.app/calceus-health/issue/SEN-87/uat-recharge-add-a-placement-markguide-on-the-orthotic-for-the-usb)** (Backlog, UAT) — puck placement mark/guide; directly interacts with Track A's alignment-margin trade-off (a larger PCB spiral relaxes it).
+- **[SEN-172](https://linear.app/calceus-health/issue/SEN-172/build-and-commission-the-50-pair-fleet-for-november)** (Backlog, iOrthotics Trial) — 50-pair November fleet build; the schedule constraint that decides whether v3 lands before or after the fleet (the §5.5 reworks apply to the fleet either way).
+- **[SEN-49](https://linear.app/calceus-health/issue/SEN-49/battery-drain-and-sleep-current-audit-certify-no-firmware-drain-path)** (Backlog) — battery-drain audit certifying no firmware drain path; complements the hardware protection story.
