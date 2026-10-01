@@ -130,7 +130,28 @@ Results:
   - A VARTA CP1254 coin (Ø12.1) fits within the board footprint where the pouch cell is stacked today.
   - A LIR2032 (Ø20) only just fits across the board's 21.25 mm width.
 
-**Caveat on size:** the PCB is shared across all orthotic sizes (XXS–XXL), but the membrane and orthotic outline scale with size. This study covers only the CAL1020 drawing's size. Its title block reads "Foot S"; it was described to us as medium. The tab and battery placement must be re-checked against the **smallest (XXS)** membrane and orthotic drawing before the outline is committed. The 8.25 mm edge clearance will shrink on smaller sizes.
+**Caveat on size:** the PCB is shared across all seven orthotic sizes (XXS–XXL), but the membrane and orthotic outline scale with size. This study covers only the CAL1020 drawing, which is size **S (Small)**. The tab and battery placement must be re-checked against the **smallest (XXS)** membrane and orthotic outline before the board outline is committed; drawings for all sizes are to be added to `hardware/`. The 8.25 mm edge clearance will shrink on smaller sizes.
+
+**Thickness (design goal: thinnest possible orthotic).** Measured from the R3 assembly model:
+
+| Item | Height |
+|---|---|
+| Sensor layer | 0.6 mm |
+| PCB | 0.4–0.5 mm |
+| Tallest real parts on the board (100 µF 0805 capacitors, SOT-23) | ~1.2–1.4 mm |
+| Battery tape pad | 0.6 mm |
+| Pouch cell | 3.2 mm |
+| **Overall today** | **5.4 mm** |
+
+The overall figure is high because the battery is stacked on top of the components. The model also shows a 4 × 4 × 4.7 mm object on the board; it is most likely the Tag-Connect plug model (J5), which is not fitted on R4.
+
+- **Biggest lever: stop stacking.** With the battery beside the board instead of on it, the orthotic's thickest point becomes the cell itself: about 3.3–3.5 mm with today's pouch, roughly 2 mm thinner. This holds for any battery choice.
+- **Coin cells do not help thickness.** The CP1254 (5.4 mm) is ruled out. The LIR2032 (3.2 mm) matches today's thickness with about two-thirds of the capacity, so it gains robustness only.
+- **Battery under the coil, on the tab:** possible electrically, but worse on thickness and in conflict with the magnet:
+  - A metal battery directly behind the coil absorbs the charging field. It needs a ferrite sheet between coil and battery, as phones use, and the coupling must be re-tuned with the battery fitted.
+  - The stack becomes PCB 0.4 + ferrite ~0.3 + cell, about 0.7 mm thicker than placing the cell beside the board.
+  - The 4 × 3 mm alignment magnet in the coil centre would sit directly over the battery.
+- **Next lever: a thinner cell with a larger footprint.** Pouch capacity scales roughly with volume. Catalogue cells show the trend: 4 × 20 × 30 mm ≈ 200 mAh and 5 × 20 × 30 mm ≈ 250 mAh. By extrapolation, a ~2 × 20 × 30 mm cell should roughly match today's 76 mAh at about two-thirds the thickness; this is an estimate to confirm with a supplier, e.g. a Master Instruments custom pack with protection and a connector. Flexible cells such as Jenax J.Flex (0.5–2.3 mm, 10 mAh upward; dynamic-bend tested at 20 mm radius) are a longer-shot lead for a cell that tolerates insole flexing.
 
 **Alternative worth a serious look — NFC WLC (13.56 MHz):** purpose-built for etched PCB antennas (only ~1–5 µH needed; PCB Q of 30–60 is easy), with power classes from 250 mW ([NFC Forum WLC](https://nfc-forum.org/build/specifications/wireless-charging/)). The **Renesas PTX30W** listener IC integrates the rectifier *and* a 5–250 mA Li-ion charger + LDO in 1.78 mm² — it would replace the coil, the rectifier chain (D1/D2/C37/C40/C42), *and* the BQ24210 ([Renesas](https://www.renesas.com/en/products/wireless-connectivity/nfc/ptx30w-highly-integrated-scalable-nfc-wlc-listener-i-c-interface-and-board-pmic-ldo)). Cost: the charger puck must be respun around a PTX130W-class poller, and both sides need 13.56 MHz tuning discipline. **If the puck is being redesigned anyway, this is a genuinely strong candidate; if the puck must stay, the retuned 125 kHz PCB spiral is the pragmatic fix.**
 
