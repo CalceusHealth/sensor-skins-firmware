@@ -427,6 +427,18 @@ def generate(side):
                 return h
         return None
 
+    def all_inner_rings(x, y):
+        """True when the original plots a ring on every inner layer here --
+        then KiCad must not strip unconnected inner rings for this hole."""
+        return all(any(abs(f["x"] - x) < 0.08 and abs(f["y"] - y) < 0.08
+                       for f in layers.get(L, {}).get("flashes", []))
+                   for L in ("In1.Cu", "In2.Cu"))
+
+    def unused_layers_clause(x, y):
+        if all_inner_rings(x, y):
+            return ""
+        return " (remove_unused_layers) (keep_end_layers)"
+
     # ---- mask / paste pairing (empirical margins + per-pad presence)
     def flash_index(layer):
         return layers.get(layer, {}).get("flashes", [])
@@ -440,6 +452,12 @@ def generate(side):
         return best
 
     mask_deltas, paste_deltas = [], []
+    # positions (gerber frame) whose mask/paste opening is produced by an
+    # emitted pad -- used to decide which raw mask/paste flashes still need
+    # to be drawn as graphics (e.g. untented via openings match a via RING
+    # flash on copper, but vias plot no mask, so they must stay)
+    mask_cover = {"F": [], "B": []}
+    paste_cover = {"F": [], "B": []}
 
     def mask_paste_for(f, cu_layer, w, h):
         """Pair the pad flash with its mask/paste flash; margins are compared
@@ -489,7 +507,12 @@ def generate(side):
                 drill += f" (offset {fmt(ox)} {fmt(oy)})"
             drill += ")"
             kind = "thru_hole"
-            extra = " (remove_unused_layers)"
+            # outer rings always stay; unconnected inner rings are stripped
+            # only where the original gerbers stripped them (per hole)
+            extra = unused_layers_clause(gx, gy)
+            if has_mask:
+                mask_cover["F"].append((gx, gy))
+                mask_cover["B"].append((gx, gy))
         else:
             ls = [f'"{side_pfx}.Cu"']
             if has_paste:
@@ -500,6 +523,10 @@ def generate(side):
             drill = ""
             kind = "smd"
             extra = ""
+            if has_mask:
+                mask_cover[side_pfx].append((gx, gy))
+            if has_paste:
+                paste_cover[side_pfx].append((gx, gy))
         line = (f'{indent}(pad "{num}" {kind} {kshape} {at} '
                 f'(size {fmt(w)} {fmt(h)}){drill} {lay}{opts}{margins}{extra} '
                 f'{net_clause(nid)} (tstamp {ts()}))')
@@ -509,9 +536,26 @@ def generate(side):
     out_fp = []
     counts = defaultdict(int)
     pads_by_ref = defaultdict(list)
+    comp_flashes = layers[comp_layer]["flashes"]
+    # A via-in-pad puts a round via-ring flash exactly on its exposed-pad
+    # flash. If ownership landed on the ring, emit the pad from the coincident
+    # pad-shaped flash and treat the ring as the via's (same copper, same net).
+    pad_geom = {}      # owned flash idx -> flash idx used for pad geometry
+    ring_of_pad = set()
+    for i in b.pads:
+        f = comp_flashes[i]
+        if (f.get("ap") or {}).get("type") != "CircleAperture":
+            continue
+        for j, g in enumerate(comp_flashes):
+            if j == i or (g.get("ap") or {}).get("type") == "CircleAperture":
+                continue
+            if abs(g["x"] - f["x"]) < 0.02 and abs(g["y"] - f["y"]) < 0.02 \
+                    and (g.get("bw") or 0) > (f.get("bw") or 0):
+                pad_geom[i] = j
+                ring_of_pad.add(i)
+                break
     for i, (ref, pin) in b.pads.items():
         pads_by_ref[ref].append((pin, i))
-    comp_flashes = layers[comp_layer]["flashes"]
     fp_layer = comp_layer  # footprints live on the component side
     silk_layer = "F.SilkS" if fp_layer == "F.Cu" else "B.SilkS"
     fab_layer = "F.Fab" if fp_layer == "F.Cu" else "B.Fab"
@@ -525,7 +569,8 @@ def generate(side):
         any_hole = False
         plines = []
         for pin, fi in plist:
-            line, hol = pad_sexpr(pin, comp_flashes[fi], net_of_root(("F", comp_layer, fi)),
+            line, hol = pad_sexpr(pin, comp_flashes[pad_geom.get(fi, fi)],
+                                  net_of_root(("F", comp_layer, fi)),
                                   (cx, cy), theta, comp_layer)
             plines.append(line)
             any_hole |= hol
@@ -552,6 +597,9 @@ def generate(side):
             accounted[(comp_layer, i)] = "via_ring"
         elif i in b.pads:
             accounted[(comp_layer, i)] = "component_pad"
+    for i, j in pad_geom.items():
+        accounted[(comp_layer, i)] = "via_ring"
+        accounted[(comp_layer, j)] = "component_pad"
     pad_n = 0
     for L in COPPER:
         for i, f in enumerate(layers.get(L, {}).get("flashes", [])):
@@ -602,8 +650,10 @@ def generate(side):
             f'      (effects (font (size 0.3 0.3) (thickness 0.05))) (tstamp {ts()}))',
             f'    (fp_text value "NPTH" (at 0 0.6) (layer "F.Fab") hide',
             f'      (effects (font (size 0.3 0.3) (thickness 0.05))) (tstamp {ts()}))',
+            # no *.Mask here: the original gerbers have no NPTH mask relief
+            # (only a 0.1 mm legend dot, emitted below as graphics)
             f'    (pad "" np_thru_hole circle (at 0 0) (size {fmt(h["dia"])} '
-            f'{fmt(h["dia"])}) (drill {fmt(h["dia"])}) (layers "F.Mask" "B.Mask") '
+            f'{fmt(h["dia"])}) (drill {fmt(h["dia"])}) (layers "*.Cu") '
             f'(tstamp {ts()}))',
             "  )"]))
         counts["footprints"] += 1
@@ -673,8 +723,12 @@ def generate(side):
     for hi, h in enumerate(holes_p):
         if h["dia"] > VIA_MAX:
             continue
+        # only round flashes are via rings; a via-in-pad also coincides with
+        # its exposed-pad flash, whose size must not leak into the ring
         ring = 0.0
         for L, f in all_cu_flashes:
+            if (f.get("ap") or {}).get("type") != "CircleAperture":
+                continue
             if abs(f["x"] - h["x"]) < 0.08 and abs(f["y"] - h["y"]) < 0.08:
                 ring = max(ring, f.get("bw") or 0)
         if ring == 0.0:
@@ -687,7 +741,8 @@ def generate(side):
         out_vias.append(
             f'  (via (at {xy(h["x"], h["y"])}) (size {fmt(ring)}) '
             f'(drill {fmt(h["dia"])}) (layers "F.Cu" "B.Cu") '
-            f'(remove_unused_layers) (net {nid}) (tstamp {ts()}))')
+            f'{unused_layers_clause(h["x"], h["y"]).strip()} '
+            f'(net {nid}) (tstamp {ts()}))')
         counts["vias"] += 1
 
     # ---- zones
@@ -771,18 +826,15 @@ def generate(side):
                 f'(stroke (width {fmt(w)}) (type solid)) (layer "{dst}") '
                 f'(tstamp {ts()}))')
             counts[f"gfx_{dst}"] += 1
-        # unmatched mask/paste flashes inside the board (pad margins cover
-        # the matched ones)
+        # mask/paste flashes not covered by an emitted pad's own opening
+        # (untented via openings, NPTH legend dots, ...) become graphics
         if "Mask" in src or "Paste" in src:
-            cu = "F.Cu" if src.startswith("F") else "B.Cu"
-            cu_flashes = layers.get(cu, {}).get("flashes", [])
-            npth = layers.get("drill_nonplated", {}).get("holes", [])
+            sideL = "F" if src.startswith("F") else "B"
+            cov = (mask_cover if "Mask" in src else paste_cover)[sideL]
             for f in lay["flashes"]:
-                if nearest_flash(cu_flashes, f["x"], f["y"], tol=0.2) is not None:
+                if any(abs(f["x"] - cx) < 0.2 and abs(f["y"] - cy) < 0.2
+                       for cx, cy in cov):
                     continue
-                if any(abs(f["x"] - h["x"]) < 0.2 and abs(f["y"] - h["y"]) < 0.2
-                       for h in npth):
-                    continue  # NPTH mask relief handled by the NPTH pad
                 if not inside(f["x"], f["y"]):
                     gfx_dropped[src] += 1
                     continue

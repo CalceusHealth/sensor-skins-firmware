@@ -1,0 +1,2934 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/home/salmoneller/Git/sensor-skins-firmware/hardware/r4-kicad/sch/Reid_Orthotic_v2_LHS/Reid_Orthotic_v2_LHS.kicad_sch</source>
+    <date>Thu 01 Oct 2026 13:30:27</date>
+    <tool>Eeschema 7.0.11+dfsg-1build4</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Reid Orthotic v2 R4 LHS - root</title>
+        <company>Calceus Health (copper-netlist reconstruction)</company>
+        <rev>R4</rev>
+        <date>2026-10-01</date>
+        <source>Reid_Orthotic_v2_LHS.kicad_sch</source>
+        <comment number="1" value="Reconstructed from R4 gerber copper (copper_netlist_lhs.json). Netlist authority = copper, not the original PDF."/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/">
+      <title_block>
+        <title>Reid Orthotic v2 R4 LHS - PWR (copper reconstruction)</title>
+        <company>Calceus Health (copper-netlist reconstruction)</company>
+        <rev>R4</rev>
+        <date>2026-10-01</date>
+        <source>PWR.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/">
+      <title_block>
+        <title>Reid Orthotic v2 R4 LHS - MCU (copper reconstruction)</title>
+        <company>Calceus Health (copper-netlist reconstruction)</company>
+        <rev>R4</rev>
+        <date>2026-10-01</date>
+        <source>MCU.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/">
+      <title_block>
+        <title>Reid Orthotic v2 R4 LHS - MUX (copper reconstruction)</title>
+        <company>Calceus Health (copper-netlist reconstruction)</company>
+        <rev>R4</rev>
+        <date>2026-10-01</date>
+        <source>MUX.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/">
+      <title_block>
+        <title>Reid Orthotic v2 R4 LHS - IO (copper reconstruction)</title>
+        <company>Calceus Health (copper-netlist reconstruction)</company>
+        <rev>R4</rev>
+        <date>2026-10-01</date>
+        <source>IO.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C34">
+      <value>4.7u</value>
+      <footprint>0603 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL10A475KP8NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL10A475KP8NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>d968e42a-6de9-546c-bd2e-252121552009</tstamps>
+    </comp>
+    <comp ref="C35">
+      <value>4.7u</value>
+      <footprint>0603 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL10A475KP8NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL10A475KP8NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>5cd1a046-897b-51cc-aed7-8e796fc8ae44</tstamps>
+    </comp>
+    <comp ref="C37">
+      <value>33n C0G</value>
+      <footprint>0805 CAP</footprint>
+      <fields>
+        <field name="MPN">C2012C0G2A333J125AC</field>
+        <field name="Manufacturer">TDK Corporation</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="C2012C0G2A333J125AC"/>
+      <property name="Manufacturer" value="TDK Corporation"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>56fbd9b9-830d-5411-b342-d46e49537c52</tstamps>
+    </comp>
+    <comp ref="C38">
+      <value>DNF</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>158d4b1f-fddc-5026-bf85-89c2d6771b97</tstamps>
+    </comp>
+    <comp ref="C39">
+      <value>4.7u</value>
+      <footprint>0603 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL10A475KP8NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL10A475KP8NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>fe9d34de-d724-567f-a207-5ac7bf9e811e</tstamps>
+    </comp>
+    <comp ref="C40">
+      <value>100u</value>
+      <footprint>0805 CAP</footprint>
+      <fields>
+        <field name="MPN">CL21A107MQYNNWE</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL21A107MQYNNWE"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>86af131e-5127-56aa-a467-aeb9040cc9e9</tstamps>
+    </comp>
+    <comp ref="C42">
+      <value>100u</value>
+      <footprint>0805 CAP</footprint>
+      <fields>
+        <field name="MPN">CL21A107MQYNNWE</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL21A107MQYNNWE"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>755979a1-0918-571f-a297-cf4b9f5198cf</tstamps>
+    </comp>
+    <comp ref="C43">
+      <value>4.7u</value>
+      <footprint>0603 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL10A475KP8NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL10A475KP8NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>5ab431ff-c41c-5757-a009-f91e2b6c2f4e</tstamps>
+    </comp>
+    <comp ref="D1">
+      <value>CUS08F30,H3F</value>
+      <footprint>SOD-323</footprint>
+      <fields>
+        <field name="MPN">CUS08F30,H3F</field>
+        <field name="Manufacturer">Toshiba Semiconductor and Storage</field>
+      </fields>
+      <libsource lib="R4" part="D" description=""/>
+      <property name="MPN" value="CUS08F30,H3F"/>
+      <property name="Manufacturer" value="Toshiba Semiconductor and Storage"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>ae4ff632-9d77-5568-b108-5246e130d2ab</tstamps>
+    </comp>
+    <comp ref="D2">
+      <value>MM3Z5V1T1G</value>
+      <footprint>SOD-323</footprint>
+      <fields>
+        <field name="MPN">MM3Z5V1T1G</field>
+        <field name="Manufacturer">onsemi</field>
+      </fields>
+      <libsource lib="R4" part="D_ZENER" description=""/>
+      <property name="MPN" value="MM3Z5V1T1G"/>
+      <property name="Manufacturer" value="onsemi"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>f11bc103-6d5c-5fad-aa0e-8a77c8a70fe2</tstamps>
+    </comp>
+    <comp ref="F1">
+      <value>200mA</value>
+      <footprint>0603 FUSE</footprint>
+      <fields>
+        <field name="MPN">0ZCM0020FF2G</field>
+        <field name="Manufacturer">Bel Fuse Inc.</field>
+      </fields>
+      <libsource lib="R4" part="FUSE" description=""/>
+      <property name="MPN" value="0ZCM0020FF2G"/>
+      <property name="Manufacturer" value="Bel Fuse Inc."/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>4f736a0b-8369-57f8-b080-336f9ebe5276</tstamps>
+    </comp>
+    <comp ref="J3">
+      <value>RF_CONN DNF</value>
+      <footprint>RF_CONN</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="CONN_2P" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>a94b770a-6dbb-5a23-9fad-a91e08313412</tstamps>
+    </comp>
+    <comp ref="J4">
+      <value>BAT_CONN DNF</value>
+      <footprint>BAT_CONN</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="CONN_2P" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>b7a57602-615f-507b-86f4-c55bae3641bf</tstamps>
+    </comp>
+    <comp ref="R20">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>5e7ecaf7-2974-5827-aa96-a4271fe6785f</tstamps>
+    </comp>
+    <comp ref="R56">
+      <value>5.1k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-075K1L</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-075K1L"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>5da47185-8a28-543e-be83-a9d94f89da90</tstamps>
+    </comp>
+    <comp ref="R57">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>e60b5122-7174-52dd-8122-2cd33818f190</tstamps>
+    </comp>
+    <comp ref="R58">
+      <value>DNF</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>9bd850b6-6440-5227-9e8e-bbb002168f89</tstamps>
+    </comp>
+    <comp ref="R59">
+      <value>22k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-0722KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-0722KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>8648c5bb-6c72-533d-afb4-75665316e36d</tstamps>
+    </comp>
+    <comp ref="R60">
+      <value>NCU15XH103F60RC</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">NCU15XH103F60RC</field>
+        <field name="Manufacturer">Murata Electronics</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="NCU15XH103F60RC"/>
+      <property name="Manufacturer" value="Murata Electronics"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>fc16fec4-f56a-5e21-87c4-7f7c07950489</tstamps>
+    </comp>
+    <comp ref="R61">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>53639c33-3a38-51c6-be08-9278bd971593</tstamps>
+    </comp>
+    <comp ref="R62">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>79376561-386b-5a96-a072-1dedad46049b</tstamps>
+    </comp>
+    <comp ref="U8">
+      <value>BQ24210</value>
+      <footprint>BQ24210</footprint>
+      <fields>
+        <field name="MPN">BQ24210DQCR</field>
+        <field name="Manufacturer">Texas Instruments</field>
+      </fields>
+      <libsource lib="R4" part="BQ24210" description=""/>
+      <property name="MPN" value="BQ24210DQCR"/>
+      <property name="Manufacturer" value="Texas Instruments"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>3b09fdaf-a915-5619-8a43-10cb9fb7dfb2</tstamps>
+    </comp>
+    <comp ref="U9">
+      <value>TCR3UF33A,LM(CT</value>
+      <footprint>SOT23-5</footprint>
+      <fields>
+        <field name="MPN">TCR3UF33A,LM(CT</field>
+        <field name="Manufacturer">Toshiba Semiconductor and Storage</field>
+      </fields>
+      <libsource lib="R4" part="LDO_SOT23_5" description=""/>
+      <property name="MPN" value="TCR3UF33A,LM(CT"/>
+      <property name="Manufacturer" value="Toshiba Semiconductor and Storage"/>
+      <property name="Sheetname" value="PWR"/>
+      <property name="Sheetfile" value="PWR.kicad_sch"/>
+      <sheetpath names="/PWR/" tstamps="/1b12b88a-5f38-58c1-8e40-f25bf1df2b12/"/>
+      <tstamps>b7cf85ab-cb44-54f8-98e1-4fb69b27e74b</tstamps>
+    </comp>
+    <comp ref="ANT1">
+      <value>AMCA31-2R450G-S1F-T3</value>
+      <footprint>RFANT3216120A5T</footprint>
+      <fields>
+        <field name="MPN">AMCA31-2R450G-S1F-T3</field>
+        <field name="Manufacturer">Abracon LLC</field>
+      </fields>
+      <libsource lib="R4" part="ANT" description=""/>
+      <property name="MPN" value="AMCA31-2R450G-S1F-T3"/>
+      <property name="Manufacturer" value="Abracon LLC"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>8b6dc2bb-ce33-5262-8e36-d125034e34db</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>dd6b01c4-8ea0-50ee-888f-a286a725872c</tstamps>
+    </comp>
+    <comp ref="C3">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>e9d06504-4321-5fc1-a682-2c7dc82c49f2</tstamps>
+    </comp>
+    <comp ref="C4">
+      <value>12p</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05C120JB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05C120JB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>92136d31-9344-5a51-a119-c083308b8f15</tstamps>
+    </comp>
+    <comp ref="C5">
+      <value>12p</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05C120JB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05C120JB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>74650bcb-82ee-5fa4-a02a-883495537f27</tstamps>
+    </comp>
+    <comp ref="C6">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>81262a21-8675-5241-94c7-bec2effc42f1</tstamps>
+    </comp>
+    <comp ref="C7">
+      <value>1u</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05X105KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05X105KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>85ead9f3-7e10-5877-9f9d-94bc4465cb40</tstamps>
+    </comp>
+    <comp ref="C8">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>9c71063c-c857-528a-b1f0-c8286d3d92cd</tstamps>
+    </comp>
+    <comp ref="C9">
+      <value>1u</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05X105KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05X105KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>0a05d86e-ee63-5220-bba2-de503f69fe17</tstamps>
+    </comp>
+    <comp ref="C10">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>5c95cf1c-633e-5de4-aedc-48ff094f0499</tstamps>
+    </comp>
+    <comp ref="C11">
+      <value>12p</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05C120JB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05C120JB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>3a695478-1796-507b-a371-dd5281e20b5a</tstamps>
+    </comp>
+    <comp ref="C12">
+      <value>12p</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05C120JB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05C120JB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>d337def7-c2c4-51f2-9e5a-d10c3dc26e43</tstamps>
+    </comp>
+    <comp ref="C13">
+      <value>100p</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05C101JB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05C101JB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>0475b77c-e5fe-577b-814d-290c24a4617c</tstamps>
+    </comp>
+    <comp ref="C15">
+      <value>1.5p</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05C1R5BB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05C1R5BB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>35da7079-a369-5ac9-8417-32e093bf74b6</tstamps>
+    </comp>
+    <comp ref="C16">
+      <value>DNF</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>6fc045ec-c3dc-5acd-8ff5-9b85c4d3d029</tstamps>
+    </comp>
+    <comp ref="J5">
+      <value>TC2030-CTX (debug pads)</value>
+      <footprint>TC2030</footprint>
+      <fields>
+        <field name="Manufacturer">Tag-Connect</field>
+      </fields>
+      <libsource lib="R4" part="TC2030" description=""/>
+      <property name="Manufacturer" value="Tag-Connect"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>afe30978-0b39-546b-9505-7231f0b68d81</tstamps>
+    </comp>
+    <comp ref="L1">
+      <value>15nH HK100515NJ-T</value>
+      <footprint>0402 HD</footprint>
+      <fields>
+        <field name="MPN">LQG15HS15NJ02D</field>
+        <field name="Manufacturer">Murata Electronics</field>
+      </fields>
+      <libsource lib="R4" part="L" description=""/>
+      <property name="MPN" value="LQG15HS15NJ02D"/>
+      <property name="Manufacturer" value="Murata Electronics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>3e715ff6-fd9c-5847-a285-a4dc5bed839e</tstamps>
+    </comp>
+    <comp ref="L2">
+      <value>10uH LBMF1608T100K</value>
+      <footprint>0603 HD</footprint>
+      <fields>
+        <field name="MPN">LBMF1608T100K</field>
+        <field name="Manufacturer">Taiyo Yuden</field>
+      </fields>
+      <libsource lib="R4" part="L" description=""/>
+      <property name="MPN" value="LBMF1608T100K"/>
+      <property name="Manufacturer" value="Taiyo Yuden"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>26826475-dc06-51a0-b9d2-27c8fa27e22c</tstamps>
+    </comp>
+    <comp ref="L3">
+      <value>3.9nH LQP15MN3N9B02D</value>
+      <footprint>0402 HD</footprint>
+      <fields>
+        <field name="MPN">LQG15HS3N9B02D</field>
+        <field name="Manufacturer">Murata Electronics</field>
+      </fields>
+      <libsource lib="R4" part="L" description=""/>
+      <property name="MPN" value="LQG15HS3N9B02D"/>
+      <property name="Manufacturer" value="Murata Electronics"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>f5fc3861-794b-51f1-85cb-08e2792127b7</tstamps>
+    </comp>
+    <comp ref="Q1">
+      <value>BSS816NW</value>
+      <footprint>SOT323</footprint>
+      <fields>
+        <field name="MPN">BSS816NWH6327XTSA1</field>
+        <field name="Manufacturer">Infineon Technologies</field>
+      </fields>
+      <libsource lib="R4" part="NMOS_GSD" description=""/>
+      <property name="MPN" value="BSS816NWH6327XTSA1"/>
+      <property name="Manufacturer" value="Infineon Technologies"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>14064413-d880-51e6-8ca0-db3095c9d67b</tstamps>
+    </comp>
+    <comp ref="Q2">
+      <value>DMP2110UW</value>
+      <footprint>SOT323</footprint>
+      <fields>
+        <field name="MPN">DMP2110UW-7</field>
+        <field name="Manufacturer">Diodes Incorporated</field>
+      </fields>
+      <libsource lib="R4" part="PMOS_GSD" description=""/>
+      <property name="MPN" value="DMP2110UW-7"/>
+      <property name="Manufacturer" value="Diodes Incorporated"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>35045556-8391-57dd-a246-37e62e499760</tstamps>
+    </comp>
+    <comp ref="R39">
+      <value>2.1k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-072K1L</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-072K1L"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>5ede6525-bcdf-52cc-844b-f45c7dd8b229</tstamps>
+    </comp>
+    <comp ref="R40">
+      <value>2.1k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-072K1L</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-072K1L"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>f0630f8d-10e2-549c-9623-1d94c7dae159</tstamps>
+    </comp>
+    <comp ref="R41">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>59e29283-c7f4-5913-8d25-ac55f1ba3f0f</tstamps>
+    </comp>
+    <comp ref="R42">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>b73fc200-93f0-5028-858b-25356b2de345</tstamps>
+    </comp>
+    <comp ref="R43">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>de62d24f-67a7-5667-a506-367947f7cb4d</tstamps>
+    </comp>
+    <comp ref="R44">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>698013aa-8c40-5942-93ff-7de114775142</tstamps>
+    </comp>
+    <comp ref="R45">
+      <value>100k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>ebe8668e-278e-5056-a578-37a2c8ffa949</tstamps>
+    </comp>
+    <comp ref="U2">
+      <value>NRF52832-QFAA</value>
+      <footprint>NRF52832-QFAA</footprint>
+      <fields>
+        <field name="MPN">NRF52832-QFAA-R</field>
+        <field name="Manufacturer">Nordic Semiconductor ASA</field>
+      </fields>
+      <libsource lib="R4" part="NRF52832_QFAA" description=""/>
+      <property name="MPN" value="NRF52832-QFAA-R"/>
+      <property name="Manufacturer" value="Nordic Semiconductor ASA"/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>1efabcc7-01fb-58d1-a59c-5b61465e1e8e</tstamps>
+    </comp>
+    <comp ref="X1">
+      <value>32.768kHz NX1610SA</value>
+      <footprint>CRYSTAL NDK NX1610SA</footprint>
+      <fields>
+        <field name="MPN">ECS-.327-7-16-C-TR</field>
+        <field name="Manufacturer">ECS Inc.</field>
+      </fields>
+      <libsource lib="R4" part="XTAL_2P" description=""/>
+      <property name="MPN" value="ECS-.327-7-16-C-TR"/>
+      <property name="Manufacturer" value="ECS Inc."/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>753ccf42-98cd-5962-905b-22976e689a4a</tstamps>
+    </comp>
+    <comp ref="X2">
+      <value>32MHz XRCGB32M</value>
+      <footprint>XTAL 2016</footprint>
+      <fields>
+        <field name="MPN">ECS-320-8-37CKM</field>
+        <field name="Manufacturer">ECS Inc.</field>
+      </fields>
+      <libsource lib="R4" part="XTAL_4P" description=""/>
+      <property name="MPN" value="ECS-320-8-37CKM"/>
+      <property name="Manufacturer" value="ECS Inc."/>
+      <property name="Sheetname" value="MCU"/>
+      <property name="Sheetfile" value="MCU.kicad_sch"/>
+      <sheetpath names="/MCU/" tstamps="/1063040d-d554-5928-91d2-0fc84675ac56/"/>
+      <tstamps>825a5243-04e6-5dbd-addc-75af2ee8b310</tstamps>
+    </comp>
+    <comp ref="C18">
+      <value>DNF</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>d4df5a1d-a4b2-5276-afef-638575950df9</tstamps>
+    </comp>
+    <comp ref="C19">
+      <value>10n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B103KB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B103KB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>d200defc-6036-5fd4-b7af-c3c40d2d3758</tstamps>
+    </comp>
+    <comp ref="C20">
+      <value>10n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B103KB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B103KB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>a606416e-1e35-5380-9c75-7e4aaaf463e7</tstamps>
+    </comp>
+    <comp ref="C21">
+      <value>10n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B103KB5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B103KB5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>475c55ec-e3ee-5152-8c35-4312a34c0ea0</tstamps>
+    </comp>
+    <comp ref="C22">
+      <value>DNF</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>32bffa20-91a4-5180-b4a0-626885467390</tstamps>
+    </comp>
+    <comp ref="C23">
+      <value>DNF</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>09f7419c-0256-5f92-a61f-065fac7eec97</tstamps>
+    </comp>
+    <comp ref="C24">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>373fdba0-0f54-5b4a-9d89-fa0e4456764c</tstamps>
+    </comp>
+    <comp ref="C25">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>f0ee6ed3-b8a4-538a-9c5b-5447a7b3e017</tstamps>
+    </comp>
+    <comp ref="C26">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>dc9bbafb-b2b4-59c5-998d-0500b0910a56</tstamps>
+    </comp>
+    <comp ref="C27">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>69ff1715-4334-53d2-96b8-fb08579b227c</tstamps>
+    </comp>
+    <comp ref="C28">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>6552cd0c-3efd-532f-afce-a8d2833ff2c0</tstamps>
+    </comp>
+    <comp ref="Q3">
+      <value>RU1C002ZP</value>
+      <footprint>SOT323</footprint>
+      <fields>
+        <field name="MPN">RU1C002ZPTCL</field>
+        <field name="Manufacturer">Rohm Semiconductor</field>
+      </fields>
+      <libsource lib="R4" part="PMOS_GSD" description=""/>
+      <property name="MPN" value="RU1C002ZPTCL"/>
+      <property name="Manufacturer" value="Rohm Semiconductor"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>25a4f6a5-1df0-581f-bd56-2c5e57a10c5b</tstamps>
+    </comp>
+    <comp ref="R46">
+      <value>1M</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-7W1ML</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-7W1ML"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>21abbf6a-a8a0-5df9-829c-f1f177114058</tstamps>
+    </comp>
+    <comp ref="R47">
+      <value>10k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-0710KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-0710KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>4c78f691-9b17-50b5-bff9-a906a3ca8dc6</tstamps>
+    </comp>
+    <comp ref="R48">
+      <value>10k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-0710KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-0710KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>9de90dbe-ffbf-53b9-a5d1-b31d13213bf5</tstamps>
+    </comp>
+    <comp ref="R49">
+      <value>10k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-0710KL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-0710KL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>3087221c-75ec-5874-a89d-942b58a18194</tstamps>
+    </comp>
+    <comp ref="R50">
+      <value>DNF</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>96e26abe-56d4-52bd-86da-cfbff4e4dbf1</tstamps>
+    </comp>
+    <comp ref="R51">
+      <value>DNF</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>4f092da8-a2ad-56df-9fa3-f57ded01258a</tstamps>
+    </comp>
+    <comp ref="R54">
+      <value>10R</value>
+      <footprint>0603 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0603FR-0710RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0603FR-0710RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>8a6a63ec-b872-5191-9517-48d726feaaca</tstamps>
+    </comp>
+    <comp ref="R55">
+      <value>5.1k</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-075K1L</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-075K1L"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>dd5ab660-c70c-56fd-b4ef-93cee6bdf15f</tstamps>
+    </comp>
+    <comp ref="U3">
+      <value>74LV4051BQ</value>
+      <footprint>74LV4051BQ</footprint>
+      <fields>
+        <field name="MPN">74LV4051BQ,115</field>
+        <field name="Manufacturer">Nexperia USA Inc.</field>
+      </fields>
+      <libsource lib="R4" part="74LV4051BQ" description=""/>
+      <property name="MPN" value="74LV4051BQ,115"/>
+      <property name="Manufacturer" value="Nexperia USA Inc."/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>ee75ffe6-1df5-55f0-9ada-1677052bd730</tstamps>
+    </comp>
+    <comp ref="U4">
+      <value>74LV4051BQ</value>
+      <footprint>74LV4051BQ</footprint>
+      <fields>
+        <field name="MPN">74LV4051BQ,115</field>
+        <field name="Manufacturer">Nexperia USA Inc.</field>
+      </fields>
+      <libsource lib="R4" part="74LV4051BQ" description=""/>
+      <property name="MPN" value="74LV4051BQ,115"/>
+      <property name="Manufacturer" value="Nexperia USA Inc."/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>008bd49f-757a-57dd-886f-a5506c1927eb</tstamps>
+    </comp>
+    <comp ref="U5">
+      <value>74LV4051BQ</value>
+      <footprint>74LV4051BQ</footprint>
+      <fields>
+        <field name="MPN">74LV4051BQ,115</field>
+        <field name="Manufacturer">Nexperia USA Inc.</field>
+      </fields>
+      <libsource lib="R4" part="74LV4051BQ" description=""/>
+      <property name="MPN" value="74LV4051BQ,115"/>
+      <property name="Manufacturer" value="Nexperia USA Inc."/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>1de92ebc-2706-5c82-aea7-101c3f5ca64d</tstamps>
+    </comp>
+    <comp ref="U6">
+      <value>74LV4051BQ</value>
+      <footprint>74LV4051BQ</footprint>
+      <fields>
+        <field name="MPN">74LV4051BQ,115</field>
+        <field name="Manufacturer">Nexperia USA Inc.</field>
+      </fields>
+      <libsource lib="R4" part="74LV4051BQ" description=""/>
+      <property name="MPN" value="74LV4051BQ,115"/>
+      <property name="Manufacturer" value="Nexperia USA Inc."/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>b0a6631b-565a-594a-bc72-7257b9cfbde5</tstamps>
+    </comp>
+    <comp ref="U7">
+      <value>74LV4051BQ</value>
+      <footprint>74LV4051BQ</footprint>
+      <fields>
+        <field name="MPN">74LV4051BQ,115</field>
+        <field name="Manufacturer">Nexperia USA Inc.</field>
+      </fields>
+      <libsource lib="R4" part="74LV4051BQ" description=""/>
+      <property name="MPN" value="74LV4051BQ,115"/>
+      <property name="Manufacturer" value="Nexperia USA Inc."/>
+      <property name="Sheetname" value="MUX"/>
+      <property name="Sheetfile" value="MUX.kicad_sch"/>
+      <sheetpath names="/MUX/" tstamps="/1c7f5145-1d6f-5eee-a9de-e3489cb6fbf6/"/>
+      <tstamps>a4008a87-d9d0-5686-b207-4d528781e3ce</tstamps>
+    </comp>
+    <comp ref="C1">
+      <value>100n</value>
+      <footprint>0402 CAP HD</footprint>
+      <fields>
+        <field name="MPN">CL05B104KP5NNNC</field>
+        <field name="Manufacturer">Samsung Electro-Mechanics</field>
+      </fields>
+      <libsource lib="R4" part="C" description=""/>
+      <property name="MPN" value="CL05B104KP5NNNC"/>
+      <property name="Manufacturer" value="Samsung Electro-Mechanics"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>9155eafb-be47-5112-8565-fe791507cdf8</tstamps>
+    </comp>
+    <comp ref="J1">
+      <value>IO_CONN DNF</value>
+      <footprint>IO_CONN</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="IO_CONN_20P" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>495d5b32-08f7-5819-87ef-16bf8899c3a7</tstamps>
+    </comp>
+    <comp ref="J2">
+      <value>IO_CONN DNF</value>
+      <footprint>IO_CONN</footprint>
+      <fields>
+        <field name="MPN">DO NOT FIT</field>
+      </fields>
+      <libsource lib="R4" part="IO_CONN_20P" description=""/>
+      <property name="MPN" value="DO NOT FIT"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <property name="dnp"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>b74857e3-7176-54a2-9507-7825cd10c1ef</tstamps>
+    </comp>
+    <comp ref="R1">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>591130a6-3477-5c4b-b676-51e193198e31</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>22683523-c766-5dc5-9ffb-93c265e3813f</tstamps>
+    </comp>
+    <comp ref="R3">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>5d278f17-7a43-5811-a708-2d4c6ecc734c</tstamps>
+    </comp>
+    <comp ref="R4">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>877b552c-b891-5865-800d-7e005c0f0f3c</tstamps>
+    </comp>
+    <comp ref="R5">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>ca871305-a770-5573-8538-f02ef019b60f</tstamps>
+    </comp>
+    <comp ref="R6">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>eefe3a36-c972-5ed3-aa8b-4babbd467997</tstamps>
+    </comp>
+    <comp ref="R7">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>3bcadb86-a14e-5c79-830a-0717a77d6c38</tstamps>
+    </comp>
+    <comp ref="R8">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>6801eeb7-fa2c-53a2-8076-1437a95baf6a</tstamps>
+    </comp>
+    <comp ref="R9">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>0b596493-26c0-5fcb-aa28-3470fc853b82</tstamps>
+    </comp>
+    <comp ref="R10">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>7fb93070-5559-5816-87ad-e3f94ce0f97a</tstamps>
+    </comp>
+    <comp ref="R11">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>651c8d4b-e431-55b2-9024-e9c5aa050676</tstamps>
+    </comp>
+    <comp ref="R12">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>2c7c37e9-0b42-5740-b47b-a9bb8e62a2dd</tstamps>
+    </comp>
+    <comp ref="R13">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>f62b7438-8ab8-5bb2-8a8e-6f1aae05e73c</tstamps>
+    </comp>
+    <comp ref="R14">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>04ea6836-d2d0-5668-bc2e-0eeb799bf0f2</tstamps>
+    </comp>
+    <comp ref="R15">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>64fd3c52-9a08-55f3-a323-e38ca91acab9</tstamps>
+    </comp>
+    <comp ref="R16">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>39081264-4902-53fc-94e0-4f727c95105b</tstamps>
+    </comp>
+    <comp ref="R17">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>b2fa5f52-072a-529e-81f1-81d4c0005c48</tstamps>
+    </comp>
+    <comp ref="R18">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>14fafb68-af1e-5f89-ad01-04a9183f0597</tstamps>
+    </comp>
+    <comp ref="R19">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>31bfe392-5139-5e44-acc5-1113e43f7cd7</tstamps>
+    </comp>
+    <comp ref="R21">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>5823e8e2-c098-5de5-a088-4cb4d16db168</tstamps>
+    </comp>
+    <comp ref="R22">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>f5292a0f-a964-57e5-9b62-ac03196f73df</tstamps>
+    </comp>
+    <comp ref="R23">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>5ee53d13-19b3-58bc-92a7-31c6b40bb5f9</tstamps>
+    </comp>
+    <comp ref="R24">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>55faa16c-fb9f-5946-b577-8cf71f575a38</tstamps>
+    </comp>
+    <comp ref="R25">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>e6408731-02b1-5cb7-bc2f-32671826ae60</tstamps>
+    </comp>
+    <comp ref="R26">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>0dcc9fe6-3560-57ee-a863-87b10a14a2ed</tstamps>
+    </comp>
+    <comp ref="R27">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>a51a80d5-942c-5eb5-9820-1aaa78f9b340</tstamps>
+    </comp>
+    <comp ref="R28">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>eaad1d4a-5725-5231-a648-b0019cbc8c83</tstamps>
+    </comp>
+    <comp ref="R29">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>9894c59e-8086-50e9-87a2-ca6c1ad1b3c2</tstamps>
+    </comp>
+    <comp ref="R30">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>36ec1713-5a4e-5886-b54f-1594e7cd8469</tstamps>
+    </comp>
+    <comp ref="R31">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>68df3919-aebd-54ef-8716-9ffa0ce8e116</tstamps>
+    </comp>
+    <comp ref="R32">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>7b1f57bd-3f1a-5ae9-ba80-16ced65f9a4f</tstamps>
+    </comp>
+    <comp ref="R33">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>fcf6d81f-522e-5014-9cd1-a768a74a1f39</tstamps>
+    </comp>
+    <comp ref="R34">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>f1bca436-c45b-51d5-8ede-9c40b03906f6</tstamps>
+    </comp>
+    <comp ref="R35">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>1d161981-750f-5e77-ac14-3b6405c2e66d</tstamps>
+    </comp>
+    <comp ref="R36">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>c1291764-0a9e-5550-a423-ec4a2f4dfb7a</tstamps>
+    </comp>
+    <comp ref="R37">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>00dab41c-f151-5a3d-9be2-0d02b8831fef</tstamps>
+    </comp>
+    <comp ref="R38">
+      <value>100R</value>
+      <footprint>0402 RES HD</footprint>
+      <fields>
+        <field name="MPN">RC0402FR-07100RL</field>
+        <field name="Manufacturer">YAGEO</field>
+      </fields>
+      <libsource lib="R4" part="R" description=""/>
+      <property name="MPN" value="RC0402FR-07100RL"/>
+      <property name="Manufacturer" value="YAGEO"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>1ad5f41a-34e3-5b7d-af34-b849bbf54ef4</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>LSM6DSM</value>
+      <footprint>LSM6DSM</footprint>
+      <fields>
+        <field name="MPN">LSM6DSMTR</field>
+        <field name="Manufacturer">STMicroelectronics</field>
+      </fields>
+      <libsource lib="R4" part="LSM6DSM" description=""/>
+      <property name="MPN" value="LSM6DSMTR"/>
+      <property name="Manufacturer" value="STMicroelectronics"/>
+      <property name="Sheetname" value="IO"/>
+      <property name="Sheetfile" value="IO.kicad_sch"/>
+      <sheetpath names="/IO/" tstamps="/eecd3c63-b83b-5b68-9153-b9b7d7376282/"/>
+      <tstamps>c3e06711-6a58-58cd-be95-eb188324fbaa</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="R4" part="74LV4051BQ">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74LV4051BQ</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Y4" type="passive"/>
+        <pin num="2" name="Y6" type="passive"/>
+        <pin num="3" name="Z" type="passive"/>
+        <pin num="4" name="Y7" type="passive"/>
+        <pin num="5" name="Y5" type="passive"/>
+        <pin num="6" name="~{E}" type="input"/>
+        <pin num="7" name="VEE" type="power_in"/>
+        <pin num="8" name="GND" type="power_in"/>
+        <pin num="9" name="S2" type="input"/>
+        <pin num="10" name="S1" type="input"/>
+        <pin num="11" name="S0" type="input"/>
+        <pin num="12" name="Y3" type="passive"/>
+        <pin num="13" name="Y0" type="passive"/>
+        <pin num="14" name="Y1" type="passive"/>
+        <pin num="15" name="Y2" type="passive"/>
+        <pin num="16" name="VDD" type="power_in"/>
+        <pin num="PAD" name="EP" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="ANT">
+      <fields>
+        <field name="Reference">ANT</field>
+        <field name="Value">ANT</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="BQ24210">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">BQ24210</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VBUS" type="power_in"/>
+        <pin num="2" name="ISET" type="passive"/>
+        <pin num="3" name="VSS" type="power_in"/>
+        <pin num="4" name="VTSB" type="passive"/>
+        <pin num="5" name="TS" type="passive"/>
+        <pin num="6" name="~{PG}" type="open_collector"/>
+        <pin num="7" name="~{EN}" type="input"/>
+        <pin num="8" name="~{CHG}" type="open_collector"/>
+        <pin num="9" name="NC" type="no_connect"/>
+        <pin num="10" name="BAT" type="power_out"/>
+        <pin num="PAD" name="EP(VSS)" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="C">
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="CONN_2P">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_2P</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="D">
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="D_ZENER">
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_ZENER</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="FUSE">
+      <fields>
+        <field name="Reference">F</field>
+        <field name="Value">FUSE</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="IO_CONN_20P">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">IO_CONN_20P</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="6" type="passive"/>
+        <pin num="7" name="7" type="passive"/>
+        <pin num="8" name="8" type="passive"/>
+        <pin num="9" name="9" type="passive"/>
+        <pin num="10" name="10" type="passive"/>
+        <pin num="11" name="11" type="passive"/>
+        <pin num="12" name="12" type="passive"/>
+        <pin num="13" name="13" type="passive"/>
+        <pin num="14" name="14" type="passive"/>
+        <pin num="15" name="15" type="passive"/>
+        <pin num="16" name="16" type="passive"/>
+        <pin num="17" name="17" type="passive"/>
+        <pin num="18" name="18" type="passive"/>
+        <pin num="19" name="19" type="passive"/>
+        <pin num="20" name="20" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="L">
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">L</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="LDO_SOT23_5">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LDO_SOT23_5</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VIN" type="power_in"/>
+        <pin num="2" name="GND" type="power_in"/>
+        <pin num="3" name="CT/EN" type="input"/>
+        <pin num="4" name="NC" type="no_connect"/>
+        <pin num="5" name="VOUT" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="LSM6DSM">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LSM6DSM</field>
+      </fields>
+      <pins>
+        <pin num="1" name="SDO/SA0" type="input"/>
+        <pin num="2" name="SDx" type="passive"/>
+        <pin num="3" name="SCx" type="passive"/>
+        <pin num="4" name="INT1" type="output"/>
+        <pin num="5" name="VDDIO" type="power_in"/>
+        <pin num="6" name="GND" type="power_in"/>
+        <pin num="7" name="GND" type="power_in"/>
+        <pin num="8" name="VDD" type="power_in"/>
+        <pin num="9" name="INT2" type="output"/>
+        <pin num="10" name="NC" type="no_connect"/>
+        <pin num="11" name="NC" type="no_connect"/>
+        <pin num="12" name="CS" type="input"/>
+        <pin num="13" name="SCL" type="input"/>
+        <pin num="14" name="SDA" type="bidirectional"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="NMOS_GSD">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">NMOS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="passive"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="NRF52832_QFAA">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">NRF52832_QFAA</field>
+      </fields>
+      <pins>
+        <pin num="1" name="DEC1" type="passive"/>
+        <pin num="2" name="P0.00/XL1" type="bidirectional"/>
+        <pin num="3" name="P0.01/XL2" type="bidirectional"/>
+        <pin num="4" name="P0.02/AIN0" type="bidirectional"/>
+        <pin num="5" name="P0.03/AIN1" type="bidirectional"/>
+        <pin num="6" name="P0.04/AIN2" type="bidirectional"/>
+        <pin num="7" name="P0.05/AIN3" type="bidirectional"/>
+        <pin num="8" name="P0.06" type="bidirectional"/>
+        <pin num="9" name="P0.07" type="bidirectional"/>
+        <pin num="10" name="P0.08" type="bidirectional"/>
+        <pin num="11" name="P0.09/NFC1" type="bidirectional"/>
+        <pin num="12" name="P0.10/NFC2" type="bidirectional"/>
+        <pin num="13" name="VDD" type="power_in"/>
+        <pin num="14" name="P0.11" type="bidirectional"/>
+        <pin num="15" name="P0.12" type="bidirectional"/>
+        <pin num="16" name="P0.13" type="bidirectional"/>
+        <pin num="17" name="P0.14" type="bidirectional"/>
+        <pin num="18" name="P0.15" type="bidirectional"/>
+        <pin num="19" name="P0.16" type="bidirectional"/>
+        <pin num="20" name="P0.17" type="bidirectional"/>
+        <pin num="21" name="P0.18" type="bidirectional"/>
+        <pin num="22" name="P0.19" type="bidirectional"/>
+        <pin num="23" name="P0.20" type="bidirectional"/>
+        <pin num="24" name="P0.21/nRESET" type="bidirectional"/>
+        <pin num="25" name="SWDCLK" type="bidirectional"/>
+        <pin num="26" name="SWDIO" type="bidirectional"/>
+        <pin num="27" name="P0.22" type="bidirectional"/>
+        <pin num="28" name="P0.23" type="bidirectional"/>
+        <pin num="29" name="P0.24" type="bidirectional"/>
+        <pin num="30" name="ANT" type="passive"/>
+        <pin num="31" name="VSS" type="power_in"/>
+        <pin num="32" name="DEC2" type="passive"/>
+        <pin num="33" name="DEC3" type="passive"/>
+        <pin num="34" name="XC1" type="passive"/>
+        <pin num="35" name="XC2" type="passive"/>
+        <pin num="36" name="VDD" type="power_in"/>
+        <pin num="37" name="P0.25" type="bidirectional"/>
+        <pin num="38" name="P0.26" type="bidirectional"/>
+        <pin num="39" name="P0.27" type="bidirectional"/>
+        <pin num="40" name="P0.28/AIN4" type="bidirectional"/>
+        <pin num="41" name="P0.29/AIN5" type="bidirectional"/>
+        <pin num="42" name="P0.30/AIN6" type="bidirectional"/>
+        <pin num="43" name="P0.31/AIN7" type="bidirectional"/>
+        <pin num="44" name="NC" type="no_connect"/>
+        <pin num="45" name="VSS" type="power_in"/>
+        <pin num="46" name="DEC4" type="passive"/>
+        <pin num="47" name="DCC" type="passive"/>
+        <pin num="48" name="VDD" type="power_in"/>
+        <pin num="PAD" name="VSS(EP)" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="PMOS_GSD">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">PMOS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="passive"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="R">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="TC2030">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">TC2030</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VTref" type="passive"/>
+        <pin num="2" name="SWDIO" type="passive"/>
+        <pin num="3" name="~{RESET}" type="passive"/>
+        <pin num="4" name="SWDCLK" type="passive"/>
+        <pin num="5" name="GND" type="passive"/>
+        <pin num="6" name="SWO/NC" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="XTAL_2P">
+      <fields>
+        <field name="Reference">X</field>
+        <field name="Value">XTAL_2P</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="R4" part="XTAL_4P">
+      <fields>
+        <field name="Reference">X</field>
+        <field name="Value">XTAL_4P</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="R4">
+      <uri>/home/salmoneller/Git/sensor-skins-firmware/hardware/r4-kicad/sch/Reid_Orthotic_v2_LHS/R4_symbols.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/IO/N37">
+      <node ref="J1" pin="11" pinfunction="11" pintype="passive"/>
+      <node ref="R19" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="2" name="/IO/N38">
+      <node ref="J1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R18" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="3" name="/IO/N39">
+      <node ref="J1" pin="5" pinfunction="5" pintype="passive"/>
+      <node ref="R10" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="4" name="/IO/N40">
+      <node ref="J1" pin="16" pinfunction="16" pintype="passive"/>
+      <node ref="R9" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="5" name="/IO/N41">
+      <node ref="J1" pin="17" pinfunction="17" pintype="passive"/>
+      <node ref="R8" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="6" name="/IO/N42">
+      <node ref="J1" pin="8" pinfunction="8" pintype="passive"/>
+      <node ref="R7" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="7" name="/IO/N43">
+      <node ref="J1" pin="9" pinfunction="9" pintype="passive"/>
+      <node ref="R6" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="8" name="/IO/N44">
+      <node ref="J1" pin="18" pinfunction="18" pintype="passive"/>
+      <node ref="R5" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="9" name="/IO/N45">
+      <node ref="J1" pin="19" pinfunction="19" pintype="passive"/>
+      <node ref="R4" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="10" name="/IO/N47">
+      <node ref="J1" pin="10" pinfunction="10" pintype="passive"/>
+      <node ref="R3" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="11" name="/IO/N50">
+      <node ref="J1" pin="6" pinfunction="6" pintype="passive"/>
+      <node ref="R2" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="12" name="/IO/N53">
+      <node ref="J1" pin="20" pinfunction="20" pintype="passive"/>
+      <node ref="R1" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="13" name="/IO/N55">
+      <node ref="J1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R17" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="14" name="/IO/N56">
+      <node ref="J2" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R38" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="15" name="/IO/N57">
+      <node ref="J2" pin="3" pinfunction="3" pintype="passive"/>
+      <node ref="R37" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="16" name="/IO/N58">
+      <node ref="J2" pin="4" pinfunction="4" pintype="passive"/>
+      <node ref="R36" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="17" name="/IO/N59">
+      <node ref="J2" pin="6" pinfunction="6" pintype="passive"/>
+      <node ref="R35" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="18" name="/IO/N60">
+      <node ref="J2" pin="7" pinfunction="7" pintype="passive"/>
+      <node ref="R34" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="19" name="/IO/N61">
+      <node ref="J2" pin="8" pinfunction="8" pintype="passive"/>
+      <node ref="R33" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="20" name="/IO/N62">
+      <node ref="J2" pin="9" pinfunction="9" pintype="passive"/>
+      <node ref="R32" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="21" name="/IO/N63">
+      <node ref="J2" pin="10" pinfunction="10" pintype="passive"/>
+      <node ref="R31" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="22" name="/IO/N64">
+      <node ref="J1" pin="12" pinfunction="12" pintype="passive"/>
+      <node ref="R16" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="23" name="/IO/N65">
+      <node ref="J2" pin="11" pinfunction="11" pintype="passive"/>
+      <node ref="R30" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="24" name="/IO/N66">
+      <node ref="J2" pin="12" pinfunction="12" pintype="passive"/>
+      <node ref="R29" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="25" name="/IO/N67">
+      <node ref="J2" pin="13" pinfunction="13" pintype="passive"/>
+      <node ref="R28" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="26" name="/IO/N68">
+      <node ref="J2" pin="14" pinfunction="14" pintype="passive"/>
+      <node ref="R27" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="27" name="/IO/N69">
+      <node ref="J2" pin="15" pinfunction="15" pintype="passive"/>
+      <node ref="R26" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="28" name="/IO/N70">
+      <node ref="J2" pin="16" pinfunction="16" pintype="passive"/>
+      <node ref="R25" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="29" name="/IO/N71">
+      <node ref="J2" pin="17" pinfunction="17" pintype="passive"/>
+      <node ref="R24" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="30" name="/IO/N72">
+      <node ref="J2" pin="18" pinfunction="18" pintype="passive"/>
+      <node ref="R23" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="31" name="/IO/N73">
+      <node ref="J2" pin="19" pinfunction="19" pintype="passive"/>
+      <node ref="R22" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="32" name="/IO/N74">
+      <node ref="J2" pin="20" pinfunction="20" pintype="passive"/>
+      <node ref="R21" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="33" name="/IO/N75">
+      <node ref="J1" pin="13" pinfunction="13" pintype="passive"/>
+      <node ref="R15" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="34" name="/IO/N76">
+      <node ref="J1" pin="7" pinfunction="7" pintype="passive"/>
+      <node ref="R14" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="35" name="/IO/N77">
+      <node ref="J1" pin="3" pinfunction="3" pintype="passive"/>
+      <node ref="R13" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="36" name="/IO/N78">
+      <node ref="J1" pin="14" pinfunction="14" pintype="passive"/>
+      <node ref="R12" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="37" name="/IO/N79">
+      <node ref="J1" pin="4" pinfunction="4" pintype="passive"/>
+      <node ref="R11" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="38" name="/MCU/N18">
+      <node ref="ANT1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C16" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="L3" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="39" name="/MCU/N29">
+      <node ref="Q1" pin="3" pinfunction="D" pintype="passive"/>
+      <node ref="Q2" pin="1" pinfunction="G" pintype="passive"/>
+      <node ref="R42" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="40" name="/MCU/N113">
+      <node ref="Q2" pin="3" pinfunction="D" pintype="passive"/>
+      <node ref="R43" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="41" name="/MCU/N119">
+      <node ref="L1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="L2" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="42" name="/MUX/N118">
+      <node ref="Q3" pin="3" pinfunction="D" pintype="passive"/>
+      <node ref="R54" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="43" name="/PWR/N7">
+      <node ref="R20" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R62" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U8" pin="6" pinfunction="~{PG}" pintype="open_collector"/>
+      <node ref="U8" pin="7" pinfunction="~{EN}" pintype="input"/>
+    </net>
+    <net code="44" name="/PWR/N17">
+      <node ref="C37" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C38" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="D1" pin="1" pinfunction="A" pintype="passive"/>
+      <node ref="J3" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="45" name="/PWR/N34">
+      <node ref="R59" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R60" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U8" pin="5" pinfunction="TS" pintype="passive"/>
+    </net>
+    <net code="46" name="/PWR/N36">
+      <node ref="R57" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R58" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U9" pin="3" pinfunction="CT/EN" pintype="input"/>
+    </net>
+    <net code="47" name="/PWR/N112">
+      <node ref="R56" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U8" pin="2" pinfunction="ISET" pintype="passive"/>
+    </net>
+    <net code="48" name="/PWR/N116">
+      <node ref="R59" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U8" pin="4" pinfunction="VTSB" pintype="passive"/>
+    </net>
+    <net code="49" name="0V">
+      <node ref="C1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C10" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C11" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C12" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C13" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C15" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C16" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C18" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C19" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C2" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C20" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C21" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C22" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C23" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C24" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C25" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C26" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C27" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C28" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C3" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C34" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C35" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C37" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C38" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C39" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C4" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C40" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C42" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C43" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C5" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C6" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C7" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C8" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="C9" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="D2" pin="1" pinfunction="A" pintype="passive"/>
+      <node ref="J1" pin="15" pinfunction="15" pintype="passive"/>
+      <node ref="J2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="J2" pin="5" pinfunction="5" pintype="passive"/>
+      <node ref="J3" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="J4" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="J5" pin="5" pinfunction="GND" pintype="passive"/>
+      <node ref="Q1" pin="2" pinfunction="S" pintype="passive"/>
+      <node ref="R41" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R44" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R55" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R56" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R58" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R60" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="SDO/SA0" pintype="input"/>
+      <node ref="U1" pin="2" pinfunction="SDx" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="SCx" pintype="passive"/>
+      <node ref="U1" pin="6" pinfunction="GND" pintype="power_in"/>
+      <node ref="U1" pin="7" pinfunction="GND" pintype="power_in"/>
+      <node ref="U2" pin="31" pinfunction="VSS" pintype="power_in"/>
+      <node ref="U2" pin="45" pinfunction="VSS" pintype="power_in"/>
+      <node ref="U2" pin="PAD" pinfunction="VSS(EP)" pintype="power_in"/>
+      <node ref="U3" pin="6" pinfunction="~{E}" pintype="input"/>
+      <node ref="U3" pin="7" pinfunction="VEE" pintype="power_in"/>
+      <node ref="U3" pin="8" pinfunction="GND" pintype="power_in"/>
+      <node ref="U4" pin="6" pinfunction="~{E}" pintype="input"/>
+      <node ref="U4" pin="7" pinfunction="VEE" pintype="power_in"/>
+      <node ref="U4" pin="8" pinfunction="GND" pintype="power_in"/>
+      <node ref="U5" pin="6" pinfunction="~{E}" pintype="input"/>
+      <node ref="U5" pin="7" pinfunction="VEE" pintype="power_in"/>
+      <node ref="U5" pin="8" pinfunction="GND" pintype="power_in"/>
+      <node ref="U6" pin="6" pinfunction="~{E}" pintype="input"/>
+      <node ref="U6" pin="7" pinfunction="VEE" pintype="power_in"/>
+      <node ref="U6" pin="8" pinfunction="GND" pintype="power_in"/>
+      <node ref="U7" pin="6" pinfunction="~{E}" pintype="input"/>
+      <node ref="U7" pin="7" pinfunction="VEE" pintype="power_in"/>
+      <node ref="U7" pin="8" pinfunction="GND" pintype="power_in"/>
+      <node ref="U8" pin="3" pinfunction="VSS" pintype="power_in"/>
+      <node ref="U8" pin="PAD" pinfunction="EP(VSS)" pintype="power_in"/>
+      <node ref="U9" pin="2" pinfunction="GND" pintype="power_in"/>
+    </net>
+    <net code="50" name="3V3">
+      <node ref="C1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C10" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C39" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C7" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C8" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="J5" pin="1" pinfunction="VTref" pintype="passive"/>
+      <node ref="Q3" pin="2" pinfunction="S" pintype="passive"/>
+      <node ref="R39" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R40" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R45" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R46" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R61" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U1" pin="12" pinfunction="CS" pintype="input"/>
+      <node ref="U1" pin="5" pinfunction="VDDIO" pintype="power_in"/>
+      <node ref="U1" pin="8" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U2" pin="13" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U2" pin="36" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U2" pin="48" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U9" pin="5" pinfunction="VOUT" pintype="power_out"/>
+    </net>
+    <net code="51" name="ADC_VBAT">
+      <node ref="C2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R43" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R44" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="7" pinfunction="P0.05/AIN3" pintype="bidirectional"/>
+    </net>
+    <net code="52" name="ANT_FEED">
+      <node ref="C15" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="L3" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="30" pinfunction="ANT" pintype="passive"/>
+    </net>
+    <net code="53" name="BQ_CHG">
+      <node ref="R61" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U2" pin="15" pinfunction="P0.12" pintype="bidirectional"/>
+      <node ref="U8" pin="8" pinfunction="~{CHG}" pintype="open_collector"/>
+    </net>
+    <net code="54" name="BQ_PG">
+      <node ref="R20" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="12" pinfunction="P0.10/NFC2" pintype="bidirectional"/>
+    </net>
+    <net code="55" name="CAP_CH0">
+      <node ref="C22" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R50" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="42" pinfunction="P0.30/AIN6" pintype="bidirectional"/>
+      <node ref="U6" pin="3" pinfunction="Z" pintype="passive"/>
+    </net>
+    <net code="56" name="CAP_CH1">
+      <node ref="C23" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R51" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="40" pinfunction="P0.28/AIN4" pintype="bidirectional"/>
+      <node ref="U7" pin="3" pinfunction="Z" pintype="passive"/>
+    </net>
+    <net code="57" name="CAP_S0">
+      <node ref="U2" pin="16" pinfunction="P0.13" pintype="bidirectional"/>
+      <node ref="U6" pin="11" pinfunction="S0" pintype="input"/>
+      <node ref="U7" pin="11" pinfunction="S0" pintype="input"/>
+    </net>
+    <net code="58" name="CAP_S1">
+      <node ref="U2" pin="17" pinfunction="P0.14" pintype="bidirectional"/>
+      <node ref="U6" pin="10" pinfunction="S1" pintype="input"/>
+      <node ref="U7" pin="10" pinfunction="S1" pintype="input"/>
+    </net>
+    <net code="59" name="CAP_S2">
+      <node ref="U2" pin="18" pinfunction="P0.15" pintype="bidirectional"/>
+      <node ref="U6" pin="9" pinfunction="S2" pintype="input"/>
+      <node ref="U7" pin="9" pinfunction="S2" pintype="input"/>
+    </net>
+    <net code="60" name="DCC">
+      <node ref="L1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U2" pin="47" pinfunction="DCC" pintype="passive"/>
+    </net>
+    <net code="61" name="DEC1">
+      <node ref="C6" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U2" pin="1" pinfunction="DEC1" pintype="passive"/>
+    </net>
+    <net code="62" name="DEC2">
+      <node ref="U2" pin="32" pinfunction="DEC2" pintype="passive"/>
+    </net>
+    <net code="63" name="DEC3">
+      <node ref="C13" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U2" pin="33" pinfunction="DEC3" pintype="passive"/>
+    </net>
+    <net code="64" name="DEC4">
+      <node ref="C9" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="L2" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U2" pin="46" pinfunction="DEC4" pintype="passive"/>
+    </net>
+    <net code="65" name="FSR_CH0">
+      <node ref="C19" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R47" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="6" pinfunction="P0.04/AIN2" pintype="bidirectional"/>
+      <node ref="U3" pin="3" pinfunction="Z" pintype="passive"/>
+    </net>
+    <net code="66" name="FSR_CH1">
+      <node ref="C20" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R48" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="5" pinfunction="P0.03/AIN1" pintype="bidirectional"/>
+      <node ref="U4" pin="3" pinfunction="Z" pintype="passive"/>
+    </net>
+    <net code="67" name="FSR_CH2">
+      <node ref="C21" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R49" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="4" pinfunction="P0.02/AIN0" pintype="bidirectional"/>
+      <node ref="U5" pin="3" pinfunction="Z" pintype="passive"/>
+    </net>
+    <net code="68" name="FSR_S0">
+      <node ref="U2" pin="11" pinfunction="P0.09/NFC1" pintype="bidirectional"/>
+      <node ref="U3" pin="11" pinfunction="S0" pintype="input"/>
+      <node ref="U4" pin="11" pinfunction="S0" pintype="input"/>
+      <node ref="U5" pin="11" pinfunction="S0" pintype="input"/>
+    </net>
+    <net code="69" name="FSR_S1">
+      <node ref="U2" pin="10" pinfunction="P0.08" pintype="bidirectional"/>
+      <node ref="U3" pin="10" pinfunction="S1" pintype="input"/>
+      <node ref="U4" pin="10" pinfunction="S1" pintype="input"/>
+      <node ref="U5" pin="10" pinfunction="S1" pintype="input"/>
+    </net>
+    <net code="70" name="FSR_S2">
+      <node ref="U2" pin="9" pinfunction="P0.07" pintype="bidirectional"/>
+      <node ref="U3" pin="9" pinfunction="S2" pintype="input"/>
+      <node ref="U4" pin="9" pinfunction="S2" pintype="input"/>
+      <node ref="U5" pin="9" pinfunction="S2" pintype="input"/>
+    </net>
+    <net code="71" name="IS_LHS">
+      <node ref="U2" pin="27" pinfunction="P0.22" pintype="bidirectional"/>
+    </net>
+    <net code="72" name="MCU_RST">
+      <node ref="C3" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="J5" pin="3" pinfunction="~{RESET}" pintype="passive"/>
+      <node ref="R45" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="24" pinfunction="P0.21/nRESET" pintype="bidirectional"/>
+    </net>
+    <net code="73" name="MUX_ON">
+      <node ref="Q3" pin="1" pinfunction="G" pintype="passive"/>
+      <node ref="R46" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="43" pinfunction="P0.31/AIN7" pintype="bidirectional"/>
+    </net>
+    <net code="74" name="MUX_VCC">
+      <node ref="C24" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C25" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C26" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C27" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C28" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R47" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R48" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R49" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R50" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R51" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R54" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="16" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U3" pin="PAD" pinfunction="EP" pintype="power_in"/>
+      <node ref="U4" pin="16" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U4" pin="PAD" pinfunction="EP" pintype="power_in"/>
+      <node ref="U5" pin="16" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U5" pin="PAD" pinfunction="EP" pintype="power_in"/>
+      <node ref="U6" pin="16" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U6" pin="PAD" pinfunction="EP" pintype="power_in"/>
+      <node ref="U7" pin="16" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U7" pin="PAD" pinfunction="EP" pintype="power_in"/>
+    </net>
+    <net code="75" name="N46">
+      <node ref="U1" pin="4" pinfunction="INT1" pintype="output"/>
+      <node ref="U2" pin="37" pinfunction="P0.25" pintype="bidirectional"/>
+    </net>
+    <net code="76" name="N80">
+      <node ref="R23" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U6" pin="4" pinfunction="Y7" pintype="passive"/>
+    </net>
+    <net code="77" name="N81">
+      <node ref="R22" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U6" pin="5" pinfunction="Y5" pintype="passive"/>
+    </net>
+    <net code="78" name="N82">
+      <node ref="R25" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U6" pin="2" pinfunction="Y6" pintype="passive"/>
+    </net>
+    <net code="79" name="N83">
+      <node ref="R27" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U6" pin="15" pinfunction="Y2" pintype="passive"/>
+    </net>
+    <net code="80" name="N84">
+      <node ref="R26" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U6" pin="14" pinfunction="Y1" pintype="passive"/>
+    </net>
+    <net code="81" name="N85">
+      <node ref="R28" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U6" pin="1" pinfunction="Y4" pintype="passive"/>
+    </net>
+    <net code="82" name="N86">
+      <node ref="R31" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U7" pin="5" pinfunction="Y5" pintype="passive"/>
+    </net>
+    <net code="83" name="N87">
+      <node ref="R32" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U7" pin="4" pinfunction="Y7" pintype="passive"/>
+    </net>
+    <net code="84" name="N88">
+      <node ref="R38" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U7" pin="15" pinfunction="Y2" pintype="passive"/>
+    </net>
+    <net code="85" name="N89">
+      <node ref="R30" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U7" pin="1" pinfunction="Y4" pintype="passive"/>
+    </net>
+    <net code="86" name="N90">
+      <node ref="R33" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U7" pin="2" pinfunction="Y6" pintype="passive"/>
+    </net>
+    <net code="87" name="N91">
+      <node ref="R37" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U7" pin="14" pinfunction="Y1" pintype="passive"/>
+    </net>
+    <net code="88" name="N92">
+      <node ref="R19" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U5" pin="14" pinfunction="Y1" pintype="passive"/>
+    </net>
+    <net code="89" name="N93">
+      <node ref="R18" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U5" pin="15" pinfunction="Y2" pintype="passive"/>
+    </net>
+    <net code="90" name="N94">
+      <node ref="R17" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U5" pin="1" pinfunction="Y4" pintype="passive"/>
+    </net>
+    <net code="91" name="N95">
+      <node ref="R16" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U5" pin="4" pinfunction="Y7" pintype="passive"/>
+    </net>
+    <net code="92" name="N96">
+      <node ref="R15" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U5" pin="2" pinfunction="Y6" pintype="passive"/>
+    </net>
+    <net code="93" name="N97">
+      <node ref="R13" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="15" pinfunction="Y2" pintype="passive"/>
+    </net>
+    <net code="94" name="N98">
+      <node ref="R14" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="14" pinfunction="Y1" pintype="passive"/>
+    </net>
+    <net code="95" name="N99">
+      <node ref="R12" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="12" pinfunction="Y3" pintype="passive"/>
+    </net>
+    <net code="96" name="N100">
+      <node ref="R11" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="1" pinfunction="Y4" pintype="passive"/>
+    </net>
+    <net code="97" name="N101">
+      <node ref="R10" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="5" pinfunction="Y5" pintype="passive"/>
+    </net>
+    <net code="98" name="N102">
+      <node ref="R9" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="4" pinfunction="Y7" pintype="passive"/>
+    </net>
+    <net code="99" name="N103">
+      <node ref="R8" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="2" pinfunction="Y6" pintype="passive"/>
+    </net>
+    <net code="100" name="N104">
+      <node ref="R1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="5" pinfunction="Y5" pintype="passive"/>
+    </net>
+    <net code="101" name="N105">
+      <node ref="R2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="4" pinfunction="Y7" pintype="passive"/>
+    </net>
+    <net code="102" name="N106">
+      <node ref="R7" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="15" pinfunction="Y2" pintype="passive"/>
+    </net>
+    <net code="103" name="N107">
+      <node ref="R6" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="1" pinfunction="Y4" pintype="passive"/>
+    </net>
+    <net code="104" name="N108">
+      <node ref="R5" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="14" pinfunction="Y1" pintype="passive"/>
+    </net>
+    <net code="105" name="N109">
+      <node ref="R4" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="12" pinfunction="Y3" pintype="passive"/>
+    </net>
+    <net code="106" name="N110">
+      <node ref="R3" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U3" pin="2" pinfunction="Y6" pintype="passive"/>
+    </net>
+    <net code="107" name="SCL">
+      <node ref="R40" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U1" pin="13" pinfunction="SCL" pintype="input"/>
+      <node ref="U2" pin="39" pinfunction="P0.27" pintype="bidirectional"/>
+    </net>
+    <net code="108" name="SDA">
+      <node ref="R39" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U1" pin="14" pinfunction="SDA" pintype="bidirectional"/>
+      <node ref="U2" pin="38" pinfunction="P0.26" pintype="bidirectional"/>
+    </net>
+    <net code="109" name="SWDCLK">
+      <node ref="J5" pin="4" pinfunction="SWDCLK" pintype="passive"/>
+      <node ref="U2" pin="25" pinfunction="SWDCLK" pintype="bidirectional"/>
+    </net>
+    <net code="110" name="SWDIO">
+      <node ref="J5" pin="2" pinfunction="SWDIO" pintype="passive"/>
+      <node ref="U2" pin="26" pinfunction="SWDIO" pintype="bidirectional"/>
+    </net>
+    <net code="111" name="TEMP_COM">
+      <node ref="C18" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R35" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R55" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="41" pinfunction="P0.29/AIN5" pintype="bidirectional"/>
+    </net>
+    <net code="112" name="TEMP_S0">
+      <node ref="R24" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="21" pinfunction="P0.18" pintype="bidirectional"/>
+    </net>
+    <net code="113" name="TEMP_S1">
+      <node ref="R21" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="22" pinfunction="P0.19" pintype="bidirectional"/>
+    </net>
+    <net code="114" name="TEMP_S2">
+      <node ref="R29" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="20" pinfunction="P0.17" pintype="bidirectional"/>
+    </net>
+    <net code="115" name="TEMP_S3">
+      <node ref="R34" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="19" pinfunction="P0.16" pintype="bidirectional"/>
+    </net>
+    <net code="116" name="TEMP_S4">
+      <node ref="R36" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="23" pinfunction="P0.20" pintype="bidirectional"/>
+    </net>
+    <net code="117" name="VBAT">
+      <node ref="F1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="J4" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="118" name="VBAT_F">
+      <node ref="C35" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C43" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="F1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="Q2" pin="2" pinfunction="S" pintype="passive"/>
+      <node ref="R42" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R57" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R62" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U8" pin="10" pinfunction="BAT" pintype="power_out"/>
+      <node ref="U9" pin="1" pinfunction="VIN" pintype="power_in"/>
+    </net>
+    <net code="119" name="VBAT_ON">
+      <node ref="Q1" pin="1" pinfunction="G" pintype="passive"/>
+      <node ref="R41" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="8" pinfunction="P0.06" pintype="bidirectional"/>
+    </net>
+    <net code="120" name="VSYS">
+      <node ref="C34" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C40" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="C42" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="D1" pin="2" pinfunction="K" pintype="passive"/>
+      <node ref="D2" pin="2" pinfunction="K" pintype="passive"/>
+      <node ref="U8" pin="1" pinfunction="VBUS" pintype="power_in"/>
+    </net>
+    <net code="121" name="XC1">
+      <node ref="C12" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U2" pin="34" pinfunction="XC1" pintype="passive"/>
+      <node ref="X2" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="122" name="XC2">
+      <node ref="C11" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U2" pin="35" pinfunction="XC2" pintype="passive"/>
+      <node ref="X2" pin="3" pinfunction="3" pintype="passive"/>
+    </net>
+    <net code="123" name="XL1">
+      <node ref="C4" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="2" pinfunction="P0.00/XL1" pintype="bidirectional"/>
+      <node ref="X1" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="124" name="XL2">
+      <node ref="C5" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U2" pin="3" pinfunction="P0.01/XL2" pintype="bidirectional"/>
+      <node ref="X1" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="125" name="unconnected-(ANT1-Pad1)">
+      <node ref="ANT1" pin="1" pinfunction="1" pintype="passive+no_connect"/>
+    </net>
+    <net code="126" name="unconnected-(J5-SWO{slash}NC-Pad6)">
+      <node ref="J5" pin="6" pinfunction="SWO/NC" pintype="passive+no_connect"/>
+    </net>
+    <net code="127" name="unconnected-(U1-INT2-Pad9)">
+      <node ref="U1" pin="9" pinfunction="INT2" pintype="output+no_connect"/>
+    </net>
+    <net code="128" name="unconnected-(U1-NC-Pad10)">
+      <node ref="U1" pin="10" pinfunction="NC" pintype="no_connect"/>
+    </net>
+    <net code="129" name="unconnected-(U1-NC-Pad11)">
+      <node ref="U1" pin="11" pinfunction="NC" pintype="no_connect"/>
+    </net>
+    <net code="130" name="unconnected-(U2-NC-Pad44)">
+      <node ref="U2" pin="44" pinfunction="NC" pintype="no_connect"/>
+    </net>
+    <net code="131" name="unconnected-(U2-P0.11-Pad14)">
+      <node ref="U2" pin="14" pinfunction="P0.11" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="132" name="unconnected-(U2-P0.23-Pad28)">
+      <node ref="U2" pin="28" pinfunction="P0.23" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="133" name="unconnected-(U2-P0.24-Pad29)">
+      <node ref="U2" pin="29" pinfunction="P0.24" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="134" name="unconnected-(U3-Y0-Pad13)">
+      <node ref="U3" pin="13" pinfunction="Y0" pintype="passive+no_connect"/>
+    </net>
+    <net code="135" name="unconnected-(U4-Y0-Pad13)">
+      <node ref="U4" pin="13" pinfunction="Y0" pintype="passive+no_connect"/>
+    </net>
+    <net code="136" name="unconnected-(U5-Y0-Pad13)">
+      <node ref="U5" pin="13" pinfunction="Y0" pintype="passive+no_connect"/>
+    </net>
+    <net code="137" name="unconnected-(U5-Y3-Pad12)">
+      <node ref="U5" pin="12" pinfunction="Y3" pintype="passive+no_connect"/>
+    </net>
+    <net code="138" name="unconnected-(U5-Y5-Pad5)">
+      <node ref="U5" pin="5" pinfunction="Y5" pintype="passive+no_connect"/>
+    </net>
+    <net code="139" name="unconnected-(U6-Y0-Pad13)">
+      <node ref="U6" pin="13" pinfunction="Y0" pintype="passive+no_connect"/>
+    </net>
+    <net code="140" name="unconnected-(U6-Y3-Pad12)">
+      <node ref="U6" pin="12" pinfunction="Y3" pintype="passive+no_connect"/>
+    </net>
+    <net code="141" name="unconnected-(U7-Y0-Pad13)">
+      <node ref="U7" pin="13" pinfunction="Y0" pintype="passive+no_connect"/>
+    </net>
+    <net code="142" name="unconnected-(U7-Y3-Pad12)">
+      <node ref="U7" pin="12" pinfunction="Y3" pintype="passive+no_connect"/>
+    </net>
+    <net code="143" name="unconnected-(U8-NC-Pad9)">
+      <node ref="U8" pin="9" pinfunction="NC" pintype="no_connect"/>
+    </net>
+    <net code="144" name="unconnected-(U9-NC-Pad4)">
+      <node ref="U9" pin="4" pinfunction="NC" pintype="no_connect"/>
+    </net>
+    <net code="145" name="unconnected-(X2-GND-Pad2)">
+      <node ref="X2" pin="2" pinfunction="GND" pintype="passive+no_connect"/>
+    </net>
+    <net code="146" name="unconnected-(X2-GND-Pad4)">
+      <node ref="X2" pin="4" pinfunction="GND" pintype="passive+no_connect"/>
+    </net>
+  </nets>
+</export>

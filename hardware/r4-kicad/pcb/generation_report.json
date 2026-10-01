@@ -48,17 +48,19 @@
    "zone_fill_islands": 250,
    "edge_objects": 14,
    "gfx_F.SilkS": 204,
+   "gfx_F.Mask_flash": 3,
+   "gfx_B.Mask_flash": 8,
    "gfx_F.Paste_flash": 10
   },
   "nets": 165,
   "file": "/home/salmoneller/Git/sensor-skins-firmware/hardware/r4-kicad/pcb/Reid_Orthotic_v2_LHS.kicad_pcb",
-  "file_kb": 871.8,
+  "file_kb": 878.7,
   "validation": {
    "side": "LHS",
    "counts": {
     "footprints": 130,
     "pads": 436,
-    "graphics": 228,
+    "graphics": 239,
     "segments": 1163,
     "track_arcs": 43,
     "vias": 296,
@@ -106,13 +108,13 @@
    "n": 433,
    "median": 0.05,
    "min": 0.05,
-   "max": 0.25
+   "max": 0.05
   },
   "paste_margin_per_side_mm": {
    "n": 384,
    "median": 0.0,
    "min": -1.7,
-   "max": 0.2
+   "max": 0.0
   },
   "net0": {},
   "counts": {
@@ -127,17 +129,19 @@
    "zone_fill_islands": 203,
    "edge_objects": 14,
    "gfx_B.SilkS": 204,
+   "gfx_F.Mask_flash": 8,
+   "gfx_B.Mask_flash": 3,
    "gfx_B.Paste_flash": 10
   },
   "nets": 164,
   "file": "/home/salmoneller/Git/sensor-skins-firmware/hardware/r4-kicad/pcb/Reid_Orthotic_v2_RHS.kicad_pcb",
-  "file_kb": 894.5,
+  "file_kb": 901.9,
   "validation": {
    "side": "RHS",
    "counts": {
     "footprints": 130,
     "pads": 436,
-    "graphics": 228,
+    "graphics": 239,
     "segments": 1127,
     "track_arcs": 43,
     "vias": 309,

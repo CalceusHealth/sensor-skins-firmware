@@ -74,9 +74,7 @@ rotated frame:
 
 * **Solder mask: +0.05 mm per side** (global `pad_to_mask_clearance 0.05`).
 * **Paste: 0 mm** (global `pad_to_paste_clearance 0`).
-* Per-pad overrides where the gerbers differ: RHS mux EPs
-  (U3/U6/U7, `solder_mask_margin 0.25`, `solder_paste_margin 0.2`) and the
-  U2 EP on both sides (`solder_paste_margin -1.7`; its as-built paste
+* Per-pad override: the U2 EP on both sides (`solder_paste_margin -1.7`; its as-built paste
   windows are additionally emitted as filled polys on F/B.Paste — 10 per
   side). Everything else matches the global values within 1 µm.
 * Pads with no paste flash (castellations, test/wire pads) omit the
@@ -129,14 +127,17 @@ Validation (re-parse of the emitted file, diffed against the inventory):
 
 1. **KiCad DRC not run** — `kicad-cli` is not installed in this
    environment; validation was done by re-parsing the s-expressions.
+   (kicad-cli 7.0 has no `pcb drc`; DRC needs the GUI or KiCad 8+.)
    Open both boards in KiCad 7 and run DRC; expect complaints only about
    the out-of-outline caption segments (delete them if unwanted).
 2. **Zone refill** will replace the stored as-built fills with KiCad's
    own pour engine (nominal thermal/clearance settings); fine for
    editing, but plots will no longer be gerber-exact. No zone priorities
    were set (pours don't meaningfully overlap).
-3. RHS mux EP mask/paste reliefs genuinely differ from LHS (0.25/0.2 mm
-   vs 0.05/0); worth confirming against the assembled boards.
+3. ~~RHS mux EP mask/paste reliefs differ from LHS~~ -- RETRACTED: this was
+   a generator bug (the RHS exposed pads were built from the coincident
+   0.6 mm via-in-pad ring flash, with inflated margins compensating). Fixed;
+   RHS and LHS mux EPs are identical 2x1 mm roundrects, global margins.
 4. The castellation pads are plain thru-hole pads; KiCad 7 has no
    first-class castellation flag (the fab note "castellated edges" must
    travel separately).
