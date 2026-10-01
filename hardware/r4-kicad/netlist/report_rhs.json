@@ -1,0 +1,41 @@
+{
+ "side": "RHS",
+ "gpio_applied": [
+  "FSR_ADC1: U2.5 (N$3_108 -> FSR_ADC1)",
+  "FSR_S0: U2.41 (0V -> FSR_S0)",
+  "FSR_S1: U2.38 (N$3_127 -> FSR_S1)",
+  "FSR_S2: U2.37 (N$3_126 -> FSR_S2)",
+  "CAP_S0: U2.18 (N$3_116 -> CAP_S0)",
+  "CAP_S1: U2.17 (N$3_115 -> CAP_S1)",
+  "CAP_S2: U2.16 (N$3_114 -> CAP_S2)",
+  "TEMP_S0: U2.21 (N$3_119 -> TEMP_S0)",
+  "TEMP_S1: U2.19 (N$3_117 -> TEMP_S1)",
+  "TEMP_S3: U2.24 (N$3_121 -> TEMP_S3)",
+  "TEMP_S4: U2.22 (N$3_120 -> TEMP_S4)",
+  "VBAT_ON: U2.8 (N$3_109 -> VBAT_ON)",
+  "BAT_PG: U2.PAD (N$3_131 -> BAT_PG)",
+  "MCU_SDA: U2.12 (N$3_105 -> MCU_SDA)",
+  "IS_LHS: U2.27 (SWDIO -> IS_LHS)"
+ ],
+ "gpio_conflicts": [],
+ "warnings": [
+  "MUX_ON: P0.31 not in port map",
+  "FSR_ADC0: P0.02 not in port map",
+  "FSR_ADC2: P0.04 not in port map",
+  "CAP_ADC0: P0.30 not in port map",
+  "CAP_ADC1: P0.28 not in port map",
+  "TEMP_S2: P0.18 not in port map",
+  "TEMP_COM: P0.29 not in port map",
+  "ADC_VBAT: P0.05 not in port map",
+  "BAT_CHG: P0.11 not in port map",
+  "MCU_SCL: P0.09 not in port map",
+  "MCU_RST: P0.21 not in port map",
+  "net VBAT: F1 has ['1', '2'] \u2014 internal short?",
+  "net FSR_S0: C6 has ['1', '2'] \u2014 internal short?"
+ ],
+ "totals": {
+  "nets": 244,
+  "anonymous": 170,
+  "pin_connections": 434
+ }
+}

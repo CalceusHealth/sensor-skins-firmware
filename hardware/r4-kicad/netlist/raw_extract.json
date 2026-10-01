@@ -1,0 +1,2643 @@
+{
+ "page1": {
+  "groups": [
+   {
+    "pins": [
+     "PITP10TP",
+     "PITP20TP",
+     "PITP30TP",
+     "PITP40TP"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PITP50TP"
+    ],
+    "nets": [
+     "SWDCLK",
+     "SWDIO"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PITP60TP"
+    ],
+    "nets": [
+     "MCU0RST"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PITP70TP"
+    ],
+    "nets": [],
+    "powers": []
+   }
+  ],
+  "unattached_pins": [],
+  "unattached_nets": [],
+  "components": [
+   "TP1",
+   "TP2",
+   "TP3",
+   "TP4",
+   "TP5",
+   "TP6",
+   "TP7"
+  ]
+ },
+ "page2": {
+  "groups": [
+   {
+    "pins": [
+     "PIC101",
+     "PIU106",
+     "PIU107"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC102",
+     "PIU105",
+     "PIU108"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC201",
+     "PIC202",
+     "PIQ101",
+     "PIQ102",
+     "PIQ103",
+     "PIQ201",
+     "PIQ202",
+     "PIQ203",
+     "PIR4101",
+     "PIR4102",
+     "PIR4201",
+     "PIR4202",
+     "PIR4301",
+     "PIR4302",
+     "PIR4401",
+     "PIR4402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ101",
+     "PIR102"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ102",
+     "PIR202"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ103",
+     "PIR302"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ104",
+     "PIR402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ105",
+     "PIR502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ106",
+     "PIR602"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ107",
+     "PIR702"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ108",
+     "PIR802"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ109",
+     "PIR902"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1010",
+     "PIR1002"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1011",
+     "PIR1102"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1012"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1013",
+     "PIR1202"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1014",
+     "PIR1302"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1015",
+     "PIR1402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1016",
+     "PIR1502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1017",
+     "PIR1602"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1018",
+     "PIR1702"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1019",
+     "PIR1802"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ1020",
+     "PIR1902"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ201",
+     "PIR2102"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ202",
+     "PIR2202"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ203",
+     "PIR2302"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ204",
+     "PIR2402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ205",
+     "PIR2502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ206",
+     "PIR2602"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ207",
+     "PIR2702"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ208",
+     "PIR2802"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ209",
+     "PIR2902"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2010",
+     "PIR3002"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2011",
+     "PIR3102"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2012",
+     "PIR3202"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2013",
+     "PIR3302"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2014",
+     "PIR3402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2015",
+     "PIR3502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2016",
+     "PIJ2020"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2017",
+     "PIR3602"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2018",
+     "PIR3702"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ2019",
+     "PIR3802"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR101"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR301"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR401"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR501"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR601"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR701"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR801"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR901"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1001"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1101"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1301"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1401"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1501"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1601"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1701"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1801"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR1901"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2101"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2301"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2401"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2501"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2601"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2701"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2801"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2901"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3001"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3101"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3301"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3401"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3501"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3601"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3701"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3801"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3901",
+     "PIU1014"
+    ],
+    "nets": [
+     "MCU0SCL"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR3902",
+     "PIR4002"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR4001",
+     "PIU1013"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU101",
+     "PIU102",
+     "PIU103"
+    ],
+    "nets": [
+     "6DOF0INT1"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU104"
+    ],
+    "nets": [
+     "6DOF0INT2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU109"
+    ],
+    "nets": [
+     "6DOF0OCS"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU1010"
+    ],
+    "nets": [
+     "6DOF0SDO"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU1011"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU1012"
+    ],
+    "nets": [],
+    "powers": []
+   }
+  ],
+  "unattached_pins": [],
+  "unattached_nets": [
+   "ADC0VBAT",
+   "CAP0IO1",
+   "CAP0IO2",
+   "CAP0IO4",
+   "CAP0IO5",
+   "CAP0IO6",
+   "CAP0IO7",
+   "CAP0IO9",
+   "CAP0IO10",
+   "CAP0IO12",
+   "CAP0IO13",
+   "CAP0IO14",
+   "CAP0IO15",
+   "FSR0IO1",
+   "FSR0IO2",
+   "FSR0IO3",
+   "FSR0IO4",
+   "FSR0IO5",
+   "FSR0IO6",
+   "FSR0IO7",
+   "FSR0IO9",
+   "FSR0IO10",
+   "FSR0IO11",
+   "FSR0IO12",
+   "FSR0IO13",
+   "FSR0IO14",
+   "FSR0IO15",
+   "FSR0IO17",
+   "FSR0IO18",
+   "FSR0IO20",
+   "FSR0IO22",
+   "FSR0IO23",
+   "MCU0SDA",
+   "TEMP0COM",
+   "TEMP0S0",
+   "TEMP0S1",
+   "TEMP0S2",
+   "TEMP0S3",
+   "TEMP0S4",
+   "VBAT0ON"
+  ],
+  "components": [
+   "C1",
+   "C2",
+   "J1",
+   "J2",
+   "Q1",
+   "Q2",
+   "R1",
+   "R10",
+   "R11",
+   "R12",
+   "R13",
+   "R14",
+   "R15",
+   "R16",
+   "R17",
+   "R18",
+   "R19",
+   "R2",
+   "R21",
+   "R22",
+   "R23",
+   "R24",
+   "R25",
+   "R26",
+   "R27",
+   "R28",
+   "R29",
+   "R3",
+   "R30",
+   "R31",
+   "R32",
+   "R33",
+   "R34",
+   "R35",
+   "R36",
+   "R37",
+   "R38",
+   "R39",
+   "R4",
+   "R40",
+   "R41",
+   "R42",
+   "R43",
+   "R44",
+   "R5",
+   "R6",
+   "R7",
+   "R8",
+   "R9",
+   "U1"
+  ]
+ },
+ "page3": {
+  "groups": [
+   {
+    "pins": [
+     "PIANT10FEED",
+     "PIC1602",
+     "PIL302"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC301"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC302",
+     "PIR4501",
+     "PIR4502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC401",
+     "PIU202",
+     "PIX101"
+    ],
+    "nets": [
+     "XL1",
+     "XL2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC501",
+     "PIU203",
+     "PIX102"
+    ],
+    "nets": [
+     "FSR0ADC2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC601"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC602",
+     "PIU201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC701"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC702",
+     "PIU2048"
+    ],
+    "nets": [
+     "DCC"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC801"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC802",
+     "PIU2013"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC901",
+     "PIU2045"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC902",
+     "PIL202",
+     "PIU2046"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1001"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1002",
+     "PIU2036"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1101"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1102",
+     "PIU2035",
+     "PIX202"
+    ],
+    "nets": [
+     "XC1",
+     "XC2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1202",
+     "PIU2034",
+     "PIX201"
+    ],
+    "nets": [
+     "DEC3"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1301"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1302",
+     "PIU2033"
+    ],
+    "nets": [
+     "DEC2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1501",
+     "PIC1601",
+     "PIU2031"
+    ],
+    "nets": [
+     "ANT0OUT"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1502",
+     "PIL301",
+     "PIU2030"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ501"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ503"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ504"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ505"
+    ],
+    "nets": [
+     "SWO"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ506"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIL101",
+     "PIL201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIL102",
+     "PIU2047"
+    ],
+    "nets": [
+     "DEC4"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2001",
+     "PIU2012"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR2002"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU204"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU205"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU206"
+    ],
+    "nets": [
+     "ADC0VBAT"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU207"
+    ],
+    "nets": [
+     "VBAT0ON"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU208"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU209"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2010"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2011"
+    ],
+    "nets": [
+     "BAT0PG"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2014"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2015"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2016"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2017"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2018"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2019"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2020"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2021"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2022"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2023"
+    ],
+    "nets": [
+     "MCU0RST"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2024"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2025"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2026"
+    ],
+    "nets": [
+     "SWDCLK"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2027"
+    ],
+    "nets": [
+     "SWDIO"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2028"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2029"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2032"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2037"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2038"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2039"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2040"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2041"
+    ],
+    "nets": [
+     "CAP0ADC1"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2042"
+    ],
+    "nets": [
+     "TEMP0COM"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2043"
+    ],
+    "nets": [
+     "CAP0ADC0",
+     "MUX0ON"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU2044"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU20PAD"
+    ],
+    "nets": [],
+    "powers": []
+   }
+  ],
+  "unattached_pins": [],
+  "unattached_nets": [
+   "6DOF0INT1",
+   "BAT0CHG",
+   "CAP0S0",
+   "CAP0S1",
+   "CAP0S2",
+   "DEC1",
+   "FSR0ADC0",
+   "FSR0ADC1",
+   "FSR0S0",
+   "FSR0S1",
+   "FSR0S2",
+   "MCU0SCL",
+   "MCU0SDA",
+   "TEMP0S0",
+   "TEMP0S1",
+   "TEMP0S2",
+   "TEMP0S3",
+   "TEMP0S4"
+  ],
+  "components": [
+   "ANT1",
+   "C10",
+   "C11",
+   "C12",
+   "C13",
+   "C15",
+   "C16",
+   "C3",
+   "C4",
+   "C5",
+   "C6",
+   "C7",
+   "C8",
+   "C9",
+   "J5",
+   "L1",
+   "L2",
+   "L3",
+   "R20",
+   "R45",
+   "U2",
+   "X1",
+   "X2"
+  ]
+ },
+ "page4": {
+  "groups": [
+   {
+    "pins": [
+     "PIC1801",
+     "PIC1802",
+     "PIR5501",
+     "PIR5502"
+    ],
+    "nets": [
+     "TEMP0COM"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1901",
+     "PIC1901PIC1902",
+     "PIR4701"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2001",
+     "PIC2001PIC2002",
+     "PIR4801"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2101",
+     "PIC2101PIC2102",
+     "PIR4901"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2201",
+     "PIC2201PIC2202",
+     "PIR5001"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2301",
+     "PIC2301PIC2302",
+     "PIR5101"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2401",
+     "PIC2401PIC2402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2501",
+     "PIC2501PIC2502"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2601",
+     "PIC2601PIC2602"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2701",
+     "PIC2701PIC2702"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2801",
+     "PIC2801PIC2802"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIQ301",
+     "PIQ302",
+     "PIQ303",
+     "PIR4601",
+     "PIR4602",
+     "PIR5402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR4702"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR4802"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR4902"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR5002"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR5102"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR5401"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU301"
+    ],
+    "nets": [
+     "FSR0IO5"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU302"
+    ],
+    "nets": [
+     "FSR0IO7"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU303"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU304"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU305"
+    ],
+    "nets": [
+     "FSR0IO6"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU306"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU307",
+     "PIU308"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU309"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU3010"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU3011"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU3012"
+    ],
+    "nets": [
+     "FSR0IO4"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU3013"
+    ],
+    "nets": [
+     "FSR0IO1"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU3014"
+    ],
+    "nets": [
+     "FSR0IO2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU3015"
+    ],
+    "nets": [
+     "FSR0IO3"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2402",
+     "PIU3016",
+     "PIU30PAD"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU401"
+    ],
+    "nets": [
+     "FSR0IO13"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU402"
+    ],
+    "nets": [
+     "FSR0IO15"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU403"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU404"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU405"
+    ],
+    "nets": [
+     "FSR0IO14"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU406"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU407",
+     "PIU408"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU409"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU4010"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU4011"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU4012"
+    ],
+    "nets": [
+     "FSR0IO12"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU4013"
+    ],
+    "nets": [
+     "FSR0IO9"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU4014"
+    ],
+    "nets": [
+     "FSR0IO10"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU4015"
+    ],
+    "nets": [
+     "FSR0IO11"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2502",
+     "PIU4016",
+     "PIU40PAD"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU501"
+    ],
+    "nets": [
+     "FSR0IO21"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU502"
+    ],
+    "nets": [
+     "FSR0IO23"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU503"
+    ],
+    "nets": [
+     "FSR0ADC2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU504"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU505"
+    ],
+    "nets": [
+     "FSR0IO22"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU506"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU507",
+     "PIU508"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU509"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU5010"
+    ],
+    "nets": [
+     "FSR0S2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU5011"
+    ],
+    "nets": [
+     "FSR0S0",
+     "FSR0S1"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU5012"
+    ],
+    "nets": [
+     "FSR0IO20"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU5013"
+    ],
+    "nets": [
+     "FSR0IO16",
+     "FSR0IO17"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU5014"
+    ],
+    "nets": [
+     "FSR0IO18"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU5015"
+    ],
+    "nets": [
+     "FSR0IO19"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2602",
+     "PIU5016",
+     "PIU50PAD"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU601"
+    ],
+    "nets": [
+     "CAP0IO5"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU602"
+    ],
+    "nets": [
+     "CAP0IO7"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU603"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU604"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU605"
+    ],
+    "nets": [
+     "CAP0IO6"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU606"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU607",
+     "PIU608"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU609"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU6010"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU6011"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU6012"
+    ],
+    "nets": [
+     "CAP0IO4"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU6013"
+    ],
+    "nets": [
+     "CAP0IO1"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU6014"
+    ],
+    "nets": [
+     "CAP0IO2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU6015"
+    ],
+    "nets": [
+     "CAP0IO3"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2702",
+     "PIU6016",
+     "PIU60PAD"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU701"
+    ],
+    "nets": [
+     "CAP0IO13"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU702"
+    ],
+    "nets": [
+     "CAP0IO15"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU703"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU704"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU705"
+    ],
+    "nets": [
+     "CAP0IO14"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU706"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU707",
+     "PIU708"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU709"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU7010"
+    ],
+    "nets": [
+     "CAP0S2"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU7011"
+    ],
+    "nets": [
+     "CAP0S1"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU7012"
+    ],
+    "nets": [
+     "CAP0IO12"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU7013"
+    ],
+    "nets": [
+     "CAP0IO9"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU7014"
+    ],
+    "nets": [
+     "CAP0IO10"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU7015"
+    ],
+    "nets": [
+     "CAP0IO11"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2802",
+     "PIU7016",
+     "PIU70PAD"
+    ],
+    "nets": [
+     "MUX0VCC"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC1902"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2002"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2102"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2202"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC2302"
+    ],
+    "nets": [],
+    "powers": []
+   }
+  ],
+  "unattached_pins": [],
+  "unattached_nets": [
+   "CAP0ADC0",
+   "CAP0ADC1",
+   "CAP0IO0",
+   "CAP0IO8",
+   "CAP0S0",
+   "FSR0ADC0",
+   "FSR0ADC1",
+   "FSR0IO0",
+   "FSR0IO8",
+   "MUX0ON"
+  ],
+  "components": [
+   "C18",
+   "C19",
+   "C20",
+   "C21",
+   "C22",
+   "C23",
+   "C24",
+   "C25",
+   "C26",
+   "C27",
+   "C28",
+   "Q3",
+   "R46",
+   "R47",
+   "R48",
+   "R49",
+   "R50",
+   "R51",
+   "R54",
+   "R55",
+   "U3",
+   "U4",
+   "U5",
+   "U6",
+   "U7"
+  ]
+ },
+ "page5": {
+  "groups": [
+   {
+    "pins": [
+     "PIC3401"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC3402",
+     "PIU801"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC3501",
+     "PIC3901",
+     "PIR5701",
+     "PIR5801",
+     "PIR5802",
+     "PIU902",
+     "PIU903"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC3502",
+     "PIR5702",
+     "PIU901"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC3701",
+     "PIC3702",
+     "PIC3801",
+     "PIC3802",
+     "PIC4001",
+     "PIC4002",
+     "PIC4201",
+     "PIC4202",
+     "PID10A",
+     "PID10APID10K",
+     "PID10K",
+     "PID20A",
+     "PID20K",
+     "PIJ301",
+     "PIJ302"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC3902",
+     "PIU905"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC4301"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIC4302",
+     "PIF102",
+     "PIU8010"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIF101",
+     "PIJ401"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIJ402"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR5601",
+     "PIU802"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR5602"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR5901",
+     "PIU804"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR5902",
+     "PIR6001",
+     "PIR6002",
+     "PIU805"
+    ],
+    "nets": [
+     "BAT0NTC"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR6101",
+     "PIR6201"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR6102"
+    ],
+    "nets": [
+     "BAT0CHG",
+     "BAT0PG"
+    ],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIR6202"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU803",
+     "PIU80PAD"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU806"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU807"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU808"
+    ],
+    "nets": [],
+    "powers": []
+   },
+   {
+    "pins": [
+     "PIU809"
+    ],
+    "nets": [],
+    "powers": []
+   }
+  ],
+  "unattached_pins": [],
+  "unattached_nets": [
+   "RF0IN"
+  ],
+  "components": [
+   "C34",
+   "C35",
+   "C37",
+   "C38",
+   "C39",
+   "C40",
+   "C42",
+   "C43",
+   "D1",
+   "D2",
+   "F1",
+   "J3",
+   "J4",
+   "R56",
+   "R57",
+   "R58",
+   "R59",
+   "R60",
+   "R61",
+   "R62",
+   "U8",
+   "U9"
+  ]
+ },
+ "page6": {
+  "groups": [],
+  "unattached_pins": [],
+  "unattached_nets": [],
+  "components": [
+   "ANT1",
+   "C1",
+   "C10",
+   "C11",
+   "C12",
+   "C13",
+   "C15",
+   "C16",
+   "C18",
+   "C2",
+   "C22",
+   "C23",
+   "C24",
+   "C25",
+   "C26",
+   "C27",
+   "C28",
+   "C3",
+   "C34",
+   "C35",
+   "C37",
+   "C38",
+   "C39",
+   "C4",
+   "C40",
+   "C42",
+   "C43",
+   "C5",
+   "C6",
+   "C7",
+   "C8",
+   "C9",
+   "D1",
+   "D2",
+   "F1",
+   "J1",
+   "J2",
+   "J3",
+   "J4",
+   "J5",
+   "L1",
+   "L2",
+   "L3",
+   "Q1",
+   "Q3",
+   "R1",
+   "R10",
+   "R11",
+   "R12",
+   "R13",
+   "R14",
+   "R15",
+   "R16",
+   "R17",
+   "R18",
+   "R19",
+   "R2",
+   "R20",
+   "R21",
+   "R22",
+   "R23",
+   "R24",
+   "R25",
+   "R26",
+   "R27",
+   "R28",
+   "R29",
+   "R3",
+   "R30",
+   "R31",
+   "R32",
+   "R33",
+   "R34",
+   "R35",
+   "R36",
+   "R37",
+   "R38",
+   "R39",
+   "R4",
+   "R40",
+   "R41",
+   "R42",
+   "R43",
+   "R44",
+   "R45",
+   "R46",
+   "R47",
+   "R48",
+   "R49",
+   "R5",
+   "R50",
+   "R51",
+   "R54",
+   "R55",
+   "R57",
+   "R58",
+   "R6",
+   "R7",
+   "R8",
+   "R9",
+   "TP1",
+   "TP2",
+   "TP3",
+   "TP4",
+   "TP5",
+   "TP6",
+   "TP7",
+   "U1",
+   "U2",
+   "U3",
+   "U4",
+   "U5",
+   "U6",
+   "U7",
+   "U8",
+   "U9",
+   "X1",
+   "X2"
+  ]
+ }
+}
