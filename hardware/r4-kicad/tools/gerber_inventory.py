@@ -32,6 +32,38 @@ def aperture_desc(ap):
     return d
 
 
+def macro_prims(obj):
+    """Decompose an aperture-macro flash into serializable primitives:
+    rotated rects -> 4-corner polys, circles, arc-polys -> point polys."""
+    import math
+    out = []
+    try:
+        prims = list(obj.to_primitives("mm"))
+    except Exception:
+        return out
+    for p in prims:
+        name = type(p).__name__
+        if name == "Rectangle":
+            c, s = math.cos(p.rotation), math.sin(p.rotation)
+            hw, hh = p.w / 2, p.h / 2
+            pts = [(p.x + c * dx - s * dy, p.y + s * dx + c * dy)
+                   for (dx, dy) in ((-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh))]
+            out.append({"t": "poly",
+                        "pts": [(round(x, 4), round(y, 4)) for x, y in pts]})
+        elif name == "Circle":
+            out.append({"t": "circ", "x": round(p.x, 4), "y": round(p.y, 4),
+                        "r": round(p.r, 4)})
+        elif name == "ArcPoly":
+            try:
+                pts = [(round(float(x), 4), round(float(y), 4))
+                       for (x, y) in p.outline]
+            except Exception:
+                pts = []
+            if len(pts) >= 3:
+                out.append({"t": "poly", "pts": pts})
+    return out
+
+
 def inventory_side(side):
     base = GERBER_DIR / f"Reid Orthotic v2 R4 {side} Gerbers"
     stem = f"Reid Orthotic v2 {side}"
@@ -44,8 +76,17 @@ def inventory_side(side):
         flashes, lines, arcs, regions = [], [], [], []
         for obj in g.objects:
             if isinstance(obj, Flash):
-                flashes.append({"x": round(obj.x, 4), "y": round(obj.y, 4),
-                                "ap": aperture_desc(obj.aperture)})
+                rec = {"x": round(obj.x, 4), "y": round(obj.y, 4),
+                       "ap": aperture_desc(obj.aperture)}
+                try:
+                    (bx0, by0), (bx1, by1) = obj.bounding_box()
+                    rec["bw"] = round(bx1 - bx0, 4)
+                    rec["bh"] = round(by1 - by0, 4)
+                except Exception:
+                    pass
+                if type(obj.aperture).__name__ == "ApertureMacroInstance":
+                    rec["prims"] = macro_prims(obj)
+                flashes.append(rec)
             elif isinstance(obj, Line):
                 lines.append({"x1": round(obj.x1, 4), "y1": round(obj.y1, 4),
                               "x2": round(obj.x2, 4), "y2": round(obj.y2, 4),
@@ -61,7 +102,8 @@ def inventory_side(side):
                     pts = [(round(p[0], 4), round(p[1], 4)) for p in obj.outline]
                 except Exception:
                     pts = []
-                regions.append({"n_points": len(pts), "points": pts})
+                regions.append({"n_points": len(pts), "points": pts,
+                                "dark": bool(getattr(obj, "polarity_dark", True))})
         out["layers"][kicad_layer] = {
             "file": f.name, "flashes": flashes, "lines": lines,
             "arcs": arcs, "regions": regions,

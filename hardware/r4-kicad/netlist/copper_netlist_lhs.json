@@ -1,0 +1,5057 @@
+{
+ "side": "LHS",
+ "transform": {
+  "pnp_mirror": "none",
+  "local_rot_sign": 1,
+  "local_x_flip": false,
+  "rot_offset_deg": 0.0,
+  "dx": 298.0,
+  "dy": 245.5,
+  "note": "gerber = mirror(pnp) + t; pad = that + R(sign*rot + rot_offset)(flip(local))"
+ },
+ "numbering": {
+  "U2": {
+   "solutions": [
+    [
+     0,
+     "ccw"
+    ]
+   ],
+   "offset": 0,
+   "direction": "ccw"
+  },
+  "74LV4051BQ": {
+   "U7": [
+    [
+     0,
+     "ccw"
+    ]
+   ],
+   "U6": [
+    [
+     0,
+     "ccw"
+    ]
+   ],
+   "U5": [
+    [
+     0,
+     "ccw"
+    ]
+   ],
+   "U4": [
+    [
+     0,
+     "ccw"
+    ]
+   ],
+   "U3": [
+    [
+     0,
+     "ccw"
+    ]
+   ]
+  },
+  "BQ24210": {
+   "solutions": [
+    [
+     0,
+     "ccw"
+    ]
+   ]
+  },
+  "LSM6DSM": {
+   "solutions": [
+    [
+     0,
+     "ccw"
+    ]
+   ]
+  },
+  "X2": {
+   "terminal_pads": [
+    "1",
+    "3"
+   ]
+  }
+ },
+ "u2_pin_table": {
+  "1": {
+   "pkg_name": "DEC1",
+   "net": "DEC1",
+   "net_id": 98,
+   "n_net_pads": 2
+  },
+  "2": {
+   "pkg_name": "P0.00/XL1",
+   "net": "XL1",
+   "net_id": 29,
+   "n_net_pads": 3
+  },
+  "3": {
+   "pkg_name": "P0.01/XL2",
+   "net": "XL2",
+   "net_id": 30,
+   "n_net_pads": 3
+  },
+  "4": {
+   "pkg_name": "P0.02/AIN0",
+   "net": "FSR_CH2",
+   "net_id": 11,
+   "n_net_pads": 4
+  },
+  "5": {
+   "pkg_name": "P0.03/AIN1",
+   "net": "FSR_CH1",
+   "net_id": 12,
+   "n_net_pads": 4
+  },
+  "6": {
+   "pkg_name": "P0.04/AIN2",
+   "net": "FSR_CH0",
+   "net_id": 13,
+   "n_net_pads": 4
+  },
+  "7": {
+   "pkg_name": "P0.05/AIN3",
+   "net": "ADC_VBAT",
+   "net_id": 14,
+   "n_net_pads": 4
+  },
+  "8": {
+   "pkg_name": "P0.06",
+   "net": "VBAT_ON",
+   "net_id": 19,
+   "n_net_pads": 3
+  },
+  "9": {
+   "pkg_name": "P0.07",
+   "net": "FSR_S2",
+   "net_id": 7,
+   "n_net_pads": 4
+  },
+  "10": {
+   "pkg_name": "P0.08",
+   "net": "FSR_S1",
+   "net_id": 15,
+   "n_net_pads": 4
+  },
+  "11": {
+   "pkg_name": "P0.09/NFC1",
+   "net": "FSR_S0",
+   "net_id": 5,
+   "n_net_pads": 4
+  },
+  "12": {
+   "pkg_name": "P0.10/NFC2",
+   "net": "BQ_PG",
+   "net_id": 95,
+   "n_net_pads": 2
+  },
+  "13": {
+   "pkg_name": "VDD",
+   "net": "3V3",
+   "net_id": 2,
+   "n_net_pads": 18
+  },
+  "14": {
+   "pkg_name": "P0.11",
+   "net": null,
+   "net_id": 122,
+   "n_net_pads": 1
+  },
+  "15": {
+   "pkg_name": "P0.12",
+   "net": "BQ_CHG",
+   "net_id": 23,
+   "n_net_pads": 3
+  },
+  "16": {
+   "pkg_name": "P0.13",
+   "net": "CAP_S0",
+   "net_id": 26,
+   "n_net_pads": 3
+  },
+  "17": {
+   "pkg_name": "P0.14",
+   "net": "CAP_S1",
+   "net_id": 24,
+   "n_net_pads": 3
+  },
+  "18": {
+   "pkg_name": "P0.15",
+   "net": "CAP_S2",
+   "net_id": 27,
+   "n_net_pads": 3
+  },
+  "19": {
+   "pkg_name": "P0.16",
+   "net": "TEMP_S3",
+   "net_id": 48,
+   "n_net_pads": 2
+  },
+  "20": {
+   "pkg_name": "P0.17",
+   "net": "TEMP_S2",
+   "net_id": 50,
+   "n_net_pads": 2
+  },
+  "21": {
+   "pkg_name": "P0.18",
+   "net": "TEMP_S0",
+   "net_id": 51,
+   "n_net_pads": 2
+  },
+  "22": {
+   "pkg_name": "P0.19",
+   "net": "TEMP_S1",
+   "net_id": 53,
+   "n_net_pads": 2
+  },
+  "23": {
+   "pkg_name": "P0.20",
+   "net": "TEMP_S4",
+   "net_id": 47,
+   "n_net_pads": 2
+  },
+  "24": {
+   "pkg_name": "P0.21/nRESET",
+   "net": "MCU_RST",
+   "net_id": 25,
+   "n_net_pads": 3
+  },
+  "25": {
+   "pkg_name": "SWDCLK",
+   "net": "SWDCLK",
+   "net_id": 129,
+   "n_net_pads": 1
+  },
+  "26": {
+   "pkg_name": "SWDIO",
+   "net": "SWDIO",
+   "net_id": 128,
+   "n_net_pads": 1
+  },
+  "27": {
+   "pkg_name": "P0.22",
+   "net": "IS_LHS",
+   "net_id": 118,
+   "n_net_pads": 1
+  },
+  "28": {
+   "pkg_name": "P0.23",
+   "net": null,
+   "net_id": 119,
+   "n_net_pads": 1
+  },
+  "29": {
+   "pkg_name": "P0.24",
+   "net": null,
+   "net_id": 120,
+   "n_net_pads": 1
+  },
+  "30": {
+   "pkg_name": "ANT",
+   "net": "ANT_FEED",
+   "net_id": 18,
+   "n_net_pads": 3
+  },
+  "31": {
+   "pkg_name": "VSS",
+   "net": "0V",
+   "net_id": 1,
+   "n_net_pads": 124
+  },
+  "32": {
+   "pkg_name": "DEC2",
+   "net": "DEC2",
+   "net_id": 121,
+   "n_net_pads": 1
+  },
+  "33": {
+   "pkg_name": "DEC3",
+   "net": "DEC3",
+   "net_id": 99,
+   "n_net_pads": 2
+  },
+  "34": {
+   "pkg_name": "XC1",
+   "net": "XC1",
+   "net_id": 32,
+   "n_net_pads": 3
+  },
+  "35": {
+   "pkg_name": "XC2",
+   "net": "XC2",
+   "net_id": 31,
+   "n_net_pads": 3
+  },
+  "36": {
+   "pkg_name": "VDD",
+   "net": "3V3",
+   "net_id": 2,
+   "n_net_pads": 18
+  },
+  "37": {
+   "pkg_name": "P0.25",
+   "net": null,
+   "net_id": 45,
+   "n_net_pads": 2
+  },
+  "38": {
+   "pkg_name": "P0.26",
+   "net": "SDA",
+   "net_id": 20,
+   "n_net_pads": 3
+  },
+  "39": {
+   "pkg_name": "P0.27",
+   "net": "SCL",
+   "net_id": 21,
+   "n_net_pads": 3
+  },
+  "40": {
+   "pkg_name": "P0.28/AIN4",
+   "net": "CAP_CH1",
+   "net_id": 10,
+   "n_net_pads": 4
+  },
+  "41": {
+   "pkg_name": "P0.29/AIN5",
+   "net": "TEMP_COM",
+   "net_id": 8,
+   "n_net_pads": 4
+  },
+  "42": {
+   "pkg_name": "P0.30/AIN6",
+   "net": "CAP_CH0",
+   "net_id": 9,
+   "n_net_pads": 4
+  },
+  "43": {
+   "pkg_name": "P0.31/AIN7",
+   "net": "MUX_ON",
+   "net_id": 22,
+   "n_net_pads": 3
+  },
+  "44": {
+   "pkg_name": "NC",
+   "net": null,
+   "net_id": 123,
+   "n_net_pads": 1
+  },
+  "45": {
+   "pkg_name": "VSS",
+   "net": "0V",
+   "net_id": 1,
+   "n_net_pads": 124
+  },
+  "46": {
+   "pkg_name": "DEC4",
+   "net": "DEC4",
+   "net_id": 34,
+   "n_net_pads": 3
+  },
+  "47": {
+   "pkg_name": "DCC",
+   "net": "DCC",
+   "net_id": 101,
+   "n_net_pads": 2
+  },
+  "48": {
+   "pkg_name": "VDD",
+   "net": "3V3",
+   "net_id": 2,
+   "n_net_pads": 18
+  },
+  "PAD": {
+   "pkg_name": "VSS(EP)",
+   "net": "0V",
+   "net_id": 1,
+   "n_net_pads": 124
+  }
+ },
+ "anchors": {
+  "MCU_RST": {
+   "pass": true,
+   "members": [
+    [
+     "C3",
+     "2"
+    ],
+    [
+     "R45",
+     "1"
+    ],
+    [
+     "U2",
+     "24"
+    ]
+   ],
+   "unnumbered_J5_candidates": 1
+  },
+  "BQ24210": {
+   "pass": true,
+   "checks": {
+    "VBUS->VSYS(C34,C40,C42)": true,
+    "BAT->VBAT_F(C43,F1)": true,
+    "ISET->R56": true,
+    "TS->R59+R60": true
+   }
+  },
+  "74LV4051BQ": {
+   "pass": true,
+   "per_mux": {
+    "U7": true,
+    "U6": true,
+    "U5": true,
+    "U4": true,
+    "U3": true
+   },
+   "MUX_VCC_caps": [
+    "C24",
+    "C24",
+    "C25",
+    "C25",
+    "C26",
+    "C26",
+    "C27",
+    "C27",
+    "C28",
+    "C28"
+   ]
+  },
+  "VBAT_divider": {
+   "pass": true,
+   "members": [
+    [
+     "C2",
+     "1"
+    ],
+    [
+     "R43",
+     "2"
+    ],
+    [
+     "R44",
+     "1"
+    ],
+    [
+     "U2",
+     "7"
+    ]
+   ]
+  },
+  "VBAT_ON_switch": {
+   "members": [
+    [
+     "Q1",
+     "1"
+    ],
+    [
+     "R41",
+     "1"
+    ],
+    [
+     "U2",
+     "8"
+    ]
+   ],
+   "info": "expect R4x to Q1/Q2 gate chain"
+  },
+  "gpio_h": {
+   "BQ_CHG": {
+    "port": "P0.12",
+    "pkg_pin": 15,
+    "members": [
+     [
+      "R61",
+      "2"
+     ],
+     [
+      "U2",
+      "15"
+     ],
+     [
+      "U8",
+      "8"
+     ]
+    ],
+    "pass": true
+   },
+   "BQ_PG": {
+    "port": "P0.10",
+    "pkg_pin": 12,
+    "members": [
+     [
+      "R20",
+      "1"
+     ],
+     [
+      "U2",
+      "12"
+     ]
+    ],
+    "via_series": "R20",
+    "pass": true
+   },
+   "CAP_CH0": {
+    "port": "P0.30",
+    "pkg_pin": 42,
+    "members": [
+     [
+      "C22",
+      "1"
+     ],
+     [
+      "R50",
+      "1"
+     ],
+     [
+      "U2",
+      "42"
+     ],
+     [
+      "U6",
+      "3"
+     ]
+    ],
+    "mux_Z_pins": [
+     "U6"
+    ],
+    "pass": true
+   },
+   "CAP_CH1": {
+    "port": "P0.28",
+    "pkg_pin": 40,
+    "members": [
+     [
+      "C23",
+      "1"
+     ],
+     [
+      "R51",
+      "1"
+     ],
+     [
+      "U2",
+      "40"
+     ],
+     [
+      "U7",
+      "3"
+     ]
+    ],
+    "mux_Z_pins": [
+     "U7"
+    ],
+    "pass": true
+   },
+   "CAP_S0": {
+    "port": "P0.13",
+    "pkg_pin": 16,
+    "members": [
+     [
+      "U2",
+      "16"
+     ],
+     [
+      "U6",
+      "11"
+     ],
+     [
+      "U7",
+      "11"
+     ]
+    ],
+    "mux_select_pins": [
+     "U7",
+     "U6"
+    ],
+    "pass": true
+   },
+   "CAP_S1": {
+    "port": "P0.14",
+    "pkg_pin": 17,
+    "members": [
+     [
+      "U2",
+      "17"
+     ],
+     [
+      "U6",
+      "10"
+     ],
+     [
+      "U7",
+      "10"
+     ]
+    ],
+    "mux_select_pins": [
+     "U7",
+     "U6"
+    ],
+    "pass": true
+   },
+   "CAP_S2": {
+    "port": "P0.15",
+    "pkg_pin": 18,
+    "members": [
+     [
+      "U2",
+      "18"
+     ],
+     [
+      "U6",
+      "9"
+     ],
+     [
+      "U7",
+      "9"
+     ]
+    ],
+    "mux_select_pins": [
+     "U7",
+     "U6"
+    ],
+    "pass": true
+   },
+   "FSR_CH0": {
+    "port": "P0.04",
+    "pkg_pin": 6,
+    "members": [
+     [
+      "C19",
+      "1"
+     ],
+     [
+      "R47",
+      "1"
+     ],
+     [
+      "U2",
+      "6"
+     ],
+     [
+      "U3",
+      "3"
+     ]
+    ],
+    "mux_Z_pins": [
+     "U3"
+    ],
+    "pass": true
+   },
+   "FSR_CH1": {
+    "port": "P0.03",
+    "pkg_pin": 5,
+    "members": [
+     [
+      "C20",
+      "1"
+     ],
+     [
+      "R48",
+      "1"
+     ],
+     [
+      "U2",
+      "5"
+     ],
+     [
+      "U4",
+      "3"
+     ]
+    ],
+    "mux_Z_pins": [
+     "U4"
+    ],
+    "pass": true
+   },
+   "FSR_CH2": {
+    "port": "P0.02",
+    "pkg_pin": 4,
+    "members": [
+     [
+      "C21",
+      "1"
+     ],
+     [
+      "R49",
+      "1"
+     ],
+     [
+      "U2",
+      "4"
+     ],
+     [
+      "U5",
+      "3"
+     ]
+    ],
+    "mux_Z_pins": [
+     "U5"
+    ],
+    "pass": true
+   },
+   "FSR_S0": {
+    "port": "P0.09",
+    "pkg_pin": 11,
+    "members": [
+     [
+      "U2",
+      "11"
+     ],
+     [
+      "U3",
+      "11"
+     ],
+     [
+      "U4",
+      "11"
+     ],
+     [
+      "U5",
+      "11"
+     ]
+    ],
+    "mux_select_pins": [
+     "U5",
+     "U4",
+     "U3"
+    ],
+    "pass": true
+   },
+   "FSR_S1": {
+    "port": "P0.08",
+    "pkg_pin": 10,
+    "members": [
+     [
+      "U2",
+      "10"
+     ],
+     [
+      "U3",
+      "10"
+     ],
+     [
+      "U4",
+      "10"
+     ],
+     [
+      "U5",
+      "10"
+     ]
+    ],
+    "mux_select_pins": [
+     "U5",
+     "U4",
+     "U3"
+    ],
+    "pass": true
+   },
+   "FSR_S2": {
+    "port": "P0.07",
+    "pkg_pin": 9,
+    "members": [
+     [
+      "U2",
+      "9"
+     ],
+     [
+      "U3",
+      "9"
+     ],
+     [
+      "U4",
+      "9"
+     ],
+     [
+      "U5",
+      "9"
+     ]
+    ],
+    "mux_select_pins": [
+     "U5",
+     "U4",
+     "U3"
+    ],
+    "pass": true
+   },
+   "IS_LHS": {
+    "port": "P0.22",
+    "pkg_pin": 27,
+    "members": [
+     [
+      "U2",
+      "27"
+     ]
+    ],
+    "strap": "floating"
+   },
+   "MUX_ON": {
+    "port": "P0.31",
+    "pkg_pin": 43,
+    "members": [
+     [
+      "Q3",
+      "1"
+     ],
+     [
+      "R46",
+      "1"
+     ],
+     [
+      "U2",
+      "43"
+     ]
+    ],
+    "pass": true
+   },
+   "RESET": {
+    "port": "P0.21",
+    "pkg_pin": 24,
+    "members": [
+     [
+      "C3",
+      "2"
+     ],
+     [
+      "R45",
+      "1"
+     ],
+     [
+      "U2",
+      "24"
+     ]
+    ],
+    "pass": true
+   },
+   "SCL": {
+    "port": "P0.27",
+    "pkg_pin": 39,
+    "members": [
+     [
+      "R40",
+      "1"
+     ],
+     [
+      "U1",
+      "13"
+     ],
+     [
+      "U2",
+      "39"
+     ]
+    ],
+    "imu_pin": 13,
+    "pass": true
+   },
+   "SDA": {
+    "port": "P0.26",
+    "pkg_pin": 38,
+    "members": [
+     [
+      "R39",
+      "1"
+     ],
+     [
+      "U1",
+      "14"
+     ],
+     [
+      "U2",
+      "38"
+     ]
+    ],
+    "imu_pin": 14,
+    "pass": true
+   },
+   "TEMP_COM": {
+    "port": "P0.29",
+    "pkg_pin": 41,
+    "members": [
+     [
+      "C18",
+      "1"
+     ],
+     [
+      "R35",
+      "1"
+     ],
+     [
+      "R55",
+      "1"
+     ],
+     [
+      "U2",
+      "41"
+     ]
+    ],
+    "mux_Z_pins": []
+   },
+   "TEMP_S0": {
+    "port": "P0.18",
+    "pkg_pin": 21,
+    "members": [
+     [
+      "R24",
+      "1"
+     ],
+     [
+      "U2",
+      "21"
+     ]
+    ]
+   },
+   "TEMP_S1": {
+    "port": "P0.19",
+    "pkg_pin": 22,
+    "members": [
+     [
+      "R21",
+      "1"
+     ],
+     [
+      "U2",
+      "22"
+     ]
+    ]
+   },
+   "TEMP_S2": {
+    "port": "P0.17",
+    "pkg_pin": 20,
+    "members": [
+     [
+      "R29",
+      "1"
+     ],
+     [
+      "U2",
+      "20"
+     ]
+    ]
+   },
+   "TEMP_S3": {
+    "port": "P0.16",
+    "pkg_pin": 19,
+    "members": [
+     [
+      "R34",
+      "1"
+     ],
+     [
+      "U2",
+      "19"
+     ]
+    ]
+   },
+   "TEMP_S4": {
+    "port": "P0.20",
+    "pkg_pin": 23,
+    "members": [
+     [
+      "R36",
+      "1"
+     ],
+     [
+      "U2",
+      "23"
+     ]
+    ]
+   },
+   "VBAT": {
+    "port": "P0.05",
+    "pkg_pin": 7,
+    "members": [
+     [
+      "C2",
+      "1"
+     ],
+     [
+      "R43",
+      "2"
+     ],
+     [
+      "R44",
+      "1"
+     ],
+     [
+      "U2",
+      "7"
+     ]
+    ],
+    "pass": true
+   },
+   "VBAT_ON": {
+    "port": "P0.06",
+    "pkg_pin": 8,
+    "members": [
+     [
+      "Q1",
+      "1"
+     ],
+     [
+      "R41",
+      "1"
+     ],
+     [
+      "U2",
+      "8"
+     ]
+    ],
+    "pass": true
+   }
+  },
+  "mux_groups": {
+   "FSR": [
+    "U3",
+    "U4",
+    "U5"
+   ],
+   "CAP": [
+    "U6",
+    "U7"
+   ]
+  }
+ },
+ "nets": [
+  {
+   "id": 1,
+   "name": "0V",
+   "pads": [
+    [
+     "C1",
+     "1"
+    ],
+    [
+     "C10",
+     "1"
+    ],
+    [
+     "C11",
+     "1"
+    ],
+    [
+     "C12",
+     "1"
+    ],
+    [
+     "C13",
+     "1"
+    ],
+    [
+     "C15",
+     "1"
+    ],
+    [
+     "C16",
+     "1"
+    ],
+    [
+     "C18",
+     "2"
+    ],
+    [
+     "C19",
+     "2"
+    ],
+    [
+     "C2",
+     "2"
+    ],
+    [
+     "C20",
+     "2"
+    ],
+    [
+     "C21",
+     "2"
+    ],
+    [
+     "C22",
+     "2"
+    ],
+    [
+     "C23",
+     "2"
+    ],
+    [
+     "C24",
+     "1"
+    ],
+    [
+     "C24",
+     "2"
+    ],
+    [
+     "C25",
+     "1"
+    ],
+    [
+     "C25",
+     "2"
+    ],
+    [
+     "C26",
+     "1"
+    ],
+    [
+     "C26",
+     "2"
+    ],
+    [
+     "C27",
+     "1"
+    ],
+    [
+     "C27",
+     "2"
+    ],
+    [
+     "C28",
+     "1"
+    ],
+    [
+     "C28",
+     "2"
+    ],
+    [
+     "C3",
+     "1"
+    ],
+    [
+     "C34",
+     "1"
+    ],
+    [
+     "C35",
+     "1"
+    ],
+    [
+     "C37",
+     "1"
+    ],
+    [
+     "C38",
+     "1"
+    ],
+    [
+     "C39",
+     "1"
+    ],
+    [
+     "C4",
+     "2"
+    ],
+    [
+     "C40",
+     "1"
+    ],
+    [
+     "C42",
+     "1"
+    ],
+    [
+     "C43",
+     "1"
+    ],
+    [
+     "C5",
+     "2"
+    ],
+    [
+     "C6",
+     "1"
+    ],
+    [
+     "C7",
+     "1"
+    ],
+    [
+     "C8",
+     "1"
+    ],
+    [
+     "C9",
+     "1"
+    ],
+    [
+     "D2",
+     "1"
+    ],
+    [
+     "J1",
+     "15"
+    ],
+    [
+     "J2",
+     "1"
+    ],
+    [
+     "J2",
+     "10"
+    ],
+    [
+     "J2",
+     "11"
+    ],
+    [
+     "J2",
+     "12"
+    ],
+    [
+     "J2",
+     "13"
+    ],
+    [
+     "J2",
+     "14"
+    ],
+    [
+     "J2",
+     "15"
+    ],
+    [
+     "J2",
+     "16"
+    ],
+    [
+     "J2",
+     "17"
+    ],
+    [
+     "J2",
+     "18"
+    ],
+    [
+     "J2",
+     "19"
+    ],
+    [
+     "J2",
+     "2"
+    ],
+    [
+     "J2",
+     "20"
+    ],
+    [
+     "J2",
+     "3"
+    ],
+    [
+     "J2",
+     "4"
+    ],
+    [
+     "J2",
+     "5"
+    ],
+    [
+     "J2",
+     "6"
+    ],
+    [
+     "J3",
+     "1"
+    ],
+    [
+     "J4",
+     "1"
+    ],
+    [
+     "Q1",
+     "2"
+    ],
+    [
+     "R21",
+     "2"
+    ],
+    [
+     "R22",
+     "2"
+    ],
+    [
+     "R23",
+     "2"
+    ],
+    [
+     "R24",
+     "2"
+    ],
+    [
+     "R25",
+     "2"
+    ],
+    [
+     "R26",
+     "2"
+    ],
+    [
+     "R27",
+     "2"
+    ],
+    [
+     "R28",
+     "2"
+    ],
+    [
+     "R29",
+     "2"
+    ],
+    [
+     "R30",
+     "2"
+    ],
+    [
+     "R31",
+     "2"
+    ],
+    [
+     "R35",
+     "2"
+    ],
+    [
+     "R36",
+     "2"
+    ],
+    [
+     "R37",
+     "2"
+    ],
+    [
+     "R38",
+     "2"
+    ],
+    [
+     "R41",
+     "2"
+    ],
+    [
+     "R44",
+     "2"
+    ],
+    [
+     "R47",
+     "2"
+    ],
+    [
+     "R48",
+     "2"
+    ],
+    [
+     "R49",
+     "2"
+    ],
+    [
+     "R50",
+     "2"
+    ],
+    [
+     "R51",
+     "2"
+    ],
+    [
+     "R54",
+     "1"
+    ],
+    [
+     "R55",
+     "2"
+    ],
+    [
+     "R56",
+     "2"
+    ],
+    [
+     "R58",
+     "2"
+    ],
+    [
+     "R60",
+     "1"
+    ],
+    [
+     "U1",
+     "1"
+    ],
+    [
+     "U1",
+     "2"
+    ],
+    [
+     "U1",
+     "3"
+    ],
+    [
+     "U1",
+     "6"
+    ],
+    [
+     "U1",
+     "7"
+    ],
+    [
+     "U2",
+     "31"
+    ],
+    [
+     "U2",
+     "45"
+    ],
+    [
+     "U2",
+     "PAD"
+    ],
+    [
+     "U3",
+     "16"
+    ],
+    [
+     "U3",
+     "6"
+    ],
+    [
+     "U3",
+     "7"
+    ],
+    [
+     "U3",
+     "8"
+    ],
+    [
+     "U3",
+     "PAD"
+    ],
+    [
+     "U4",
+     "16"
+    ],
+    [
+     "U4",
+     "6"
+    ],
+    [
+     "U4",
+     "7"
+    ],
+    [
+     "U4",
+     "8"
+    ],
+    [
+     "U4",
+     "PAD"
+    ],
+    [
+     "U5",
+     "16"
+    ],
+    [
+     "U5",
+     "6"
+    ],
+    [
+     "U5",
+     "7"
+    ],
+    [
+     "U5",
+     "8"
+    ],
+    [
+     "U5",
+     "PAD"
+    ],
+    [
+     "U6",
+     "16"
+    ],
+    [
+     "U6",
+     "6"
+    ],
+    [
+     "U6",
+     "7"
+    ],
+    [
+     "U6",
+     "8"
+    ],
+    [
+     "U6",
+     "PAD"
+    ],
+    [
+     "U7",
+     "16"
+    ],
+    [
+     "U7",
+     "6"
+    ],
+    [
+     "U7",
+     "7"
+    ],
+    [
+     "U7",
+     "8"
+    ],
+    [
+     "U7",
+     "PAD"
+    ],
+    [
+     "U8",
+     "3"
+    ],
+    [
+     "U8",
+     "PAD"
+    ],
+    [
+     "U9",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [
+    {
+     "x": 279.15,
+     "y": 277.65,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 195,
+   "n_vias": 157,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In1.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 2,
+   "name": "3V3",
+   "pads": [
+    [
+     "C1",
+     "2"
+    ],
+    [
+     "C10",
+     "2"
+    ],
+    [
+     "C39",
+     "2"
+    ],
+    [
+     "C7",
+     "2"
+    ],
+    [
+     "C8",
+     "2"
+    ],
+    [
+     "Q3",
+     "2"
+    ],
+    [
+     "R39",
+     "2"
+    ],
+    [
+     "R40",
+     "2"
+    ],
+    [
+     "R45",
+     "2"
+    ],
+    [
+     "R46",
+     "2"
+    ],
+    [
+     "R61",
+     "1"
+    ],
+    [
+     "U1",
+     "12"
+    ],
+    [
+     "U1",
+     "5"
+    ],
+    [
+     "U1",
+     "8"
+    ],
+    [
+     "U2",
+     "13"
+    ],
+    [
+     "U2",
+     "36"
+    ],
+    [
+     "U2",
+     "48"
+    ],
+    [
+     "U9",
+     "5"
+    ]
+   ],
+   "unnumbered_pads": [
+    {
+     "x": 281.3,
+     "y": 268.05,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 38,
+   "n_vias": 13,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In1.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 3,
+   "name": "VBAT_F",
+   "pads": [
+    [
+     "C35",
+     "2"
+    ],
+    [
+     "C43",
+     "2"
+    ],
+    [
+     "F1",
+     "2"
+    ],
+    [
+     "Q2",
+     "2"
+    ],
+    [
+     "R42",
+     "1"
+    ],
+    [
+     "R57",
+     "2"
+    ],
+    [
+     "R62",
+     "1"
+    ],
+    [
+     "U8",
+     "10"
+    ],
+    [
+     "U9",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [
+    {
+     "x": 281.5642,
+     "y": 272.9,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 20,
+   "n_vias": 3,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 4,
+   "name": "VSYS",
+   "pads": [
+    [
+     "C34",
+     "2"
+    ],
+    [
+     "C40",
+     "2"
+    ],
+    [
+     "C42",
+     "2"
+    ],
+    [
+     "D1",
+     "2"
+    ],
+    [
+     "D2",
+     "2"
+    ],
+    [
+     "U8",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [
+    {
+     "x": 284.75,
+     "y": 269.0,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 25,
+   "n_vias": 5,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In1.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 5,
+   "name": "FSR_S0",
+   "pads": [
+    [
+     "U2",
+     "11"
+    ],
+    [
+     "U3",
+     "11"
+    ],
+    [
+     "U4",
+     "11"
+    ],
+    [
+     "U5",
+     "11"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 14,
+   "n_vias": 4,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 6,
+   "name": null,
+   "pads": [
+    [
+     "R20",
+     "2"
+    ],
+    [
+     "R62",
+     "2"
+    ],
+    [
+     "U8",
+     "6"
+    ],
+    [
+     "U8",
+     "7"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 16,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 7,
+   "name": "FSR_S2",
+   "pads": [
+    [
+     "U2",
+     "9"
+    ],
+    [
+     "U3",
+     "9"
+    ],
+    [
+     "U4",
+     "9"
+    ],
+    [
+     "U5",
+     "9"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 32,
+   "n_vias": 4,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 8,
+   "name": "TEMP_COM",
+   "pads": [
+    [
+     "C18",
+     "1"
+    ],
+    [
+     "R35",
+     "1"
+    ],
+    [
+     "R55",
+     "1"
+    ],
+    [
+     "U2",
+     "41"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 12,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 9,
+   "name": "CAP_CH0",
+   "pads": [
+    [
+     "C22",
+     "1"
+    ],
+    [
+     "R50",
+     "1"
+    ],
+    [
+     "U2",
+     "42"
+    ],
+    [
+     "U6",
+     "3"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 9,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 10,
+   "name": "CAP_CH1",
+   "pads": [
+    [
+     "C23",
+     "1"
+    ],
+    [
+     "R51",
+     "1"
+    ],
+    [
+     "U2",
+     "40"
+    ],
+    [
+     "U7",
+     "3"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 12,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 11,
+   "name": "FSR_CH2",
+   "pads": [
+    [
+     "C21",
+     "1"
+    ],
+    [
+     "R49",
+     "1"
+    ],
+    [
+     "U2",
+     "4"
+    ],
+    [
+     "U5",
+     "3"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 11,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 12,
+   "name": "FSR_CH1",
+   "pads": [
+    [
+     "C20",
+     "1"
+    ],
+    [
+     "R48",
+     "1"
+    ],
+    [
+     "U2",
+     "5"
+    ],
+    [
+     "U4",
+     "3"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 13,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 13,
+   "name": "FSR_CH0",
+   "pads": [
+    [
+     "C19",
+     "1"
+    ],
+    [
+     "R47",
+     "1"
+    ],
+    [
+     "U2",
+     "6"
+    ],
+    [
+     "U3",
+     "3"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 17,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 14,
+   "name": "ADC_VBAT",
+   "pads": [
+    [
+     "C2",
+     "1"
+    ],
+    [
+     "R43",
+     "2"
+    ],
+    [
+     "R44",
+     "1"
+    ],
+    [
+     "U2",
+     "7"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 14,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 15,
+   "name": "FSR_S1",
+   "pads": [
+    [
+     "U2",
+     "10"
+    ],
+    [
+     "U3",
+     "10"
+    ],
+    [
+     "U4",
+     "10"
+    ],
+    [
+     "U5",
+     "10"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 22,
+   "n_vias": 4,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 16,
+   "name": null,
+   "pads": [
+    [
+     "C37",
+     "2"
+    ],
+    [
+     "C38",
+     "2"
+    ],
+    [
+     "D1",
+     "1"
+    ],
+    [
+     "J3",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 17,
+   "name": null,
+   "pads": [
+    [
+     "ANT1",
+     "2"
+    ],
+    [
+     "C16",
+     "2"
+    ],
+    [
+     "L3",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 12,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 18,
+   "name": "ANT_FEED",
+   "pads": [
+    [
+     "C15",
+     "2"
+    ],
+    [
+     "L3",
+     "1"
+    ],
+    [
+     "U2",
+     "30"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 19,
+   "name": "VBAT_ON",
+   "pads": [
+    [
+     "Q1",
+     "1"
+    ],
+    [
+     "R41",
+     "1"
+    ],
+    [
+     "U2",
+     "8"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 20,
+   "name": "SDA",
+   "pads": [
+    [
+     "R39",
+     "1"
+    ],
+    [
+     "U1",
+     "14"
+    ],
+    [
+     "U2",
+     "38"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 11,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 21,
+   "name": "SCL",
+   "pads": [
+    [
+     "R40",
+     "1"
+    ],
+    [
+     "U1",
+     "13"
+    ],
+    [
+     "U2",
+     "39"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 22,
+   "name": "MUX_ON",
+   "pads": [
+    [
+     "Q3",
+     "1"
+    ],
+    [
+     "R46",
+     "1"
+    ],
+    [
+     "U2",
+     "43"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 9,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 23,
+   "name": "BQ_CHG",
+   "pads": [
+    [
+     "R61",
+     "2"
+    ],
+    [
+     "U2",
+     "15"
+    ],
+    [
+     "U8",
+     "8"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 24,
+   "name": "CAP_S1",
+   "pads": [
+    [
+     "U2",
+     "17"
+    ],
+    [
+     "U6",
+     "10"
+    ],
+    [
+     "U7",
+     "10"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 21,
+   "n_vias": 3,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 25,
+   "name": "MCU_RST",
+   "pads": [
+    [
+     "C3",
+     "2"
+    ],
+    [
+     "R45",
+     "1"
+    ],
+    [
+     "U2",
+     "24"
+    ]
+   ],
+   "unnumbered_pads": [
+    {
+     "x": 277.75,
+     "y": 255.15,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 16,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 26,
+   "name": "CAP_S0",
+   "pads": [
+    [
+     "U2",
+     "16"
+    ],
+    [
+     "U6",
+     "11"
+    ],
+    [
+     "U7",
+     "11"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 17,
+   "n_vias": 3,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 27,
+   "name": "CAP_S2",
+   "pads": [
+    [
+     "U2",
+     "18"
+    ],
+    [
+     "U6",
+     "9"
+    ],
+    [
+     "U7",
+     "9"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 32,
+   "n_vias": 3,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 28,
+   "name": null,
+   "pads": [
+    [
+     "Q1",
+     "3"
+    ],
+    [
+     "Q2",
+     "1"
+    ],
+    [
+     "R42",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 29,
+   "name": "XL1",
+   "pads": [
+    [
+     "C4",
+     "1"
+    ],
+    [
+     "U2",
+     "2"
+    ],
+    [
+     "X1",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 30,
+   "name": "XL2",
+   "pads": [
+    [
+     "C5",
+     "1"
+    ],
+    [
+     "U2",
+     "3"
+    ],
+    [
+     "X1",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 31,
+   "name": "XC2",
+   "pads": [
+    [
+     "C11",
+     "2"
+    ],
+    [
+     "U2",
+     "35"
+    ],
+    [
+     "X2",
+     "3"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 32,
+   "name": "XC1",
+   "pads": [
+    [
+     "C12",
+     "2"
+    ],
+    [
+     "U2",
+     "34"
+    ],
+    [
+     "X2",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 9,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 33,
+   "name": null,
+   "pads": [
+    [
+     "R59",
+     "2"
+    ],
+    [
+     "R60",
+     "2"
+    ],
+    [
+     "U8",
+     "5"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 3,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 34,
+   "name": "DEC4",
+   "pads": [
+    [
+     "C9",
+     "2"
+    ],
+    [
+     "L2",
+     "2"
+    ],
+    [
+     "U2",
+     "46"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 3,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 35,
+   "name": null,
+   "pads": [
+    [
+     "R57",
+     "1"
+    ],
+    [
+     "R58",
+     "1"
+    ],
+    [
+     "U9",
+     "3"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 36,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "11"
+    ],
+    [
+     "R19",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 37,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "1"
+    ],
+    [
+     "R18",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 38,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "5"
+    ],
+    [
+     "R10",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 39,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "16"
+    ],
+    [
+     "R9",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 40,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "17"
+    ],
+    [
+     "R8",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 41,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "8"
+    ],
+    [
+     "R7",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 42,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "9"
+    ],
+    [
+     "R6",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 43,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "18"
+    ],
+    [
+     "R5",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 44,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "19"
+    ],
+    [
+     "R4",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 45,
+   "name": null,
+   "pads": [
+    [
+     "U1",
+     "4"
+    ],
+    [
+     "U2",
+     "37"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 9,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 46,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "10"
+    ],
+    [
+     "R3",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 47,
+   "name": "TEMP_S4",
+   "pads": [
+    [
+     "R36",
+     "1"
+    ],
+    [
+     "U2",
+     "23"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 13,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 48,
+   "name": "TEMP_S3",
+   "pads": [
+    [
+     "R34",
+     "1"
+    ],
+    [
+     "U2",
+     "19"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 12,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 49,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "6"
+    ],
+    [
+     "R2",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 50,
+   "name": "TEMP_S2",
+   "pads": [
+    [
+     "R29",
+     "1"
+    ],
+    [
+     "U2",
+     "20"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 12,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 51,
+   "name": "TEMP_S0",
+   "pads": [
+    [
+     "R24",
+     "1"
+    ],
+    [
+     "U2",
+     "21"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 12,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 52,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "20"
+    ],
+    [
+     "R1",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 53,
+   "name": "TEMP_S1",
+   "pads": [
+    [
+     "R21",
+     "1"
+    ],
+    [
+     "U2",
+     "22"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 12,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu",
+    "In2.Cu"
+   ]
+  },
+  {
+   "id": 54,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "2"
+    ],
+    [
+     "R17",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 55,
+   "name": null,
+   "pads": [
+    [
+     "J2",
+     "7"
+    ],
+    [
+     "R34",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 56,
+   "name": null,
+   "pads": [
+    [
+     "J2",
+     "8"
+    ],
+    [
+     "R33",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 57,
+   "name": null,
+   "pads": [
+    [
+     "J2",
+     "9"
+    ],
+    [
+     "R32",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 58,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "12"
+    ],
+    [
+     "R16",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 59,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "13"
+    ],
+    [
+     "R15",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 60,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "7"
+    ],
+    [
+     "R14",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 61,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "3"
+    ],
+    [
+     "R13",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 62,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "14"
+    ],
+    [
+     "R12",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 63,
+   "name": null,
+   "pads": [
+    [
+     "J1",
+     "4"
+    ],
+    [
+     "R11",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 64,
+   "name": null,
+   "pads": [
+    [
+     "R23",
+     "1"
+    ],
+    [
+     "U6",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 65,
+   "name": null,
+   "pads": [
+    [
+     "R22",
+     "1"
+    ],
+    [
+     "U6",
+     "5"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 66,
+   "name": null,
+   "pads": [
+    [
+     "R25",
+     "1"
+    ],
+    [
+     "U6",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 6,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 67,
+   "name": null,
+   "pads": [
+    [
+     "R27",
+     "1"
+    ],
+    [
+     "U6",
+     "15"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 9,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 68,
+   "name": null,
+   "pads": [
+    [
+     "R26",
+     "1"
+    ],
+    [
+     "U6",
+     "14"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 69,
+   "name": null,
+   "pads": [
+    [
+     "R28",
+     "1"
+    ],
+    [
+     "U6",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 70,
+   "name": null,
+   "pads": [
+    [
+     "R31",
+     "1"
+    ],
+    [
+     "U7",
+     "5"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 71,
+   "name": null,
+   "pads": [
+    [
+     "R32",
+     "1"
+    ],
+    [
+     "U7",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 72,
+   "name": null,
+   "pads": [
+    [
+     "R38",
+     "1"
+    ],
+    [
+     "U7",
+     "15"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 73,
+   "name": null,
+   "pads": [
+    [
+     "R30",
+     "1"
+    ],
+    [
+     "U7",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 8,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 74,
+   "name": null,
+   "pads": [
+    [
+     "R33",
+     "1"
+    ],
+    [
+     "U7",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 11,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 75,
+   "name": null,
+   "pads": [
+    [
+     "R37",
+     "1"
+    ],
+    [
+     "U7",
+     "14"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 6,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 76,
+   "name": null,
+   "pads": [
+    [
+     "R19",
+     "1"
+    ],
+    [
+     "U5",
+     "14"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 77,
+   "name": null,
+   "pads": [
+    [
+     "R18",
+     "1"
+    ],
+    [
+     "U5",
+     "15"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 78,
+   "name": null,
+   "pads": [
+    [
+     "R17",
+     "1"
+    ],
+    [
+     "U5",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 79,
+   "name": null,
+   "pads": [
+    [
+     "R16",
+     "1"
+    ],
+    [
+     "U5",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 8,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 80,
+   "name": null,
+   "pads": [
+    [
+     "R15",
+     "1"
+    ],
+    [
+     "U5",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 81,
+   "name": null,
+   "pads": [
+    [
+     "R13",
+     "1"
+    ],
+    [
+     "U4",
+     "15"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 82,
+   "name": null,
+   "pads": [
+    [
+     "R14",
+     "1"
+    ],
+    [
+     "U4",
+     "14"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 10,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 83,
+   "name": null,
+   "pads": [
+    [
+     "R12",
+     "1"
+    ],
+    [
+     "U4",
+     "12"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 7,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 84,
+   "name": null,
+   "pads": [
+    [
+     "R11",
+     "1"
+    ],
+    [
+     "U4",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 85,
+   "name": null,
+   "pads": [
+    [
+     "R10",
+     "1"
+    ],
+    [
+     "U4",
+     "5"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 7,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 86,
+   "name": null,
+   "pads": [
+    [
+     "R9",
+     "1"
+    ],
+    [
+     "U4",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 7,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 87,
+   "name": null,
+   "pads": [
+    [
+     "R8",
+     "1"
+    ],
+    [
+     "U4",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 6,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 88,
+   "name": null,
+   "pads": [
+    [
+     "R1",
+     "1"
+    ],
+    [
+     "U3",
+     "5"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 7,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 89,
+   "name": null,
+   "pads": [
+    [
+     "R2",
+     "1"
+    ],
+    [
+     "U3",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 6,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 90,
+   "name": null,
+   "pads": [
+    [
+     "R7",
+     "1"
+    ],
+    [
+     "U3",
+     "15"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 91,
+   "name": null,
+   "pads": [
+    [
+     "R6",
+     "1"
+    ],
+    [
+     "U3",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 92,
+   "name": null,
+   "pads": [
+    [
+     "R5",
+     "1"
+    ],
+    [
+     "U3",
+     "14"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 93,
+   "name": null,
+   "pads": [
+    [
+     "R4",
+     "1"
+    ],
+    [
+     "U3",
+     "12"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 94,
+   "name": null,
+   "pads": [
+    [
+     "R3",
+     "1"
+    ],
+    [
+     "U3",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 95,
+   "name": "BQ_PG",
+   "pads": [
+    [
+     "R20",
+     "1"
+    ],
+    [
+     "U2",
+     "12"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 96,
+   "name": null,
+   "pads": [
+    [
+     "R56",
+     "1"
+    ],
+    [
+     "U8",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 97,
+   "name": null,
+   "pads": [
+    [
+     "Q2",
+     "3"
+    ],
+    [
+     "R43",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 98,
+   "name": "DEC1",
+   "pads": [
+    [
+     "C6",
+     "2"
+    ],
+    [
+     "U2",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 99,
+   "name": "DEC3",
+   "pads": [
+    [
+     "C13",
+     "2"
+    ],
+    [
+     "U2",
+     "33"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 4,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 100,
+   "name": null,
+   "pads": [
+    [
+     "R59",
+     "1"
+    ],
+    [
+     "U8",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 101,
+   "name": "DCC",
+   "pads": [
+    [
+     "L1",
+     "2"
+    ],
+    [
+     "U2",
+     "47"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 102,
+   "name": null,
+   "pads": [
+    [
+     "Q3",
+     "3"
+    ],
+    [
+     "R54",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 103,
+   "name": null,
+   "pads": [
+    [
+     "L1",
+     "1"
+    ],
+    [
+     "L2",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 104,
+   "name": "VBAT",
+   "pads": [
+    [
+     "F1",
+     "1"
+    ],
+    [
+     "J4",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 105,
+   "name": null,
+   "pads": [
+    [
+     "U7",
+     "12"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 106,
+   "name": null,
+   "pads": [
+    [
+     "U7",
+     "13"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 107,
+   "name": null,
+   "pads": [
+    [
+     "U6",
+     "13"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 108,
+   "name": null,
+   "pads": [
+    [
+     "U6",
+     "12"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 109,
+   "name": null,
+   "pads": [
+    [
+     "U5",
+     "5"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 110,
+   "name": null,
+   "pads": [
+    [
+     "U5",
+     "13"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 111,
+   "name": null,
+   "pads": [
+    [
+     "U5",
+     "12"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 112,
+   "name": null,
+   "pads": [
+    [
+     "U4",
+     "13"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 113,
+   "name": null,
+   "pads": [
+    [
+     "U3",
+     "13"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 1,
+   "n_vias": 1,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 114,
+   "name": null,
+   "pads": [
+    [
+     "U8",
+     "9"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 115,
+   "name": null,
+   "pads": [
+    [
+     "U9",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 116,
+   "name": null,
+   "pads": [
+    [
+     "X2",
+     "2"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 117,
+   "name": null,
+   "pads": [
+    [
+     "X2",
+     "4"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 118,
+   "name": "IS_LHS",
+   "pads": [
+    [
+     "U2",
+     "27"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 119,
+   "name": null,
+   "pads": [
+    [
+     "U2",
+     "28"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 120,
+   "name": null,
+   "pads": [
+    [
+     "U2",
+     "29"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 121,
+   "name": "DEC2",
+   "pads": [
+    [
+     "U2",
+     "32"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 122,
+   "name": null,
+   "pads": [
+    [
+     "U2",
+     "14"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 123,
+   "name": null,
+   "pads": [
+    [
+     "U2",
+     "44"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 124,
+   "name": null,
+   "pads": [
+    [
+     "ANT1",
+     "1"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 125,
+   "name": null,
+   "pads": [
+    [
+     "U1",
+     "9"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 126,
+   "name": null,
+   "pads": [
+    [
+     "U1",
+     "10"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 127,
+   "name": null,
+   "pads": [
+    [
+     "U1",
+     "11"
+    ]
+   ],
+   "unnumbered_pads": [],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 128,
+   "name": "SWDIO",
+   "pads": [
+    [
+     "U2",
+     "26"
+    ]
+   ],
+   "unnumbered_pads": [
+    {
+     "x": 279.65,
+     "y": 255.3,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 12,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 129,
+   "name": "SWDCLK",
+   "pads": [
+    [
+     "U2",
+     "25"
+    ]
+   ],
+   "unnumbered_pads": [
+    {
+     "x": 278.75,
+     "y": 253.6,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 14,
+   "n_vias": 2,
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 130,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [
+    {
+     "x": 279.02,
+     "y": 265.17,
+     "layer": "B.Cu",
+     "owner": null
+    }
+   ],
+   "n_tracks": 0,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 131,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 18,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 132,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 16,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 133,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 134,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 135,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 16,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 136,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 13,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 137,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 138,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 14,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 139,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 6,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 140,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 16,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 141,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 0,
+   "layers": [
+    "B.Cu"
+   ]
+  },
+  {
+   "id": 142,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 143,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 16,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 144,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 14,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 145,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 2,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 146,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 14,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 147,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 6,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 148,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 16,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  },
+  {
+   "id": 149,
+   "name": null,
+   "pads": [],
+   "unnumbered_pads": [],
+   "n_tracks": 5,
+   "n_vias": 0,
+   "layers": [
+    "F.Cu"
+   ]
+  }
+ ],
+ "diagnostics": {
+  "side": "LHS",
+  "component_layer": "F.Cu",
+  "transform_fit": {
+   "all_pads_frac": 1.0,
+   "asym_pads_frac": 1.0
+  },
+  "footprint_variant_used": {
+   "Q2": "SOT323_SQ",
+   "Q1": "SOT323_SQ"
+  },
+  "io_conn_pads": {
+   "J2": 20,
+   "J1": 20
+  },
+  "pnp_residual_max_mm": 0.0001,
+  "pnp_residuals": {
+   "R20": 0.0,
+   "X2": 0.0,
+   "X1": 0.0,
+   "U9": 0.0001,
+   "U8": 0.0001,
+   "U7": 0.0,
+   "U6": 0.0,
+   "U5": 0.0001,
+   "U4": 0.0001,
+   "U3": 0.0001,
+   "U2": 0.0,
+   "U1": 0.0,
+   "R62": 0.0,
+   "R61": 0.0,
+   "R60": 0.0,
+   "R59": 0.0,
+   "R58": 0.0001,
+   "R57": 0.0,
+   "R56": 0.0,
+   "R55": 0.0,
+   "R54": 0.0,
+   "R51": 0.0,
+   "R50": 0.0001,
+   "R49": 0.0,
+   "R48": 0.0,
+   "R47": 0.0,
+   "R46": 0.0001,
+   "R45": 0.0001,
+   "R44": 0.0001,
+   "R43": 0.0001,
+   "R42": 0.0,
+   "R41": 0.0001,
+   "R40": 0.0,
+   "R39": 0.0,
+   "R38": 0.0,
+   "R37": 0.0,
+   "R36": 0.0,
+   "R35": 0.0,
+   "R34": 0.0,
+   "R33": 0.0,
+   "R32": 0.0,
+   "R31": 0.0,
+   "R30": 0.0,
+   "R29": 0.0,
+   "R28": 0.0,
+   "R27": 0.0,
+   "R26": 0.0,
+   "R25": 0.0,
+   "R24": 0.0,
+   "R23": 0.0,
+   "R22": 0.0,
+   "R21": 0.0,
+   "R19": 0.0001,
+   "R18": 0.0,
+   "R17": 0.0,
+   "R16": 0.0,
+   "R15": 0.0001,
+   "R14": 0.0,
+   "R13": 0.0001,
+   "R12": 0.0001,
+   "R11": 0.0001,
+   "R10": 0.0001,
+   "R9": 0.0001,
+   "R8": 0.0,
+   "R7": 0.0,
+   "R6": 0.0001,
+   "R5": 0.0001,
+   "R4": 0.0,
+   "R3": 0.0001,
+   "R2": 0.0001,
+   "R1": 0.0001,
+   "Q3": 0.0,
+   "Q2": 0.0,
+   "Q1": 0.0001,
+   "L3": 0.0001,
+   "L2": 0.0,
+   "L1": 0.0,
+   "J4": 0.0001,
+   "J3": 0.0,
+   "F1": 0.0001,
+   "D2": 0.0,
+   "D1": 0.0,
+   "C43": 0.0001,
+   "C42": 0.0,
+   "C40": 0.0,
+   "C39": 0.0001,
+   "C38": 0.0,
+   "C37": 0.0,
+   "C35": 0.0001,
+   "C34": 0.0001,
+   "C28": 0.0,
+   "C27": 0.0001,
+   "C26": 0.0,
+   "C25": 0.0,
+   "C24": 0.0001,
+   "C23": 0.0,
+   "C22": 0.0,
+   "C21": 0.0001,
+   "C20": 0.0,
+   "C19": 0.0,
+   "C18": 0.0,
+   "C16": 0.0001,
+   "C15": 0.0,
+   "C13": 0.0,
+   "C12": 0.0,
+   "C11": 0.0,
+   "C10": 0.0,
+   "C9": 0.0,
+   "C8": 0.0001,
+   "C7": 0.0,
+   "C6": 0.0,
+   "C5": 0.0,
+   "C4": 0.0,
+   "C3": 0.0,
+   "C2": 0.0,
+   "C1": 0.0,
+   "ANT1": 0.0001
+  },
+  "model_pads_missing_flash": [],
+  "flashes_on_comp_layer": 721,
+  "via_flashes_on_comp_layer": 301,
+  "component_pads_assigned": 425,
+  "board_level_pads": 0,
+  "raster": [
+   2025,
+   3692
+  ],
+  "schematic_crosscheck": {
+   "named_net_pins_agreeing": 166,
+   "outlier_pins": 25,
+   "nets_with_outliers": {
+    "ADC_VBAT": {
+     "copper_net": "ADC_VBAT",
+     "outlier_pins": [
+      [
+       "U2",
+       "6"
+      ]
+     ]
+    },
+    "BAT_CHG": {
+     "copper_net": "BQ_CHG",
+     "outlier_pins": [
+      [
+       "U2",
+       "11"
+      ]
+     ]
+    },
+    "CAP_S2": {
+     "copper_net": "CAP_S2",
+     "outlier_pins": [
+      [
+       "U7",
+       "10"
+      ]
+     ]
+    },
+    "FSR_S2": {
+     "copper_net": "FSR_S2",
+     "outlier_pins": [
+      [
+       "U5",
+       "10"
+      ]
+     ]
+    },
+    "MCU_SCL": {
+     "copper_net": "0V",
+     "outlier_pins": [
+      [
+       "J1",
+       "12"
+      ],
+      [
+       "J3",
+       "2"
+      ],
+      [
+       "J4",
+       "2"
+      ],
+      [
+       "R39",
+       "1"
+      ],
+      [
+       "R40",
+       "1"
+      ],
+      [
+       "U1",
+       "13"
+      ],
+      [
+       "U1",
+       "14"
+      ],
+      [
+       "U2",
+       "1"
+      ],
+      [
+       "U2",
+       "3"
+      ],
+      [
+       "U2",
+       "41"
+      ],
+      [
+       "U2",
+       "43"
+      ],
+      [
+       "U3",
+       "3"
+      ],
+      [
+       "U4",
+       "3"
+      ],
+      [
+       "U5",
+       "3"
+      ],
+      [
+       "U6",
+       "3"
+      ],
+      [
+       "U7",
+       "3"
+      ],
+      [
+       "X1",
+       "2"
+      ]
+     ]
+    },
+    "TEMP_COM": {
+     "copper_net": "TEMP_COM",
+     "outlier_pins": [
+      [
+       "U2",
+       "42"
+      ]
+     ]
+    },
+    "VBAT": {
+     "copper_net": "VBAT_F",
+     "outlier_pins": [
+      [
+       "J4",
+       "1"
+      ]
+     ]
+    },
+    "VBAT_ON": {
+     "copper_net": "VBAT_ON",
+     "outlier_pins": [
+      [
+       "U2",
+       "7"
+      ]
+     ]
+    },
+    "XC1": {
+     "copper_net": "XC2",
+     "outlier_pins": [
+      [
+       "X2",
+       "2"
+      ]
+     ]
+    }
+   }
+  },
+  "board_pads": [
+   {
+    "x": 279.15,
+    "y": 277.65,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "0V",
+    "net_id": 1
+   },
+   {
+    "x": 281.5642,
+    "y": 272.9,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "VBAT_F",
+    "net_id": 3
+   },
+   {
+    "x": 281.3,
+    "y": 268.05,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "3V3",
+    "net_id": 2
+   },
+   {
+    "x": 277.75,
+    "y": 255.15,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "MCU_RST",
+    "net_id": 25
+   },
+   {
+    "x": 284.75,
+    "y": 269.0,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "VSYS",
+    "net_id": 4
+   },
+   {
+    "x": 278.75,
+    "y": 253.6,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "SWDCLK",
+    "net_id": 129
+   },
+   {
+    "x": 279.65,
+    "y": 255.3,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "SWDIO",
+    "net_id": 128
+   },
+   {
+    "x": 279.02,
+    "y": 265.17,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": null,
+    "net_id": 130
+   }
+  ],
+  "j5_tc2030_candidates": [
+   {
+    "x": 277.75,
+    "y": 255.15,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "MCU_RST",
+    "net_id": 25
+   },
+   {
+    "x": 278.75,
+    "y": 253.6,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "SWDCLK",
+    "net_id": 129
+   },
+   {
+    "x": 279.65,
+    "y": 255.3,
+    "layer": "B.Cu",
+    "owner": null,
+    "net": "SWDIO",
+    "net_id": 128
+   }
+  ]
+ }
+}
