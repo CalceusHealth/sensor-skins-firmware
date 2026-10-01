@@ -62,7 +62,17 @@ This brief surveys the design artifacts we now hold, analyses the two failure mo
 
 ### 3.1 Coil wire
 
-The RX coil is absent from the BOM entirely — it is a hand-attached wound component whose enamel wires are soldered to the J3 pads and then experience per-step flex and shear inside the insole. There is no strain relief called out anywhere in the design record. Failure at this joint is a predictable outcome of an unconstrained wire-to-pad joint in a dynamic-flex environment, not a workmanship anomaly.
+The RX coil is absent from the BOM entirely. It is a hand-attached wound component whose leads are soldered to the J3 pads, and those leads see per-step flex and shear inside the insole.
+
+The first builds had no strain relief (`artefacts/carbon-circuits-1`: "Coils soldered with wires exiting the base of the PCBA. No strain relief added"). The current process does relieve it (`artefacts/assembly-process.md`):
+- 10 mm heatshrink over the leads
+- a C-shaped bend
+- glue at both ends of the heatshrink
+- a 4 × 3 mm alignment magnet superglued into the coil centre
+
+Coil-wire failures continuing under that process would point to the fine wire flexing right at the heatshrink exit or the solder fillet. Which builds the failed units came from is worth checking. Either way, the joint stays hand-made in five manual steps per unit.
+
+A PCB-etched coil (Track A) removes all five steps and the joint itself. It has to keep a central clearance for the magnet, and the magnet sits in the coil's field, so tuning must be checked with it fitted.
 
 ### 3.2 Battery
 
