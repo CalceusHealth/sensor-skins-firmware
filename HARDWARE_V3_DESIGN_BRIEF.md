@@ -32,7 +32,7 @@ This brief surveys the design artifacts we now hold, analyses the two failure mo
 ### 2.2 Board construction (from the R4 fab drawing, GM3 layer)
 
 - **4-layer FR4, 0.4 mm finished thickness**, 1 oz (35 µm) copper, ENIG, black soldermask, white silk, IPC-A-600 Class 2, e-tested, no panelization.
-- Copper/component cluster occupies ~**40 × 74 mm** (LHS; angled "arch" shaped region); vias down to 0.2 mm.
+- Physical board outline: **21.25 × 46.25 mm** (one closed loop on the GM4 "Board Outline" layer; the GM3 sheet is the fab drawing). Vias down to 0.2 mm. (Note: raw copper-layer extents read larger because the gerbers draw their "Top/Bottom Layer" captions as copper strokes.)
 - At 0.4 mm the board is already thin enough to flex appreciably — the v2 design implicitly relies on thin-FR4 compliance rather than a rated flex construction.
 
 ### 2.3 Electrical facts relevant to this brief (R4 schematic + BOM)

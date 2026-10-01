@@ -50,9 +50,9 @@
    "gfx_F.SilkS": 204,
    "gfx_F.Paste_flash": 10
   },
-  "nets": 149,
+  "nets": 165,
   "file": "/home/salmoneller/Git/sensor-skins-firmware/hardware/r4-kicad/pcb/Reid_Orthotic_v2_LHS.kicad_pcb",
-  "file_kb": 871.0,
+  "file_kb": 871.8,
   "validation": {
    "side": "LHS",
    "counts": {
@@ -65,7 +65,7 @@
     "zones": 15,
     "zone_fills": 250
    },
-   "nets_declared": 150,
+   "nets_declared": 166,
    "roundtrip": {
     "F.Cu_pad_center_max_dev_mm": 5e-06,
     "F.Cu_pad_bbox_max_dev_mm": 9.4e-05,
@@ -129,9 +129,9 @@
    "gfx_B.SilkS": 204,
    "gfx_B.Paste_flash": 10
   },
-  "nets": 149,
+  "nets": 164,
   "file": "/home/salmoneller/Git/sensor-skins-firmware/hardware/r4-kicad/pcb/Reid_Orthotic_v2_RHS.kicad_pcb",
-  "file_kb": 893.8,
+  "file_kb": 894.5,
   "validation": {
    "side": "RHS",
    "counts": {
@@ -144,7 +144,7 @@
     "zones": 11,
     "zone_fills": 203
    },
-   "nets_declared": 150,
+   "nets_declared": 165,
    "roundtrip": {
     "F.Cu_pad_center_max_dev_mm": 5e-06,
     "F.Cu_pad_bbox_max_dev_mm": 2e-06,

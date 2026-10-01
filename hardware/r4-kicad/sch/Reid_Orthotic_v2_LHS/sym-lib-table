@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "R4")(type "KiCad")(uri "${KIPRJMOD}/R4_symbols.kicad_sym")(options "")(descr "R4 reconstruction symbols"))
+)
