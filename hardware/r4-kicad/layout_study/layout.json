@@ -1,0 +1,134 @@
+{
+ "LHS": {
+  "r4_to_r3_iou": 0.9694,
+  "r4_mirror": true,
+  "r4_rot": 180,
+  "png_registration": {
+   "FSR": {
+    "iou": 0.7093,
+    "mirror_x": true,
+    "mirror_y": false
+   },
+   "CAP": {
+    "iou": 0.6181,
+    "mirror_x": true,
+    "mirror_y": false
+   },
+   "TMP": {
+    "iou": 0.7093,
+    "mirror_x": true,
+    "mirror_y": false
+   }
+  },
+  "membrane_mm": [
+   -20.94,
+   -59.35,
+   49.7,
+   160.35
+  ],
+  "r4_board_bounds_mm": [
+   -21.34,
+   0.16,
+   -0.09,
+   46.41
+  ],
+  "current_coil_centre": [
+   -8.45,
+   -17.84
+  ],
+  "proposed_coil_centre": [
+   -8.45,
+   -8.34
+  ],
+  "proposed_board_mm": [
+   21.38,
+   63.25
+  ],
+  "tab_area_on_membrane_frac": 0.0,
+  "sensors_within_2mm_of_tab": [],
+  "orthotic_trace": {
+   "px_bbox": [
+    387,
+    85,
+    1492,
+    3278
+   ],
+   "px_per_mm": [
+    11.869,
+    11.826
+   ]
+  },
+  "membrane_inside_orthotic": true,
+  "clearance_to_orthotic_edge_mm": {
+   "r4_board": 8.25,
+   "proposed_board_with_tab": 8.25,
+   "current_coil": 9.74
+  }
+ },
+ "RHS": {
+  "r4_to_r3_iou": 0.9831,
+  "r4_mirror": true,
+  "r4_rot": 180,
+  "png_registration": {
+   "FSR": {
+    "iou": 0.7108,
+    "mirror_x": false,
+    "mirror_y": false
+   },
+   "CAP": {
+    "iou": 0.6187,
+    "mirror_x": false,
+    "mirror_y": false
+   },
+   "TMP": {
+    "iou": 0.7108,
+    "mirror_x": false,
+    "mirror_y": false
+   }
+  },
+  "membrane_mm": [
+   -20.94,
+   -59.35,
+   49.7,
+   160.35
+  ],
+  "r4_board_bounds_mm": [
+   -21.33,
+   0.14,
+   -0.08,
+   46.39
+  ],
+  "current_coil_centre": [
+   -8.45,
+   -17.86
+  ],
+  "proposed_coil_centre": [
+   -8.45,
+   -8.36
+  ],
+  "proposed_board_mm": [
+   21.38,
+   63.25
+  ],
+  "tab_area_on_membrane_frac": 0.0,
+  "sensors_within_2mm_of_tab": [],
+  "orthotic_trace": {
+   "px_bbox": [
+    387,
+    85,
+    1492,
+    3278
+   ],
+   "px_per_mm": [
+    11.869,
+    11.826
+   ]
+  },
+  "membrane_inside_orthotic": true,
+  "clearance_to_orthotic_edge_mm": {
+   "r4_board": 8.26,
+   "proposed_board_with_tab": 8.26,
+   "current_coil": 9.75
+  }
+ }
+}
