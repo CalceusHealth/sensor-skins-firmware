@@ -88,7 +88,23 @@ Three compounding design-level causes, all already evidenced in the repo:
 
 ### 4.1 Track A — PCB-integrated RX coil
 
-**Current coil, verified:** the RX coil is a **TDK WR151580-48F2-G** (the engineering log's "large coil"): 27.1 µH, 500 mΩ DCR, 15 mm dia wound part, estimated Q ≈ 42 at 125 kHz ([Digi-Key](https://www.digikey.com/en/products/detail/tdk-corporation/WR151580-48F2-G/8019506); Q derived from DCR — not published). It resonates with C37 (33 nF) on the board.
+**Current coil, from the TDK datasheet** (`artefacts/TDK-WR151580-48F2-G_Spec.pdf`): the coil is a **TDK WR151580-48F2-G** (the engineering log's "large coil"), used on both the charger and the orthotic.
+
+- **Electrical:** Ls 27.1 µH typ at 100 kHz; Rs 0.5 Ω max at 100 kHz. That gives Q ≥ 34 at 100 kHz. TDK publishes no Q at the drive frequency.
+- **Construction:** a 4-layer air coil, Ø15.0 ± 0.3 mm, bonded to its own ferrite sheet.
+- **Stack thickness** (typ / max, mm): coil + resin 1.69 / 1.78, adhesive 0.135, ferrite 0.80 / 0.88. Total 2.63 / 2.80 mm.
+- **Leads:** 15 mm, solder-coated tips.
+- **Note:** the 27.1 µH is measured on that ferrite, so the ferrite is part of the inductance.
+
+**Tuning check:** both tanks use 33 nF C0G (orthotic C37, charger C7). With 27.1 µH each tank resonates at **168 kHz** on its own. The charger firmware drives at 10 MHz ÷ 53 = **189 kHz** (`Charger Firmware R4/coil.c`), assuming the ATtiny's factory-default 20 MHz oscillator; no fuse setting is stored in the repo. With a 16 MHz fuse it would be 151 kHz.
+
+When two identical tuned coils couple, the single resonance splits into two peaks at f₀/√(1 ± k), where k is the coupling. At k ≈ 0.2 the peaks are 154 and 188 kHz. Either clock setting therefore lands on one of the two coupled peaks rather than on 168 kHz. The likeliest explanation is that the drive was tuned empirically to the coupled pair, not to the coil alone. This is inferred, not measured. A scope on the TX coil (frequency, plus V_RX against TX frequency) would settle it.
+
+**Implication for a PCB coil:** match the product L·C = 27.1 µH × 33 nF ≈ 0.894 µH·µF, then re-find the coupled peak on hardware. For example, 6 µH needs ≈ 149 nF, 12 µH ≈ 75 nF, and 18 µH ≈ 50 nF.
+
+Height is a second win. The wound coil's 2.6 mm stack (0.8 mm of it ferrite) would become copper inside the PCB plus a 0.1–0.3 mm ferrite sheet, saving roughly 2 mm of insole height.
+
+Two constraints carry over to any replacement: the 4 × 3 mm alignment magnet glued in the coil centre (`artefacts/assembly-process.md`) needs a central clearance, and its effect on L and Q has to be measured with it fitted.
 
 **Etched spiral feasibility (honest numbers):** at 125 kHz a PCB spiral is ~10–20× worse in Q than the wound coil — Mohan/current-sheet estimates for 1 oz copper give ~6 µH / Q≈2 at 15 mm OD, ~18 µH / Q≈3 at 30 mm OD ([Mohan et al.](https://web.stanford.edu/~boyd/papers/pdf/inductance_expressions.pdf), applied per [TI SNOA930](https://ti.com/document-viewer/lit/html/SNOA930C/GUID-BD74982D-17B2-4C89-9F5B-396B12381139)). **This mostly costs alignment margin, not feasibility** — at our ~20 mW / 5 mA charge level, link efficiency is nearly irrelevant; the requirement is that the rectified voltage clears the BQ24210's input minimum (~3.5 V) at worst-case alignment. Levers to claw back Q: largest OD that fits (the insole has area the 15 mm wound coil never used), widest traces, both spare copper layers in series, 2 oz outer copper, and — since the link is proprietary — **raising the TX frequency to 250–500 kHz recovers Q linearly** (the ATtiny TX makes this a firmware + cap change).
 
