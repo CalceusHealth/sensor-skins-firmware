@@ -4,3 +4,4 @@ __pycache__/
 fp-info-cache
 validation/xor_*.png
 validation/crops/
+review/*.zip
