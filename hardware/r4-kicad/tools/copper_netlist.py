@@ -450,14 +450,27 @@ def rasterize_pours(regions, x0, y0, nx, ny):
             for i in range(n):
                 xa, ya = pts[i]
                 xb, yb = pts[(i + 1) % n]
-                if (ya <= yy < yb) or (yb <= yy < ya):
-                    xs.append(xa + (yy - ya) * (xb - xa) / (yb - ya))
+                if ya <= yy < yb:        # upward crossing
+                    xs.append((xa + (yy - ya) * (xb - xa) / (yb - ya), 1))
+                elif yb <= yy < ya:      # downward crossing
+                    xs.append((xa + (yy - ya) * (xb - xa) / (yb - ya), -1))
+            if not xs:
+                continue
+            # NONZERO winding fill (not even-odd): Altium pre-fractured pour
+            # outlines self-overlap at island-separation channels; CAM tools
+            # and gerbonara/cairo fill them with the nonzero rule, and
+            # even-odd would bridge separate plane islands (seen on In1.Cu:
+            # the MUX_VCC island channel at (294.6..295.9, 246.9..247.5)).
             xs.sort()
-            for k in range(0, len(xs) - 1, 2):
-                i0 = max(0, int(math.ceil((xs[k] - x0) / RASTER - 0.5)))
-                i1 = min(nx - 1, int(math.floor((xs[k + 1] - x0) / RASTER - 0.5)))
-                if i1 >= i0:
-                    mask[j, i0:i1 + 1] = dark
+            wind = 0
+            for k in range(len(xs) - 1):
+                wind += xs[k][1]
+                if wind != 0:
+                    i0 = max(0, int(math.ceil((xs[k][0] - x0) / RASTER - 0.5)))
+                    i1 = min(nx - 1,
+                             int(math.floor((xs[k + 1][0] - x0) / RASTER - 0.5)))
+                    if i1 >= i0:
+                        mask[j, i0:i1 + 1] = dark
     # connected-component label (8-conn) via row-span union-find
     labels = np.zeros((ny, nx), dtype=np.int32)
     uf = UF()
@@ -758,6 +771,24 @@ class Board:
                     bw = bh = ap.get("diameter", 0.1)
                 if ap.get("type") == "CircleAperture":
                     objs.append((node, Shape("disc", (f["x"], f["y"], bw / 2))))
+                elif ap.get("type") == "ObroundAperture" and abs(bw - bh) > 1e-9:
+                    # true obround = core rect + two end discs; a plain rect
+                    # overestimates the rounded ends by up to (sqrt(2)-1)*r,
+                    # which falsely bridged pads to adjacent pours
+                    if bw > bh:
+                        r = bh / 2
+                        dx = (bw - bh) / 2
+                        objs.append((node, Shape("rect", (f["x"], f["y"], dx, r))))
+                        for s in (-1, 1):
+                            objs.append((node, Shape("disc",
+                                                     (f["x"] + s * dx, f["y"], r))))
+                    else:
+                        r = bw / 2
+                        dy = (bh - bw) / 2
+                        objs.append((node, Shape("rect", (f["x"], f["y"], r, dy))))
+                        for s in (-1, 1):
+                            objs.append((node, Shape("disc",
+                                                     (f["x"], f["y"] + s * dy, r))))
                 else:
                     objs.append((node, Shape("rect", (f["x"], f["y"], bw / 2, bh / 2))))
             for i, ln in enumerate(lay["lines"]):
@@ -1181,8 +1212,13 @@ class Board:
             mux_detail[ref] = ok
             mux_ok &= ok
         mux_ok &= len(caps_on_vcc) >= 5
+        # MUX_VCC must be a distinct switched rail, not merged into 0V/3V3
+        # (guards against pour-bridging extraction bugs passing vacuously)
+        distinct = mux_vcc not in (gnd, self.pad_root("U2", 13))
+        mux_ok &= distinct
         anchors["74LV4051BQ"] = {"pass": bool(mux_ok), "per_mux": mux_detail,
-                                 "MUX_VCC_caps": caps_on_vcc}
+                                 "MUX_VCC_caps": caps_on_vcc,
+                                 "MUX_VCC_distinct_from_rails": distinct}
 
         # anchor 4: VBAT divider
         adc_vbat = self.pad_root("U2", PORT_TO_PKG[gpio["VBAT"]])
