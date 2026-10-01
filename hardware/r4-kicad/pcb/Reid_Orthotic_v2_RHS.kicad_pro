@@ -1,0 +1,40 @@
+{
+  "board": {
+    "design_settings": {
+      "rules": {
+        "min_clearance": 0.1,
+        "min_track_width": 0.1,
+        "min_via_diameter": 0.4,
+        "min_via_hole": 0.2
+      }
+    }
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "name": "Default",
+        "clearance": 0.1,
+        "track_width": 0.15,
+        "via_diameter": 0.4,
+        "via_drill": 0.2,
+        "bus_width": 12,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "wire_width": 6
+      }
+    ],
+    "meta": {
+      "version": 3
+    }
+  },
+  "meta": {
+    "filename": "Reid_Orthotic_v2_RHS.kicad_pro",
+    "version": 1
+  }
+}

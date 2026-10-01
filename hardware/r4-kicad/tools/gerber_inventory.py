@@ -17,7 +17,10 @@ GERBER_DIR = Path(__file__).resolve().parents[3] / "artefacts" / \
 LAYERS = {
     "GTL": "F.Cu", "G1": "In1.Cu", "G2": "In2.Cu", "GBL": "B.Cu",
     "GTS": "F.Mask", "GBS": "B.Mask", "GTP": "F.Paste", "GBP": "B.Paste",
-    "GTO": "F.Silkscreen", "GBO": "B.Silkscreen", "GM3": "Edge.Cuts",
+    "GTO": "F.Silkscreen", "GBO": "B.Silkscreen",
+    # GM3 is the fab drawing (frame, scale bar, spec table); the physical
+    # board outline lives on GM4 ("Board Outline" mechanical layer).
+    "GM3": "Dwgs.User", "GM4": "Edge.Cuts",
 }
 
 
