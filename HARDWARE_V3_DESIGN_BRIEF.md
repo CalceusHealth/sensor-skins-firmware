@@ -82,6 +82,21 @@ Three compounding design-level causes, all already evidenced in the repo:
 2. **Charge current above rating**: ISET gives ~80 mA vs the cell's 70 mA max (35 mA standard). In practice the ~5 mA wireless input means the full 80 mA is rarely reached, but any bench/direct charge hits it.
 3. **Hand-soldered tab joints** (J4 DNF) — same mechanical failure class as the coil wires. One fielded unit (REIDLHS E1:2F:FB:FA:78:EB) already shows the dead-cell/connection signature.
 
+### 3.3 Battery failure modes → design requirements (priority 2, after the coil)
+
+The cell is confirmed bare from its datasheet (`artefacts/Routejade-FLPB301031-HPMW30-30.pdf`):
+- bare 2.0 mm tabs
+- no protection circuit in the spec
+- safety tests run on the naked cell
+
+Alex's note that dead cells read "high impedance due to protection circuit" is more consistent with a deeply discharged cell; which cells were fitted should be confirmed with him. Today's only over-discharge protection is the firmware cutoff.
+
+| Failure mode | Mechanism in the current design | v3 requirement |
+|---|---|---|
+| **Physical stress** | <ul><li>The pouch is stacked on the components on a 0.6 mm tape pad (R3 model), so body weight pushes 0805/QFN/SOT-23 corners into the pouch as point loads. Repeated loading of a pouch's soft side is a known route to separator damage and internal micro-shorts. This is a hypothesis: tear down failed cells and look for dents matching the board layout.</li><li>Hand-soldered tabs: iron heat at the pouch seal, plus fatigue at the joint.</li></ul> | <ul><li>Never stack the cell on components. Place it flat (see the placement study) or behind a rigid stiffener.</li><li>Use a low-load zone or a foam pocket.</li><li>Use factory-welded tabs or leads to a board-mounted connector; no iron on the cell.</li><li>A steel-can coin cell where load is high.</li></ul> |
+| **Firmware drains the cell past protection** | <ul><li>Protection is firmware-only: System OFF below 3100 mV.</li><li>It works only while firmware runs correctly; the MCU brownout reset is disabled and a crash or hang bypasses it.</li><li>After cutoff the board still draws its System OFF current from the cell, and nothing disconnects it. A unit left off the puck slides below 3.0 V in weeks; how fast depends on the System OFF current, which has not been measured (SEN-49).</li></ul> | <ul><li>**Hardware disconnect independent of firmware.** A protection IC with dual FET on the main board (e.g. BQ29700 family) cuts the entire load at ~2.8–3.0 V, then sits at ~0.1 µA power-down, and recovers only when the charger is present.</li><li>Firmware cutoff stays as a graceful first line (3.1–3.25 V).</li><li>Do not use the LDO-enable divider (R57/R58) as the cutoff: it doesn't disconnect the rest of the load and its own divider current drains the cell.</li></ul> |
+| **Protection itself damaged** | <ul><li>Not possible today, because there is no hardware protection.</li><li>On a protected-pack design, the PCM sits on a tiny board at the cell, in the flex/impact zone, near the hand-soldered joints. ESD, iron heat or a cracked joint there would leave the cell silently unprotected.</li></ul> | <ul><li>Put the protection on the rigid main board: reflow-soldered, ESD-protected at the battery connector.</li><li>Optionally keep a PCM-protected cell as a second, independent layer, so one damaged layer doesn't leave the cell exposed.</li><li>Fix the charge current regardless (ISET, SEN-105).</li></ul> |
+
 ## 4. Option analysis
 
 *(sections below populated from external research — pending)*
