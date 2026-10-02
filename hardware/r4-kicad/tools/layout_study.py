@@ -172,6 +172,62 @@ def orthotic_outline(memb):
                                 round((y1p - y0p) / ORTH_L, 3)]}
 
 
+EDGE_MARGIN = 3.0   # battery keeps this far inside the orthotic outline
+BATT_GAP = 1.0      # clearance from sensor layer, tails and board
+
+# candidate cells: (key, label, shape, dims, thickness mm)
+CELLS = [
+    ("pouch", "pouch today 31 x 10.2", "rect", (31.0, 10.2), 3.2),
+    ("thin", "thin pouch ~33 x 15 x 2 (est.)", "rect", (33.0, 15.0), 2.0),
+    ("lir2032", "LIR2032 coin 20 mm", "circle", (20.0,), 3.2),
+]
+
+
+def cell_geom(shape, dims, cx, cy, ang):
+    if shape == "circle":
+        return Point(cx, cy).buffer(dims[0] / 2, 48)
+    L_, W_ = dims
+    r = box(cx - L_ / 2, cy - W_ / 2, cx + L_ / 2, cy + W_ / 2)
+    return affinity.rotate(r, ang, origin=(cx, cy))
+
+
+def search_battery(allowed, keepout, board, by0, by1, sens):
+    """Exhaustive grid search (1 mm, 15 deg) for each candidate cell: legal
+    positions lie inside `allowed` and clear of `keepout`; within each zone
+    (toe-ward of the board / beside it / heel-ward) keep the one nearest the
+    board, i.e. the shortest battery connection."""
+    from shapely.prepared import prep
+    A, K = prep(allowed), prep(keepout)
+    pads = unary_union([Polygon(s_["poly"]) for k in ("FSR", "CAP")
+                        for s_ in sens.get(k, [])])
+    x0, _, x1, _ = allowed.bounds
+    out = []
+    for key, label, shape, dims, thick in CELLS:
+        best = {}
+        angs = [0] if shape == "circle" else range(0, 180, 15)
+        for ang in angs:
+            for cy in np.arange(by0 - 45, by1 + 45, 1.0):
+                for cx in np.arange(x0, x1, 1.0):
+                    g = cell_geom(shape, dims, cx, cy, ang)
+                    if not A.contains(g) or K.intersects(g):
+                        continue
+                    zone = ("toe-ward of board" if cy > by1 else
+                            "heel-ward of board" if cy < by0 else
+                            "beside board")
+                    d = g.distance(board)
+                    if zone not in best or d < best[zone][0]:
+                        best[zone] = (d, g, cx, cy, ang)
+        for zone, (d, g, cx, cy, ang) in sorted(best.items()):
+            out.append({"cell": key, "label": label, "zone": zone,
+                        "thickness_mm": thick,
+                        "centre": [round(cx, 1), round(cy, 1)],
+                        "angle_deg": ang,
+                        "gap_to_board_mm": round(d, 1),
+                        "clear_of_pads_mm": round(g.distance(pads), 1),
+                        "geom": g})
+    return out
+
+
 def register(src, dst):
     """Place src onto dst: 8 orientations, centroid-aligned, best IoU."""
     best = None
@@ -286,6 +342,18 @@ def study(side):
 
     orth, orth_meta = orthotic_outline(memb)
 
+    # sensor tails and their kapton covers: thin parts (0.25 / 0.70 mm) other
+    # than the membrane, larger than 5 mm, touching the board's neighbourhood
+    tails = unary_union([
+        footprint(p["tri"]) for p in parts
+        if p is not memb_part and p is not pcb_part
+        and (abs(p["size"][2] - 0.25) < 0.05 or abs(p["size"][2] - 0.70) < 0.05)
+        and max(p["size"][0], p["size"][1]) > 5
+        and footprint(p["tri"]).distance(pcb_r3) < 3.0])
+    keepout = unary_union([memb, tails, board_v3]).buffer(BATT_GAP)
+    allowed = orth.buffer(-EDGE_MARGIN)
+    placements = search_battery(allowed, keepout, board_v3, by0, by1, sens_mm)
+
     def edge_clearance(g):
         return round(orth.exterior.distance(g) if orth.contains(g)
                      else -g.difference(orth).area, 2)
@@ -307,7 +375,8 @@ def study(side):
         "tab": tab_only, "board_v3": board_v3,
         "tab_coil": Point(tab_c).buffer(COIL_OD / 2, 64),
         "magnet": Point(tab_c).buffer(MAGNET_D / 2, 32),
-        "sensors": sens_mm, "orth": orth,
+        "sensors": sens_mm, "orth": orth, "tails": tails,
+        "placements": placements,
         "report": {
             "r4_to_r3_iou": round(iou_b, 4), "r4_mirror": mir, "r4_rot": rot,
             "png_registration": reg,
@@ -318,6 +387,8 @@ def study(side):
             "proposed_board_mm": [round(board_v3.bounds[2] - board_v3.bounds[0], 2),
                                   round(board_v3.bounds[3] - board_v3.bounds[1], 2)],
             "tab_area_on_membrane_frac": round(on_membrane, 3),
+            "battery_placements": [
+                {k: v for k, v in pl.items() if k != "geom"} for pl in placements],
             "sensors_within_2mm_of_tab": hits,
             "orthotic_trace": orth_meta,
             "membrane_inside_orthotic": bool(orth.buffer(1.0).contains(memb)),
@@ -330,18 +401,25 @@ def study(side):
     }
 
 
-def draw(res, ppmm=6):
+# FSR1/CAP1 (hallux) land on the drawing's left for both models, so the LHS
+# model frame is a view from below; mirror it to show both feet from above.
+DORSAL_MIRROR = {"LHS": True, "RHS": False}
+
+
+def draw(res, ppmm=6, placements_to_draw=None):
     m = res["memb"]
+    mirror = DORSAL_MIRROR[res["side"]]
     allg = unary_union([m, res["cur_coil"], res["board_v3"], res["orth"]])
     x0, y0, x1, y1 = allg.bounds
     pad = 14
-    W = int((x1 - x0) * ppmm) + 2 * pad + 260
+    W = int((x1 - x0) * ppmm) + 2 * pad + 330
     H = int((y1 - y0) * ppmm) + 2 * pad
     img = Image.new("RGB", (W, H), (250, 250, 248))
     dr = ImageDraw.Draw(img)
 
     def P(x, y):
-        return (pad + (x - x0) * ppmm, pad + (y1 - y) * ppmm)
+        px = (x1 - x) if mirror else (x - x0)
+        return (pad + px * ppmm, pad + (y1 - y) * ppmm)
 
     def poly(g, fill=None, outline=None, width=1):
         geoms = getattr(g, "geoms", [g])
@@ -364,18 +442,22 @@ def draw(res, ppmm=6):
                 dr.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=col)
             else:
                 poly(pg, outline=col, width=2)
+    poly(res["tails"], fill=(236, 215, 150), outline=(190, 160, 80))
     poly(res["cur_coil"], outline=(205, 125, 60), width=2)
     poly(res["board_v3"], fill=(55, 55, 60))
     poly(res["r4"], outline=(200, 200, 200), width=1)
     for b in res["batt"]:
         poly(b, outline=(215, 90, 90), width=2)
-        # coin-cell alternatives, centred where the pouch cell sits today
-        for dia, col in ((12.1, (150, 90, 200)), (20.0, (90, 160, 210))):
-            poly(b.centroid.buffer(dia / 2, 64), outline=col, width=2)
+    cols = {"pouch": (205, 60, 60), "thin": (150, 90, 200),
+            "lir2032": (60, 150, 210)}
+    for i, pl in enumerate(placements_to_draw or []):
+        poly(pl["geom"], outline=cols[pl["cell"]], width=3)
+        cx, cy = P(pl["geom"].centroid.x, pl["geom"].centroid.y)
+        dr.text((cx - 4, cy - 6), str(i + 1), fill=cols[pl["cell"]])
     poly(res["tab_coil"], outline=(240, 160, 70), width=2)
     poly(res["magnet"], fill=(200, 200, 200))
 
-    lx = W - 250
+    lx = W - 320
     items = [((215, 40, 60), "orthotic outline (CAL1020 drawing)"),
              ((226, 238, 246), "sensor layer (R3 model, mm)"),
              ((70, 110, 200), "FSR pads"), ((60, 160, 120), "CAP pads"),
@@ -383,9 +465,11 @@ def draw(res, ppmm=6):
              ((55, 55, 60), "R4 board + proposed coil tab"),
              ((240, 160, 70), "proposed etched coil (15 mm)"),
              ((205, 125, 60), "current coil on bridge"),
+             ((236, 215, 150), "sensor tails"),
              ((215, 90, 90), "pouch battery today (stacked on board)"),
-             ((150, 90, 200), "alt: VARTA CP1254 coin, 12.1 mm"),
-             ((90, 160, 210), "alt: LIR2032 coin, 20 mm")]
+             ((205, 60, 60), "option: pouch 31 x 10.2, moved off board"),
+             ((150, 90, 200), "option: thin pouch ~33 x 15 x 2 (est.)"),
+             ((60, 150, 210), "option: LIR2032 coin 20 mm")]
     for i, (c, t) in enumerate(items):
         yy = pad + 10 + i * 22
         dr.rectangle([lx, yy, lx + 14, yy + 14], fill=c)
@@ -393,7 +477,12 @@ def draw(res, ppmm=6):
     dr.rectangle([lx, H - 40, lx + 10 * ppmm, H - 34], fill=(30, 30, 30))
     dr.text((lx, H - 30), "10 mm", fill=(30, 30, 30))
     dr.text((lx, pad + 10 + len(items) * 22 + 10),
-            f"{res['side']}  (toe up, heel down)", fill=(30, 30, 30))
+            f"{res['side']}  viewed from above (toe up)", fill=(30, 30, 30))
+    for i, pl in enumerate(placements_to_draw or []):
+        dr.text((lx, pad + 10 + len(items) * 22 + 34 + i * 16),
+                f"{i + 1}: {pl['label']}, {pl['zone']}, "
+                f"{pl['gap_to_board_mm']} mm from board",
+                fill=(30, 30, 30))
     return img
 
 
@@ -403,6 +492,8 @@ if __name__ == "__main__":
     for side in sys.argv[1:] or ["LHS", "RHS"]:
         res = study(side)
         draw(res).save(OUT / f"layout_{side}.png")
+        draw(res, placements_to_draw=res["placements"]).save(
+            OUT / f"battery_options_{side}.png")
         reports[side] = res["report"]
         print(side, json.dumps(res["report"], indent=1))
     (OUT / "layout.json").write_text(json.dumps(reports, indent=1))

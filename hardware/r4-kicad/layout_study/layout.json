@@ -45,6 +45,73 @@
    63.25
   ],
   "tab_area_on_membrane_frac": 0.0,
+  "battery_placements": [
+   {
+    "cell": "pouch",
+    "label": "pouch today 31 x 10.2",
+    "zone": "heel-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -12.7,
+     -33.8
+    ],
+    "angle_deg": 105,
+    "gap_to_board_mm": 1.3,
+    "clear_of_pads_mm": 11.0
+   },
+   {
+    "cell": "pouch",
+    "label": "pouch today 31 x 10.2",
+    "zone": "toe-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -11.7,
+     63.2
+    ],
+    "angle_deg": 45,
+    "gap_to_board_mm": 2.2,
+    "clear_of_pads_mm": 9.2
+   },
+   {
+    "cell": "thin",
+    "label": "thin pouch ~33 x 15 x 2 (est.)",
+    "zone": "heel-ward of board",
+    "thickness_mm": 2.0,
+    "centre": [
+     -10.7,
+     -35.8
+    ],
+    "angle_deg": 105,
+    "gap_to_board_mm": 1.2,
+    "clear_of_pads_mm": 6.4
+   },
+   {
+    "cell": "lir2032",
+    "label": "LIR2032 coin 20 mm",
+    "zone": "heel-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -9.7,
+     -27.8
+    ],
+    "angle_deg": 0,
+    "gap_to_board_mm": 1.0,
+    "clear_of_pads_mm": 5.4
+   },
+   {
+    "cell": "lir2032",
+    "label": "LIR2032 coin 20 mm",
+    "zone": "toe-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -15.7,
+     66.2
+    ],
+    "angle_deg": 0,
+    "gap_to_board_mm": 10.1,
+    "clear_of_pads_mm": 15.7
+   }
+  ],
   "sensors_within_2mm_of_tab": [],
   "orthotic_trace": {
    "px_bbox": [
@@ -111,6 +178,73 @@
    63.25
   ],
   "tab_area_on_membrane_frac": 0.0,
+  "battery_placements": [
+   {
+    "cell": "pouch",
+    "label": "pouch today 31 x 10.2",
+    "zone": "heel-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -12.7,
+     -33.9
+    ],
+    "angle_deg": 105,
+    "gap_to_board_mm": 1.3,
+    "clear_of_pads_mm": 11.0
+   },
+   {
+    "cell": "pouch",
+    "label": "pouch today 31 x 10.2",
+    "zone": "toe-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -20.7,
+     68.1
+    ],
+    "angle_deg": 90,
+    "gap_to_board_mm": 6.3,
+    "clear_of_pads_mm": 19.6
+   },
+   {
+    "cell": "thin",
+    "label": "thin pouch ~33 x 15 x 2 (est.)",
+    "zone": "heel-ward of board",
+    "thickness_mm": 2.0,
+    "centre": [
+     -10.7,
+     -35.9
+    ],
+    "angle_deg": 105,
+    "gap_to_board_mm": 1.2,
+    "clear_of_pads_mm": 6.4
+   },
+   {
+    "cell": "lir2032",
+    "label": "LIR2032 coin 20 mm",
+    "zone": "heel-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -9.7,
+     -27.9
+    ],
+    "angle_deg": 0,
+    "gap_to_board_mm": 1.0,
+    "clear_of_pads_mm": 5.4
+   },
+   {
+    "cell": "lir2032",
+    "label": "LIR2032 coin 20 mm",
+    "zone": "toe-ward of board",
+    "thickness_mm": 3.2,
+    "centre": [
+     -15.7,
+     66.1
+    ],
+    "angle_deg": 0,
+    "gap_to_board_mm": 10.1,
+    "clear_of_pads_mm": 15.7
+   }
+  ],
   "sensors_within_2mm_of_tab": [],
   "orthotic_trace": {
    "px_bbox": [

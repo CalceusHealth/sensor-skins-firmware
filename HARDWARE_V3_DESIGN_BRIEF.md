@@ -151,6 +151,19 @@ The overall figure is high because the battery is stacked on top of the componen
   - A metal battery directly behind the coil absorbs the charging field. It needs a ferrite sheet between coil and battery, as phones use, and the coupling must be re-tuned with the battery fitted.
   - The stack becomes PCB 0.4 + ferrite ~0.3 + cell, about 0.7 mm thicker than placing the cell beside the board.
   - The 4 × 3 mm alignment magnet in the coil centre would sit directly over the battery.
+- **Battery placement search** (`layout_study/battery_options_{LHS,RHS}.png`, size S): a 1 mm / 15° grid search for flat, unstacked positions. Each candidate must sit ≥ 3 mm inside the orthotic outline and ≥ 1 mm clear of the sensor layer, the sensor tails, and the board with its coil tab. The result is the nearest legal position to the board in each zone:
+  - **Toe-ward** (Reid's "battery in front of the PCB" layout):
+    - Today's 31 × 10.2 pouch fits diagonally at 45°, 2.2 mm from the board on LHS (upright at 6.3 mm on RHS, whose tails differ slightly).
+    - A LIR2032 fits 10 mm from the board.
+    - Reid's two sketched positions on LHS clip the sensor-layer edge (≈14 and 32 mm²) and sit 17–24 mm from the board. The search position is the same idea, pulled in tight.
+  - **Heel-ward, behind the coil tab:**
+    - Pouch at ~105°, 1.3 mm away.
+    - Thin 33 × 15 × 2 pouch (estimated cell), 1.2 mm away.
+    - LIR2032, 1.0 mm away.
+    - This area takes heel-strike load, which suits a steel-can coin cell better than a pouch.
+  - **Beside the board:** nothing fits; the sensor tails occupy it.
+  - The thin pouch fits only heel-ward.
+  - **Caveat:** tail and sensor-layer outlines come from the R3 model's trace layer. The real laminate/RF-shield outline is somewhat wider, so placements should be re-checked against Reid's full-stack outline and every size, XXS first.
 - **Next lever: a thinner cell with a larger footprint.** Pouch capacity scales roughly with volume. Catalogue cells show the trend: 4 × 20 × 30 mm ≈ 200 mAh and 5 × 20 × 30 mm ≈ 250 mAh. By extrapolation, a ~2 × 20 × 30 mm cell should roughly match today's 76 mAh at about two-thirds the thickness; this is an estimate to confirm with a supplier, e.g. a Master Instruments custom pack with protection and a connector. Flexible cells such as Jenax J.Flex (0.5–2.3 mm, 10 mAh upward; dynamic-bend tested at 20 mm radius) are a longer-shot lead for a cell that tolerates insole flexing.
 
 **Alternative worth a serious look — NFC WLC (13.56 MHz):** purpose-built for etched PCB antennas (only ~1–5 µH needed; PCB Q of 30–60 is easy), with power classes from 250 mW ([NFC Forum WLC](https://nfc-forum.org/build/specifications/wireless-charging/)). The **Renesas PTX30W** listener IC integrates the rectifier *and* a 5–250 mA Li-ion charger + LDO in 1.78 mm² — it would replace the coil, the rectifier chain (D1/D2/C37/C40/C42), *and* the BQ24210 ([Renesas](https://www.renesas.com/en/products/wireless-connectivity/nfc/ptx30w-highly-integrated-scalable-nfc-wlc-listener-i-c-interface-and-board-pmic-ldo)). Cost: the charger puck must be respun around a PTX130W-class poller, and both sides need 13.56 MHz tuning discipline. **If the puck is being redesigned anyway, this is a genuinely strong candidate; if the puck must stay, the retuned 125 kHz PCB spiral is the pragmatic fix.**
