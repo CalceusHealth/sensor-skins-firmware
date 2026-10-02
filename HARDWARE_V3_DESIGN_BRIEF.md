@@ -132,6 +132,12 @@ Results:
 
 **Caveat on size:** the PCB is shared across all seven orthotic sizes (XXS–XXL), but the membrane and orthotic outline scale with size. This study covers only the CAL1020 drawing, which is size **S (Small)**. The tab and battery placement must be re-checked against the **smallest (XXS)** membrane and orthotic outline before the board outline is committed; drawings for all sizes are to be added to `hardware/`. The 8.25 mm edge clearance will shrink on smaller sizes.
 
+**Direction (2026-10-03): flat devices first.** The Dolapro shaped shell has been uncomfortable in the current prototypes, so the first v3 devices will be flat insoles. Consequences:
+
+- **No shell pocket.** Thickness adds directly under the foot unless the battery and board sit in a pocket in the insole's foam base, as in fully embedded insoles such as Moticon.
+- **Edge clearances are provisional.** The study's figures use the Dolapro outline from CAL1020 as a stand-in; the flat insole's own outline and layer build-up are still to be supplied.
+- **Comfort ranks placement.** Low-load zones (under the medial arch) are preferred. Toe-ward and heel-ward battery positions favour a thin cell, or a cell pocketed in the foam.
+
 **Thickness (design goal: thinnest possible orthotic).** Measured from the R3 assembly model:
 
 | Item | Height |
