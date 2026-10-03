@@ -7,7 +7,7 @@
 Reid Orthotic v2 (R4 board) prototypes have performed well in the field. The only recurring failure modes are:
 
 1. **Recharge-coil wire breakage** — the RX coil is a discrete wound part attached by hand-soldered flying wires.
-2. **Battery failures** — bare unprotected cell, hand-soldered tabs, deep-discharge destruction chain (documented in `SLEEP_LOGIC_V2_PROPOSAL.md`), and a charge-current setting above the cell's rating.
+2. **Battery failures** — protected pack (cell + PCM of unknown over-discharge threshold), AWG30 leads hand-soldered to the board, the deep-discharge chain (documented in `SLEEP_LOGIC_V2_PROPOSAL.md`, corrected 2026-10-03), and a charge-current setting above the cell's rating.
 
 This brief surveys the design artifacts we now hold, analyses the two failure modes at the design level, and evaluates three iteration tracks for a v3 board: **(a)** integrating the RX coil into the PCB copper, **(b)** a battery change and/or attachment change, and **(c)** flexible / semi-flexible board construction.
 
@@ -78,24 +78,24 @@ A PCB-etched coil (Track A) removes all five steps and the joint itself. It has 
 
 Three compounding design-level causes, all already evidenced in the repo:
 
-1. **No cell protection**: bare cell, no PCM; deep discharge below damage threshold was possible until the firmware UVLO (System OFF < 3100 mV) was added — and firmware protection cannot cover a disconnected/latched-off state the way a PCM does.
+1. **Weak over-discharge protection**: the pack has a PCM (RJD404HP, IC "UP71AC-ITM"), but its trip voltage is unpublished; ICs of this class trip anywhere from 2.0 to 3.0 V. Below it, the only guard is the firmware cutoff (System OFF < 3100 mV), which needs the firmware to be running correctly.
 2. **Charge current above rating**: ISET gives ~80 mA vs the cell's 70 mA max (35 mA standard). In practice the ~5 mA wireless input means the full 80 mA is rarely reached, but any bench/direct charge hits it.
 3. **Hand-soldered tab joints** (J4 DNF) — same mechanical failure class as the coil wires. One fielded unit (REIDLHS E1:2F:FB:FA:78:EB) already shows the dead-cell/connection signature.
 
 ### 3.3 Battery failure modes → design requirements (priority 2, after the coil)
 
-The cell is confirmed bare from its datasheet (`artefacts/Routejade-FLPB301031-HPMW30-30.pdf`):
-- bare 2.0 mm tabs
-- no protection circuit in the spec
-- safety tests run on the naked cell
+**What's fitted** (corrected 2026-10-03): the **FLPB301031-HPMW30-30 protected pack**, per the Routejade pack drawing (`artefacts/Routejade-FLPB301031-HPMW30-30_pack-drawing.pdf`) and the Master Instruments listing.
+- **Cell:** FLPB301031.
+- **Protection board:** PCM RJD404HP (IC "UP71AC-ITM"), 9 × 3 × 0.4 mm, folded over the cell top under polyimide tape.
+- **Leads:** AWG30 wires, 30 ± 2 mm, hand-soldered to the board.
 
-Alex's note that dead cells read "high impedance due to protection circuit" is more consistent with a deeply discharged cell; which cells were fitted should be confirmed with him. Today's only over-discharge protection is the firmware cutoff.
+The earlier "bare cell" reading came from the cell-only spec PDF. The PCM's over-discharge threshold, over-current limit and quiescent current are not published; request them from Master Instruments.
 
 | Failure mode | Mechanism in the current design | v3 requirement |
 |---|---|---|
 | **Physical stress** | <ul><li>The pouch is stacked on the components on a 0.6 mm tape pad (R3 model), so body weight pushes 0805/QFN/SOT-23 corners into the pouch as point loads. Repeated loading of a pouch's soft side is a known route to separator damage and internal micro-shorts. This is a hypothesis: tear down failed cells and look for dents matching the board layout.</li><li>Hand-soldered tabs: iron heat at the pouch seal, plus fatigue at the joint.</li></ul> | <ul><li>Never stack the cell on components. Place it flat (see the placement study) or behind a rigid stiffener.</li><li>Use a low-load zone or a foam pocket.</li><li>Use factory-welded tabs or leads to a board-mounted connector; no iron on the cell.</li><li>A steel-can coin cell where load is high.</li></ul> |
-| **Firmware drains the cell past protection** | <ul><li>Protection is firmware-only: System OFF below 3100 mV.</li><li>It works only while firmware runs correctly; the MCU brownout reset is disabled and a crash or hang bypasses it.</li><li>After cutoff the board still draws its System OFF current from the cell, and nothing disconnects it. A unit left off the puck slides below 3.0 V in weeks; how fast depends on the System OFF current, which has not been measured (SEN-49).</li></ul> | <ul><li>**Hardware disconnect independent of firmware.** A protection IC with dual FET on the main board (e.g. BQ29700 family) cuts the entire load at ~2.8–3.0 V, then sits at ~0.1 µA power-down, and recovers only when the charger is present.</li><li>Firmware cutoff stays as a graceful first line (3.1–3.25 V).</li><li>Do not use the LDO-enable divider (R57/R58) as the cutoff: it doesn't disconnect the rest of the load and its own divider current drains the cell.</li></ul> |
-| **Protection itself damaged** | <ul><li>Not possible today, because there is no hardware protection.</li><li>On a protected-pack design, the PCM sits on a tiny board at the cell, in the flex/impact zone, near the hand-soldered joints. ESD, iron heat or a cracked joint there would leave the cell silently unprotected.</li></ul> | <ul><li>Put the protection on the rigid main board: reflow-soldered, ESD-protected at the battery connector.</li><li>Optionally keep a PCM-protected cell as a second, independent layer, so one damaged layer doesn't leave the cell exposed.</li><li>Fix the charge current regardless (ISET, SEN-105).</li></ul> |
+| **Firmware drains the cell past protection** | <ul><li>First line: firmware cutoff at 3100 mV. It works only while firmware runs correctly; the MCU brownout reset is disabled and a crash or hang bypasses it.</li><li>After cutoff the board still draws its System OFF current from the cell (unmeasured, SEN-49).</li><li>Backstop: the PCM, at an unknown threshold. If it trips around 2.4 V, as in common DW01-class designs, the cell is still taken into damaging territory before it disconnects.</li></ul> | <ul><li>**Hardware disconnect independent of firmware.** A protection IC with dual FET on the main board (e.g. BQ29700 family) cuts the entire load at ~2.8–3.0 V, then sits at ~0.1 µA power-down, and recovers only when the charger is present.</li><li>Firmware cutoff stays as a graceful first line (3.1–3.25 V).</li><li>Do not use the LDO-enable divider (R57/R58) as the cutoff: it doesn't disconnect the rest of the load and its own divider current drains the cell.</li></ul> |
+| **Protection itself damaged** | <ul><li>A real risk today. The PCM is a 0.4 mm board folded over the cell top, so it sits where the cell is loaded and flexed (stacked on the components), right next to the AWG30 leads that are hand-soldered at the board end.</li><li>Flex cracking, ESD during handling, or heat at the leads could damage it. If it fails short, the cell is silently unprotected; if it fails open, the unit reads 0 V while the cell is fine.</li><li>Diagnose by measuring cell (B+/B−) vs leads (P+/P−) on failed units.</li></ul> | <ul><li>Put the protection on the rigid main board: reflow-soldered, ESD-protected at the battery connector.</li><li>Optionally keep a PCM-protected cell as a second, independent layer, so one damaged layer doesn't leave the cell exposed.</li><li>Fix the charge current regardless (ISET, SEN-105).</li></ul> |
 
 ## 4. Option analysis
 
@@ -222,7 +222,7 @@ Two viable constructions:
 | Off-the-shelf protected + wired | **Renata ICP331319PM** ([Mouser](https://www.mouser.fr/new/renata/renata-icp-series)) | 50 mAh, 4.2 V, ≤3.7 × 12.8 × 21 mm, built-in safety circuit, AWG30 wires | Different footprint (wider/shorter); real loss vs today's undercharged cell only ~15 mAh |
 | Same-footprint, wired, unprotected | Renata ICP281029HPG | 68 mAh, 4.35 V, 3.3 × 10.2 × 30.5 mm, AWG30 wires, 34 mA std / 68 mA max charge | Fixes the tab-solder joint, not protection |
 | Custom protected pack | **Master Instruments pack-up** of FLPB301031 or a 4.2 V LP301030 (80 mAh class) | PCM + PicoBlade/JST-SH pigtail, thickness stays ~3 mm (PCM folds behind cell) | MOQ/lead time; but they already re-cell for us |
-| Keep bare cell, protect on-board | TI BQ29700 (+dual FET, ~15 mm² total) or DW01-class | Hardware UV/OV/OCD backstop under the 3100 mV firmware cutoff | Doesn't fix the tab joint |
+| Add on-board protection (second layer) | TI BQ29700 (+dual FET, ~15 mm² total) | Hardware UV/OV/OCD with a known threshold on the rigid board, independent of the pack's PCM | Doesn't fix the lead joint on its own |
 
 Varta CoinPower/EZPack and stocked Jauch PCM packs are all too thick or too big; SMT holders for pouch cells effectively don't exist at this size — the industry pattern is **PCM + wire pigtail + 1.0–1.25 mm connector** (Molex PicoBlade 51021 / JST SH) on the rigid PCB section.
 
@@ -242,7 +242,7 @@ The unifying observation: **every field failure is a hand-soldered flying-wire j
 1. **Construction:** polyimide flex with stiffeners (IPC-2223 Use B, RA copper, specified cycle count), Moticon-pattern — one stiffened electronics island in the arch carrying the MCU/IMU/charger/antenna cluster and the battery; 1–2-layer flex webs to the sensor zones. Rigid-flex (~7–10× cost vs ~2–4×) is the step-up only if the stiffener transitions or cluster density fail.
 2. **Coil:** etch the RX spiral into copper on a stiffened zone (largest OD that fits, ≥25–30 mm, 2 oz if possible) over a WE-FSFS-class ferrite sheet; retune C37 and consider raising the link to 250–500 kHz. Validate with a 2-layer coupon first (≥3.5 V rectified at worst-case alignment). **Decision gate:** if the charger puck gets respun anyway, evaluate NFC WLC (Renesas PTX30W/PTX130W EVK) head-to-head against the coupon — it deletes the coil, rectifier chain, and BQ24210 in one move.
 3. **Battery:** connectorized protected pack — Master Instruments custom pack-up (FLPB301031 or 4.2 V LP301030 class) with PCM + PicoBlade/JST-SH pigtail; fit the J4-class receptacle on the island (stop leaving it DNF). Off-the-shelf fallback: Renata ICP331319PM (50 mAh protected, wired, 4.2 V — only ~15 mAh worse than today's undercharged 76 mAh cell) if 12.8 × 21 mm fits.
-4. **Charger:** BQ25100 (4.2 V cell) or BQ25100H (4.35 V) at 25–35 mA — unless NFC WLC absorbs the charger function. Add a MAX17048 fuel gauge. If any bare-cell path survives, add BQ29700 + dual FET as a hardware backstop.
+4. **Charger:** BQ25100 (4.2 V cell) or BQ25100H (4.35 V) at 25–35 mA — unless NFC WLC absorbs the charger function. Add a MAX17048 fuel gauge. Add BQ29700 + dual FET on the board as a known-threshold backstop independent of the pack PCM.
 5. **Immediate rework on existing prototypes (no respin):** ISET 5.1 k → 10 k (~40 mA) so bench charging can't exceed the cell rating; adhesive-stake the coil and battery joints with a service loop.
 
 ### Sequencing
