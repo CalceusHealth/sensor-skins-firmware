@@ -187,6 +187,25 @@ The overall figure is high because the battery is stacked on top of the componen
   - **Caveat:** tail and sensor-layer outlines come from the R3 model's trace layer. The real laminate/RF-shield outline is somewhat wider, so placements should be re-checked against Reid's full-stack outline and every size, XXS first.
 - **Next lever: a thinner cell with a larger footprint.** Pouch capacity scales roughly with volume. Catalogue cells show the trend: 4 × 20 × 30 mm ≈ 200 mAh and 5 × 20 × 30 mm ≈ 250 mAh. By extrapolation, a ~2 × 20 × 30 mm cell should roughly match today's 76 mAh at about two-thirds the thickness; this is an estimate to confirm with a supplier, e.g. a Master Instruments custom pack with protection and a connector. Flexible cells such as Jenax J.Flex (0.5–2.3 mm, 10 mAh upward; dynamic-bend tested at 20 mm radius) are a longer-shot lead for a cell that tolerates insole flexing.
 
+**Alignment magnets (2026-10-03).** Today a single 4 × 3 mm magnet is glued in the coil centre, on both the puck and the orthotic. Recommendation: **move the magnets outside the coil**.
+
+- **Why not the centre:**
+  - NdFeB conducts; its skin depth at the 189 kHz drive is roughly 1.4 mm, which is comparable to the 4 mm magnet. So the magnet carries eddy currents in the coil's highest-flux region, costing Q and making heat.
+  - Its static field can partly saturate the ferrite sheet exactly where the flux concentrates, lowering L and coupling.
+  - Commercial magnetic chargers (Apple MagSafe, Qi2) put the magnets in a ring outside the coil for these reasons.
+- **Avoid a solid ring magnet.** A closed conductive ring around the coil acts as a shorted turn. Use separate magnets (3 or 4 discs, or arc segments with gaps), or a polymer-bonded (non-conductive) ring.
+- **3 vs 4 magnets:** 3 seat like a tripod (no rocking); 4 give more holding force. Alternating polarity would key orientation, but a round coil doesn't need it.
+- **Thickness and coil gains:**
+  - Three Ø4 × 1 mm discs have the same magnet volume as one Ø4 × 3 mm, cutting magnet height from 3 mm to about 1 mm.
+  - Thin discs lose pull faster with distance, so holding force must be checked through the real bottom-layer and puck-lid gap.
+  - Freeing the centre also lets the etched coil wind further in, for more turns and no magnet hole.
+- **Room (size S, front-battery layout):** the coil's inner side sits against the sensor layer's heel strip. A symmetric 3- or 4-magnet pattern at 10–11 mm radius touches the sensor layer or tails, so the magnets must sit on the free outer and heel arc. Alternatively use two diagonal magnets, as Alex's **R3 design did**: two 3 × 2 mm magnets 9.9 mm from the coil centre, in the R3 assembly model. Ask Alex why production moved to a single centre magnet. The puck needs the matching pattern.
+- **Verify on the coil coupon.** Test these configurations: centre 4 × 3, two outside, three outside (Ø4 × 1), segmented ring, no magnet. For each, measure:
+  - L and Q
+  - rectified voltage against lateral offset
+  - pull force through the real layer gap
+  - temperature
+
 **Alternative worth a serious look — NFC WLC (13.56 MHz):** purpose-built for etched PCB antennas (only ~1–5 µH needed; PCB Q of 30–60 is easy), with power classes from 250 mW ([NFC Forum WLC](https://nfc-forum.org/build/specifications/wireless-charging/)). The **Renesas PTX30W** listener IC integrates the rectifier *and* a 5–250 mA Li-ion charger + LDO in 1.78 mm² — it would replace the coil, the rectifier chain (D1/D2/C37/C40/C42), *and* the BQ24210 ([Renesas](https://www.renesas.com/en/products/wireless-connectivity/nfc/ptx30w-highly-integrated-scalable-nfc-wlc-listener-i-c-interface-and-board-pmic-ldo)). Cost: the charger puck must be respun around a PTX130W-class poller, and both sides need 13.56 MHz tuning discipline. **If the puck is being redesigned anyway, this is a genuinely strong candidate; if the puck must stay, the retuned 125 kHz PCB spiral is the pragmatic fix.**
 
 ### 4.2 Track B — Flexible / semi-flexible / rigid-flex construction
