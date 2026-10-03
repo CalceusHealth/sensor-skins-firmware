@@ -206,6 +206,28 @@ The overall figure is high because the battery is stacked on top of the componen
   - pull force through the real layer gap
   - temperature
 
+**Magnet force simulation** (`tools/magnet_sim.py`, magpylib, N52, magnetostatic; results in `v3_concept/magnet_sim.json`):
+
+| Configuration (insole and puck, matching) | Magnet height | Pull at 2 / 3 / 4 mm gap (N) | Centring at 3 mm gap, 1 mm off-centre (N) | Pull vs today at 3 mm |
+|---|---|---|---|---|
+| A today: 1x dia4x3 centre | 3 mm | 1.35 / 0.71 / 0.41 | 0.20 | 100% |
+| B R3: 2x dia3x2 outside (diagonal) | 2 mm | 0.90 / 0.41 / 0.21 | 0.13 | 58% |
+| C 3x dia4x1 outside | 1 mm | 1.35 / 0.64 / 0.33 | 0.20 | 90% |
+| D 4x dia4x1 outside | 1 mm | 1.79 / 0.85 / 0.44 | 0.27 | 119% |
+| E 3x dia6x1 outside | 1 mm | 2.88 / 1.62 / 0.96 | 0.41 | 227% |
+| F 12x 2x2x1 blocks, full ring (MagSafe-style) | 1 mm | 1.04 / 0.38 / 0.17 | 0.14 | 53% |
+| G 8x 2x2x1 blocks, 240 deg free arc | 1 mm | 0.70 / 0.26 / 0.11 | 0.09 | 36% |
+| H bonded NdFeB C-arc 3 mm wide x 1 mm, 240 deg | 1 mm | 0.86 / 0.43 / 0.24 | 0.10 | 61% |
+
+What it shows:
+- **Same strength, 2 mm thinner:** three Ø4 × 1 mm discs match today's centre magnet at 2–3 mm.
+- **Stronger:** four Ø4 × 1 beat it at every gap. Three Ø6 × 1 roughly double it, if there's room.
+- **Many tiny magnets lose at our gaps.** A full MagSafe-style ring of twelve 2 × 2 × 1 mm blocks is ~50 % of today at 3 mm and ~40 % at 4 mm, because small magnets' fields fall off faster with distance. MagSafe works across a ~1 mm phone-to-charger gap with a ~46 mm ring.
+- **Gap is the dominant variable:** pull roughly halves for every extra 1 mm. The bottom layer plus puck lid should be kept as thin as possible over the magnets.
+- **Not modelled:**
+  - the ferrite sheets, which themselves attract the magnets
+  - coupling and eddy-current loss, which need an AC solver: FEMM (axisymmetric), Elmer or GetDP (3D), or Ansys Maxwell
+
 **Alternative worth a serious look — NFC WLC (13.56 MHz):** purpose-built for etched PCB antennas (only ~1–5 µH needed; PCB Q of 30–60 is easy), with power classes from 250 mW ([NFC Forum WLC](https://nfc-forum.org/build/specifications/wireless-charging/)). The **Renesas PTX30W** listener IC integrates the rectifier *and* a 5–250 mA Li-ion charger + LDO in 1.78 mm² — it would replace the coil, the rectifier chain (D1/D2/C37/C40/C42), *and* the BQ24210 ([Renesas](https://www.renesas.com/en/products/wireless-connectivity/nfc/ptx30w-highly-integrated-scalable-nfc-wlc-listener-i-c-interface-and-board-pmic-ldo)). Cost: the charger puck must be respun around a PTX130W-class poller, and both sides need 13.56 MHz tuning discipline. **If the puck is being redesigned anyway, this is a genuinely strong candidate; if the puck must stay, the retuned 125 kHz PCB spiral is the pragmatic fix.**
 
 ### 4.2 Track B — Flexible / semi-flexible / rigid-flex construction

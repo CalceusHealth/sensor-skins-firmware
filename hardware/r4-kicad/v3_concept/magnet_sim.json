@@ -1,0 +1,162 @@
+{
+ "A today: 1x dia4x3 centre": {
+  "magnets": 1,
+  "volume_mm3": 37.7,
+  "height_mm": 3,
+  "gap2": {
+   "pull_N": 1.35,
+   "centring_1mm_N": -0.418,
+   "centring_2mm_N": -0.629
+  },
+  "gap3": {
+   "pull_N": 0.712,
+   "centring_1mm_N": -0.197,
+   "centring_2mm_N": -0.316
+  },
+  "gap4": {
+   "pull_N": 0.406,
+   "centring_1mm_N": -0.101,
+   "centring_2mm_N": -0.169
+  }
+ },
+ "B R3: 2x dia3x2 outside (diagonal)": {
+  "magnets": 2,
+  "volume_mm3": 28.3,
+  "height_mm": 2,
+  "gap2": {
+   "pull_N": 0.898,
+   "centring_1mm_N": -0.328,
+   "centring_2mm_N": -0.424
+  },
+  "gap3": {
+   "pull_N": 0.41,
+   "centring_1mm_N": -0.133,
+   "centring_2mm_N": -0.191
+  },
+  "gap4": {
+   "pull_N": 0.21,
+   "centring_1mm_N": -0.06,
+   "centring_2mm_N": -0.094
+  }
+ },
+ "C 3x dia4x1 outside": {
+  "magnets": 3,
+  "volume_mm3": 37.7,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 1.346,
+   "centring_1mm_N": -0.471,
+   "centring_2mm_N": -0.656
+  },
+  "gap3": {
+   "pull_N": 0.64,
+   "centring_1mm_N": -0.202,
+   "centring_2mm_N": -0.305
+  },
+  "gap4": {
+   "pull_N": 0.332,
+   "centring_1mm_N": -0.095,
+   "centring_2mm_N": -0.151
+  }
+ },
+ "D 4x dia4x1 outside": {
+  "magnets": 4,
+  "volume_mm3": 50.3,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 1.791,
+   "centring_1mm_N": -0.628,
+   "centring_2mm_N": -0.875
+  },
+  "gap3": {
+   "pull_N": 0.849,
+   "centring_1mm_N": -0.27,
+   "centring_2mm_N": -0.406
+  },
+  "gap4": {
+   "pull_N": 0.438,
+   "centring_1mm_N": -0.127,
+   "centring_2mm_N": -0.202
+  }
+ },
+ "E 3x dia6x1 outside": {
+  "magnets": 3,
+  "volume_mm3": 84.8,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 2.885,
+   "centring_1mm_N": -0.81,
+   "centring_2mm_N": -1.281
+  },
+  "gap3": {
+   "pull_N": 1.619,
+   "centring_1mm_N": -0.415,
+   "centring_2mm_N": -0.698
+  },
+  "gap4": {
+   "pull_N": 0.962,
+   "centring_1mm_N": -0.228,
+   "centring_2mm_N": -0.396
+  }
+ },
+ "F 12x 2x2x1 blocks, full ring (MagSafe-style)": {
+  "magnets": 12,
+  "volume_mm3": 48.0,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 1.036,
+   "centring_1mm_N": -0.456,
+   "centring_2mm_N": -0.433
+  },
+  "gap3": {
+   "pull_N": 0.375,
+   "centring_1mm_N": -0.143,
+   "centring_2mm_N": -0.165
+  },
+  "gap4": {
+   "pull_N": 0.165,
+   "centring_1mm_N": -0.053,
+   "centring_2mm_N": -0.07
+  }
+ },
+ "G 8x 2x2x1 blocks, 240 deg free arc": {
+  "magnets": 8,
+  "volume_mm3": 32.0,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 0.701,
+   "centring_1mm_N": -0.303,
+   "centring_2mm_N": -0.283
+  },
+  "gap3": {
+   "pull_N": 0.256,
+   "centring_1mm_N": -0.094,
+   "centring_2mm_N": -0.106
+  },
+  "gap4": {
+   "pull_N": 0.114,
+   "centring_1mm_N": -0.034,
+   "centring_2mm_N": -0.045
+  }
+ },
+ "H bonded NdFeB C-arc 3 mm wide x 1 mm, 240 deg": {
+  "magnets": 16,
+  "volume_mm3": 124.8,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 0.856,
+   "centring_1mm_N": -0.233,
+   "centring_2mm_N": -0.329
+  },
+  "gap3": {
+   "pull_N": 0.434,
+   "centring_1mm_N": -0.103,
+   "centring_2mm_N": -0.16
+  },
+  "gap4": {
+   "pull_N": 0.245,
+   "centring_1mm_N": -0.051,
+   "centring_2mm_N": -0.085
+  }
+ }
+}
