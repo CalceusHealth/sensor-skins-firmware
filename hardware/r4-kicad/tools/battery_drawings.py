@@ -395,22 +395,24 @@ def section():
     # electronics layer
     rect(0, t_bot, span, t_e, (232, 232, 225))
     # board (service face down) + components
-    rect(34, t_bot + 1.6, 30, 0.4, COL["board"])
+    zb = t_bot + t_e - 0.4                                   # board flush under the top cover
+    rect(34, zb, 30, 0.4, COL["board"])
     for x in (36, 41, 47, 52, 58):
-        rect(x, t_bot + 0.25, 3, 1.35, COL["comp"])
-    rect(60, t_bot + 0.2, 4.3, 1.4, COL["conn"])
+        rect(x, zb - 1.35, 3, 1.35, COL["comp"])
+    rect(60, zb - 1.4, 4.3, 1.4, COL["conn"])
     # pocket + pack
     rect(68, t_bot + 0.1, 32, 3.3, COL["bg"], outline=COL["pocket"])
     rect(68.5, t_bot + 0.1, 31, 3.2, (245, 205, 205), outline=COL["batt"])
     rect(96.5, t_bot + 0.1, 3, 3.2, COL["pcm"])
     # coil tab region (left of board)
-    rect(14, t_bot + 1.6, 18, 0.4, COL["board"])
-    rect(14, t_bot + 1.3, 18, 0.3, (120, 120, 120))
-    rect(21, t_bot + 0.2, 4, 3.0, COL["magnet"])
+    rect(14, zb, 18, 0.4, COL["board"])                    # coil tab (same board), coil on its top copper
+    rect(14, zb - 0.3, 18, 0.3, (120, 120, 120))           # ferrite UNDER the coil
+    rect(8.0, t_bot + t_e - 1.0, 5, 1.0, COL["magnet"])     # magnet discs outside the coil,
+
     # top cover
     rect(0, t_bot + t_e, span, t_top, (210, 225, 210))
     # sensor layer
-    rect(0, t_bot + t_e - 0.6, 12, 0.6, COL["memb"])
+    rect(0, t_bot + t_e - 0.6, 7.4, 0.6, COL["memb"])
     rect(104, t_bot + t_e - 0.6, span - 104, 0.6, COL["memb"])
 
     def note(x, z, text, tx, tz):
@@ -419,20 +421,20 @@ def section():
         dr.line([px, pz, qx, qz], fill=COL["dim"], width=1)
         dr.text((qx + 4, qz - 8), text, fill=COL["text"], font=fs)
 
-    note(60, t_bot + 0.8, "JST ACH header, 1.4 mm", 58, -1.2)
-    note(48, t_bot + 1.0, "components + test points face DOWN (service face)", 32, -2.0)
-    note(56, t_bot + 1.8, "board 0.4 mm, flat back toward the foot", 60, t_bot + t_e + t_top + 1.6)
+    note(60, zb - 0.7, "JST ACH header, 1.4 mm", 58, -1.2)
+    note(48, zb - 0.7, "components + test points face DOWN (service face)", 32, -2.0)
+    note(56, zb + 0.2, "board 0.4 mm at the TOP of the bay: coil as close to the puck as possible", 44, t_bot + t_e + t_top + 1.6)
     note(84, t_bot + 1.6, "pack 3.2 mm in die-cut pocket, low-tack tape", 86, t_bot + t_e + t_top + 0.8)
     note(98, t_bot + 1.6, "PCM end", 104, -1.2)
-    note(23, t_bot + 1.5, "4x3 magnet", 2, -1.2)
-    note(22, t_bot + 1.45, "etched coil + ferrite 0.2-0.3 on the side AWAY from the puck (puck side TBD)", 2, t_bot + t_e + t_top + 1.6)
+    note(10, t_bot + t_e - 0.5, "3 x Ø5 x 1 magnets outside the coil, just under the top cover", 2, -1.2)
+    note(22, zb - 0.15, "etched coil on the tab, ferrite 0.2-0.3 UNDER it", 2, t_bot + t_e + t_top + 1.6)
     note(66, 0.5, "service hatch spans board + pack: lid on re-closable adhesive", 62, -2.8)
-    note(110, t_bot + t_e + t_top / 2, "top cover continuous (comfort)", 96, t_bot + t_e + t_top + 2.4)
-    note(6, t_bot + t_e - 0.3, "sensor layer", 0, t_bot + t_e + t_top + 0.8)
+    note(110, t_bot + t_e + t_top / 2, "top cover 1-2 mm, continuous; the charging puck sits on top", 88, t_bot + t_e + t_top + 2.4)
+    note(4, t_bot + t_e - 0.3, "sensor layer", 0, t_bot + t_e + t_top + 0.8)
 
     # thickness dims
     for z0, z1, txt in ((0, t_bot, "bottom (TBD)"), (t_bot, t_bot + t_e, "electronics bay = cell + ~0.2"),
-                        (t_bot + t_e, t_bot + t_e + t_top, "top cover (TBD)")):
+                        (t_bot + t_e, t_bot + t_e + t_top, "top cover 1-2 mm")):
         x = X0 + span * sx + 30
         dr.line([x, base - z0 * sz, x, base - z1 * sz], fill=COL["dim"], width=2)
         dr.line([x - 6, base - z0 * sz, x + 6, base - z0 * sz], fill=COL["dim"])
@@ -442,7 +444,7 @@ def section():
     for t in ["Bay thickness is set by the cell alone: 3.4 mm with today's pack, ~2.2 mm with a 2 mm cell.",
               "Tallest board items (100 uF 0805, SOT-23, ACH header) stay under ~1.5 mm, below the cell.",
               "Nothing is stacked on the cell, so components can no longer press into it.",
-              "Layer thicknesses for bottom and top are placeholders until the flat-insole build-up is known."]:
+              "Bottom layer thickness is a placeholder until the flat-insole build-up is known; magnets ~0.6 mm clear of the sensor layer in plan."]:
         dr.text((20, yy), t, fill=COL["text"], font=f)
         yy += 24
     return img

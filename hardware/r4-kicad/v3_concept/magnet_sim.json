@@ -158,5 +158,104 @@
    "centring_1mm_N": -0.051,
    "centring_2mm_N": -0.085
   }
+ },
+ "3x dia5x1 at R10.5": {
+  "gap2": "pull 2.04 N (151% of today), centring@1mm 0.63 N",
+  "gap3": "pull 1.07 N (151% of today), centring@1mm 0.30 N"
+ },
+ "3x dia5x1.5 at R10.5": {
+  "gap2": "pull 3.65 N (270% of today), centring@1mm 1.11 N",
+  "gap3": "pull 1.95 N (273% of today), centring@1mm 0.54 N"
+ },
+ "3x dia5x2 at R10.5": {
+  "gap2": "pull 5.03 N (373% of today), centring@1mm 1.48 N",
+  "gap3": "pull 2.74 N (385% of today), centring@1mm 0.74 N"
+ },
+ "top_cover_gaps_1_to_2mm": {
+  "today: 1x dia4x3 centre": {
+   "gap1": {
+    "pull_N": 2.83,
+    "centring_1mm_N": 0.98,
+    "vs_today": 1.0
+   },
+   "gap1.5": {
+    "pull_N": 1.92,
+    "centring_1mm_N": 0.63,
+    "vs_today": 1.0
+   },
+   "gap2": {
+    "pull_N": 1.35,
+    "centring_1mm_N": 0.42,
+    "vs_today": 1.0
+   }
+  },
+  "3x dia4x1 (fits)": {
+   "gap1": {
+    "pull_N": 3.24,
+    "centring_1mm_N": 1.24,
+    "vs_today": 1.14
+   },
+   "gap1.5": {
+    "pull_N": 2.04,
+    "centring_1mm_N": 0.75,
+    "vs_today": 1.06
+   },
+   "gap2": {
+    "pull_N": 1.35,
+    "centring_1mm_N": 0.47,
+    "vs_today": 1.0
+   }
+  },
+  "3x dia5x1 (fits)": {
+   "gap1": {
+    "pull_N": 4.31,
+    "centring_1mm_N": 1.48,
+    "vs_today": 1.52
+   },
+   "gap1.5": {
+    "pull_N": 2.91,
+    "centring_1mm_N": 0.95,
+    "vs_today": 1.51
+   },
+   "gap2": {
+    "pull_N": 2.04,
+    "centring_1mm_N": 0.63,
+    "vs_today": 1.51
+   }
+  },
+  "3x dia5x1.5 (fits)": {
+   "gap1": {
+    "pull_N": 7.59,
+    "centring_1mm_N": 2.54,
+    "vs_today": 2.68
+   },
+   "gap1.5": {
+    "pull_N": 5.16,
+    "centring_1mm_N": 1.64,
+    "vs_today": 2.68
+   },
+   "gap2": {
+    "pull_N": 3.65,
+    "centring_1mm_N": 1.11,
+    "vs_today": 2.7
+   }
+  },
+  "MagSafe-style 12x 2x2x1 ring": {
+   "gap1": {
+    "pull_N": 3.6,
+    "centring_1mm_N": 1.73,
+    "vs_today": 1.27
+   },
+   "gap1.5": {
+    "pull_N": 1.87,
+    "centring_1mm_N": 0.87,
+    "vs_today": 0.97
+   },
+   "gap2": {
+    "pull_N": 1.04,
+    "centring_1mm_N": 0.46,
+    "vs_today": 0.77
+   }
+  }
  }
 }

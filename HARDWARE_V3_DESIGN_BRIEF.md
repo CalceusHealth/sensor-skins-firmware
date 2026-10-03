@@ -228,6 +228,29 @@ What it shows:
   - the ferrite sheets, which themselves attract the magnets
   - coupling and eddy-current loss, which need an AC solver: FEMM (axisymmetric), Elmer or GetDP (3D), or Ansys Maxwell
 
+**Charging geometry (user, 2026-10-03):** the puck charges from the **top**, through a 1–2 mm top cover. The puck magnet sits flush with its lid, so the magnet gap is the top cover only. Consequences:
+- The ferrite goes **under** the coil.
+- The board mounts at the **top** of the bay (flat back under the top cover, components hanging down), so the coil is as close to the puck as possible.
+- The magnets sit just under the top cover.
+
+**Magnets at 1–2 mm** (`magnet_sim.json` → `top_cover_gaps_1_to_2mm`):
+- **Recommended: 3 × Ø5 × 1 mm N52 discs** on a 10.5 mm pitch radius. They give about **1.5×** today's pull and centring at 1, 1.5 and 2 mm, fit on the free side (0.6 mm clear of the sensor layer, 7.9 mm from the orthotic edge), and are 2 mm thinner than today's magnet.
+- **Stronger option:** Ø5 × 1.5 discs give about 2.7×, still within the bay height.
+- **Equal option:** 3 × Ø4 × 1 matches today.
+- **Not recommended:** a MagSafe-style ring of tiny blocks only wins at a 1 mm gap, needs 12 parts per side, and does not fit on the sensor-layer side.
+
+**Charging speed.** Today the device charges at ~5 mA (`carbon-circuits-1`), about 15–20 h from flat. The cell can take 35 mA at its standard rate, roughly 2–2.5 h. The wireless link (~20 mW delivered) is the bottleneck by ~7×, not the charger IC. Levers, biggest first:
+
+1. **Coil quality vs the etched-coil plan.** An etched coil has far lower Q (est. 3–5) than the TDK wound coil (≥ 34), so at the same puck drive it will likely deliver *less* power than today.
+   - If faster charging matters, also test a **wound coil bonded flat to the tab with its leads soldered straight onto adjacent tab pads** (no free wire span, potted). That removes the failing wire run while keeping Q.
+   - The coupon test should compare: etched coil (4 layers, maximum copper), bonded TDK, and today's coil.
+2. **Coupling:** coil at the top of the bay under a 1–2 mm cover, ferrite under it, magnets moved out of the coil centre (no eddy loss or ferrite saturation), stronger centring so it lands aligned every time.
+3. **Tuning:** the puck drives at ~189 kHz while each 27.1 µH / 33 nF tank resonates at 168 kHz on its own. Sweep drive frequency and duty on the hardware for maximum received power; this is a firmware change on the puck.
+4. **Rectifier:** today's single-diode half-wave rectifier (D1) with a 5.1 V zener clamp (D2) throws away half the cycle. A full-bridge or voltage-doubler rectifier (Schottky or synchronous) gets more DC from the same coil voltage.
+5. **Puck power and heat:** TX self-heating capped the duty at 25 % (~130 mA from USB). A lower-loss puck coil, a resonant (ZVS) driver instead of hard PWM into the tank, and better heat spreading would allow more drive. USB-C has power to spare.
+6. **Device load while charging (firmware, cheap):** whatever the board draws on the puck comes out of the ~5 mA. Dropping to the lowest-power mode when charging (SEN-64) raises the net charge rate immediately.
+7. **Charge current setting:** once the link delivers more, set ISET for ~35 mA (0.5C, SEN-105). It is a ceiling, not a lever, today.
+
 **Alternative worth a serious look — NFC WLC (13.56 MHz):** purpose-built for etched PCB antennas (only ~1–5 µH needed; PCB Q of 30–60 is easy), with power classes from 250 mW ([NFC Forum WLC](https://nfc-forum.org/build/specifications/wireless-charging/)). The **Renesas PTX30W** listener IC integrates the rectifier *and* a 5–250 mA Li-ion charger + LDO in 1.78 mm² — it would replace the coil, the rectifier chain (D1/D2/C37/C40/C42), *and* the BQ24210 ([Renesas](https://www.renesas.com/en/products/wireless-connectivity/nfc/ptx30w-highly-integrated-scalable-nfc-wlc-listener-i-c-interface-and-board-pmic-ldo)). Cost: the charger puck must be respun around a PTX130W-class poller, and both sides need 13.56 MHz tuning discipline. **If the puck is being redesigned anyway, this is a genuinely strong candidate; if the puck must stay, the retuned 125 kHz PCB spiral is the pragmatic fix.**
 
 ### 4.2 Track B — Flexible / semi-flexible / rigid-flex construction
