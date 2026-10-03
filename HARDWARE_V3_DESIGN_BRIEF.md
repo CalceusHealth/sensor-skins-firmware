@@ -239,6 +239,25 @@ What it shows:
 - **Equal option:** 3 × Ø4 × 1 matches today.
 - **Not recommended:** a MagSafe-style ring of tiny blocks only wins at a 1 mm gap, needs 12 parts per side, and does not fit on the sensor-layer side.
 
+**Magnets in production (2026-10-04).** Magnets must not be hand-placed one by one, and magnetised NdFeB cannot go through reflow:
+
+- **Temperature limits:** max operating temperature is 80 °C for N grade, 150 °C SH, 180 °C UH, 200 °C EH, 220 °C AH, against a 245–260 °C reflow peak.
+- **What happens above them:** between a grade's limit and the ~310–340 °C Curie point, part of the magnetisation is lost permanently. Above the Curie point it is lost completely.
+
+Options, recommended first:
+
+1. **One pre-made magnet carrier per insole (and per puck lid).** The magnet supplier or the laminate converter (Reid Print already die-cuts our adhesive/PET stacks) supplies the three discs pre-located in a die-cut, kiss-cut adhesive carrier on a liner: pre-magnetised, with polarity checked at source.
+   - Assembly is one peel-and-place step, registered to the coil tab (identical for every size), instead of one step per magnet.
+   - Lamination is a pressure-adhesive process, so there is no heat exposure. If any hot-lamination step exceeds 80 °C, specify SH grade (150 °C).
+   - Puck side: press-fit or insert-moulded into the moulded lid, so all three land in one fixture action.
+   - Pre-assembled magnet rings or carriers laminated as a single part are the usual approach for magnetic phone accessories.
+2. **Magnets on the PCB, magnetised after assembly.** Unmagnetised NdFeB blanks are placed by pick-and-place (tray or carrier tape on request from the supplier), held by SMT adhesive, and taken through reflow with nothing to lose. A pulse (capacitor-discharge) magnetiser with a pattern fixture then magnetises them all at once, at end of line, with polarity fixed by the fixture. This is standard practice in motor manufacture.
+   - Unmagnetised blanks also handle like ordinary parts: they don't clump or jump to the nozzle.
+   - Costs: board "ears" around the coil tab (tight on the sensor-layer side), and a magnetiser plus fixture.
+   - **Risk to evaluate:** the multi-tesla pulse right next to the coil and charge circuit induces large voltages in them, so the fixture must be localised and the electronics protected.
+3. **Samarium-cobalt (SmCo) pre-magnetised, through reflow.** SmCo is typically rated to 250–350 °C, so it can be placed magnetised and reflowed. It is weaker (Br ≈ 1.0–1.15 T vs 1.43 T for N52, so roughly 0.5–0.65× the force for the same size), more brittle and more expensive, and magnetised parts are awkward on a pick-and-place. Example: 3 × Ø5 × 1.5 SmCo ≈ 1.6× today's force (estimated by Br² scaling).
+4. **Die-cut bonded-magnet sheet** (one part, non-conductive, magnetised as a sheet). The simplest to assemble but the weakest (~0.6× today at 2 mm), so it needs a thicker or larger arc.
+
 **Charging speed.** Today the device charges at ~5 mA (`carbon-circuits-1`), about 15–20 h from flat. The cell can take 35 mA at its standard rate, roughly 2–2.5 h. The wireless link (~20 mW delivered) is the bottleneck by ~7×, not the charger IC. Levers, biggest first:
 
 1. **Coil quality vs the etched-coil plan.** An etched coil has far lower Q (est. 3–5) than the TDK wound coil (≥ 34), so at the same puck drive it will likely deliver *less* power than today.
