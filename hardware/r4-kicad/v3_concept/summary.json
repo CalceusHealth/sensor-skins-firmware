@@ -1,0 +1,62 @@
+{
+ "LHS_front": {
+  "variant": "front",
+  "battery_angle": 45,
+  "battery_gap_mm": 2.4,
+  "battery_centre": [
+   -11.7,
+   63.4
+  ],
+  "lead_length_mm": 18.0,
+  "leads_fit_30mm_pack": true,
+  "hatch_mm": [
+   35.5,
+   49.6
+  ]
+ },
+ "LHS_behind": {
+  "variant": "behind",
+  "battery_angle": 90,
+  "battery_gap_mm": 3.0,
+  "battery_centre": [
+   -12.2,
+   -35.3
+  ],
+  "lead_length_mm": 42.4,
+  "leads_fit_30mm_pack": false,
+  "hatch_mm": [
+   23.4,
+   63.6
+  ]
+ },
+ "RHS_front": {
+  "variant": "front",
+  "battery_angle": 45,
+  "battery_gap_mm": 2.4,
+  "battery_centre": [
+   -11.7,
+   63.4
+  ],
+  "lead_length_mm": 18.0,
+  "leads_fit_30mm_pack": true,
+  "hatch_mm": [
+   35.5,
+   49.6
+  ]
+ },
+ "RHS_behind": {
+  "variant": "behind",
+  "battery_angle": 90,
+  "battery_gap_mm": 3.0,
+  "battery_centre": [
+   -12.2,
+   -35.4
+  ],
+  "lead_length_mm": 42.4,
+  "leads_fit_30mm_pack": false,
+  "hatch_mm": [
+   23.4,
+   63.6
+  ]
+ }
+}
