@@ -257,5 +257,92 @@
     "vs_today": 0.77
    }
   }
+ },
+ "flexible_vs_solid": {
+  "flex NdFeB arc 1 mm (0.28 T) both sides": {
+   "gap1": {
+    "pull_N": 0.43,
+    "vs_today": 0.15,
+    "centring_1mm_N": 0.14
+   },
+   "gap1.5": {
+    "pull_N": 0.31,
+    "vs_today": 0.16,
+    "centring_1mm_N": 0.09
+   },
+   "gap2": {
+    "pull_N": 0.23,
+    "vs_today": 0.17,
+    "centring_1mm_N": 0.07
+   }
+  },
+  "flex NdFeB arc 1 mm insole + 3x dia5x1.5 N52 puck": {
+   "gap1": {
+    "pull_N": 0.47,
+    "vs_today": 0.17,
+    "centring_1mm_N": 0.19
+   },
+   "gap1.5": {
+    "pull_N": 0.35,
+    "vs_today": 0.18,
+    "centring_1mm_N": 0.14
+   },
+   "gap2": {
+    "pull_N": 0.27,
+    "vs_today": 0.2,
+    "centring_1mm_N": 0.1
+   }
+  },
+  "flex NdFeB arc 2 mm insole + 3x dia5x1.5 N52 puck": {
+   "gap1": {
+    "pull_N": 0.74,
+    "vs_today": 0.26,
+    "centring_1mm_N": 0.29
+   },
+   "gap1.5": {
+    "pull_N": 0.57,
+    "vs_today": 0.3,
+    "centring_1mm_N": 0.21
+   },
+   "gap2": {
+    "pull_N": 0.45,
+    "vs_today": 0.33,
+    "centring_1mm_N": 0.16
+   }
+  },
+  "rigid bonded NdFeB arc 1.5 mm (0.65 T) insole + 3x dia5x1.5 N52 puck": {
+   "gap1": {
+    "pull_N": 1.46,
+    "vs_today": 0.52,
+    "centring_1mm_N": 0.59
+   },
+   "gap1.5": {
+    "pull_N": 1.11,
+    "vs_today": 0.58,
+    "centring_1mm_N": 0.42
+   },
+   "gap2": {
+    "pull_N": 0.86,
+    "vs_today": 0.64,
+    "centring_1mm_N": 0.31
+   }
+  },
+  "3x dia5x1 N52 both sides (recommended solid)": {
+   "gap1": {
+    "pull_N": 4.31,
+    "vs_today": 1.52,
+    "centring_1mm_N": 1.48
+   },
+   "gap1.5": {
+    "pull_N": 2.91,
+    "vs_today": 1.51,
+    "centring_1mm_N": 0.95
+   },
+   "gap2": {
+    "pull_N": 2.04,
+    "vs_today": 1.51,
+    "centring_1mm_N": 0.63
+   }
+  }
  }
 }

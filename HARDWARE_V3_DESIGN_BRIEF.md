@@ -258,6 +258,23 @@ Options, recommended first:
 3. **Samarium-cobalt (SmCo) pre-magnetised, through reflow.** SmCo is typically rated to 250–350 °C, so it can be placed magnetised and reflowed. It is weaker (Br ≈ 1.0–1.15 T vs 1.43 T for N52, so roughly 0.5–0.65× the force for the same size), more brittle and more expensive, and magnetised parts are awkward on a pick-and-place. Example: 3 × Ø5 × 1.5 SmCo ≈ 1.6× today's force (estimated by Br² scaling).
 4. **Die-cut bonded-magnet sheet** (one part, non-conductive, magnetised as a sheet). The simplest to assemble but the weakest (~0.6× today at 2 mm), so it needs a thicker or larger arc.
 
+**Flexible magnets (simulated 2026-10-04, `magnet_sim.json` → `flexible_vs_solid`).**
+
+They are not as strong as solid magnets. Remanence: flexible NdFeB ~0.28 T and flexible ferrite 0.17–0.27 T, against 1.42–1.47 T for sintered N52. Force for the same size scales as Br², so flexible NdFeB gives ~4 % of N52.
+
+Results for a 240° arc on the coil's free side (Ø17–27 mm), at 1 / 1.5 / 2 mm gap:
+
+| Configuration | % of today's pull |
+|---|---|
+| Flexible NdFeB 1 mm, both sides | 15–17 % |
+| Flexible 2 mm insole + N52 puck discs | 26–33 % |
+| Rigid bonded NdFeB 1.5 mm insole + N52 puck | 52–64 % |
+| Solid 3 × Ø5 × 1 N52, both sides | 151 % |
+
+- **Flexibility buys nothing here.** The magnets sit beside the rigid coil tab, not in a flexing zone.
+- **What flexible/bonded magnets do offer:** they don't conduct (so a full ring is allowed) and they can be die-cut as one part.
+- **Conclusion:** flexible magnets would be clearly weaker than today. Stay with sintered N52 discs supplied in a pre-made carrier.
+
 **Charging speed.** Today the device charges at ~5 mA (`carbon-circuits-1`), about 15–20 h from flat. The cell can take 35 mA at its standard rate, roughly 2–2.5 h. The wireless link (~20 mW delivered) is the bottleneck by ~7×, not the charger IC. Levers, biggest first:
 
 1. **Coil quality vs the etched-coil plan.** An etched coil has far lower Q (est. 3–5) than the TDK wound coil (≥ 34), so at the same puck drive it will likely deliver *less* power than today.
