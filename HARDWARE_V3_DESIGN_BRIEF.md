@@ -305,9 +305,10 @@ Today's centring at 1.5 mm is 0.63 N.
 1. **Coil quality vs the etched-coil plan.** An etched coil has far lower Q (est. 3–5) than the TDK wound coil (≥ 34), so at the same puck drive it will likely deliver *less* power than today.
    - If faster charging matters, also test a **wound coil bonded flat to the tab with its leads soldered straight onto adjacent tab pads** (no free wire span, potted). That removes the failing wire run while keeping Q.
    - The coupon test should compare: etched coil (4 layers, maximum copper), bonded TDK, and today's coil.
+   - **Simulated:** etched coils deliver 0–1.8 mA at k = 0.11 and ≤ 11.9 mA at k = 0.25, against 8.5 and 24.7 mA for the TDK coil. → Prefer the **bonded wound coil on the tab**.
 2. **Coupling:** coil at the top of the bay under a 1–2 mm cover, ferrite under it, magnets moved out of the coil centre (no eddy loss or ferrite saturation), stronger centring so it lands aligned every time.
-3. **Tuning:** the puck drives at ~189 kHz while each 27.1 µH / 33 nF tank resonates at 168 kHz on its own. Sweep drive frequency and duty on the hardware for maximum received power; this is a firmware change on the puck.
-4. **Rectifier:** today's single-diode half-wave rectifier (D1) with a 5.1 V zener clamp (D2) throws away half the cycle. A full-bridge or voltage-doubler rectifier (Schottky or synchronous) gets more DC from the same coil voltage.
+3. **Tuning (simulated, `v3_concept/CHARGING_SIM.md`):** R4's 188.7 kHz charges only at tight coupling (0 mA at k ≤ 0.15). ~169.5 kHz (PWM_TOP 58) is near-best from k = 0.08 to 0.4 (e.g. 24.7 vs 9.7 mA at k = 0.25). **Puck firmware R5** = R4 with PWM_TOP 58; A/B test it against R4 on hardware before shipping.
+4. **Rectifier: keep today's half-wave D1.** The circuit simulation (`v3_concept/CHARGING_SIM.md`) shows full-bridge and doubler versions are 5–45 % *worse* at this power, because the extra diode drops cost more than they gain. This corrects the earlier suggestion.
 5. **Puck power and heat:** TX self-heating capped the duty at 25 % (~130 mA from USB). A lower-loss puck coil, a resonant (ZVS) driver instead of hard PWM into the tank, and better heat spreading would allow more drive. USB-C has power to spare.
 6. **Device load while charging (firmware, cheap):** whatever the board draws on the puck comes out of the ~5 mA. Dropping to the lowest-power mode when charging (SEN-64) raises the net charge rate immediately.
 7. **Charge current setting:** once the link delivers more, set ISET for ~35 mA (0.5C, SEN-105). It is a ceiling, not a lever, today.
