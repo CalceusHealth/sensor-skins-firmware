@@ -275,6 +275,31 @@ Results for a 240° arc on the coil's free side (Ø17–27 mm), at 1 / 1.5 / 2 m
 - **What flexible/bonded magnets do offer:** they don't conduct (so a full ring is allowed) and they can be die-cut as one part.
 - **Conclusion:** flexible magnets would be clearly weaker than today. Stay with sintered N52 discs supplied in a pre-made carrier.
 
+**C-shaped magnets and puck rotation (simulated 2026-10-04, `magnet_sim.json` → `C_arcs_and_rotation`). This supersedes the 3-disc recommendation.**
+
+- **Rotation is the deciding factor.** Today's single centre magnet pulls the same at any puck angle. Matched 3-disc patterns lose essentially all pull and centring when the puck is rotated 60°, so they only work if the puck is always placed at the same angle.
+- **Fit:** one sintered N52 C-arc (Ø17.2–25.2 mm, 4 mm wide, 1 mm thick) fits **180°** on the coil's free side. Two separate Cs only manage 160° in total.
+- **Results at 1–2 mm gap** (pull, % of today):
+
+| Insole | Puck | Puck rotation | Pull | Centring at 1.5 mm |
+|---|---|---|---|---|
+| C 180° | matching C 180° | aligned | 267–288 % | 1.72 N |
+| C 180° | matching C 180° | 90° | 126–138 % | 0.56 N |
+| C 180° | matching C 180° | 180° | ≈ 0, slightly repulsive | 0.59 N |
+| **C 180°** | **split ring, 355°** | **any** | **245–268 %** | **1.04 N** |
+| 3 × Ø5 × 1 | 3 × Ø5 × 1 | 60° | ≈ 0 | ≈ 0 |
+| 3 × Ø5 × 1 | split ring, 355° | any | 103–117 % | 0.59 N |
+
+Today's centring at 1.5 mm is 0.63 N.
+
+- **Recommendation: one C-shaped N52 magnet in the insole and a split ring in the puck.**
+  - About 2.5× today's hold at any puck angle, with stronger centring.
+  - **One magnet part per insole.** It is supplied pre-magnetised, and its C shape fixes its orientation in a carrier or jig.
+  - The puck has no space limit, so it takes a full ring. A single cut breaks the conductive loop around the TX coil; the ring can also be made from 2–4 arc segments in a moulded pocket.
+  - Neither part is a closed loop. The ring's inner edge sits ~1 mm outside the coil OD, so eddy loss must be checked on the coupon (the ID can be increased).
+  - If ~2.5× is more than wanted, use a thinner (0.7 mm) or narrower arc.
+- **Not modelled:** ferrite sheets (they add attraction), coupling and eddy loss.
+
 **Charging speed.** Today the device charges at ~5 mA (`carbon-circuits-1`), about 15–20 h from flat. The cell can take 35 mA at its standard rate, roughly 2–2.5 h. The wireless link (~20 mW delivered) is the bottleneck by ~7×, not the charger IC. Levers, biggest first:
 
 1. **Coil quality vs the etched-coil plan.** An etched coil has far lower Q (est. 3–5) than the TDK wound coil (≥ 34), so at the same puck drive it will likely deliver *less* power than today.

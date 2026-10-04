@@ -6,23 +6,24 @@ We want the magnets supplied as **one part per side**: pre-magnetised, polarity-
 
 ## Magnets
 
-| Item | Requirement |
-|---|---|
-| Material | Sintered NdFeB, grade **N52**. Quote SH grade (150 °C) as an option. |
-| Size | 3 discs, **Ø5.0 × 1.0 mm**. Quote Ø5.0 × 1.5 mm as an option. |
-| Coating | NiCuNi, or similar corrosion-resistant coating. |
-| Magnetisation | Axial, through the thickness. |
-| Pattern | 3 discs on a **Ø21.0 mm pitch circle at 120°**, centre tolerance ±0.1 mm. |
-| Polarity | All discs with the **same pole facing up**. Insole carrier: N up; puck version: S up (to be confirmed with drawing). **100 % polarity check.** |
+**Design updated 2026-10-04:** one C-shaped magnet in the insole and a split ring in the puck. Simulation showed that 3-disc patterns lose their hold when the puck is rotated. This pair holds at any angle.
+
+| Item | Insole part | Puck part |
+|---|---|---|
+| Material | Sintered NdFeB **N52**, NiCuNi coated. Quote SH grade (150 °C) as an option. | Same. |
+| Shape | **C-shaped arc, 180°.** Ø17.2 mm inner, Ø25.2 mm outer (4.0 mm wide), **1.0 mm thick.** | **Ring, Ø17.2 / 25.2 mm, 1.0 mm thick, with one radial cut ~0.5 mm wide (355°).** It may instead be supplied as 2–4 arc segments that together form the ring. |
+| Magnetisation | Axial (through the thickness). | Axial. |
+| Polarity | The insole and puck pieces attract face-to-face. Polarity per drawing, **100 % checked.** | Same. |
+| Tolerances | ±0.05 mm on width and thickness. Please state the achievable tolerance and minimum section for a 1 mm arc. | Same. |
 
 ## Carrier
 
 | Item | Requirement |
 |---|---|
 | Construction | Thin carrier film (PET or similar, ≤ 0.1 mm) with pressure-sensitive adhesive on the mounting side. Magnets bonded to the carrier at the pattern positions. |
-| Metal | **No metal backing or metal ring.** The part sits around a charging coil, and a closed conductive loop absorbs charging power. |
+| Metal | **No metal backing, and no closed ring.** The part sits around a charging coil, and a closed conductive loop absorbs charging power, hence the C and the split ring. |
 | Supply | Kiss-cut on a release liner, with **registration features**: two locating holes or a notch, positioned relative to the pattern centre. |
-| Outline | Arc or ring, about Ø27 mm outer. A clear centre over the coil is preferred. The drawing will follow. |
+| Outline | Carrier follows the C (insole) about Ø27 mm outer, with a clear centre over the coil. Puck: ring in a moulded lid pocket. The drawing will follow. |
 | Height | Total ≤ 1.3 mm (magnet height plus carrier and adhesive). |
 | Process limits | Our lamination is pressure-only, at room temperature. Please state the adhesive's temperature limit. |
 | Packaging | Sheets or reels with spacing or keepers so parts don't attract each other in transit. |
