@@ -1,398 +1,405 @@
-# Hardware v3 Design Brief — Coil Integration, Battery Resilience, Flex-PCB Options
+# Smart Insole Hardware v3: Design Brief
 
-*Prepared 2026-09-29 on branch `tim`. Sources are cited inline; every hardware claim traces to a repo artifact or a linked external reference.*
+*Calceus Health. Last updated 2026-10-05. Working files are on branch `tim` of `sensor-skins-firmware`. Linear: [SEN-179](https://linear.app/calceus-health/issue/SEN-179/hardware-v3-pcb-integrated-recharge-coil-protected-battery-flex).*
 
-## 1. Context
+This brief is for readers new to the work. Section 1 gives the whole picture on one page. Later sections give the design, the evidence behind it, and the options we set aside. Paths are relative to the repository root; drawings referenced as `figures` are in `hardware/r4-kicad/v3_concept/`.
 
-Reid Orthotic v2 (R4 board) prototypes have performed well in the field. The only recurring failure modes are:
+---
 
-1. **Recharge-coil wire breakage** — the RX coil is a discrete wound part attached by hand-soldered flying wires.
-2. **Battery failures** — protected pack (cell + PCM of unknown over-discharge threshold), AWG30 leads hand-soldered to the board, the deep-discharge chain (documented in `SLEEP_LOGIC_V2_PROPOSAL.md`, corrected 2026-10-03), and a charge-current setting above the cell's rating.
+## 1. Summary
 
-This brief surveys the design artifacts we now hold, analyses the two failure modes at the design level, and evaluates three iteration tracks for a v3 board: **(a)** integrating the RX coil into the PCB copper, **(b)** a battery change and/or attachment change, and **(c)** flexible / semi-flexible board construction.
+**The problem.** The current prototypes (Reid Orthotic v2, board revision R4) work well in the field. The only recurring failures are:
+1. **The recharge-coil wires.** The receive coil is a separate wound part whose fine leads are hand-soldered to the board and flex with every step.
+2. **The battery.** Physical stress on the pouch cell (it is stacked on top of the components), the firmware letting it discharge too far, or damage to the cell's small protection board.
 
-## 2. Inventory of design artifacts
+**The v3 answer, in one line:** no hand-soldered wires and nothing pressing on the battery. The coil moves onto the board, the battery lies flat in its own pocket on a plug, and everything that needs servicing sits behind one hatch.
 
-### 2.1 In this repo
+**Decisions so far**
 
-| Artifact | Path | Notes |
+| Area | Decision | Status |
 |---|---|---|
-| R4 schematic (5 sheets + assembly view) | `artefacts/Reid Orthotic v2 R4.pdf` (identical copy in the Design Verification pack) | CAL1020, Carbon Circuits, Alex Gilmour, sheets updated 5/09/2024 |
-| R4 gerbers, LHS + RHS | `artefacts/SSII Orthotics Electronics - Design Verification/Reid Orthotic v2 R4 {LHS,RHS} Gerbers/` | Exported 05/09/2024 from `Reid Orthotic v2 {LHS,RHS}.CSPCBDoc` |
-| R4 BOM (full MPNs + Digi-Key PNs) | `.../Reid Orthotic v2 R4 BOM.xlsx` | See §2.3 highlights |
-| Pick-and-place, LHS + RHS | `.../Reid Orthotic v2 R4 {LHS,RHS} PnP.csv` | |
-| R3 mechanicals | `artefacts/Reid Orthotic v2 R3 MECH/` | SS-483 V1 LHS/RHS, STEP + STL exports only |
-| R1/prototype PCB layout (editable) | `artefacts/Reid Orthotic Prototype LHS.CSPCBDoc` | CircuitStudio PCB 6.0; internal refs say "Reid Orthotic Prototype", "REID Sensor LHS R1" — an ancestor of v2, not the R4 board |
-| Charger puck: full CircuitStudio project + mech CAD | `imports/alex_jira_duplicates/firmware/Reid Orthotic v2 Charger R2 Design Files/`, `...Charger Mech/` | Schematic PDF alongside; spec in `artefacts/orthotic-charger-puck-1` |
-| Coil/charging engineering log | `artefacts/carbon-circuits-1` | Coil selection, dead-battery boot fix, rework mods, magnet polarity |
-| Cell datasheet | `artefacts/Routejade-FLPB301031-HPMW30-30.pdf` | 76 mAh nom / 70 mAh min, 4.35 V chemistry |
-| Sensor layout | `artefacts/{CAP,FSR}-{L,R}.png`, `artefacts/all_sensor_coordinates.csv` | 19 FSR / 6 CAP / 5 TMP per foot |
-| Battery failure analysis | `SLEEP_LOGIC_V2_PROPOSAL.md` §hardware findings | Deep-discharge chain, ISET rework rec., re-celling checklist |
+| Device format | **Flat insole first**: a sandwich of bottom layer, electronics layer and top cover. The shaped Dolapro shell was uncomfortable in prototypes. | Decided |
+| Coil | Coil sits on a **tab at the heel end of the board**. Preferred: today's **TDK wound coil glued flat to the tab**, with its leads soldered to pads right beside it, which removes the wire run that fails. An etched copper coil charges far slower in simulation. | Preferred; confirm on a test coupon |
+| Charging | Charge from the **top** through the 1–2 mm top cover. Ferrite goes under the coil. Board sits at the top of the bay. | Decided |
+| Magnets | **One C-shaped N52 magnet in the insole, and a ring with a single cut in the puck.** ~2.5× today's hold at **any** puck angle, and one magnet part per insole. Supplied pre-assembled. | Recommended; quote spec ready |
+| Battery position | **In front of (toe-ward of) the board**, lying flat at 45° in a die-cut pocket, never on top of components. | Decided |
+| Battery connection | Small **plug and header (JST ACH, 1.4 mm high)** instead of soldered wires. Replaceable without a soldering iron. | Recommended |
+| Battery protection | Today's pack already has a protection board (PCM). Add a second, known-threshold protection chip on the main board. Fix the charge current setting, which is above the cell's rating. | Recommended |
+| Service | Components, connector and **all test points face down** to a hatch in the bottom layer. The top cover stays continuous for comfort. | Recommended |
+| Charger puck | Test new **puck firmware R5** (one line: drive at ~170 kHz instead of ~189 kHz). Simulation says it charges reliably over a much wider range of puck placements. | A/B test next |
 
-### 2.2 Board construction (from the R4 fab drawing, GM3 layer)
+**Main open items:** test puck firmware R5 against R4; build a coil test coupon; get magnet quotes; get the battery protection thresholds from the supplier; check the layout against the smallest insole size (XXS). The full list is in section 6.
 
-- **4-layer FR4, 0.4 mm finished thickness**, 1 oz (35 µm) copper, ENIG, black soldermask, white silk, IPC-A-600 Class 2, e-tested, no panelization.
-- Physical board outline: **21.25 × 46.25 mm** (one closed loop on the GM4 "Board Outline" layer; the GM3 sheet is the fab drawing). Vias down to 0.2 mm. (Note: raw copper-layer extents read larger because the gerbers draw their "Top/Bottom Layer" captions as copper strokes.)
-- At 0.4 mm the board is already thin enough to flex appreciably — the v2 design implicitly relies on thin-FR4 compliance rather than a rated flex construction.
+---
 
-### 2.3 Electrical facts relevant to this brief (R4 schematic + BOM)
+## 2. Background
 
-- **Charge chain:** RX coil → J3 "RF_CONN" pads → C37 **33 nF C0G** resonant cap (C38 DNF) → D1 CUS08F30 Schottky (half-wave) → D2 5.1 V zener clamp → 2× 100 µF → VSYS → BQ24210 VBUS.
-- **BQ24210:** ISET R56 = 5.1 k, schematic note "R = 400/Iout, 5.1k = 80 mA". TS pin populated: R59 22 k + R60 NCU15XH103 10 k NTC (B=3380) — battery temp sense exists on-board.
-- **Battery path:** cell → F1 200 mA fuse → VBAT; J4 "BAT_CONN" footprint present but **DNF**.
-- **All connectors DNF:** J1/J2 (sensor membrane, 20-pin, 100R series), J3 (coil), J4 (battery) are DO-NOT-FIT on the BOM → every off-board connection is a hand-soldered wire joint. **Both field failure modes are exactly these joints.**
-- **RF:** Abracon AMCA31-2R450G chip antenna, matching L3 3.9 nH + C15 1.5 pF (C16 DNF) — any stackup/outline change forces re-validation.
-- 3V3 LDO TCR3UF33A; UVLO divider provision (R57/R58) unfitted; firmware System-OFF UVLO at 3100 mV instead.
+### 2.1 The product today
 
-### 2.4 What is still missing (ask-list for Alex)
+- **Insole electronics board (R4):** 4-layer FR4, 0.4 mm thick, 21.25 × 46.25 mm, sitting under the arch. It carries:
+  - nRF52832 Bluetooth MCU
+  - LSM6DSM IMU
+  - five analog multiplexers for the sensors
+  - BQ24210 battery charger
+  - 2.4 GHz chip antenna
+  - The same board design is used for every insole size; left and right are mirror-image builds.
+- **Sensor layer (FPC):** a printed-silver-on-PET membrane made by Reid Print, one design per size. Each foot has 19 force (FSR) pads, 6 capacitive sensors and 5 temperature sensors. It joins the board on two 20-pin tails.
+- **Battery:** Routejade **FLPB301031-HPMW30-30**, a 76 mAh pouch cell (31 × 10.2 × 3.2 mm). It has a small protection board (PCM RJD404HP) folded over its top and two 30 mm wire leads, which are hand-soldered to the board. In the current build the cell is taped on top of the components.
+- **Charger puck:** an ATtiny1616 drives a coil through a single transistor from USB 5 V. The puck magnet is flush with the lid. The receive coil in the insole is an identical TDK coil with a 4 × 3 mm alignment magnet glued in its centre.
 
-1. **The editable `Reid Orthotic v2` CircuitStudio project** (R4): both `Reid Orthotic v2 LHS/RHS.CSPCBDoc` — the exact files the Sep-2024 gerbers were exported from (export logs reference a `Reid Orthotic v2` folder on "Jimmy"'s machine) — plus all `.SchDoc` sheets (IO/MCU/MUX/PWR), `.PrjPcb`/`.PrjPcbStructure`, `.SchLib`/`.PcbLib`, `.OutJob`, and anything newer than R4.
-2. **Native mechanical CAD**: Fusion 360 `.f3d` for SS-483 and the DXF/outline that drives the PCB shape (we hold only STEP/STL).
-3. **RX coil work instruction**: attachment drawing, wire gauge, pad locations, strain-relief method, and confirmation of resonant component values for the WR151580-48F2-G pairing.
-4. **Fab & assembly package**: which board house built R4, quoted stackup, assembly drawings, fab design rules.
-5. **Battery attachment detail**: tab join method (spot-weld vs hand-solder); why J4 was made DNF; any protected-cell evaluations already done.
-6. **Chip-antenna tuning report** (L3/C15 matching), if one exists.
-7. **As-built truth**: confirm fielded units are R4 and obtain the per-batch hand-rework list (the `carbon-circuits-1` log mentions enable-divider and bulk-cap mods).
+### 2.2 Why the failures happen
 
-> Suggested one-liner: *"Can you send the complete CircuitStudio project folder for Reid Orthotic v2 (R4) — both LHS and RHS .CSPCBDoc, all .SchDoc sheets, .PrjPcb and libraries — the one the Sep-2024 R4 gerbers were generated from? We already have the Prototype/R1 LHS layout."*
+**Coil wire.** The coil is not on the parts list: it is hand-attached, and its fine leads are soldered to the board. The first builds had no strain relief. The current process adds heatshrink, a C-bend and glue (`artefacts/assembly-process.md`), but the joint is still hand-made in five manual steps and the wire still flexes where it leaves the heatshrink.
 
-**Contingency if the CAD never materialises:** the as-built record (gerbers + PnP + BOM + schematic PDF with printed net names) is sufficient to reverse-engineer an editable KiCad project. Estimated days of careful work with transcription risk; the antenna matching region and cap-electrode geometries must be copied exactly, never re-derived. This is *not* a blocker for v3: the layout is substantially redrawn for any of the tracks below anyway.
+**Battery.** Three failure modes, each with its own fix in the v3 design (section 3.4):
 
-## 3. Failure analysis
-
-### 3.1 Coil wire
-
-The RX coil is absent from the BOM entirely. It is a hand-attached wound component whose leads are soldered to the J3 pads, and those leads see per-step flex and shear inside the insole.
-
-The first builds had no strain relief (`artefacts/carbon-circuits-1`: "Coils soldered with wires exiting the base of the PCBA. No strain relief added"). The current process does relieve it (`artefacts/assembly-process.md`):
-- 10 mm heatshrink over the leads
-- a C-shaped bend
-- glue at both ends of the heatshrink
-- a 4 × 3 mm alignment magnet superglued into the coil centre
-
-Coil-wire failures continuing under that process would point to the fine wire flexing right at the heatshrink exit or the solder fillet. Which builds the failed units came from is worth checking. Either way, the joint stays hand-made in five manual steps per unit.
-
-A PCB-etched coil (Track A) removes all five steps and the joint itself. It has to keep a central clearance for the magnet, and the magnet sits in the coil's field, so tuning must be checked with it fitted.
-
-### 3.2 Battery
-
-Three compounding design-level causes, all already evidenced in the repo:
-
-1. **Weak over-discharge protection**: the pack has a PCM (RJD404HP, IC "UP71AC-ITM"), but its trip voltage is unpublished; ICs of this class trip anywhere from 2.0 to 3.0 V. Below it, the only guard is the firmware cutoff (System OFF < 3100 mV), which needs the firmware to be running correctly.
-2. **Charge current above rating**: ISET gives ~80 mA vs the cell's 70 mA max (35 mA standard). In practice the ~5 mA wireless input means the full 80 mA is rarely reached, but any bench/direct charge hits it.
-3. **Hand-soldered tab joints** (J4 DNF) — same mechanical failure class as the coil wires. One fielded unit (REIDLHS E1:2F:FB:FA:78:EB) already shows the dead-cell/connection signature.
-
-### 3.3 Battery failure modes → design requirements (priority 2, after the coil)
-
-**What's fitted** (corrected 2026-10-03): the **FLPB301031-HPMW30-30 protected pack**, per the Routejade pack drawing (`artefacts/Routejade-FLPB301031-HPMW30-30_pack-drawing.pdf`) and the Master Instruments listing.
-- **Cell:** FLPB301031.
-- **Protection board:** PCM RJD404HP (IC "UP71AC-ITM"), 9 × 3 × 0.4 mm, folded over the cell top under polyimide tape.
-- **Leads:** AWG30 wires, 30 ± 2 mm, hand-soldered to the board.
-
-The earlier "bare cell" reading came from the cell-only spec PDF. The PCM's over-discharge threshold, over-current limit and quiescent current are not published; request them from Master Instruments.
-
-| Failure mode | Mechanism in the current design | v3 requirement |
-|---|---|---|
-| **Physical stress** | <ul><li>The pouch is stacked on the components on a 0.6 mm tape pad (R3 model), so body weight pushes 0805/QFN/SOT-23 corners into the pouch as point loads. Repeated loading of a pouch's soft side is a known route to separator damage and internal micro-shorts. This is a hypothesis: tear down failed cells and look for dents matching the board layout.</li><li>Hand-soldered tabs: iron heat at the pouch seal, plus fatigue at the joint.</li></ul> | <ul><li>Never stack the cell on components. Place it flat (see the placement study) or behind a rigid stiffener.</li><li>Use a low-load zone or a foam pocket.</li><li>Use factory-welded tabs or leads to a board-mounted connector; no iron on the cell.</li><li>A steel-can coin cell where load is high.</li></ul> |
-| **Firmware drains the cell past protection** | <ul><li>First line: firmware cutoff at 3100 mV. It works only while firmware runs correctly; the MCU brownout reset is disabled and a crash or hang bypasses it.</li><li>After cutoff the board still draws its System OFF current from the cell (unmeasured, SEN-49).</li><li>Backstop: the PCM, at an unknown threshold. If it trips around 2.4 V, as in common DW01-class designs, the cell is still taken into damaging territory before it disconnects.</li></ul> | <ul><li>**Hardware disconnect independent of firmware.** A protection IC with dual FET on the main board (e.g. BQ29700 family) cuts the entire load at ~2.8–3.0 V, then sits at ~0.1 µA power-down, and recovers only when the charger is present.</li><li>Firmware cutoff stays as a graceful first line (3.1–3.25 V).</li><li>Do not use the LDO-enable divider (R57/R58) as the cutoff: it doesn't disconnect the rest of the load and its own divider current drains the cell.</li></ul> |
-| **Protection itself damaged** | <ul><li>A real risk today. The PCM is a 0.4 mm board folded over the cell top, so it sits where the cell is loaded and flexed (stacked on the components), right next to the AWG30 leads that are hand-soldered at the board end.</li><li>Flex cracking, ESD during handling, or heat at the leads could damage it. If it fails short, the cell is silently unprotected; if it fails open, the unit reads 0 V while the cell is fine.</li><li>Diagnose by measuring cell (B+/B−) vs leads (P+/P−) on failed units.</li></ul> | <ul><li>Put the protection on the rigid main board: reflow-soldered, ESD-protected at the battery connector.</li><li>Optionally keep a PCM-protected cell as a second, independent layer, so one damaged layer doesn't leave the cell exposed.</li><li>Fix the charge current regardless (ISET, SEN-105).</li></ul> |
-
-## 4. Option analysis
-
-*(sections below populated from external research — pending)*
-
-### 4.1 Track A — PCB-integrated RX coil
-
-**Current coil, from the TDK datasheet** (`artefacts/TDK-WR151580-48F2-G_Spec.pdf`): the coil is a **TDK WR151580-48F2-G** (the engineering log's "large coil"), used on both the charger and the orthotic.
-
-- **Electrical:** Ls 27.1 µH typ at 100 kHz; Rs 0.5 Ω max at 100 kHz. That gives Q ≥ 34 at 100 kHz. TDK publishes no Q at the drive frequency.
-- **Construction:** a 4-layer air coil, Ø15.0 ± 0.3 mm, bonded to its own ferrite sheet.
-- **Stack thickness** (typ / max, mm): coil + resin 1.69 / 1.78, adhesive 0.135, ferrite 0.80 / 0.88. Total 2.63 / 2.80 mm.
-- **Leads:** 15 mm, solder-coated tips.
-- **Note:** the 27.1 µH is measured on that ferrite, so the ferrite is part of the inductance.
-
-**Tuning check:** both tanks use 33 nF C0G (orthotic C37, charger C7). With 27.1 µH each tank resonates at **168 kHz** on its own. The charger firmware drives at 10 MHz ÷ 53 = **189 kHz** (`Charger Firmware R4/coil.c`), assuming the ATtiny's factory-default 20 MHz oscillator; no fuse setting is stored in the repo. With a 16 MHz fuse it would be 151 kHz.
-
-When two identical tuned coils couple, the single resonance splits into two peaks at f₀/√(1 ± k), where k is the coupling. At k ≈ 0.2 the peaks are 154 and 188 kHz. Either clock setting therefore lands on one of the two coupled peaks rather than on 168 kHz. The likeliest explanation is that the drive was tuned empirically to the coupled pair, not to the coil alone. This is inferred, not measured. A scope on the TX coil (frequency, plus V_RX against TX frequency) would settle it.
-
-**Implication for a PCB coil:** match the product L·C = 27.1 µH × 33 nF ≈ 0.894 µH·µF, then re-find the coupled peak on hardware. For example, 6 µH needs ≈ 149 nF, 12 µH ≈ 75 nF, and 18 µH ≈ 50 nF.
-
-Height is a second win. The wound coil's 2.6 mm stack (0.8 mm of it ferrite) would become copper inside the PCB plus a 0.1–0.3 mm ferrite sheet, saving roughly 2 mm of insole height.
-
-Two constraints carry over to any replacement: the 4 × 3 mm alignment magnet glued in the coil centre (`artefacts/assembly-process.md`) needs a central clearance, and its effect on L and Q has to be measured with it fitted.
-
-**Etched spiral feasibility (honest numbers):** at 125 kHz a PCB spiral is ~10–20× worse in Q than the wound coil — Mohan/current-sheet estimates for 1 oz copper give ~6 µH / Q≈2 at 15 mm OD, ~18 µH / Q≈3 at 30 mm OD ([Mohan et al.](https://web.stanford.edu/~boyd/papers/pdf/inductance_expressions.pdf), applied per [TI SNOA930](https://ti.com/document-viewer/lit/html/SNOA930C/GUID-BD74982D-17B2-4C89-9F5B-396B12381139)). **This mostly costs alignment margin, not feasibility** — at our ~20 mW / 5 mA charge level, link efficiency is nearly irrelevant; the requirement is that the rectified voltage clears the BQ24210's input minimum (~3.5 V) at worst-case alignment. Levers to claw back Q: largest OD that fits (the insole has area the 15 mm wound coil never used), widest traces, both spare copper layers in series, 2 oz outer copper, and — since the link is proprietary — **raising the TX frequency to 250–500 kHz recovers Q linearly** (the ATtiny TX makes this a firmware + cap change).
-
-**Ferrite backing is mandatory, not optional:** the spiral sits over the board's planes/battery, and without a ferrite layer L and Q collapse from eddy loading ([TI SLYT479](http://www.ti.com/lit/an/slyt479/slyt479.pdf)). Use an adhesive-backed flexible sintered sheet — Würth **WE-FSFS** (0.1–0.5 mm, survives bending; [ANP022](https://community.element14.com/products/manufacturers/wuerth-elektronik/w/documents/3558/anp022-selection-and-characteristics-of-we-fsfs)), TDK Flexield, or KEMET Flex Suppressor.
-
-**Coil-in-flex is proven practice** at exactly this power class — Minco FlexCoils supplies polyimide-flex WPT/telemetry coils for hearing aids and implantables ([Minco](https://www.minco.com/wp-content/uploads/Minco_FlexCoils.pdf)) — but flex copper is 0.5–1 oz, roughly doubling DCR again. **Put the coil on a rigid island / stiffened zone with 1–2 oz copper** rather than in a flexing web.
-
-**Retuning:** keep the TX tank; scale the RX cap by C′ = 33 nF × (27.1 µH / L_new); tune in situ over ferrite + board (not in air); sweep TX PWM frequency/duty against DC output on hardware. Validate on a **cheap 2-layer coil coupon** before committing the board.
-
-**Placement study (to scale):** `hardware/r4-kicad/layout_study/layout_{LHS,RHS}.png`, regenerated by `tools/layout_study.py`.
-
-Sources:
-- The R3 assembly model, for the sensor layer and the R3 board position.
-- The R4 KiCad board outline, which overlaps the R3 board at 0.97 IoU on LHS and 0.98 on RHS.
-- The sensor pad CSV, registered onto the sensor layer.
-- The orthotic outline, traced from the Reid Print CAL1020 rev 2 drawing (`hardware/CAL1020 V2 Rev0.jpg`; 93.10 × 270.00 mm, membrane inset 11.75 / 25.00 mm).
-
-Results:
-- **Current build:** the 15 mm coil's centre sits ~18 mm heel-ward of the board's heel edge, on a clear bridge (`hardware/RHS.jpg`).
-- **Coil tab:** an etched 15 mm coil on a tab directly at that edge (1 mm gap, 1 mm margin) makes the board **21.4 × 63.3 mm**. The coil sits ~9.5 mm closer to the board than today's, inside space the coil and bridge already occupy.
-- **Clearances:** the tab overlaps no part of the sensor layer, with no FSR/CAP/temperature pad within 2 mm. The closest the board-plus-tab comes to the orthotic edge is 8.25 mm, set by the existing board, not the tab.
-- **Battery:**
-  - A VARTA CP1254 coin (Ø12.1) fits within the board footprint where the pouch cell is stacked today.
-  - A LIR2032 (Ø20) only just fits across the board's 21.25 mm width.
-
-**Caveat on size:** the PCB is shared across all seven orthotic sizes (XXS–XXL), but the membrane and orthotic outline scale with size. This study covers only the CAL1020 drawing, which is size **S (Small)**. The tab and battery placement must be re-checked against the **smallest (XXS)** membrane and orthotic outline before the board outline is committed; drawings for all sizes are to be added to `hardware/`. The 8.25 mm edge clearance will shrink on smaller sizes.
-
-**Direction (2026-10-03): flat devices first.** The Dolapro shaped shell has been uncomfortable in the current prototypes, so the first v3 devices will be flat insoles. Consequences:
-
-- **No shell pocket.** Thickness adds directly under the foot unless the battery and board sit in a pocket in the insole's foam base, as in fully embedded insoles such as Moticon.
-- **Edge clearances are provisional.** The study's figures use the Dolapro outline from CAL1020 as a stand-in; the flat insole's own outline and layer build-up are still to be supplied.
-- **Comfort ranks placement.** Low-load zones (under the medial arch) are preferred. Toe-ward and heel-ward battery positions favour a thin cell, or a cell pocketed in the foam.
-
-**Thickness (design goal: thinnest possible orthotic).** Measured from the R3 assembly model:
-
-| Item | Height |
+| Failure mode | What happens today |
 |---|---|
-| Sensor layer | 0.6 mm |
-| PCB | 0.4–0.5 mm |
-| Tallest real parts on the board (100 µF 0805 capacitors, SOT-23) | ~1.2–1.4 mm |
-| Battery tape pad | 0.6 mm |
-| Pouch cell | 3.2 mm |
-| **Overall today** | **5.4 mm** |
+| **Physical stress** | The pouch is taped on top of the components, so body weight presses component corners into its soft side. This repeated point load is a known route to internal shorts; tearing down a failed cell and looking for dents would confirm it. The hand-soldered leads also take heat and flex at the joint. |
+| **Discharged too far** | The firmware switches the device off below 3.1 V, but only if it is running correctly; brown-out reset is disabled. After switch-off the board still draws a small current that has not yet been measured (SEN-49). The pack's protection board is the backstop, but its trip voltage is unpublished; boards of this type trip anywhere from 2.0 to 3.0 V. |
+| **Protection board damaged** | The 0.4 mm protection board sits on the end of the cell, in the zone that is loaded and flexed, next to the hand-soldered leads. If it fails short, the cell is silently unprotected; if it fails open, the unit reads 0 V although the cell is fine. |
 
-The overall figure is high because the battery is stacked on top of the components. The model also shows a 4 × 4 × 4.7 mm object on the board; it is most likely the Tag-Connect plug model (J5), which is not fitted on R4.
+The charge current setting is also too high. The charger is set for ~77–82 mA into a cell rated 70 mA maximum. It is harmless on the wireless puck, which only delivers ~5 mA, but not on a bench supply (SEN-105).
 
-- **Biggest lever: stop stacking.** With the battery beside the board instead of on it, the orthotic's thickest point becomes the cell itself: about 3.3–3.5 mm with today's pouch, roughly 2 mm thinner. This holds for any battery choice.
-- **Coin cells do not help thickness.** The CP1254 (5.4 mm) is ruled out. The LIR2032 (3.2 mm) matches today's thickness with about two-thirds of the capacity, so it gains robustness only.
-- **Battery under the coil, on the tab:** possible electrically, but worse on thickness and in conflict with the magnet:
-  - A metal battery directly behind the coil absorbs the charging field. It needs a ferrite sheet between coil and battery, as phones use, and the coupling must be re-tuned with the battery fitted.
-  - The stack becomes PCB 0.4 + ferrite ~0.3 + cell, about 0.7 mm thicker than placing the cell beside the board.
-  - The 4 × 3 mm alignment magnet in the coil centre would sit directly over the battery.
-- **Battery placement search** (`layout_study/battery_options_{LHS,RHS}.png`, size S): a 1 mm / 15° grid search for flat, unstacked positions. Each candidate must sit ≥ 3 mm inside the orthotic outline and ≥ 1 mm clear of the sensor layer, the sensor tails, and the board with its coil tab. The result is the nearest legal position to the board in each zone:
-  - **Toe-ward** (Reid's "battery in front of the PCB" layout):
-    - Today's 31 × 10.2 pouch fits diagonally at 45°, 2.2 mm from the board on LHS (upright at 6.3 mm on RHS, whose tails differ slightly).
-    - A LIR2032 fits 10 mm from the board.
-    - Reid's two sketched positions on LHS clip the sensor-layer edge (≈14 and 32 mm²) and sit 17–24 mm from the board. The search position is the same idea, pulled in tight.
-  - **Heel-ward, behind the coil tab:**
-    - Pouch at ~105°, 1.3 mm away.
-    - Thin 33 × 15 × 2 pouch (estimated cell), 1.2 mm away.
-    - LIR2032, 1.0 mm away.
-    - This area takes heel-strike load, which suits a steel-can coin cell better than a pouch.
-  - **Beside the board:** nothing fits; the sensor tails occupy it.
-  - The thin pouch fits only heel-ward.
-  - **Caveat:** tail and sensor-layer outlines come from the R3 model's trace layer. The real laminate/RF-shield outline is somewhat wider, so placements should be re-checked against Reid's full-stack outline and every size, XXS first.
-- **Next lever: a thinner cell with a larger footprint.** Pouch capacity scales roughly with volume. Catalogue cells show the trend: 4 × 20 × 30 mm ≈ 200 mAh and 5 × 20 × 30 mm ≈ 250 mAh. By extrapolation, a ~2 × 20 × 30 mm cell should roughly match today's 76 mAh at about two-thirds the thickness; this is an estimate to confirm with a supplier, e.g. a Master Instruments custom pack with protection and a connector. Flexible cells such as Jenax J.Flex (0.5–2.3 mm, 10 mAh upward; dynamic-bend tested at 20 mm radius) are a longer-shot lead for a cell that tolerates insole flexing.
+**Diagnosing a dead unit.** Measure across the cell itself and across the leads:
 
-**Alignment magnets (2026-10-03).** Today a single 4 × 3 mm magnet is glued in the coil centre, on both the puck and the orthotic. Recommendation: **move the magnets outside the coil**.
-
-- **Why not the centre:**
-  - NdFeB conducts; its skin depth at the 189 kHz drive is roughly 1.4 mm, which is comparable to the 4 mm magnet. So the magnet carries eddy currents in the coil's highest-flux region, costing Q and making heat.
-  - Its static field can partly saturate the ferrite sheet exactly where the flux concentrates, lowering L and coupling.
-  - Commercial magnetic chargers (Apple MagSafe, Qi2) put the magnets in a ring outside the coil for these reasons.
-- **Avoid a solid ring magnet.** A closed conductive ring around the coil acts as a shorted turn. Use separate magnets (3 or 4 discs, or arc segments with gaps), or a polymer-bonded (non-conductive) ring.
-- **3 vs 4 magnets:** 3 seat like a tripod (no rocking); 4 give more holding force. Alternating polarity would key orientation, but a round coil doesn't need it.
-- **Thickness and coil gains:**
-  - Three Ø4 × 1 mm discs have the same magnet volume as one Ø4 × 3 mm, cutting magnet height from 3 mm to about 1 mm.
-  - Thin discs lose pull faster with distance, so holding force must be checked through the real bottom-layer and puck-lid gap.
-  - Freeing the centre also lets the etched coil wind further in, for more turns and no magnet hole.
-- **Room (size S, front-battery layout):** the coil's inner side sits against the sensor layer's heel strip. A symmetric 3- or 4-magnet pattern at 10–11 mm radius touches the sensor layer or tails, so the magnets must sit on the free outer and heel arc. Alternatively use two diagonal magnets, as Alex's **R3 design did**: two 3 × 2 mm magnets 9.9 mm from the coil centre, in the R3 assembly model. Ask Alex why production moved to a single centre magnet. The puck needs the matching pattern.
-- **Verify on the coil coupon.** Test these configurations: centre 4 × 3, two outside, three outside (Ø4 × 1), segmented ring, no magnet. For each, measure:
-  - L and Q
-  - rectified voltage against lateral offset
-  - pull force through the real layer gap
-  - temperature
-
-**Magnet force simulation** (`tools/magnet_sim.py`, magpylib, N52, magnetostatic; results in `v3_concept/magnet_sim.json`):
-
-| Configuration (insole and puck, matching) | Magnet height | Pull at 2 / 3 / 4 mm gap (N) | Centring at 3 mm gap, 1 mm off-centre (N) | Pull vs today at 3 mm |
-|---|---|---|---|---|
-| A today: 1x dia4x3 centre | 3 mm | 1.35 / 0.71 / 0.41 | 0.20 | 100% |
-| B R3: 2x dia3x2 outside (diagonal) | 2 mm | 0.90 / 0.41 / 0.21 | 0.13 | 58% |
-| C 3x dia4x1 outside | 1 mm | 1.35 / 0.64 / 0.33 | 0.20 | 90% |
-| D 4x dia4x1 outside | 1 mm | 1.79 / 0.85 / 0.44 | 0.27 | 119% |
-| E 3x dia6x1 outside | 1 mm | 2.88 / 1.62 / 0.96 | 0.41 | 227% |
-| F 12x 2x2x1 blocks, full ring (MagSafe-style) | 1 mm | 1.04 / 0.38 / 0.17 | 0.14 | 53% |
-| G 8x 2x2x1 blocks, 240 deg free arc | 1 mm | 0.70 / 0.26 / 0.11 | 0.09 | 36% |
-| H bonded NdFeB C-arc 3 mm wide x 1 mm, 240 deg | 1 mm | 0.86 / 0.43 / 0.24 | 0.10 | 61% |
-
-What it shows:
-- **Same strength, 2 mm thinner:** three Ø4 × 1 mm discs match today's centre magnet at 2–3 mm.
-- **Stronger:** four Ø4 × 1 beat it at every gap. Three Ø6 × 1 roughly double it, if there's room.
-- **Many tiny magnets lose at our gaps.** A full MagSafe-style ring of twelve 2 × 2 × 1 mm blocks is ~50 % of today at 3 mm and ~40 % at 4 mm, because small magnets' fields fall off faster with distance. MagSafe works across a ~1 mm phone-to-charger gap with a ~46 mm ring.
-- **Gap is the dominant variable:** pull roughly halves for every extra 1 mm. The bottom layer plus puck lid should be kept as thin as possible over the magnets.
-- **Not modelled:**
-  - the ferrite sheets, which themselves attract the magnets
-  - coupling and eddy-current loss, which need an AC solver: FEMM (axisymmetric), Elmer or GetDP (3D), or Ansys Maxwell
-
-**Charging geometry (user, 2026-10-03):** the puck charges from the **top**, through a 1–2 mm top cover. The puck magnet sits flush with its lid, so the magnet gap is the top cover only. Consequences:
-- The ferrite goes **under** the coil.
-- The board mounts at the **top** of the bay (flat back under the top cover, components hanging down), so the coil is as close to the puck as possible.
-- The magnets sit just under the top cover.
-
-**Magnets at 1–2 mm** (`magnet_sim.json` → `top_cover_gaps_1_to_2mm`):
-- **Recommended: 3 × Ø5 × 1 mm N52 discs** on a 10.5 mm pitch radius. They give about **1.5×** today's pull and centring at 1, 1.5 and 2 mm, fit on the free side (0.6 mm clear of the sensor layer, 7.9 mm from the orthotic edge), and are 2 mm thinner than today's magnet.
-- **Stronger option:** Ø5 × 1.5 discs give about 2.7×, still within the bay height.
-- **Equal option:** 3 × Ø4 × 1 matches today.
-- **Not recommended:** a MagSafe-style ring of tiny blocks only wins at a 1 mm gap, needs 12 parts per side, and does not fit on the sensor-layer side.
-
-**Magnets in production (2026-10-04).** Magnets must not be hand-placed one by one, and magnetised NdFeB cannot go through reflow:
-
-- **Temperature limits:** max operating temperature is 80 °C for N grade, 150 °C SH, 180 °C UH, 200 °C EH, 220 °C AH, against a 245–260 °C reflow peak.
-- **What happens above them:** between a grade's limit and the ~310–340 °C Curie point, part of the magnetisation is lost permanently. Above the Curie point it is lost completely.
-
-Options, recommended first:
-
-1. **One pre-made magnet carrier per insole (and per puck lid).** The magnet supplier or the laminate converter (Reid Print already die-cuts our adhesive/PET stacks) supplies the three discs pre-located in a die-cut, kiss-cut adhesive carrier on a liner: pre-magnetised, with polarity checked at source.
-   - Assembly is one peel-and-place step, registered to the coil tab (identical for every size), instead of one step per magnet.
-   - Lamination is a pressure-adhesive process, so there is no heat exposure. If any hot-lamination step exceeds 80 °C, specify SH grade (150 °C).
-   - Puck side: press-fit or insert-moulded into the moulded lid, so all three land in one fixture action.
-   - Pre-assembled magnet rings or carriers laminated as a single part are the usual approach for magnetic phone accessories.
-2. **Magnets on the PCB, magnetised after assembly.** Unmagnetised NdFeB blanks are placed by pick-and-place (tray or carrier tape on request from the supplier), held by SMT adhesive, and taken through reflow with nothing to lose. A pulse (capacitor-discharge) magnetiser with a pattern fixture then magnetises them all at once, at end of line, with polarity fixed by the fixture. This is standard practice in motor manufacture.
-   - Unmagnetised blanks also handle like ordinary parts: they don't clump or jump to the nozzle.
-   - Costs: board "ears" around the coil tab (tight on the sensor-layer side), and a magnetiser plus fixture.
-   - **Risk to evaluate:** the multi-tesla pulse right next to the coil and charge circuit induces large voltages in them, so the fixture must be localised and the electronics protected.
-3. **Samarium-cobalt (SmCo) pre-magnetised, through reflow.** SmCo is typically rated to 250–350 °C, so it can be placed magnetised and reflowed. It is weaker (Br ≈ 1.0–1.15 T vs 1.43 T for N52, so roughly 0.5–0.65× the force for the same size), more brittle and more expensive, and magnetised parts are awkward on a pick-and-place. Example: 3 × Ø5 × 1.5 SmCo ≈ 1.6× today's force (estimated by Br² scaling).
-4. **Die-cut bonded-magnet sheet** (one part, non-conductive, magnetised as a sheet). The simplest to assemble but the weakest (~0.6× today at 2 mm), so it needs a thicker or larger arc.
-
-**Flexible magnets (simulated 2026-10-04, `magnet_sim.json` → `flexible_vs_solid`).**
-
-They are not as strong as solid magnets. Remanence: flexible NdFeB ~0.28 T and flexible ferrite 0.17–0.27 T, against 1.42–1.47 T for sintered N52. Force for the same size scales as Br², so flexible NdFeB gives ~4 % of N52.
-
-Results for a 240° arc on the coil's free side (Ø17–27 mm), at 1 / 1.5 / 2 mm gap:
-
-| Configuration | % of today's pull |
+| Reading | Meaning |
 |---|---|
-| Flexible NdFeB 1 mm, both sides | 15–17 % |
-| Flexible 2 mm insole + N52 puck discs | 26–33 % |
-| Rigid bonded NdFeB 1.5 mm insole + N52 puck | 52–64 % |
-| Solid 3 × Ø5 × 1 N52, both sides | 151 % |
+| Cell 2–3 V, leads ~0 V | The protection board has tripped and locked out |
+| Cell normal, leads ~0 V | The protection board is damaged |
+| Cell ~0 V | The cell itself is dead |
 
-- **Flexibility buys nothing here.** The magnets sit beside the rigid coil tab, not in a flexing zone.
-- **What flexible/bonded magnets do offer:** they don't conduct (so a full ring is allowed) and they can be die-cut as one part.
-- **Conclusion:** flexible magnets would be clearly weaker than today. Stay with sintered N52 discs supplied in a pre-made carrier.
+---
 
-**C-shaped magnets and puck rotation (simulated 2026-10-04, `magnet_sim.json` → `C_arcs_and_rotation`). This supersedes the 3-disc recommendation.**
+## 3. The v3 design
 
-- **Rotation is the deciding factor.** Today's single centre magnet pulls the same at any puck angle. Matched 3-disc patterns lose essentially all pull and centring when the puck is rotated 60°, so they only work if the puck is always placed at the same angle.
-- **Fit:** one sintered N52 C-arc (Ø17.2–25.2 mm, 4 mm wide, 1 mm thick) fits **180°** on the coil's free side. Two separate Cs only manage 160° in total.
-- **Results at 1–2 mm gap** (pull, % of today):
+Figures: `plan_front_{LHS,RHS}.png` (layout), `section.png` (cross-section), `battery_connection.png` (connection and service).
 
-| Insole | Puck | Puck rotation | Pull | Centring at 1.5 mm |
-|---|---|---|---|---|
-| C 180° | matching C 180° | aligned | 267–288 % | 1.72 N |
-| C 180° | matching C 180° | 90° | 126–138 % | 0.56 N |
-| C 180° | matching C 180° | 180° | ≈ 0, slightly repulsive | 0.59 N |
-| **C 180°** | **split ring, 355°** | **any** | **245–268 %** | **1.04 N** |
-| 3 × Ø5 × 1 | 3 × Ø5 × 1 | 60° | ≈ 0 | ≈ 0 |
-| 3 × Ø5 × 1 | split ring, 355° | any | 103–117 % | 0.59 N |
+### 3.1 Build and thickness
 
-Today's centring at 1.5 mm is 0.63 N.
+- **Flat sandwich:** bottom layer / electronics layer / top cover (1–2 mm).
+- **Board:** mounted at the **top** of the electronics bay. Its flat back faces the foot and its components hang down, which puts the coil as close as possible to a puck placed on top.
+- **Thickness is set by the battery alone.** Nothing is stacked any more: the electronics bay is the cell thickness plus ~0.2 mm, about 3.4 mm with today's cell. Today's stack is 5.4 mm because the cell sits on top of the components.
 
-- **Recommendation: one C-shaped N52 magnet in the insole and a split ring in the puck.**
-  - About 2.5× today's hold at any puck angle, with stronger centring.
-  - **One magnet part per insole.** It is supplied pre-magnetised, and its C shape fixes its orientation in a carrier or jig.
-  - The puck has no space limit, so it takes a full ring. A single cut breaks the conductive loop around the TX coil; the ring can also be made from 2–4 arc segments in a moulded pocket.
-  - Neither part is a closed loop. The ring's inner edge sits ~1 mm outside the coil OD, so eddy loss must be checked on the coupon (the ID can be increased).
-  - If ~2.5× is more than wanted, use a thinner (0.7 mm) or narrower arc.
-- **Not modelled:** ferrite sheets (they add attraction), coupling and eddy loss.
+  | Item | Height |
+  |---|---|
+  | Board | 0.4 mm |
+  | Tallest parts and the battery connector | ~1.4 mm |
+  | Magnets | 1 mm |
+  | Battery | 3.2 mm |
 
-**Charging speed.** Today the device charges at ~5 mA (`carbon-circuits-1`), about 15–20 h from flat. The cell can take 35 mA at its standard rate, roughly 2–2.5 h. The wireless link (~20 mW delivered) is the bottleneck by ~7×, not the charger IC. Levers, biggest first:
+- **A thinner cell would make the whole insole thinner.** For example, a ~2 × 15 × 33 mm pouch of similar capacity (estimated; to confirm with Master Instruments) gives a ~2.2 mm bay.
+- **The board design is shared across all seven sizes (XXS–XXL).** The layout must therefore fit the smallest insole; it has only been checked against size S so far.
 
-1. **Coil quality vs the etched-coil plan.** An etched coil has far lower Q (est. 3–5) than the TDK wound coil (≥ 34), so at the same puck drive it will likely deliver *less* power than today.
-   - If faster charging matters, also test a **wound coil bonded flat to the tab with its leads soldered straight onto adjacent tab pads** (no free wire span, potted). That removes the failing wire run while keeping Q.
-   - The coupon test should compare: etched coil (4 layers, maximum copper), bonded TDK, and today's coil.
-   - **Simulated:** etched coils deliver 0–1.8 mA at k = 0.11 and ≤ 11.9 mA at k = 0.25, against 8.5 and 24.7 mA for the TDK coil. → Prefer the **bonded wound coil on the tab**.
-2. **Coupling:** coil at the top of the bay under a 1–2 mm cover, ferrite under it, magnets moved out of the coil centre (no eddy loss or ferrite saturation), stronger centring so it lands aligned every time.
-3. **Tuning (simulated, `v3_concept/CHARGING_SIM.md`):** R4's 188.7 kHz charges only at tight coupling (0 mA at k ≤ 0.15). ~169.5 kHz (PWM_TOP 58) is near-best from k = 0.08 to 0.4 (e.g. 24.7 vs 9.7 mA at k = 0.25). **Puck firmware R5** = R4 with PWM_TOP 58; A/B test it against R4 on hardware before shipping.
-4. **Rectifier: keep today's half-wave D1.** The circuit simulation (`v3_concept/CHARGING_SIM.md`) shows full-bridge and doubler versions are 5–45 % *worse* at this power, because the extra diode drops cost more than they gain. This corrects the earlier suggestion.
-5. **Puck power and heat:** TX self-heating capped the duty at 25 % (~130 mA from USB). A lower-loss puck coil, a resonant (ZVS) driver instead of hard PWM into the tank, and better heat spreading would allow more drive. USB-C has power to spare.
-6. **Device load while charging (firmware, cheap):** whatever the board draws on the puck comes out of the ~5 mA. Dropping to the lowest-power mode when charging (SEN-64) raises the net charge rate immediately.
-7. **Charge current setting:** once the link delivers more, set ISET for ~35 mA (0.5C, SEN-105). It is a ceiling, not a lever, today.
+### 3.2 Coil and charging
 
-**Alternative worth a serious look — NFC WLC (13.56 MHz):** purpose-built for etched PCB antennas (only ~1–5 µH needed; PCB Q of 30–60 is easy), with power classes from 250 mW ([NFC Forum WLC](https://nfc-forum.org/build/specifications/wireless-charging/)). The **Renesas PTX30W** listener IC integrates the rectifier *and* a 5–250 mA Li-ion charger + LDO in 1.78 mm² — it would replace the coil, the rectifier chain (D1/D2/C37/C40/C42), *and* the BQ24210 ([Renesas](https://www.renesas.com/en/products/wireless-connectivity/nfc/ptx30w-highly-integrated-scalable-nfc-wlc-listener-i-c-interface-and-board-pmic-ldo)). Cost: the charger puck must be respun around a PTX130W-class poller, and both sides need 13.56 MHz tuning discipline. **If the puck is being redesigned anyway, this is a genuinely strong candidate; if the puck must stay, the retuned 125 kHz PCB spiral is the pragmatic fix.**
+- **Position:** a 15 mm coil on a tab directly at the board's heel edge. This makes the board 21.4 × 63.3 mm, and the coil sits ~9.5 mm closer to the board than today, inside space the coil and its plastic bridge already use. The tab is clear of the sensor layer and all sensor pads (size S).
+- **Coil type:**
+  - **Preferred:** the existing **TDK WR151580-48F2-G** wound coil (27.1 µH, 15 mm), **glued flat to the tab with its leads soldered to pads right beside it**. There is no free wire span to flex, and charging performance is kept.
+  - **Alternative:** a coil etched into the board copper. It removes the part entirely but charges far slower in simulation: 0–12 mA against 8.5–25 mA for the TDK coil (section 4.4).
+  - A test coupon should compare the two before the board is laid out.
+- **Ferrite** goes **under** the coil, on the side away from the puck.
+- **Charge path:** keep the insole's single-diode rectifier. Bridge and doubler versions were worse in simulation.
+- **Charging speed:** today ~5 mA, roughly 15–20 h from flat. The cell can take ~35 mA. The wireless link, not the charger chip, is the limit. The levers, in order:
 
-### 4.2 Track B — Flexible / semi-flexible / rigid-flex construction
+  | Lever | Status |
+  |---|---|
+  | Puck drive frequency (R5) | see 3.5 |
+  | Keep a good wound coil | 3.2 above |
+  | Close coupling (coil at the top, magnets out of the coil centre) | in the design |
+  | Lowest-power mode while on the charger | firmware, SEN-64 |
+  | Raise the charge-current limit only once the link delivers more | |
 
-**Semi-flex FR4 is ruled out.** It is depth-milled FR4 rated for flex-to-install only — Eurocircuits: "1-time bend… no dynamic flex"; TTM quotes a bend life of typically ~5 cycles ([Eurocircuits](https://www.eurocircuits.com/technical-guidelines/designing-flex-install-pcbs/), [TTM](https://www.ttm.com/sites/default/files/documents/Semi-FlexPrintedCircuitTechnology.pdf)). An insole sees ~1M+ flex cycles/year.
+### 3.3 Alignment magnets
 
-**The architecture that fits is the "Moticon pattern": a small rigid electronics island + flexible webs.** Moticon's fully-embedded Insole3 uses exactly this — a circular rigid electronics module plus a separate sensor foil layer ([Moticon specs](https://www.moticon.de/insole3-specs/)); NURVV went further and moved electronics outside the shoe entirely. Our R4 already half-follows the pattern (the ~40×74 mm cluster sits in the arch), but implements it as 0.4 mm-thin FR4 that flexes without being rated for it, with hand-soldered wires crossing every boundary.
+- **Insole:** **one sintered N52 C-shaped magnet**, a 180° arc 4 mm wide and 1 mm thick, outer diameter 25.2 mm. It sits on the free side of the coil, ~0.6 mm clear of the sensor layer.
+- **Puck:** a **full ring with one radial cut**. The cut stops the ring acting as a closed metal loop around the charging coil, which would absorb power. The ring can also be made as 2–4 arc pieces.
+- **Performance at the real gap (top cover 1–2 mm; the puck magnet is flush with its lid):** about **2.5× today's holding force at any puck angle**, with stronger self-centring. If that is more than wanted, a thinner or narrower arc reduces it.
+- **Why not today's centre magnet:** it sits in the coil's strongest field, where it wastes charging power as heat and partly saturates the ferrite.
+- **Production:** no hand-placing of individual magnets. The magnet goes in as **one pre-assembled part**: pre-magnetised, polarity-checked, on a die-cut adhesive carrier, placed in one step. The magnets must never go through reflow soldering; standard grades are rated to 80 °C and reflow reaches ~250 °C.
+- **Quotes:** spec in `magnet_carrier_RFQ.md`. First supplier lead: **AMF Magnetics** (Rozelle NSW, 02 9700 0055).
 
-Two viable constructions:
+### 3.4 Battery
 
-| | Polyimide flex + stiffeners | Rigid-flex |
-|---|---|---|
-| Structure | 2–4-layer flex; FR4/PI stiffeners glued under component zones | Rigid 4-layer islands + 1–2-layer flex webs |
-| Meets 0.2 mm via / 0.1 mm trace? | Yes, in stiffened zones (JLCPCB 0.15 mm vias, PCBWay 0.1 mm track) | Yes, in rigid islands |
-| Cost vs rigid 4-layer | ~2–4× | ~7–10× ([Minco](https://www.minco.com/the-drivers-behind-higher-cost-rigid-flex-pcbs/)) |
-| Fab options | Many (JLCPCB, PCBWay, Würth, Epec, Cirexx) | Fewer; verify dynamic (IPC-2223 Use B) rating — Würth RIGID.flex explicitly supports it |
+**Position.** Toe-ward of the board, flat, at 45°, 2.4 mm from the board edge, in a die-cut pocket (+0.5 mm) in the electronics layer. It is never on components. A heel-ward position also fits, but it needs ~45 mm custom leads and takes heel-strike load.
 
-**Design rules that will bind the layout** (IPC-2223, dynamic = "Use B", specify cycle count on the drawing):
-- Dynamic bend radius ≥100× thickness → flex webs must be thin (0.1–0.15 mm, ideally single copper layer on the neutral axis) and use **rolled-annealed copper** (ED copper fatigues).
-- **No vias or components in flex zones**; vias ≥20 mil from rigid/stiffener transitions.
-- Traces perpendicular to bend lines, curved corners, staggered on opposite layers, hatched pours only, teardrops everywhere, **coverlay not soldermask** in flexing areas.
+**Connection: robust in use, replaceable without soldering**
+- **Prototype:** Master Instruments crimps a **JST ACH** plug (1.2 mm pitch, 1.4 mm high, takes AWG30) onto the existing pack's leads. The header sits on the board's free outer edge; the other edges carry the sensor tails. The stock 30 mm leads reach (18 mm needed).
+- **Production:** a custom pack with a flexible tail into a Hirose BM28 board-to-flex connector (0.6 mm stacked), as phones do. No wires at all.
+- **Strain relief:** the leads leave the protection-board end of the pack, run in a slack loop outside the board edge and the coil keep-out, and are taped or glued to the electronics layer, never to the cell. The layers clamp the mated plug in place.
 
-**Sensor membrane integration:** printing FSR carbon ink over gold-plated copper electrodes on polyimide flex is established practice ([FSR integration guide](https://pololu.com/file/0J749/FSR400-Series-Integration-Guide-13.pdf)), and would eliminate the J1/J2 tail joints entirely — but it puts copper under repeated pressure/flex, stiffens the sensor area vs the current PET membrane, makes sensor-geometry iteration a PCB respin, and restricts fabricator choice. **Lower-risk capture of most of the win: keep the printed-PET membrane, replace its hand-soldered joints with a ZIF or hot-bar-bonded flex tail.**
+**Protection**
+- Keep the pack's own protection board.
+- **Add a protection chip on the main board** (TI BQ29700 family with a dual transistor). It disconnects everything at a known ~2.8–3.0 V, whether or not the firmware is running, then draws ~0.1 µA until the charger is applied. Being on the rigid, machine-soldered board, it is far less exposed to damage than the pack's.
+- Keep the firmware cut-off as a gentler first line.
+- **Charge current:**
+  - Existing boards: change resistor R56 from 5.1 k to 10 k (~40 mA, SEN-105).
+  - v3: consider a charger chip matched to the cell (TI BQ25100H, 4.35 V) at 25–35 mA, plus a fuel-gauge chip (MAX17048) to fix the erratic battery-% readings.
+  - Today's charger stops at 4.2 V, so the 4.35 V cell only ever reaches ~85–90 % of its capacity.
 
-### 4.3 Track C — Battery change & attachment
+**Test points.** All test points are grouped into one strip next to the battery connector, under the hatch:
+- VBAT_F, VSYS, 3V3 and 0V
+- the three programming/debug lines (SWDIO, SWDCLK, reset)
+- **a new VBAT point on the battery side of the fuse**
 
-**A hidden finding first: the current cell is chronically undercharged.** The BQ24210 regulates to a fixed 4.2 V ±1 % ([TI](https://www.ti.com/product/BQ24210)) but the FLPB301031 is 4.35 V chemistry — so today's cells only ever reach ~85–90 % of rated capacity (~65 mAh effective). Any 4.2 V-chemistry replacement cell gives up less real capacity than the datasheet numbers suggest.
+If the on-board protection chip is added, put a test point on each side of it, so a locked-out protection can be told apart from a damaged one without opening anything.
 
-**Cell options** (honest availability picture — protected cells at 3 × 10 × 31 mm are rare):
+**Replacing a battery** (a few minutes' bench job, no soldering):
+1. Open the hatch in the bottom layer (its lid is on re-closable adhesive).
+2. Lift the tape holding the leads.
+3. Unplug the connector. It is small, so tweezers or a fingernail help. It is polarised and only fits one way.
+4. Peel the old pack out of its pocket (low-tack tape).
+5. Press in the new pack, plug it in, re-tape the leads with their slack loop, and close the hatch.
 
-| Option | Part | Specs | Trade-off |
+Conditions:
+- Replacement packs must come with the plug already crimped; Master Instruments can supply them.
+- The plug is held by the layers and the tape. Whether this connector series also has a latch is not yet confirmed; check on first samples.
+- The hatch adhesive must survive repeated opening; test on prototypes.
+- A tool-free, click-in battery would need a spring-contact holder. That was avoided because heel impacts can make spring contacts chatter and reset the device.
+
+### 3.5 Charger puck
+
+The puck hardware (revision R2) and all firmware revisions are in the repo (section 7.1).
+
+The **R4 firmware** in the repo drives the coil at **188.7 kHz**. The circuit simulation (section 4.4) shows that this frequency only charges when the puck and insole coils are very tightly coupled. A slightly misplaced puck or a thicker cover can drop it to zero. Around **170 kHz** charges near its best at every coupling tested.
+
+**Firmware R5** (`firmware/Reid Orthotic v2 Charger Firmware R5`) is R4 with one line changed (`PWM_TOP` 52 → 58, i.e. 169.5 kHz).
+
+**A/B test before adopting it:**
+1. Flash one puck with R4 and one with R5. Start two units at the same battery level.
+2. Charge for 30 minutes. Log battery voltage, USB current and puck temperature.
+3. Repeat with the puck centred, 3 mm off-centre, and over the thickest top cover.
+4. Adopt R5 if it is equal or better everywhere.
+
+Also confirm which firmware the field pucks run.
+
+Two related findings:
+- **The "25 % duty" in Alex's notes is the firmware's power setting.** The actual switch on-time is ~11–15 % of each cycle (a scope will confirm).
+- **No puck hardware change is needed** for v3, apart from the magnet ring. The puck lid needs the matching split ring.
+
+---
+
+## 4. Evidence
+
+### 4.1 The R4 board, rebuilt and verified in KiCad
+
+The original design files were not available, so both boards were rebuilt as editable KiCad 7 projects (`hardware/r4-kicad/`) from:
+- the production gerbers, BOM and pick-and-place files
+- the schematic PDF
+
+Verification:
+- **Copper:** gerbers re-exported from the rebuilt boards match the production gerbers on every fab layer and every drill hole (`hardware/r4-kicad/validation/COMPARE_REPORT.md`).
+- **Netlist:** derived from the copper and cross-checked against the firmware pin map (19 of 19 functions per side). KiCad's own netlist export matches it exactly.
+
+A review package for Alex is in `hardware/r4-kicad/review/`. It lists the few things copper cannot settle:
+- transistor pin mapping
+- diode polarity
+- two debug-pad pins
+
+It also lists where the copper differs from the old PDF schematic. These files are the base for the v3 layout.
+
+### 4.2 Layout and placement study
+
+Script: `hardware/r4-kicad/tools/layout_study.py`. It combines, in one millimetre-accurate drawing:
+- the 3D assembly model (sensor layer and board position)
+- the KiCad board outline (overlap 0.97/0.98 with the model)
+- the sensor pad positions
+- the size-S orthotic outline from Reid Print's CAL1020 drawing
+
+It checked the coil tab and searched every flat battery position (1 mm / 15° steps) that keeps ≥ 3 mm inside the orthotic edge and ≥ 1 mm clear of the sensor layer, the tails and the board.
+
+Results are in section 3. Outputs: `hardware/r4-kicad/layout_study/`.
+
+**Caveat:** the sensor-layer outline in the model is the trace layer. Reid's laminate and RF-shield layers are slightly wider, so placements need a final check against their full outline and against every size.
+
+### 4.3 Magnet simulations
+
+Script: `tools/magnet_sim.py` (magpylib; N52; insole and puck patterns attracting). Data: `v3_concept/magnet_sim.json`.
+
+| Insole magnet | Puck magnet | Pull at 1–2 mm gap vs today | Works at any puck angle? |
 |---|---|---|---|
-| Off-the-shelf protected + wired | **Renata ICP331319PM** ([Mouser](https://www.mouser.fr/new/renata/renata-icp-series)) | 50 mAh, 4.2 V, ≤3.7 × 12.8 × 21 mm, built-in safety circuit, AWG30 wires | Different footprint (wider/shorter); real loss vs today's undercharged cell only ~15 mAh |
-| Same-footprint, wired, unprotected | Renata ICP281029HPG | 68 mAh, 4.35 V, 3.3 × 10.2 × 30.5 mm, AWG30 wires, 34 mA std / 68 mA max charge | Fixes the tab-solder joint, not protection |
-| Custom protected pack | **Master Instruments pack-up** of FLPB301031 or a 4.2 V LP301030 (80 mAh class) | PCM + PicoBlade/JST-SH pigtail, thickness stays ~3 mm (PCM folds behind cell) | MOQ/lead time; but they already re-cell for us |
-| Add on-board protection (second layer) | TI BQ29700 (+dual FET, ~15 mm² total) | Hardware UV/OV/OCD with a known threshold on the rigid board, independent of the pack's PCM | Doesn't fix the lead joint on its own |
+| Today: Ø4 × 3 mm in coil centre | same | 100 % | yes |
+| **C-arc 180°, 1 mm** | **split ring** | **245–268 %** | **yes** |
+| C-arc 180° | matching C-arc | 267–288 % aligned, ~0 when turned 180° | no |
+| 3 discs Ø5 × 1 mm | 3 discs | ~150 % aligned, ~0 when turned 60° | no |
+| 3 discs Ø5 × 1 mm | split ring | 103–117 % | yes |
+| MagSafe-style ring of 12 tiny magnets | same | 77–127 % | yes, but doesn't fit |
+| Flexible magnet arc | strong puck magnets | 15–33 % | — |
 
-Varta CoinPower/EZPack and stocked Jauch PCM packs are all too thick or too big; SMT holders for pouch cells effectively don't exist at this size — the industry pattern is **PCM + wire pigtail + 1.0–1.25 mm connector** (Molex PicoBlade 51021 / JST SH) on the rigid PCB section.
+These results cover holding force only. They do not model the ferrite or charging efficiency.
 
-**Charger correctness (verified):** BQ24210 K_ISET ≈ 395 AΩ, valid range 50–800 mA — our 5.1 k gives ~77–82 mA into a 70 mA-max cell, confirmed out of spec. It "works by accident" today only because the ~5 mA wireless source droops into the VBUS-DPM regulation; any stiff 5 V bench/test source will push the full ~77 mA. Fixes:
-- **Interim (existing boards):** ISET 5.1 k → 10 k (~40 mA; technically below the 50 mA validated range, accuracy unspecified but safe-direction).
-- **v3:** replace with **TI BQ25100** family — 10–250 mA range, chemistry-matched variants (BQ25100 = 4.20 V, **BQ25100H = 4.35 V**), 75 nA battery leakage. Target 25–35 mA (0.35–0.5C). Note termination = ISET/10, so a 30 mA setting terminates at 3 mA — still workable under the 5 mA coil budget, whereas today's 8 mA termination point arguably never triggers cleanly on the pad.
-- Add **MAX17048** fuel gauge (0.9 × 1.7 mm WLP, 3–4 µA) — directly addresses the long-standing erratic battery-% (curve-flip/reseed issues) rather than patching firmware heuristics over a raw divider.
+### 4.4 Charging circuit simulation
 
-**Mechanical:** cell always on a rigid island, never spanning a flex zone (conformal-wearable patents US11064604/US11251497 consistently do this); wire leads with a service loop; adhesive staking over joints; connector on the rigid section with leads exiting away from the flex direction.
+Script: `tools/charging_sim.py` and `tools/charging_study.py` (ngspice). Write-up: `v3_concept/CHARGING_SIM.md`.
 
-## 5. Recommendations
+The model covers the whole charge path:
+- **Puck:** USB, the drive transistor at the firmware's real timing, the coil and its 33 nF capacitor.
+- **Insole:** the coil and capacitor, the rectifier and clamp, and the charger into a 3.8 V cell.
 
-The unifying observation: **every field failure is a hand-soldered flying-wire joint crossing a flex boundary** (coil at J3, battery tabs at J4 — both DNF connector footprints). The v3 design goal is therefore: *no hand-soldered wires, nothing rigid spanning a flex zone.*
+**Calibration.** The coupling between the coils (k) was fitted to Alex's bench measurements:
 
-### Recommended v3 architecture
+| Measurement | Alex | Model |
+|---|---|---|
+| Voltage into 470 Ω | 3.18 V | used for the fit |
+| Voltage into 1 kΩ | 4.9 V | 4.74 V |
+| Charge current | 5.5 mA | 6.8 mA |
+| USB current | 130 mA | does not match; Alex's own later note doubts it |
 
-1. **Construction:** polyimide flex with stiffeners (IPC-2223 Use B, RA copper, specified cycle count), Moticon-pattern — one stiffened electronics island in the arch carrying the MCU/IMU/charger/antenna cluster and the battery; 1–2-layer flex webs to the sensor zones. Rigid-flex (~7–10× cost vs ~2–4×) is the step-up only if the stiffener transitions or cluster density fail.
-2. **Coil:** etch the RX spiral into copper on a stiffened zone (largest OD that fits, ≥25–30 mm, 2 oz if possible) over a WE-FSFS-class ferrite sheet; retune C37 and consider raising the link to 250–500 kHz. Validate with a 2-layer coupon first (≥3.5 V rectified at worst-case alignment). **Decision gate:** if the charger puck gets respun anyway, evaluate NFC WLC (Renesas PTX30W/PTX130W EVK) head-to-head against the coupon — it deletes the coil, rectifier chain, and BQ24210 in one move.
-3. **Battery:** connectorized protected pack — Master Instruments custom pack-up (FLPB301031 or 4.2 V LP301030 class) with PCM + PicoBlade/JST-SH pigtail; fit the J4-class receptacle on the island (stop leaving it DNF). Off-the-shelf fallback: Renata ICP331319PM (50 mAh protected, wired, 4.2 V — only ~15 mAh worse than today's undercharged 76 mAh cell) if 12.8 × 21 mm fits.
-4. **Charger:** BQ25100 (4.2 V cell) or BQ25100H (4.35 V) at 25–35 mA — unless NFC WLC absorbs the charger function. Add a MAX17048 fuel gauge. Add BQ29700 + dual FET on the board as a known-threshold backstop independent of the pack PCM.
-5. **Immediate rework on existing prototypes (no respin):** ISET 5.1 k → 10 k (~40 mA) so bench charging can't exceed the cell rating; adhesive-stake the coil and battery joints with a service loop.
+Absolute currents are therefore approximate. Comparisons between options are the reliable part.
 
-### Sequencing
+**Charge current (mA) by drive frequency and coupling:**
 
-1. Send Alex the ask-list (§2.4) — the v2 CAD halves the layout effort.
-2. Build the coil coupon + ferrite test (cheap 2-layer board, days not weeks) and, in parallel, get a Master Instruments quote for the protected pack.
-3. Decide the puck question (keep 125 kHz vs NFC WLC) based on coupon + EVK results.
-4. Then commit the v3 stackup with a flex-experienced fab (Würth, Epec, Cirexx quote alongside PCBWay/JLCPCB).
-5. Re-validate the 2.4 GHz chip antenna matching (L3/C15) on the new stackup — mandatory regardless of track.
+| Drive frequency | k = 0.08 | 0.11 | 0.15 | 0.20 | 0.25 | 0.30 | 0.40 |
+|---|---|---|---|---|---|---|---|
+| 188.7 kHz (R4) | 0 | 0 | 0 | 2.5 | 9.7 | 17.3 | 33.4 |
+| 169.5 kHz (R5) | 5.5 | 8.5 | 12.8 | 18.7 | 24.7 | 29.5 | 29.0 |
 
-## 6. Research provenance & confidence notes
+**Other results:**
 
-- PCB-coil L/Q figures are Mohan-formula estimates (±10–20 %), not measurements; WR151580 Q is derived from DCR (not published by TDK).
-- Flex/rigid-flex cost multipliers are industry-typical ranges from fab sources, not quotes.
-- Protected-cell availability at 3 × 10 × 31 mm was searched across Renata, Jauch, Varta, EEMB, LiPol, Grepow, PowerStream — the "rare, go custom via Master Instruments" conclusion reflects genuine scarcity, not a thin search.
+| Change | Result |
+|---|---|
+| Bridge or doubler rectifier | 5–45 % worse |
+| Etched coil (estimated values) instead of the TDK coil | 0–12 mA vs 8.5–25 mA |
+| Longer switch on-time | only small gains |
 
-## 7. Linear references
+### 4.5 Limits of the models
 
-No PCB/CAD design artifacts are stored in Linear; the hardware trail lives in these issues:
+- The magnet model leaves out the ferrite and any eddy-current loss.
+- The circuit model uses datasheet coil resistance and estimates for the etched coils.
+- Neither model knows the real coupling in today's top-charging setup. Tight coupling through a 1–2 mm cover is likely k ≈ 0.2–0.4.
+- The models rank the options; the coupon test and the R4/R5 A/B test confirm them on hardware.
 
-- **[SEN-179](https://linear.app/calceus-health/issue/SEN-179/hardware-v3-pcb-integrated-recharge-coil-protected-battery-flex)** — *this work*: Hardware v3 tracking issue (design brief + next actions checklist), Firmware project.
-- **[SEN-105](https://linear.app/calceus-health/issue/SEN-105/sleep-v2-11-hardware-charge-current-80-ma-exceeds-cell-max-70-ma-iset)** (Backlog) — the ISET 5.1k → 10k charge-current rework; §5.5's interim fix. Should be executed on existing prototypes regardless of v3.
-- **[SEN-102](https://linear.app/calceus-health/issue/SEN-102/sleep-v2-8-vbat-scale-is-a-timing-artifact-divider-is-2-31-constant)** (In Progress) — vbat ÷2 divider / ×3.1 timing artifact; superseded in v3 by the MAX17048 fuel-gauge recommendation.
-- **[SEN-106](https://linear.app/calceus-health/issue/SEN-106/sleep-v2-12-firmware-uvlo-system-off-below-3100-mv-wake-on-charger-pg)** (Done) — firmware UVLO (System OFF < 3100 mV); the PCM in the recommended protected pack becomes the hardware backstop beneath it.
-- **[SEN-87](https://linear.app/calceus-health/issue/SEN-87/uat-recharge-add-a-placement-markguide-on-the-orthotic-for-the-usb)** (Backlog, UAT) — puck placement mark/guide; directly interacts with Track A's alignment-margin trade-off (a larger PCB spiral relaxes it).
-- **[SEN-172](https://linear.app/calceus-health/issue/SEN-172/build-and-commission-the-50-pair-fleet-for-november)** (Backlog, iOrthotics Trial) — 50-pair November fleet build; the schedule constraint that decides whether v3 lands before or after the fleet (the §5.5 reworks apply to the fleet either way).
-- **[SEN-49](https://linear.app/calceus-health/issue/SEN-49/battery-drain-and-sleep-current-audit-certify-no-firmware-drain-path)** (Backlog) — battery-drain audit certifying no firmware drain path; complements the hardware protection story.
+---
+
+## 5. Options considered and set aside
+
+| Option | Why not (or not yet) |
+|---|---|
+| Etched copper coil instead of the wound coil | Charges far slower in simulation. Keep only as a coupon comparison. |
+| Coil printed into the sensor FPC | Printed silver ink is ~90× more resistive than copper, so the coil cannot work at today's frequency. |
+| Flexible-polyimide or rigid-flex board | A valid future path ("rigid island + flex webs", as Moticon uses), at ~2–4× (flex) or ~7–10× (rigid-flex) board cost. Deferred: flat devices first, rigid board plus tab. |
+| Semi-flex FR4 | Rated for ~5 bends, not per-step flexing. Ruled out. |
+| Coin cells (VARTA CP1254 / LIR2032) | CP1254 is 5.4 mm thick. LIR2032 is the same thickness as today with ~2/3 the capacity. Neither helps thickness. |
+| Battery under the coil | Needs ferrite between them, is ~0.7 mm thicker, and conflicts with the magnet. |
+| Matching 3–4 disc magnets | Lose all hold when the puck is rotated. Superseded by the C + split ring. |
+| MagSafe-style ring of many tiny magnets | Weaker at our gap, 12 parts per side, and doesn't fit on the sensor side. |
+| Solid closed ring magnet | Acts as a shorted turn around the coil and absorbs charging power. |
+| Flexible magnets | 15–33 % of today's hold. |
+| Magnets on the board, magnetised after soldering | A workable automation route, but a risk to the electronics from the magnetising pulse. Not needed while the pre-made carrier is available. |
+| Full-bridge or voltage-doubler rectifier | Worse in simulation. |
+| NFC wireless charging (13.56 MHz, e.g. Renesas PTX30W) | Only worth it if the puck is redesigned anyway. It would replace the coil, rectifier and charger chip. |
+| Spring-contact battery holder | Heel impacts can make the contacts chatter and reset the device. |
+
+---
+
+## 6. Open questions and next actions
+
+**Charging and coil**
+- [ ] A/B test puck firmware R4 vs R5 (section 3.5). Confirm which firmware the field pucks run.
+- [ ] Measure the puck's real USB current; it recalibrates the simulation.
+- [ ] Coil coupon test. Compare the bonded TDK coil, an etched coil and today's coil, each with the C-magnet and split ring fitted. Measure inductance and Q, charge voltage against puck offset, pull force through a 1–2 mm cover, and temperature.
+
+**Battery**
+- [ ] Get the RJD404HP protection-board thresholds (trip voltages, current limit, standby current) from Master Instruments.
+- [ ] Get a Master Instruments quote for packs with a crimped JST ACH plug. Also ask about a thinner (~2 mm) protected cell.
+- [ ] Measure dead units across the cell vs across the leads (section 2.2) to tell protection lockout, protection damage and cell death apart.
+- [ ] Measure the board's sleep current after firmware cut-off (SEN-49).
+- [ ] Rework existing boards: R56 5.1 k → 10 k (SEN-105).
+- [ ] Confirm whether the JST ACH plug latches, and test the hatch adhesive over repeated opening.
+
+**Magnets**
+- [ ] Send the magnet RFQ (`v3_concept/magnet_carrier_RFQ.md`), starting with AMF Magnetics. Decide which pole faces up on insole and puck.
+
+**Layout and fit**
+- [ ] Add the per-size sensor drawings (XXS–XXL) to `hardware/` and re-check the coil tab, magnet and battery against **XXS**.
+- [ ] Get the flat insole's outline and layer build-up (bottom layer and top cover thickness, materials, any heat in lamination).
+- [ ] Re-validate the 2.4 GHz antenna matching on the new board outline.
+
+**People**
+- [ ] Alex: review the KiCad package (`hardware/r4-kicad/review/`). Also ask him:
+  - why production moved from two outside magnets (R3) to one centre magnet
+  - the per-batch rework list
+  - whether an antenna tuning report exists
+
+---
+
+## 7. Reference
+
+### 7.1 Files
+
+| What | Where |
+|---|---|
+| This brief | `HARDWARE_V3_DESIGN_BRIEF.md` |
+| v3 drawings, simulation write-ups, magnet RFQ | `hardware/r4-kicad/v3_concept/` (start with its `README.md`) |
+| Layout and battery placement studies | `hardware/r4-kicad/layout_study/` |
+| R4 board in KiCad (schematics, boards), validation, review package | `hardware/r4-kicad/{sch,pcb,validation,review}/` |
+| Tools that regenerate everything | `hardware/r4-kicad/tools/` (Python venv in `hardware/r4-kicad/.venv`) |
+| R4 production record: gerbers, BOM, pick-and-place | `artefacts/SSII Orthotics Electronics - Design Verification/` |
+| R4 schematic PDF | `artefacts/Reid Orthotic v2 R4.pdf` |
+| R3 3D assembly model (sensor layer, board, battery, coil) | `artefacts/Reid Orthotic v2 R3 MECH/` |
+| Sensor drawing (Reid Print CAL1020, size S) | `hardware/CAL1020 V2 Rev0.jpg` |
+| Photo of the current build (coil on bridge) | `hardware/RHS.jpg` |
+| Sensor pad positions | `artefacts/all_sensor_coordinates.csv`, `artefacts/{FSR,CAP}-{L,R}.png` |
+| Battery: cell spec and pack drawing (with PCM) | `artefacts/Routejade-FLPB301031-HPMW30-30.pdf`, `..._pack-drawing.pdf` |
+| Coil datasheet | `artefacts/TDK-WR151580-48F2-G_Spec.pdf` |
+| Assembly process (current) | `artefacts/assembly-process.md` |
+| Alex's engineering notes | `artefacts/carbon-circuits-1`, `artefacts/orthotic-charger-puck-1` |
+| Charger puck: design files, schematic, case | `imports/alex_jira_duplicates/firmware/Reid Orthotic v2 Charger R2*` |
+| Charger puck firmware R2–R5 | `firmware/Reid Orthotic v2 Charger Firmware R*/` |
+| Battery and sleep firmware analysis | `SLEEP_LOGIC_V2_PROPOSAL.md` |
+
+### 7.2 Key technical facts
+
+**Insole charge path (R4).** Coil → C37 33 nF → D1 Schottky (half-wave) → D2 5.1 V clamp → VSYS → BQ24210 (fixed 4.2 V; R56 5.1 k ≈ 77–82 mA) → F1 200 mA fuse → battery. Every off-board connection is a hand-soldered joint; the connector footprints J1–J4 are not fitted.
+
+**Coil (TDK WR151580-48F2-G).**
+- 27.1 µH and ≤ 0.5 Ω at 100 kHz.
+- Ø15 mm air coil on 0.8 mm ferrite; 2.63 mm total.
+- With 33 nF it resonates at 168 kHz.
+
+**Battery pack.**
+- Cell: FLPB301031, 76 mAh, 4.35 V chemistry, 31 × 10.2 × 3.2 mm.
+- Protection: PCM RJD404HP (IC "UP71AC-ITM").
+- Leads: AWG30, 30 mm.
+
+**Puck.**
+- ATtiny1616 at 10 MHz. Single PMOS high-side switch into the coil with C7 33 nF in parallel; the low-side transistors are not fitted.
+- Firmware R3: 172.4 kHz. R4: 188.7 kHz. R5: 169.5 kHz.
+
+**Sensors (CAL1020).**
+- FSR pad 8 × 8 mm; capacitive sensor 17 × 8 mm.
+- Six-layer PET stack, including an RF shield.
+- Joined to the board with 1.27 mm Nicomatic pins.
+
+### 7.3 Corrections made during the work
+
+Recorded so that earlier notes or messages are not misread:
+- **Battery protection:** the pack *does* have a protection board. The July "bare cell" reading came from the cell-only spec sheet.
+- **Magnet layout:** 3-disc magnet patterns were recommended, then withdrawn once puck rotation was simulated.
+- **Rectifier:** a full-bridge rectifier was suggested, then withdrawn after simulation.
+- **RHS mux pads:** the "different mask/paste on the RHS mux pads" finding was a reconstruction bug, not a board difference.
+- **Board size:** the R4 board is 21.25 × 46.25 mm, not ~40 × 74 mm as first estimated from copper extents.
+
+### 7.4 Linear
+
+| Issue | Relevance |
+|---|---|
+| [SEN-179](https://linear.app/calceus-health/issue/SEN-179/hardware-v3-pcb-integrated-recharge-coil-protected-battery-flex) | Hardware v3 tracking issue |
+| [SEN-105](https://linear.app/calceus-health/issue/SEN-105/sleep-v2-11-hardware-charge-current-80-ma-exceeds-cell-max-70-ma-iset) | Charge-current resistor rework |
+| [SEN-49](https://linear.app/calceus-health/issue/SEN-49/battery-drain-and-sleep-current-audit-certify-no-firmware-drain-path) | Sleep-current audit |
+| [SEN-64](https://linear.app/calceus-health/issue/SEN-64/firmware-auto-drop-stream-rate-on-charge-in-sleep-power-saving) | Low power while charging |
+| [SEN-106](https://linear.app/calceus-health/issue/SEN-106/sleep-v2-12-firmware-uvlo-system-off-below-3100-mv-wake-on-charger-pg) | Firmware cut-off (done) |
+| [SEN-87](https://linear.app/calceus-health/issue/SEN-87/uat-recharge-add-a-placement-markguide-on-the-orthotic-for-the-usb) | Puck placement guide |
+| [SEN-172](https://linear.app/calceus-health/issue/SEN-172/build-and-commission-the-50-pair-fleet-for-november) | November fleet build; the reworks apply to it either way |
+
+### 7.5 Key external sources
+
+- [TI BQ24210](https://www.ti.com/product/BQ24210)
+- [TI BQ25100](https://www.ti.com/product/BQ25100)
+- [JST ACH connector](https://uk.rs-online.com/web/p/pcb-headers/6880984P)
+- [Hirose BM28](https://www.mouser.co.id/hirose-bm28-connectors)
+- [NdFeB grades and temperatures](https://radialmagnet.com/neodymium-magnet-grades-chart/)
+- [Moticon insole construction](https://www.moticon.de/insole3-specs/)
+- [IPC-2223 flex design](https://cdn.hackaday.io/files/1644617036299424/IPC-2223-Design-Standard-for-Flex-and-Rigid-Flex-Circuits.pdf)
+- [Electrodag 479SS ink](https://www.mouser.lt/datasheet/3/1398/1/LOCTITE_EDAG_479SS_EC_en_GL.pdf)
+- [Master Instruments FLPB301031-HPMW30-30](https://www.master-instruments.com.au/products/66658/FLPB301031-HPMW30-30.html)
