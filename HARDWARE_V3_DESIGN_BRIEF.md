@@ -311,8 +311,8 @@ Absolute currents are therefore approximate. Comparisons between options are the
 
 **Layout and fit**
 - [x] Add the per-size sensor drawings (XXS–XXL) to `hardware/` (CAL1000–CAL1060).
-- [x] Front-battery layout drawn for every size (`v3_concept/sizes/`). Result: S–XXL fit; XS is marginal (0.5 mm instead of 1 mm clearance to the sensor layer); **XXS does not fit today's 31 mm pack** in front of the board (≤ ~17 mm long at 10.2 mm wide), and its board sits only ~1.9 mm from the orthotic edge.
-- [ ] Decide the XXS battery: a shorter cell, a different position, or a smaller board for XXS/XS.
+- [x] Front-battery layout drawn for every size (`v3_concept/sizes/`). One battery pose for all sizes: 90° (long axis toe–heel, parallel to the board edge), 6 mm in front of the board, so the header, 19 mm lead route and service hatch are identical across the range; size S sets the pose (3.3 mm from its orthotic edge). The tails meet the sensor layer the same way at every size. Result: S–XXL fit. **XS does not fit the 31 mm pack** at any angle (longest that fits: 27 mm). **XXS does not fit the board itself** with full-length tails (board crosses the orthotic edge; pack ≤ 14 mm).
+- [ ] Decide XS/XXS: shorter tails, a shorter cell, or a smaller board.
 - [ ] Confirm the R4 pad 2 / pad 3 mapping with one meter reading off the puck (section 3.4, Test points).
 - [ ] Regenerate the v3 layout figures with the battery test points at R4 spacing (they still show the 1.7 mm strip).
 - [ ] Get the flat insole's outline and layer build-up (bottom layer and top cover thickness, materials, any heat in lamination).

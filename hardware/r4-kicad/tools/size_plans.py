@@ -10,9 +10,15 @@ dimensions (SIZES below, read off the dimensioned RF-shield view).
 
 Board-relative geometry (R4 outline, coil tab, sensor tails, test points) is
 the size-S model from layout_study / battery_drawings, i.e. the R3 assembly
-model frame. Each size is placed into that frame so its drawn PCB sits where
-size S's drawn PCB sits; the size-S offset between drawn PCB and model board
-is fitted once (best sensor-layer overlap with the R3 model).
+model frame. Each size is placed into that frame at its drawn PCB position
+(toe-heel), then shifted across the foot so the sensor tails meet the sensor
+layer exactly as on the size-S model: the tails are one part, so the
+sensor-layer-to-board gap is the same at every size.
+
+Battery: ONE pose relative to the board for every size, so the pack angle,
+connector and lead routing are identical across the range. The pose is the
+nearest-to-board position at BATT_ANGLE that is legal at every size in
+COMMON_SIZES; smaller sizes get the same pose with the violation shown.
 
 Outputs: hardware/r4-kicad/v3_concept/sizes/plan_front_<size>_<side>.png,
          sizes/summary.json, sizes/overview.png
@@ -53,6 +59,8 @@ K = 2   # raster reduction
 # hand-probed with a multimeter, so R4 spacing, not a tight strip.
 PAD_NUM = {"0V": "1", "VBAT_F": "2", "VSYS": "3", "3V3": "4"}
 VBAT_PAD_CLEAR = 4.0   # new VBAT pad >= this from other pads (probe tip)
+BATT_ANGLE = 90        # pack long axis toe-heel, parallel to the board edge
+COMMON_SIZES = ("S", "M", "L", "XL", "XXL")   # the shared pose must fit these
 
 
 # ------------------------------------------------------------ raster
@@ -160,37 +168,47 @@ def extract(code, size, fname, OL, OW, ML, MW):
 
 
 # ------------------------------------------------------------ placement
-def battery_compromise(res):
-    """When no legal front position exists: the front position with the
-    least violation (pack area outside the 3 mm orthotic margin plus area
-    inside the sensor-layer/board/coil keep-outs), and the longest pack of
-    the same width that would fit legally."""
-    from shapely.prepared import prep
+def keepouts(res):
+    """(allowed region, keep-out) for the pack, as battery_drawings.place_battery."""
     keep = unary_union([res["memb"], res["tails"], res["board_v3"],
                         res["tab_coil"].buffer(B.COIL_KEEPOUT)]).buffer(L.BATT_GAP)
-    allowed = res["orth"].buffer(-L.EDGE_MARGIN)
+    return res["orth"].buffer(-L.EDGE_MARGIN), keep
+
+
+def front_grid(res, x0=-40, x1=30):
     by1 = res["r4"].bounds[3]
-    x0, _, x1, _ = allowed.bounds
+    return [(cx, cy) for cy in np.arange(by1, by1 + 40, 0.5)
+            for cx in np.arange(x0, x1, 0.5)]
+
+
+def common_pose(sres, placed):
+    """Nearest-to-board pack centre at BATT_ANGLE that is legal at every
+    size in COMMON_SIZES (board/tails/coil are the same model at all sizes,
+    so one centre in the model frame is one pose relative to the board)."""
+    from shapely.prepared import prep
+    envs = []
+    for g in placed:
+        A, Kp = keepouts({**sres, "orth": g["orth"], "memb": g["memb"]})
+        envs.append((prep(A), prep(Kp)))
     best = None
-    for ang in range(0, 180, 15):
-        for cy in np.arange(by1, by1 + 40, 0.5):
-            for cx in np.arange(x0, x1, 0.5):
-                g = L.cell_geom("rect", B.POUCH, cx, cy, ang)
-                bad = g.difference(allowed).area + g.intersection(keep).area
-                if best is None or bad < best[0]:
-                    best = (bad, g, cx, cy, ang)
-    bad, g, cx, cy, ang = best
-    A, Kp = prep(allowed), prep(keep)
-    max_len = 0
-    for Lp in np.arange(B.POUCH[0] - 1, 10, -1):
-        if any(A.contains(r) and not Kp.intersects(r)
-               for a in range(0, 180, 15)
-               for yy in np.arange(by1, by1 + 40, 0.5)
-               for xx in np.arange(x0, x1, 0.5)
-               for r in [L.cell_geom("rect", (Lp, B.POUCH[1]), xx, yy, a)]):
-            max_len = float(Lp)
-            break
+    for cx, cy in front_grid(sres):
+        r = L.cell_geom("rect", B.POUCH, cx, cy, BATT_ANGLE)
+        if all(A.contains(r) and not Kp.intersects(r) for A, Kp in envs):
+            d = r.distance(sres["board_v3"])
+            if best is None or d < best[0]:
+                best = (d, (float(cx), float(cy)))
+    if best is None:
+        raise RuntimeError(f"no {BATT_ANGLE} deg pose fits all of {COMMON_SIZES}")
+    return best[1]
+
+
+def battery_at(res, centre):
+    """The pack at the shared pose, PCM at the end nearest the board, plus
+    any violation of this size's edge / sensor-layer clearances."""
     import math
+    cx, cy = centre
+    ang = BATT_ANGLE
+    g = L.cell_geom("rect", B.POUCH, cx, cy, ang)
     a = math.radians(ang)
     ux, uy = math.cos(a), math.sin(a)
     e1 = Point(cx + ux * B.POUCH[0] / 2, cy + uy * B.POUCH[0] / 2)
@@ -201,10 +219,27 @@ def battery_compromise(res):
           cy + sgn * uy * (B.POUCH[0] / 2 - B.PCM_LEN / 2))
     pcm = affinity.rotate(box(pc[0] - B.PCM_LEN / 2, pc[1] - B.POUCH[1] / 2,
                               pc[0] + B.PCM_LEN / 2, pc[1] + B.POUCH[1] / 2), ang, origin=pc)
-    return {"geom": g, "gap": g.distance(res["board_v3"]), "angle": ang,
-            "centre": (cx, cy), "pcm": pcm, "lead_exit": (near.x, near.y),
-            "violation": g.difference(allowed).union(g.intersection(keep)),
-            "violation_mm2": round(bad, 1), "max_len_fits": max_len}
+    allowed, keep = keepouts(res)
+    viol = g.difference(allowed).union(g.intersection(keep))
+    batt = {"geom": g, "gap": g.distance(res["board_v3"]), "angle": ang,
+            "centre": centre, "pcm": pcm, "lead_exit": (near.x, near.y)}
+    if viol.area > 0.05:
+        batt.update(violation=viol, violation_mm2=round(viol.area, 1),
+                    max_len_fits=longest_pack(res, allowed, keep))
+    return batt
+
+
+def longest_pack(res, allowed, keep):
+    """Longest 10.2 mm-wide pack at BATT_ANGLE that fits anywhere in front
+    of the board with full clearances."""
+    from shapely.prepared import prep
+    A, Kp = prep(allowed), prep(keep)
+    grid = front_grid(res)
+    for Lp in np.arange(B.POUCH[0] - 1, 10, -1):
+        if any(A.contains(r) and not Kp.intersects(r) for cx, cy in grid
+               for r in [L.cell_geom("rect", (Lp, B.POUCH[1]), cx, cy, BATT_ANGLE)]):
+            return float(Lp)
+    return 0.0
 
 
 def fit_size_s(sres, foot):
@@ -229,12 +264,27 @@ def fit_size_s(sres, foot):
             "pcb_offset": [round(v, 2) for v in best[3]]}
 
 
+def tail_gap(memb, tails):
+    """Gap from the tip of the lower (heel-side) sensor tail to the sensor
+    layer edge it joins (model x runs board -> sensor layer)."""
+    t = min(getattr(tails, "geoms", [tails]), key=lambda p: p.bounds[1])
+    x0, _, x1, _ = t.bounds
+    xs, ys = np.asarray(t.exterior.coords).T
+    tip = ys[xs > x1 - 0.5]
+    band = memb.intersection(box(x0, tip.min(), 1e4, tip.max()))
+    return band.bounds[0] - x1
+
+
 def place(f, fit, sres):
-    """Drawn foot -> model frame, PCB-anchored with the size-S offset."""
+    """Drawn foot -> model frame: toe-heel at the drawn PCB position (with
+    the size-S offset), across the foot so the tails meet the sensor layer
+    as on the size-S model."""
     mir = fit["mirror"]
     pc = to_mm(f["pcb"], f["sx"], f["sy"], mir).centroid
     dx = sres["pcb_r3"].centroid.x - pc.x + fit["pcb_offset"][0]
     dy = sres["pcb_r3"].centroid.y - pc.y + fit["pcb_offset"][1]
+    memb = affinity.translate(to_mm(f["memb"], f["sx"], f["sy"], mir), dx, dy)
+    dx += tail_gap(sres["memb"], sres["tails"]) - tail_gap(memb, sres["tails"])
 
     def T(g):
         return affinity.translate(to_mm(g, f["sx"], f["sy"], mir), dx, dy)
@@ -242,31 +292,35 @@ def place(f, fit, sres):
             "pads": [T(p) for p in f["pads"]], "pcb_drawn": T(f["pcb"])}
 
 
-def magnet_c(c, res):
-    """C-shaped N52 magnet: 180 deg arc, ID 17.2 / OD 25.2, concentric with
-    the coil, turned to the coil's free side: least overlap with the board,
-    sensor layer and tails (and the orthotic edge), then most clearance."""
+def magnet_arc(c, ang):
     ring = Point(c).buffer(12.6, 96).difference(Point(c).buffer(8.6, 96))
-    busy = unary_union([res["r4"], res["memb"], res["tails"]])
+    return ring.intersection(affinity.translate(
+        affinity.rotate(box(-30, 0, 30, 30), ang, origin=(0, 0)), *c))
+
+
+def magnet_c(sres, placed):
+    """C-shaped N52 magnet: 180 deg arc, ID 17.2 / OD 25.2, concentric with
+    the coil, ONE orientation for every size (the puck's split ring must
+    mate the same way): least worst-case overlap with the board, sensor
+    layer, tails and orthotic edge over COMMON_SIZES, then most clearance."""
+    c = sres["tab_coil"].centroid.coords[0]
     best = None
     for ang in range(0, 360, 5):
-        half = affinity.translate(affinity.rotate(box(-30, 0, 30, 30), ang, origin=(0, 0)), *c)
-        arc = ring.intersection(half)
-        bad = arc.intersection(busy).area + arc.difference(res["orth"]).area
-        key = (round(bad, 1), -arc.distance(res["memb"]))
+        arc = magnet_arc(c, ang)
+        bad = max(arc.intersection(unary_union([sres["r4"], g["memb"], sres["tails"]])).area
+                  + arc.difference(g["orth"]).area for g in placed)
+        key = (round(bad, 1), -min(arc.distance(g["memb"]) for g in placed))
         if best is None or key < best[0]:
-            best = (key, arc)
-    return best[1], best[0][0]
+            best = (key, ang)
+    return best[1]
 
 
-def plan_size(side, size, code, sres, geo):
+def plan_size(side, size, code, sres, geo, pose, mag_ang):
     res = dict(sres)
     res["orth"], res["memb"] = geo["orth"], geo["memb"]
-    try:
-        batt = B.place_battery(res, "front")
-    except TypeError:          # no legal position
-        batt = battery_compromise(res)
+    batt = battery_at(res, pose)
     fits = "violation" not in batt
+    board_out = res["board_v3"].difference(res["orth"]).area
     conn = B.place_connector(res, batt)
     leads = B.lead_path(res, batt, conn)
     pocket = batt["geom"].buffer(B.POCKET_MARGIN, join_style=2)
@@ -312,14 +366,16 @@ def plan_size(side, size, code, sres, geo):
     cv.poly(res["memb"].intersection(clip), fill=C["memb"], outline=C["membe"])
     for p in geo["pads"]:
         if p.intersects(clip):
-            cv.poly(p, outline=(70, 110, 200), width=2)
+            cv.poly(p.intersection(clip), outline=(70, 110, 200), width=2)
     cv.poly(res["tails"].intersection(clip), fill=C["tail"], outline=C["taile"])
     cv.poly(res["orth"].intersection(clip), outline=C["orth"], width=3)
     cv.dashed(hatch, C["hatch"], width=2)
     cv.poly(res["board_v3"], fill=C["board"])
     cv.dashed(res["r4"], C["comp"], width=1, dash=0.8)
     cc = res["tab_coil"].centroid.coords[0]
-    mag, mag_bad = magnet_c(cc, res)
+    mag = magnet_arc(cc, mag_ang)
+    mag_bad = round(mag.intersection(unary_union([res["r4"], res["memb"], res["tails"]])).area
+                    + mag.difference(res["orth"]).area, 1)
     cv.poly(mag, fill=C["magnet"], outline=(120, 120, 120))
     cv.line(B.coil_spiral(cc), C["coil"], width=2)
     cv.dashed(res["tab_coil"].buffer(B.COIL_KEEPOUT), C["coil"], width=1, dash=0.8)
@@ -329,9 +385,7 @@ def plan_size(side, size, code, sres, geo):
     if not fits:
         cv.poly(batt["violation"], fill=(255, 120, 0))
     cv.poly(conn["geom"], fill=C["conn"])
-    off = leads.parallel_offset(0.35, "left")
-    cv.line(leads, C["lead"], width=3)
-    cv.line(off if off.geom_type == "LineString" else leads, C["lead2"], width=3)
+    B.draw_leads(cv, leads)
     for num, name, x, y in batt_pads:
         px, py = cv.P(x, y)
         cv.dr.ellipse([px - 6, py - 6, px + 6, py + 6], fill=C["tp"], outline=C["text"])
@@ -374,13 +428,14 @@ def plan_size(side, size, code, sres, geo):
         (C["pcm"], "PCM end of pack", "fill"),
         (C["pocket"], "die-cut pocket, +0.5 mm", "dash"),
         (C["conn"], "JST ACH 2-pin header, 1.4 mm high", "fill"),
-        (C["lead"], "AWG30 leads + service loop", "box"),
+        (C["lead"], "AWG30 lead, + (red) / - (black), service loop", "box"),
         (C["tp"], "battery test pads 1-4 (as R4, pins.png)", "fill"),
         (C["tpn"], "new VBAT pad (pack side of F1)", "fill"),
         (C["tp"], "SWD pads (as R4)", "box"),
         (C["hatch"], "service hatch in bottom layer", "dash"),
     ], [
-        f"Battery: {batt['angle']} deg, {batt['gap']:.1f} mm from board,",
+        f"Battery: {batt['angle']} deg, {batt['gap']:.1f} mm from board - same pose,",
+        "  connector and leads at every size (set by size S).",
         f"  {edge:.1f} mm inside orthotic edge (min 3),",
         f"  {memb_gap:.1f} mm clear of sensor layer/tails (min 1),",
         f"  >= {B.COIL_KEEPOUT:.0f} mm from coil.",
@@ -390,8 +445,9 @@ def plan_size(side, size, code, sres, geo):
         f"Pads stay hand-probeable: closest pair {min_pad_gap:.1f} mm.",
         "Service face (pads, header) faces the bottom hatch.",
         "",
-        "Board, coil tab and tails: size-S model (R3),",
-        "  placed at this size's drawn PCB position.",
+        "Board, coil tab and tails: size-S model (R3), at this",
+        "  size's drawn PCB position toe-heel; across the foot",
+        "  the tails meet the sensor layer as at size S.",
         "Outlines/pads traced from the Reid drawing, +/-0.5 mm.",
     ])
     if not fits:
@@ -402,13 +458,22 @@ def plan_size(side, size, code, sres, geo):
         lines = [("MARGINAL: today's pack only fits by relaxing" if marginal
                   else "TODAY'S PACK DOES NOT FIT IN FRONT"),
                  ("  the clearance rules" if marginal else "  OF THE BOARD AT THIS SIZE"),
-                 "Least-bad position shown; orange =",
+                 "Shared pose shown; orange =",
                  f"  {batt['violation_mm2']:.1f} mm2 beyond the 3 mm edge / 1 mm",
-                 "  sensor-layer clearances. Longest 10.2 mm-wide",
-                 f"  pack that fits with full clearances: {batt['max_len_fits']:.0f} mm."]
+                 "  sensor-layer clearances. No angle fits here; longest",
+                 f"  10.2 mm-wide pack that fits at {BATT_ANGLE} deg: {batt['max_len_fits']:.0f} mm."]
         for i, t in enumerate(lines):
             cv.dr.text((bx + 4, by + 6 + i * 18), t, fill=(180, 20, 20),
                        font=cv.f if i < 2 else cv.fs)
+    if board_out > 0.05:
+        bx, by = cv.legend_x, cv.H - 330
+        cv.dr.rectangle([bx - 6, by, cv.W - 12, by + 66], fill=(255, 235, 220),
+                        outline=(200, 40, 40), width=3)
+        for i, t in enumerate(["BOARD CROSSES THE ORTHOTIC EDGE",
+                               f"  {board_out:.1f} mm2 outside with the tails at full",
+                               "  length; this size needs shorter tails."]):
+            cv.dr.text((bx + 4, by + 6 + i * 18), t, fill=(180, 20, 20),
+                       font=cv.f if i == 0 else cv.fs)
     cv.scalebar()
     info = {"fits": fits, "battery_angle": batt["angle"],
             "battery_gap_to_board_mm": round(batt["gap"], 1),
@@ -423,9 +488,9 @@ def plan_size(side, size, code, sres, geo):
                          round(hatch.bounds[3] - hatch.bounds[1], 1)],
             **({} if fits else {"violation_mm2": batt["violation_mm2"],
                                  "longest_pack_that_fits_mm": batt["max_len_fits"]}),
-            "board_to_orthotic_edge_mm": round(
-                res["orth"].exterior.distance(res["board_v3"]) if res["orth"].contains(res["board_v3"])
-                else -res["board_v3"].difference(res["orth"]).area, 2)}
+            "tail_tip_to_sensor_layer_mm": round(tail_gap(res["memb"], res["tails"]), 2),
+            "board_outside_orthotic_mm2": round(board_out, 1),
+            "board_to_orthotic_edge_mm": round(res["orth"].exterior.distance(res["board_v3"]), 2)}
     return cv.img, info
 
 
@@ -440,12 +505,20 @@ def main():
     fits = {side: fit_size_s(sres[side], geo["S"]) for side in sres}
     for v in fits.values():
         v["pcb_offset"] = [float(x) for x in v["pcb_offset"]]
-    summary = {"fit_size_S": fits, "sizes": {}}
+    placed = {side: {size: place(geo[size][fits[side]["foot"]], fits[side], sres[side])
+                     for _, size, *_ in SIZES} for side in sres}
+    pose = {side: common_pose(sres[side], [placed[side][s] for s in COMMON_SIZES])
+            for side in sres}
+    mag_ang = {side: magnet_c(sres[side], [placed[side][s] for s in COMMON_SIZES])
+               for side in sres}
+    summary = {"fit_size_S": fits, "magnet_angle": mag_ang, "battery_pose": {
+        side: {"angle": BATT_ANGLE, "centre_model_mm": [round(v, 2) for v in pose[side]],
+               "fits_sizes": list(COMMON_SIZES)} for side in sres}, "sizes": {}}
     for code, size, *_ in SIZES:
         for side in ("LHS", "RHS"):
             f = geo[size][fits[side]["foot"]]
-            g = place(f, fits[side], sres[side])
-            img, info = plan_size(side, size, code, sres[side], g)
+            img, info = plan_size(side, size, code, sres[side], placed[side][size], pose[side],
+                                   mag_ang[side])
             info.update({"drawing_px_per_mm": [round(f["sx"], 3), round(f["sy"], 3)],
                          "sensor_layer_traced_mm": f["check_memb_mm"],
                          "fsr_pads_found": f["n_pads"]})

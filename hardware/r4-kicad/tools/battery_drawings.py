@@ -195,6 +195,28 @@ def lead_path(res, batt, conn):
     return LineString(pts)
 
 
+def lead_pair(leads, sep=0.7):
+    """The two AWG30 wires (+ red, - black) either side of the lead path,
+    offset per vertex so both are always single continuous lines (shapely's
+    parallel_offset splits on tight meanders and dropped the second wire)."""
+    c = np.asarray(leads.coords, float)
+    seg = np.diff(c, axis=0)
+    seg /= np.linalg.norm(seg, axis=1)[:, None]
+    nrm = np.c_[-seg[:, 1], seg[:, 0]]
+    vn = np.vstack([nrm[:1], nrm[:-1] + nrm[1:], nrm[-1:]])
+    vn /= np.linalg.norm(vn, axis=1)[:, None]
+    # mitre length, capped so 180 deg hairpins stay finite
+    cosh = np.clip(np.einsum("ij,ij->i", vn, np.vstack([nrm[:1], nrm])), 0.3, 1)
+    off = vn * (sep / 2 / cosh)[:, None]
+    return LineString(c + off), LineString(c - off)
+
+
+def draw_leads(cv, leads):
+    pos, neg = lead_pair(leads)
+    cv.line(pos, COL["lead"], width=3)
+    cv.line(neg, COL["lead2"], width=3)
+
+
 # ------------------------------------------------------------ drawing
 class Canvas:
     def __init__(self, region, ppmm, mirror, legend_w=420, title=""):
@@ -305,9 +327,7 @@ def plan(side, res, variant):
     cv.poly(batt["geom"], fill=(245, 205, 205), outline=COL["batt"], width=3)
     cv.poly(batt["pcm"], fill=COL["pcm"])
     cv.poly(conn["geom"], fill=COL["conn"])
-    off = leads.parallel_offset(0.35, "left")
-    cv.line(leads, COL["lead"], width=3)
-    cv.line(off if off.geom_type == "LineString" else leads, COL["lead2"], width=3)
+    draw_leads(cv, leads)
     for name, x, y in tps:
         px, py = cv.P(x, y)
         cv.dr.ellipse([px - 5, py - 5, px + 5, py + 5], outline=COL["tp"], width=2)
