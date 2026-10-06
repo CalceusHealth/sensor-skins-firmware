@@ -137,12 +137,11 @@ Figures: `plan_front_{LHS,RHS}.png` (layout), `section.png` (cross-section), `ba
   - v3: consider a charger chip matched to the cell (TI BQ25100H, 4.35 V) at 25–35 mA, plus a fuel-gauge chip (MAX17048) to fix the erratic battery-% readings.
   - Today's charger stops at 4.2 V, so the 4.35 V cell only ever reaches ~85–90 % of its capacity.
 
-**Test points.** All test points are grouped into one strip next to the battery connector, under the hatch:
-- VBAT_F, VSYS, 3V3 and 0V
-- the three programming/debug lines (SWDIO, SWDCLK, reset)
-- **a new VBAT point on the battery side of the fuse**
-
-If the on-board protection chip is added, put a test point on each side of it, so a locked-out protection can be told apart from a damaged one without opening anything.
+**Test points.** The battery test points must keep working the way R4 units are tested today. That method is: a handheld multimeter, black probe on pad 1 and red probe on pad 2 or 3, read alongside `;QB` (vbat and battery level) in the mobile and desktop apps (`artefacts/battery-debug-summary-2026-04-17.md`). On R4 the pads face the top cover. On v3 they can face the bottom hatch instead, as long as the same method still works:
+- **Pads 1–3 stay hand-probeable:** 1 mm bare round pads (R4 size) spaced about as far apart as on R4 (~4–6 mm), numbered 1, 2, 3 on the silkscreen in R4's order, so a probe tip can't bridge two of them. A tight 1.7 mm-pitch strip is too easy to short (VBAT to 0V) with a handheld probe.
+- **R4 mapping, from the copper (`hardware/r4-kicad/pcb/`) and the pad numbers in `artefacts/pins.png`:** 1 = 0V, 2 = VBAT_F (battery after fuse F1), 3 = VSYS (rectified coil = charger input, ~0 V off the puck), 4 = 3V3. This agrees with the April measurements (pad 2 ≈ 3.41 V off the puck; on the puck pad 2 ≈ 4.06 V, pad 3 ≈ 4.17 V). It **disagrees** with the 2026-05-01 handoff, which swaps 2 and 3. A single meter check settles it: pad 3 reads ~0 V off the puck.
+- **New on v3:** a VBAT point on the battery side of the fuse. If the on-board protection chip is added, put a point on each side of it, so a locked-out protection can be told apart from a damaged one without opening anything. These follow the same spacing rule.
+- Programming stays on the Tag-Connect TC2030 footprint (J5, the 6-pad grid with alignment holes, pads 5–10 in `pins.png`), also under the hatch. 3V3 can sit next to it.
 
 **Replacing a battery** (a few minutes' bench job, no soldering):
 1. Open the hatch in the bottom layer (its lid is on re-closable adhesive).
@@ -311,7 +310,10 @@ Absolute currents are therefore approximate. Comparisons between options are the
 - [ ] Send the magnet RFQ (`v3_concept/magnet_carrier_RFQ.md`), starting with AMF Magnetics. Decide which pole faces up on insole and puck.
 
 **Layout and fit**
-- [ ] Add the per-size sensor drawings (XXS–XXL) to `hardware/` and re-check the coil tab, magnet and battery against **XXS**.
+- [x] Add the per-size sensor drawings (XXS–XXL) to `hardware/` (CAL1000–CAL1060).
+- [ ] Re-check the coil tab, magnet and battery against **XXS** (CAL1000).
+- [ ] Confirm the R4 pad 2 / pad 3 mapping with one meter reading off the puck (section 3.4, Test points).
+- [ ] Regenerate the v3 layout figures with the battery test points at R4 spacing (they still show the 1.7 mm strip).
 - [ ] Get the flat insole's outline and layer build-up (bottom layer and top cover thickness, materials, any heat in lamination).
 - [ ] Re-validate the 2.4 GHz antenna matching on the new board outline.
 
@@ -337,7 +339,8 @@ Absolute currents are therefore approximate. Comparisons between options are the
 | R4 production record: gerbers, BOM, pick-and-place | `artefacts/SSII Orthotics Electronics - Design Verification/` |
 | R4 schematic PDF | `artefacts/Reid Orthotic v2 R4.pdf` |
 | R3 3D assembly model (sensor layer, board, battery, coil) | `artefacts/Reid Orthotic v2 R3 MECH/` |
-| Sensor drawing (Reid Print CAL1020, size S) | `hardware/CAL1020 V2 Rev0.jpg` |
+| Sensor drawings (Reid Print), one per size: CAL1000 = XXS (orthotic 240 × 81.1 mm) … CAL1020 = S … CAL1060 | `hardware/CAL10x0 V2 Rev*.jpg` |
+| Test-point pad numbering on R4 (photo; gitignored, local copy only) | `artefacts/pins.png` |
 | Photo of the current build (coil on bridge) | `hardware/RHS.jpg` |
 | Sensor pad positions | `artefacts/all_sensor_coordinates.csv`, `artefacts/{FSR,CAP}-{L,R}.png` |
 | Battery: cell spec and pack drawing (with PCM) | `artefacts/Routejade-FLPB301031-HPMW30-30.pdf`, `..._pack-drawing.pdf` |
