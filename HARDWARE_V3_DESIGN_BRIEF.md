@@ -21,7 +21,7 @@ This brief is for readers new to the work. Section 1 gives the whole picture on 
 | Device format | **Flat insole first**: a sandwich of bottom layer, electronics layer and top cover. The shaped Dolapro shell was uncomfortable in prototypes. | Decided |
 | Coil | Coil sits on a **tab at the heel end of the board**. Preferred: today's **TDK wound coil glued flat to the tab**, with its leads soldered to pads right beside it, which removes the wire run that fails. An etched copper coil charges far slower in simulation. | Preferred; confirm on a test coupon |
 | Charging | Charge from the **top** through the 1–2 mm top cover. Ferrite goes under the coil. Board sits at the top of the bay. | Decided |
-| Magnets | **One C-shaped N52 magnet in the insole, and a ring with a single cut in the puck.** ~2.5× today's hold at **any** puck angle, and one magnet part per insole. Supplied pre-assembled. | Recommended; quote spec ready |
+| Magnets | **One C-shaped N52 magnet in the insole, and a ring with a single cut in the puck.** ~1.8× today's hold at **any** puck angle, and one magnet part per insole. Sits flush with the board top, so it never lifts the top cover. Supplied pre-assembled. | Recommended; quote spec ready |
 | Battery position | **In front of (toe-ward of) the board**, lying flat at 45° in a die-cut pocket, never on top of components. | Decided |
 | Battery connection | Small **plug and header (JST ACH, 1.4 mm high)** instead of soldered wires. Replaceable without a soldering iron. | Recommended |
 | Battery protection | Today's pack already has a protection board (PCM). Add a second, known-threshold protection chip on the main board. Fix the charge current setting, which is above the cell's rating. | Recommended |
@@ -73,7 +73,7 @@ The charge current setting is also too high. The charger is set for ~77–82 mA 
 
 ## 3. The v3 design
 
-Figures: `plan_front_{LHS,RHS}.png` (layout), `section.png` (cross-section), `battery_connection.png` (connection and service).
+Figures: `plan_front_{LHS,RHS}.png` (layout), `section.png` (cross-section), `battery_connection.png` (connection and service). Per size: `sizes/plan_front_<size>_<side>.png` and the true section `sizes/section_<size>_<side>.png` (cut A–A through the coil and battery centres).
 
 ### 3.1 Build and thickness
 
@@ -112,9 +112,9 @@ Figures: `plan_front_{LHS,RHS}.png` (layout), `section.png` (cross-section), `ba
 
 ### 3.3 Alignment magnets
 
-- **Insole:** **one sintered N52 C-shaped magnet**, a 180° arc 4 mm wide and 1 mm thick, outer diameter 25.2 mm. It sits on the free side of the coil, ~0.6 mm clear of the sensor layer.
+- **Insole:** **one sintered N52 C-shaped magnet**, a **120° arc** 4 mm wide and 1 mm thick, outer diameter 25.2 mm. Its top is **flush with the top of the board** (both meet the underside of the top cover), so it sits beside the board in plan, on the coil's free (heel/outer) side. 120° is the longest arc that clears the board and stays ≥ 0.5 mm from the sensor layer at every size S–XXL, in one orientation for all sizes (2026-10-07; a 180° arc overlaps the board corners and, at L/XL, the sensor layer).
 - **Puck:** a **full ring with one radial cut**. The cut stops the ring acting as a closed metal loop around the charging coil, which would absorb power. The ring can also be made as 2–4 arc pieces.
-- **Performance at the real gap (top cover 1–2 mm; the puck magnet is flush with its lid):** about **2.5× today's holding force at any puck angle**, with stronger self-centring. If that is more than wanted, a thinner or narrower arc reduces it.
+- **Performance at the real gap (top cover 1–2 mm; the puck magnet is flush with its lid):** about **1.8× today's holding force at any puck angle** (1.7–1.9× over a 1–2 mm cover), with stronger self-centring. A 180° arc would give ~2.6× but cannot sit flush at every size.
 - **Why not today's centre magnet:** it sits in the coil's strongest field, where it wastes charging power as heat and partly saturates the ferrite.
 - **Production:** no hand-placing of individual magnets. The magnet goes in as **one pre-assembled part**: pre-magnetised, polarity-checked, on a die-cut adhesive carrier, placed in one step. The magnets must never go through reflow soldering; standard grades are rated to 80 °C and reflow reaches ~250 °C.
 - **Quotes:** spec in `magnet_carrier_RFQ.md`. First supplier lead: **AMF Magnetics** (Rozelle NSW, 02 9700 0055).
@@ -218,7 +218,8 @@ Script: `tools/magnet_sim.py` (magpylib; N52; insole and puck patterns attractin
 | Insole magnet | Puck magnet | Pull at 1–2 mm gap vs today | Works at any puck angle? |
 |---|---|---|---|
 | Today: Ø4 × 3 mm in coil centre | same | 100 % | yes |
-| **C-arc 180°, 1 mm** | **split ring** | **245–268 %** | **yes** |
+| **C-arc 120°, 1 mm (flush, fits S–XXL)** | **split ring** | **172–187 %** | **yes** |
+| C-arc 180°, 1 mm | split ring | 245–268 % | yes, but doesn't fit flush |
 | C-arc 180° | matching C-arc | 267–288 % aligned, ~0 when turned 180° | no |
 | 3 discs Ø5 × 1 mm | 3 discs | ~150 % aligned, ~0 when turned 60° | no |
 | 3 discs Ø5 × 1 mm | split ring | 103–117 % | yes |
@@ -311,7 +312,7 @@ Absolute currents are therefore approximate. Comparisons between options are the
 
 **Layout and fit**
 - [x] Add the per-size sensor drawings (XXS–XXL) to `hardware/` (CAL1000–CAL1060).
-- [x] Front-battery layout drawn for every size (`v3_concept/sizes/`). One battery pose for all sizes: 90° (long axis toe–heel, parallel to the board edge), 6 mm in front of the board, so the header, 19 mm lead route and service hatch are identical across the range; size S sets the pose (3.3 mm from its orthotic edge). The tails meet the sensor layer the same way at every size. Result: S–XXL fit. **XS does not fit the 31 mm pack** at any angle (longest that fits: 27 mm). **XXS does not fit the board itself** with full-length tails (board crosses the orthotic edge; pack ≤ 14 mm).
+- [x] Front-battery layout drawn for every size (`v3_concept/sizes/`). One battery pose for all sizes: **45°, parallel to the FPC tail's diagonal edge** (as on the existing flat devices), 2.2 mm in front of the board, so the header, 18 mm lead route and service hatch are identical across the range; size S sets the pose (3.1 mm from its orthotic edge). The tails meet the sensor layer the same way at every size; the 120° C magnet sits flush with the board top in one orientation. Per-size true sections (A–A) added. Result: S–XXL fit. **XS: the 31 mm pack misses by one corner** (24 mm² past the 3 mm edge margin; a 24 mm pack fits). **XXS does not fit the board itself** with full-length tails (board crosses the orthotic edge; pack ≤ 12 mm).
 - [ ] Decide XS/XXS: shorter tails, a shorter cell, or a smaller board.
 - [ ] Confirm the R4 pad 2 / pad 3 mapping with one meter reading off the puck (section 3.4, Test points).
 - [ ] Regenerate the v3 layout figures with the battery test points at R4 spacing (they still show the 1.7 mm strip).
