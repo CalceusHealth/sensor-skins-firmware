@@ -7,6 +7,7 @@ Start with the design brief, `HARDWARE_V3_DESIGN_BRIEF.md` at the repo root. Thi
 | File | Shows |
 |---|---|
 | `plan_front_LHS.png`, `plan_front_RHS.png` | **Chosen layout.** Coil tab at the board's heel end; battery in front of the board (toe-ward) at 45° in a die-cut pocket; JST ACH header on the free outer edge; leads routed with a service loop; test points grouped beside the header; bottom-layer service hatch (dashed blue). |
+| `sizes/plan_front_<size>_<side>.png`, `sizes/summary.json` | Front-battery layout for every size XXS–XXL (Reid CAL1000–CAL1060), `tools/size_plans.py`. Battery test pads 1–4 kept at R4 positions (hand-probeable), new VBAT pad by the header, C magnet. **XXS: today's 31 mm pack does not fit in front (max ~17 mm at 10.2 mm wide); XS: marginal (0.5 mm instead of 1 mm sensor-layer clearance); S–XXL fit.** |
 | `plan_behind_LHS.png`, `plan_behind_RHS.png` | Alternative: battery behind the coil tab (needs ~45 mm custom leads). |
 | `section.png` | Cross-section of the flat sandwich: top cover (1–2 mm, charging puck on top), board at the top of the bay, coil with ferrite under it, C-shaped magnet just under the cover, battery in its pocket, service hatch below. Vertical scale ×4. |
 | `battery_connection.png` | How the battery connects, stays put, is replaced and is tested. |
