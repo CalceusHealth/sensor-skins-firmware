@@ -490,12 +490,24 @@ static void update_activity_holds(const reid_ble_packet_t* current)
 	static uint64_t load_win_start_ms = 0;
 	static uint16_t load_win_samples = 0;
 	static uint16_t load_win_hits[19] = {0};
+	// SEN-181: per-channel minimum since the session started. Load is judged
+	// above this floor, so a constant preload (laminated orthotic, creased
+	// sensor) unloads to ~0 here and cannot pose as a worn foot. Re-armed on
+	// every ;CX 0 -> 1 edge.
+	static uint16_t session_fsr_floor[19];
+	static uint8_t prev_session_active = 0;
 	const uint16_t* fsr = &current->fsr1;
+
+	if (session_active && !prev_session_active) {
+		for (uint8_t i = 0; i < 19; ++i) session_fsr_floor[i] = 0xFFFF;
+	}
+	prev_session_active = session_active;
 
 	if (load_win_start_ms == 0) load_win_start_ms = current->time_ms;
 	if (load_win_samples < 0xFFFF) ++load_win_samples;
 	for (uint8_t i = 0; i < 19; ++i) {
-		if (fsr[i] >= WORN_LOAD_THRESHOLD) ++load_win_hits[i];
+		if (fsr[i] < session_fsr_floor[i]) session_fsr_floor[i] = fsr[i];
+		if ((uint16_t)(fsr[i] - session_fsr_floor[i]) >= WORN_LOAD_THRESHOLD) ++load_win_hits[i];
 	}
 	if (current->time_ms - load_win_start_ms >= WORN_LOAD_WINDOW_MS) {
 		for (uint8_t i = 0; i < 19; ++i) {
@@ -522,6 +534,9 @@ static uint8_t session_intent_active(void)
 
 	if (!session_active) return 0;
 	if (ble_is_connected()) return 1;
+	// SEN-181: hard cap. A latch disconnected this long is treated as leaked;
+	// the flag itself survives for the app to reconcile via ;QI SESSION=.
+	if ((last_disconnect_ms == 0) || ((now - last_disconnect_ms) > SESSION_DISCONNECTED_MAX_MS)) return 0;
 	if ((last_disconnect_ms != 0) && ((now - last_disconnect_ms) <= SESSION_DISCONNECT_GRACE_MS)) return 1;
 	if ((last_motion_ms != 0) && ((now - last_motion_ms) <= MOTION_HOLD_MS)) return 1;
 	if ((last_worn_load_ms != 0) && ((now - last_worn_load_ms) <= WORN_LOAD_HOLD_MS)) return 1;
