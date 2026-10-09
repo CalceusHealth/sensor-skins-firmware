@@ -154,6 +154,16 @@ void system_init(void)
 	// RESETPIN intact. SoftDevice is not enabled yet, so direct access is legal.
 	system_resetreas_at_boot = NRF_POWER->RESETREAS;
 	NRF_POWER->RESETREAS = 0xFFFFFFFFul;
+	// The bootloader clears RESETREAS.OFF on every boot
+	// (NRF_BL_APP_CRC_CHECK_SKIPPED_ON_SYSTEMOFF_RESET), so a System OFF wake
+	// would otherwise be indistinguishable from a power loss (both read 0).
+	// system_enter_deep_shutdown() leaves a marker in GPREGRET2, which is
+	// retained through System OFF and cleared only by a power-on/brownout
+	// reset; fold it back into the reported reason as the OFF bit.
+	if (NRF_POWER->GPREGRET2 == SYSTEM_OFF_MARKER_GPREGRET2) {
+		system_resetreas_at_boot |= POWER_RESETREAS_OFF_Msk;
+	}
+	NRF_POWER->GPREGRET2 = 0;
 	system_blackbox_init();
 
 	system_time_ticks = 0;
@@ -295,8 +305,10 @@ void system_enter_deep_shutdown(void)
 	system_blackbox_event(SYSTEM_BB_EVENT_SYSTEM_OFF); // SEN-182: visible via ;QI after the PG wake
 	nrf_gpio_cfg_sense_input(PIN_BQ_PG, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
 	if (nrf_sdh_is_enabled()) {
+		(void) sd_power_gpregret_set(1, SYSTEM_OFF_MARKER_GPREGRET2); // SEN-182: survives System OFF, see system_init
 		(void) sd_power_system_off();
 	} else {
+		NRF_POWER->GPREGRET2 = SYSTEM_OFF_MARKER_GPREGRET2;
 		NRF_POWER->SYSTEMOFF = 1;
 	}
 	while (1) { __WFE(); } // not reached; debugger-emulated System OFF backstop

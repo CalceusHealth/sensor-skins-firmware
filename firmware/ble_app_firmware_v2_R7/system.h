@@ -47,6 +47,11 @@ void system_enter_deep_shutdown(void);
 #define SYSTEM_BB_EVENT_SYSTEM_OFF			2	// firmware UVLO -> sd_power_system_off
 #define SYSTEM_BB_EVENT_REBOOT_CMD			3	// ;CR
 
+// Written to GPREGRET2 just before sd_power_system_off(); read back and
+// cleared at boot. Must not match the bootloader's 0xA8 | bit0 pattern
+// (BOOTLOADER_DFU_GPREGRET2 / SKIP_CRC), which it inspects and clears.
+#define SYSTEM_OFF_MARKER_GPREGRET2			(0x5A)
+
 typedef struct system_blackbox_prev_t {
 	uint8_t  valid;			// 1 = record below survived the last reset (magic + checksum OK)
 	uint32_t boot_count;	// boots since the record was last lost

@@ -152,7 +152,9 @@ void msg_process_packet(void)
 						);
 						// SEN-182: reset forensics. RST = RESETREAS at this boot (hex:
 						// 0 = power-on/brownout, 1 = reset pin, 2 = watchdog, 4 = soft
-						// reset, 10000 = System OFF wake). BOOT = boots since the RAM
+						// reset, 10000 = System OFF wake -- reconstructed from the
+						// GPREGRET2 marker because the bootloader clears the OFF bit
+						// before the app runs). BOOT = boots since the RAM
 						// record was last lost. PREV = 1 if the pre-reset record
 						// survived (RAM kept = power did not drop), then its device
 						// time, vbat, VDD, charge state, last event (1 protection
