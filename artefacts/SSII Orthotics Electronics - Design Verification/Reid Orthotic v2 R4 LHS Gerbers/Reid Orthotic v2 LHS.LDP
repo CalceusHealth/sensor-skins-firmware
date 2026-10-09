@@ -1,0 +1,3 @@
+Layer Pairs Export File for PCB: C:\Users\Jimmy\Downloads\Reid Orthotic v2\Reid Orthotic v2 LHS.CSPCBDoc
+LayersSetName=Top_Bot_Plated_Thru_Holes|DrillFile=reid orthotic v2 lhs-plated.txt|LayerPairs=gtl,gbl
+LayersSetName=Top_Bot_NonPlated_Thru_Holes|DrillFile=reid orthotic v2 lhs-nonplated.txt|LayerPairs=gtl,gbl

@@ -1,0 +1,314 @@
+*************************************************************
+FileName = Reid Orthotic v2 LHS.GBR
+AutoAperture = True
+*************************************************************
+Generating : Layer 1 (Top)
+      File : Reid Orthotic v2 LHS.GTL
+
+    Adding Layer      : Layer 1 (Top)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+    D31
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+    D40
+    D41
+    D42
+    D43
+    D44
+    D45
+    D46
+    D47
+    D48
+    D49
+    D50
+    D51
+    D52
+    D53
+    D54
+    D55
+    D56
+*************************************************************
+
+*************************************************************
+Generating : Layer 2
+      File : Reid Orthotic v2 LHS.G1
+
+    Adding Layer      : Layer 2
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D48
+    D53
+    D54
+    D55
+    D56
+*************************************************************
+
+*************************************************************
+Generating : Layer 3
+      File : Reid Orthotic v2 LHS.G2
+
+    Adding Layer      : Layer 3
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D11
+    D48
+    D53
+    D54
+    D55
+    D56
+*************************************************************
+
+*************************************************************
+Generating : Layer 4 (Bottom)
+      File : Reid Orthotic v2 LHS.GBL
+
+    Adding Layer      : Layer 4 (Bottom)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D11
+    D48
+    D49
+    D52
+    D53
+    D54
+    D55
+    D56
+    D57
+    D58
+*************************************************************
+
+*************************************************************
+Generating : Top Overlay
+      File : Reid Orthotic v2 LHS.GTO
+
+    Adding Layer      : Top Overlay
+
+
+Used DCodes :
+    D12
+    D52
+    D59
+*************************************************************
+
+*************************************************************
+Generating : Top Paste
+      File : Reid Orthotic v2 LHS.GTP
+
+    Adding Layer      : Top Paste
+
+    Adding Layer      : Layer 1 (Top)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+    D31
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+    D40
+    D42
+    D43
+    D44
+    D45
+    D46
+    D47
+    D52
+    D60
+    D61
+    D62
+*************************************************************
+
+*************************************************************
+Generating : Top Solder
+      File : Reid Orthotic v2 LHS.GTS
+
+    Adding Layer      : Top Solder
+
+    Adding Layer      : Layer 1 (Top)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D52
+    D63
+    D64
+    D65
+    D66
+    D67
+    D68
+    D69
+    D70
+    D71
+    D72
+    D73
+    D74
+    D75
+    D76
+    D77
+    D78
+    D79
+    D80
+    D81
+    D82
+    D83
+    D84
+    D85
+    D86
+    D87
+    D88
+    D89
+    D90
+    D91
+    D92
+    D93
+    D94
+    D95
+    D96
+    D97
+    D98
+    D99
+    D100
+*************************************************************
+
+*************************************************************
+Generating : Bottom Solder
+      File : Reid Orthotic v2 LHS.GBS
+
+    Adding Layer      : Bottom Solder
+
+    Adding Layer      : Layer 4 (Bottom)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D52
+    D98
+    D99
+    D100
+    D101
+    D102
+*************************************************************
+
+*************************************************************
+Generating : Bottom Paste
+      File : Reid Orthotic v2 LHS.GBP
+
+    Adding Layer      : Bottom Paste
+
+    Adding Layer      : Layer 4 (Bottom)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D52
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : Reid Orthotic v2 LHS.GBO
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
+    D52
+*************************************************************
+
+*************************************************************
+Generating : Mechanical 3
+      File : Reid Orthotic v2 LHS.GM3
+
+    Adding Layer      : Mechanical 3
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+    D48
+    D52
+    D59
+    D103
+    D104
+    D105
+    D106
+*************************************************************
+
+*************************************************************
+Generating : Mechanical 4
+      File : Reid Orthotic v2 LHS.GM4
+
+    Adding Layer      : Mechanical 4
+
+
+Used DCodes :
+    D52
+    D103
+*************************************************************
+

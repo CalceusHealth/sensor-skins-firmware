@@ -1,0 +1,486 @@
+{
+ "A today: 1x dia4x3 centre": {
+  "magnets": 1,
+  "volume_mm3": 37.7,
+  "height_mm": 3,
+  "gap2": {
+   "pull_N": 1.35,
+   "centring_1mm_N": -0.418,
+   "centring_2mm_N": -0.629
+  },
+  "gap3": {
+   "pull_N": 0.712,
+   "centring_1mm_N": -0.197,
+   "centring_2mm_N": -0.316
+  },
+  "gap4": {
+   "pull_N": 0.406,
+   "centring_1mm_N": -0.101,
+   "centring_2mm_N": -0.169
+  }
+ },
+ "B R3: 2x dia3x2 outside (diagonal)": {
+  "magnets": 2,
+  "volume_mm3": 28.3,
+  "height_mm": 2,
+  "gap2": {
+   "pull_N": 0.898,
+   "centring_1mm_N": -0.328,
+   "centring_2mm_N": -0.424
+  },
+  "gap3": {
+   "pull_N": 0.41,
+   "centring_1mm_N": -0.133,
+   "centring_2mm_N": -0.191
+  },
+  "gap4": {
+   "pull_N": 0.21,
+   "centring_1mm_N": -0.06,
+   "centring_2mm_N": -0.094
+  }
+ },
+ "C 3x dia4x1 outside": {
+  "magnets": 3,
+  "volume_mm3": 37.7,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 1.346,
+   "centring_1mm_N": -0.471,
+   "centring_2mm_N": -0.656
+  },
+  "gap3": {
+   "pull_N": 0.64,
+   "centring_1mm_N": -0.202,
+   "centring_2mm_N": -0.305
+  },
+  "gap4": {
+   "pull_N": 0.332,
+   "centring_1mm_N": -0.095,
+   "centring_2mm_N": -0.151
+  }
+ },
+ "D 4x dia4x1 outside": {
+  "magnets": 4,
+  "volume_mm3": 50.3,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 1.791,
+   "centring_1mm_N": -0.628,
+   "centring_2mm_N": -0.875
+  },
+  "gap3": {
+   "pull_N": 0.849,
+   "centring_1mm_N": -0.27,
+   "centring_2mm_N": -0.406
+  },
+  "gap4": {
+   "pull_N": 0.438,
+   "centring_1mm_N": -0.127,
+   "centring_2mm_N": -0.202
+  }
+ },
+ "E 3x dia6x1 outside": {
+  "magnets": 3,
+  "volume_mm3": 84.8,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 2.885,
+   "centring_1mm_N": -0.81,
+   "centring_2mm_N": -1.281
+  },
+  "gap3": {
+   "pull_N": 1.619,
+   "centring_1mm_N": -0.415,
+   "centring_2mm_N": -0.698
+  },
+  "gap4": {
+   "pull_N": 0.962,
+   "centring_1mm_N": -0.228,
+   "centring_2mm_N": -0.396
+  }
+ },
+ "F 12x 2x2x1 blocks, full ring (MagSafe-style)": {
+  "magnets": 12,
+  "volume_mm3": 48.0,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 1.036,
+   "centring_1mm_N": -0.456,
+   "centring_2mm_N": -0.433
+  },
+  "gap3": {
+   "pull_N": 0.375,
+   "centring_1mm_N": -0.143,
+   "centring_2mm_N": -0.165
+  },
+  "gap4": {
+   "pull_N": 0.165,
+   "centring_1mm_N": -0.053,
+   "centring_2mm_N": -0.07
+  }
+ },
+ "G 8x 2x2x1 blocks, 240 deg free arc": {
+  "magnets": 8,
+  "volume_mm3": 32.0,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 0.701,
+   "centring_1mm_N": -0.303,
+   "centring_2mm_N": -0.283
+  },
+  "gap3": {
+   "pull_N": 0.256,
+   "centring_1mm_N": -0.094,
+   "centring_2mm_N": -0.106
+  },
+  "gap4": {
+   "pull_N": 0.114,
+   "centring_1mm_N": -0.034,
+   "centring_2mm_N": -0.045
+  }
+ },
+ "H bonded NdFeB C-arc 3 mm wide x 1 mm, 240 deg": {
+  "magnets": 16,
+  "volume_mm3": 124.8,
+  "height_mm": 1,
+  "gap2": {
+   "pull_N": 0.856,
+   "centring_1mm_N": -0.233,
+   "centring_2mm_N": -0.329
+  },
+  "gap3": {
+   "pull_N": 0.434,
+   "centring_1mm_N": -0.103,
+   "centring_2mm_N": -0.16
+  },
+  "gap4": {
+   "pull_N": 0.245,
+   "centring_1mm_N": -0.051,
+   "centring_2mm_N": -0.085
+  }
+ },
+ "3x dia5x1 at R10.5": {
+  "gap2": "pull 2.04 N (151% of today), centring@1mm 0.63 N",
+  "gap3": "pull 1.07 N (151% of today), centring@1mm 0.30 N"
+ },
+ "3x dia5x1.5 at R10.5": {
+  "gap2": "pull 3.65 N (270% of today), centring@1mm 1.11 N",
+  "gap3": "pull 1.95 N (273% of today), centring@1mm 0.54 N"
+ },
+ "3x dia5x2 at R10.5": {
+  "gap2": "pull 5.03 N (373% of today), centring@1mm 1.48 N",
+  "gap3": "pull 2.74 N (385% of today), centring@1mm 0.74 N"
+ },
+ "top_cover_gaps_1_to_2mm": {
+  "today: 1x dia4x3 centre": {
+   "gap1": {
+    "pull_N": 2.83,
+    "centring_1mm_N": 0.98,
+    "vs_today": 1.0
+   },
+   "gap1.5": {
+    "pull_N": 1.92,
+    "centring_1mm_N": 0.63,
+    "vs_today": 1.0
+   },
+   "gap2": {
+    "pull_N": 1.35,
+    "centring_1mm_N": 0.42,
+    "vs_today": 1.0
+   }
+  },
+  "3x dia4x1 (fits)": {
+   "gap1": {
+    "pull_N": 3.24,
+    "centring_1mm_N": 1.24,
+    "vs_today": 1.14
+   },
+   "gap1.5": {
+    "pull_N": 2.04,
+    "centring_1mm_N": 0.75,
+    "vs_today": 1.06
+   },
+   "gap2": {
+    "pull_N": 1.35,
+    "centring_1mm_N": 0.47,
+    "vs_today": 1.0
+   }
+  },
+  "3x dia5x1 (fits)": {
+   "gap1": {
+    "pull_N": 4.31,
+    "centring_1mm_N": 1.48,
+    "vs_today": 1.52
+   },
+   "gap1.5": {
+    "pull_N": 2.91,
+    "centring_1mm_N": 0.95,
+    "vs_today": 1.51
+   },
+   "gap2": {
+    "pull_N": 2.04,
+    "centring_1mm_N": 0.63,
+    "vs_today": 1.51
+   }
+  },
+  "3x dia5x1.5 (fits)": {
+   "gap1": {
+    "pull_N": 7.59,
+    "centring_1mm_N": 2.54,
+    "vs_today": 2.68
+   },
+   "gap1.5": {
+    "pull_N": 5.16,
+    "centring_1mm_N": 1.64,
+    "vs_today": 2.68
+   },
+   "gap2": {
+    "pull_N": 3.65,
+    "centring_1mm_N": 1.11,
+    "vs_today": 2.7
+   }
+  },
+  "MagSafe-style 12x 2x2x1 ring": {
+   "gap1": {
+    "pull_N": 3.6,
+    "centring_1mm_N": 1.73,
+    "vs_today": 1.27
+   },
+   "gap1.5": {
+    "pull_N": 1.87,
+    "centring_1mm_N": 0.87,
+    "vs_today": 0.97
+   },
+   "gap2": {
+    "pull_N": 1.04,
+    "centring_1mm_N": 0.46,
+    "vs_today": 0.77
+   }
+  }
+ },
+ "flexible_vs_solid": {
+  "flex NdFeB arc 1 mm (0.28 T) both sides": {
+   "gap1": {
+    "pull_N": 0.43,
+    "vs_today": 0.15,
+    "centring_1mm_N": 0.14
+   },
+   "gap1.5": {
+    "pull_N": 0.31,
+    "vs_today": 0.16,
+    "centring_1mm_N": 0.09
+   },
+   "gap2": {
+    "pull_N": 0.23,
+    "vs_today": 0.17,
+    "centring_1mm_N": 0.07
+   }
+  },
+  "flex NdFeB arc 1 mm insole + 3x dia5x1.5 N52 puck": {
+   "gap1": {
+    "pull_N": 0.47,
+    "vs_today": 0.17,
+    "centring_1mm_N": 0.19
+   },
+   "gap1.5": {
+    "pull_N": 0.35,
+    "vs_today": 0.18,
+    "centring_1mm_N": 0.14
+   },
+   "gap2": {
+    "pull_N": 0.27,
+    "vs_today": 0.2,
+    "centring_1mm_N": 0.1
+   }
+  },
+  "flex NdFeB arc 2 mm insole + 3x dia5x1.5 N52 puck": {
+   "gap1": {
+    "pull_N": 0.74,
+    "vs_today": 0.26,
+    "centring_1mm_N": 0.29
+   },
+   "gap1.5": {
+    "pull_N": 0.57,
+    "vs_today": 0.3,
+    "centring_1mm_N": 0.21
+   },
+   "gap2": {
+    "pull_N": 0.45,
+    "vs_today": 0.33,
+    "centring_1mm_N": 0.16
+   }
+  },
+  "rigid bonded NdFeB arc 1.5 mm (0.65 T) insole + 3x dia5x1.5 N52 puck": {
+   "gap1": {
+    "pull_N": 1.46,
+    "vs_today": 0.52,
+    "centring_1mm_N": 0.59
+   },
+   "gap1.5": {
+    "pull_N": 1.11,
+    "vs_today": 0.58,
+    "centring_1mm_N": 0.42
+   },
+   "gap2": {
+    "pull_N": 0.86,
+    "vs_today": 0.64,
+    "centring_1mm_N": 0.31
+   }
+  },
+  "3x dia5x1 N52 both sides (recommended solid)": {
+   "gap1": {
+    "pull_N": 4.31,
+    "vs_today": 1.52,
+    "centring_1mm_N": 1.48
+   },
+   "gap1.5": {
+    "pull_N": 2.91,
+    "vs_today": 1.51,
+    "centring_1mm_N": 0.95
+   },
+   "gap2": {
+    "pull_N": 2.04,
+    "vs_today": 1.51,
+    "centring_1mm_N": 0.63
+   }
+  }
+ },
+ "C_arcs_and_rotation": {
+  "C180 insole + C180 puck, puck rotated 0 deg": {
+   "gap1": {
+    "pull_N": 7.55,
+    "vs_today": 2.67,
+    "centring_1mm_N": 2.6
+   },
+   "gap1.5": {
+    "pull_N": 5.31,
+    "vs_today": 2.76,
+    "centring_1mm_N": 1.72
+   },
+   "gap2": {
+    "pull_N": 3.89,
+    "vs_today": 2.88,
+    "centring_1mm_N": 1.18
+   }
+  },
+  "C180 insole + C180 puck, puck rotated 45 deg": {
+   "gap1": {
+    "pull_N": 5.37,
+    "vs_today": 1.9,
+    "centring_1mm_N": 1.87
+   },
+   "gap1.5": {
+    "pull_N": 3.81,
+    "vs_today": 1.98,
+    "centring_1mm_N": 1.23
+   },
+   "gap2": {
+    "pull_N": 2.81,
+    "vs_today": 2.08,
+    "centring_1mm_N": 0.85
+   }
+  },
+  "C180 insole + C180 puck, puck rotated 90 deg": {
+   "gap1": {
+    "pull_N": 3.57,
+    "vs_today": 1.26,
+    "centring_1mm_N": 0.89
+   },
+   "gap1.5": {
+    "pull_N": 2.53,
+    "vs_today": 1.31,
+    "centring_1mm_N": 0.56
+   },
+   "gap2": {
+    "pull_N": 1.86,
+    "vs_today": 1.38,
+    "centring_1mm_N": 0.37
+   }
+  },
+  "C180 insole + C180 puck, puck rotated 180 deg": {
+   "gap1": {
+    "pull_N": -0.41,
+    "vs_today": -0.15,
+    "centring_1mm_N": 0.82
+   },
+   "gap1.5": {
+    "pull_N": -0.26,
+    "vs_today": -0.13,
+    "centring_1mm_N": 0.59
+   },
+   "gap2": {
+    "pull_N": -0.17,
+    "vs_today": -0.13,
+    "centring_1mm_N": 0.44
+   }
+  },
+  "C180 insole + split ring 355 deg puck (any rotation)": {
+   "gap1": {
+    "pull_N": 6.94,
+    "vs_today": 2.45,
+    "centring_1mm_N": 1.65
+   },
+   "gap1.5": {
+    "pull_N": 4.92,
+    "vs_today": 2.55,
+    "centring_1mm_N": 1.04
+   },
+   "gap2": {
+    "pull_N": 3.61,
+    "vs_today": 2.68,
+    "centring_1mm_N": 0.68
+   }
+  },
+  "3x dia5x1 insole + 3x dia5x1 puck, puck rotated 0 deg": {
+   "gap1": {
+    "pull_N": 4.31,
+    "vs_today": 1.52,
+    "centring_1mm_N": 1.48
+   },
+   "gap1.5": {
+    "pull_N": 2.91,
+    "vs_today": 1.51,
+    "centring_1mm_N": 0.95
+   },
+   "gap2": {
+    "pull_N": 2.04,
+    "vs_today": 1.51,
+    "centring_1mm_N": 0.63
+   }
+  },
+  "3x dia5x1 insole + 3x dia5x1 puck, puck rotated 60 deg": {
+   "gap1": {
+    "pull_N": -0.05,
+    "vs_today": -0.02,
+    "centring_1mm_N": 0.01
+   },
+   "gap1.5": {
+    "pull_N": -0.06,
+    "vs_today": -0.03,
+    "centring_1mm_N": 0.0
+   },
+   "gap2": {
+    "pull_N": -0.06,
+    "vs_today": -0.04,
+    "centring_1mm_N": 0.0
+   }
+  },
+  "3x dia5x1 insole + split ring 355 deg puck (any rotation)": {
+   "gap1": {
+    "pull_N": 2.91,
+    "vs_today": 1.03,
+    "centring_1mm_N": 0.86
+   },
+   "gap1.5": {
+    "pull_N": 2.12,
+    "vs_today": 1.1,
+    "centring_1mm_N": 0.59
+   },
+   "gap2": {
+    "pull_N": 1.58,
+    "vs_today": 1.17,
+    "centring_1mm_N": 0.41
+   }
+  }
+ }
+}

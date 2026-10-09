@@ -123,8 +123,16 @@
 #define SESSION_DISCONNECT_GRACE_MS				300000
 #define MOTION_HOLD_MS							300000
 #define WORN_LOAD_HOLD_MS						300000
-#define WORN_LOAD_THRESHOLD						25		// firmware-raw FSR counts
+#define WORN_LOAD_THRESHOLD						25		// firmware-raw FSR counts, above the session floor
 #define WORN_LOAD_WINDOW_MS						5000	// median window
+// SEN-181: a session latch whose ;CX 0 never arrived, on a unit with a built-in
+// FSR preload (AA4B..., FSR11 >= 90 raw even mid-swing), held the device fully
+// awake while disconnected until the battery floor. Two guards:
+// - Hard cap: once disconnected this long, the latch stops holding the device
+//   awake at all (normal idle rules apply; WoM still wakes on motion).
+// - Worn load is measured above each channel's minimum since the session
+//   started, so a constant preload no longer reads as a worn foot.
+#define SESSION_DISCONNECTED_MAX_MS				1800000	// 30 min
 #define MOTION_AWAKE_DELTA_LSB					128		// ~62.5 mg at 16g FS (0.488 mg/LSB)
 #define FSR_DELTA_THRESHOLD						150
 #define FSR_DELTA_WAKE_MIN						2

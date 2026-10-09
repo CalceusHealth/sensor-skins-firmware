@@ -126,6 +126,25 @@ calibration.
 
 ### Deep-discharge: the drain defects destroy cells, not just charge
 
+> **Correction (2026-10-03):** the "bare cell, no PCM" finding below is
+> wrong. The fitted part, FLPB301031-**HPMW30-30**, is the *protected pack*:
+> the FLPB301031 cell plus PCM RJD404HP (protection IC "UP71AC-ITM"; 9 × 3 mm
+> board folded over the cell top) and AWG30 leads, 30 ± 2 mm. See
+> `artefacts/Routejade-FLPB301031-HPMW30-30_pack-drawing.pdf` and Master
+> Instruments' listing ("cell with PCM and 30mm leads"; unprotected cells are
+> not sold). The PDF quoted below is the spec of the bare cell *inside* the
+> pack.
+>
+> The PCM's over-discharge threshold is not published; ICs of this class trip
+> anywhere from 2.0 to 3.0 V. The rest of this section (unfitted board UVLO,
+> brownout disabled, sleep drain) still stands, with two changes:
+> - The PCM is a backstop of unknown threshold, not "no barrier".
+> - The "0.00 V off the puck" signature has three possible causes, told apart
+>   by measuring on both sides of the PCM:
+>   - **PCM in over-discharge lockout:** cell (B+/B−) ≈ 2–3 V, leads (P+/P−) ≈ 0 V.
+>   - **PCM damaged or open:** cell normal, leads ≈ 0 V.
+>   - **Cell destroyed:** cell ≈ 0 V.
+
 There is **no functional barrier between this cell and 0 V** (verified
 2026-07-05): the FLPB301031 datasheet documents a bare cell with no PCM (its
 safety section abuse-tests naked cells; the 5 V/3 C overcharge runs to

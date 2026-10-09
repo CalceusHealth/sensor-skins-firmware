@@ -1,0 +1,478 @@
+{
+ "fit_size_S": {
+  "LHS": {
+   "iou": 0.9843,
+   "foot": 0,
+   "mirror": true,
+   "pcb_offset": [
+    0.0,
+    -1.0
+   ]
+  },
+  "RHS": {
+   "iou": 0.9845,
+   "foot": 0,
+   "mirror": true,
+   "pcb_offset": [
+    0.0,
+    -1.0
+   ]
+  }
+ },
+ "magnet": {
+  "LHS": {
+   "start_deg": 168,
+   "span_deg": 120
+  },
+  "RHS": {
+   "start_deg": 168,
+   "span_deg": 120
+  }
+ },
+ "battery_pose": {
+  "LHS": {
+   "angle": 45,
+   "centre_model_mm": [
+    -11.75,
+    63.16
+   ],
+   "fits_sizes": [
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
+   ]
+  },
+  "RHS": {
+   "angle": 45,
+   "centre_model_mm": [
+    -11.75,
+    63.14
+   ],
+   "fits_sizes": [
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
+   ]
+  }
+ },
+ "sizes": {
+  "XXS_LHS": {
+   "fits": false,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 0.0,
+   "battery_to_sensor_layer_mm": 0.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 3.6,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 62.0,
+   "hatch_mm": [
+    35.5,
+    62.2
+   ],
+   "violation_mm2": 150.2,
+   "longest_pack_that_fits_mm": 12.0,
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 295.0,
+   "board_to_orthotic_edge_mm": 0.0,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.919,
+    5.908
+   ],
+   "sensor_layer_traced_mm": [
+    63.36,
+    194.98
+   ],
+   "fsr_pads_found": 19
+  },
+  "XXS_RHS": {
+   "fits": false,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 0.0,
+   "battery_to_sensor_layer_mm": 0.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 4.4,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 61.8,
+   "hatch_mm": [
+    35.5,
+    61.4
+   ],
+   "violation_mm2": 150.0,
+   "longest_pack_that_fits_mm": 12.0,
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 293.0,
+   "board_to_orthotic_edge_mm": 0.0,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.919,
+    5.908
+   ],
+   "sensor_layer_traced_mm": [
+    63.36,
+    194.98
+   ],
+   "fsr_pads_found": 19
+  },
+  "XS_LHS": {
+   "fits": false,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 0.0,
+   "battery_to_sensor_layer_mm": 0.4,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 3.6,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    62.2
+   ],
+   "violation_mm2": 23.9,
+   "longest_pack_that_fits_mm": 24.0,
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 4.1,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.919,
+    5.911
+   ],
+   "sensor_layer_traced_mm": [
+    66.57,
+    206.92
+   ],
+   "fsr_pads_found": 19
+  },
+  "XS_RHS": {
+   "fits": false,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 0.0,
+   "battery_to_sensor_layer_mm": 0.4,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 4.4,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    61.4
+   ],
+   "violation_mm2": 23.9,
+   "longest_pack_that_fits_mm": 24.0,
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 4.14,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.919,
+    5.911
+   ],
+   "sensor_layer_traced_mm": [
+    66.57,
+    206.92
+   ],
+   "fsr_pads_found": 19
+  },
+  "S_LHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 3.1,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 3.6,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    62.2
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 8.27,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.94,
+    5.915
+   ],
+   "sensor_layer_traced_mm": [
+    70.2,
+    219.45
+   ],
+   "fsr_pads_found": 19
+  },
+  "S_RHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 3.1,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 4.4,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    61.4
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 8.27,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.94,
+    5.915
+   ],
+   "sensor_layer_traced_mm": [
+    70.2,
+    219.45
+   ],
+   "fsr_pads_found": 19
+  },
+  "M_LHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 7.0,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 3.6,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    62.2
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 12.31,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.94,
+    5.917
+   ],
+   "sensor_layer_traced_mm": [
+    74.07,
+    231.7
+   ],
+   "fsr_pads_found": 19
+  },
+  "M_RHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 7.0,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 4.4,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    61.4
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 12.32,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.94,
+    5.917
+   ],
+   "sensor_layer_traced_mm": [
+    74.07,
+    231.7
+   ],
+   "fsr_pads_found": 19
+  },
+  "L_LHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 11.5,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 3.6,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    62.2
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 16.49,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.918,
+    5.911
+   ],
+   "sensor_layer_traced_mm": [
+    77.73,
+    244.78
+   ],
+   "fsr_pads_found": 19
+  },
+  "L_RHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 11.5,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 4.4,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    61.4
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 16.49,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.918,
+    5.911
+   ],
+   "sensor_layer_traced_mm": [
+    77.73,
+    244.78
+   ],
+   "fsr_pads_found": 19
+  },
+  "XL_LHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 14.0,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 3.6,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    62.2
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 18.36,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.907,
+    5.911
+   ],
+   "sensor_layer_traced_mm": [
+    80.75,
+    254.45
+   ],
+   "fsr_pads_found": 19
+  },
+  "XL_RHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 14.0,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 4.4,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    61.4
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 18.37,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.907,
+    5.911
+   ],
+   "sensor_layer_traced_mm": [
+    80.75,
+    254.45
+   ],
+   "fsr_pads_found": 19
+  },
+  "XXL_LHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 17.1,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 3.6,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    62.2
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 21.8,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.912,
+    5.908
+   ],
+   "sensor_layer_traced_mm": [
+    83.9,
+    270.14
+   ],
+   "fsr_pads_found": 19
+  },
+  "XXL_RHS": {
+   "fits": true,
+   "battery_angle": 45,
+   "battery_gap_to_board_mm": 2.2,
+   "battery_to_orthotic_edge_mm": 17.1,
+   "battery_to_sensor_layer_mm": 1.1,
+   "lead_length_mm": 17.8,
+   "leads_fit_30mm_pack": true,
+   "min_test_pad_gap_mm": 4.4,
+   "new_vbat_pad_placed": true,
+   "c_magnet_overlap_mm2": 0.0,
+   "hatch_mm": [
+    35.5,
+    61.4
+   ],
+   "tail_tip_to_sensor_layer_mm": -0.01,
+   "board_outside_orthotic_mm2": 0.0,
+   "board_to_orthotic_edge_mm": 21.81,
+   "c_magnet_span_deg": 120,
+   "drawing_px_per_mm": [
+    5.912,
+    5.908
+   ],
+   "sensor_layer_traced_mm": [
+    83.9,
+    270.14
+   ],
+   "fsr_pads_found": 19
+  }
+ }
+}
