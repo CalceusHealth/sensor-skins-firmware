@@ -1,0 +1,7 @@
+# ninja log v7
+1	21	1784862684139095348	CMakeFiles/clean.additional	e6a76e4bce69eb3a
+21	26	1784862684160292988	clean	d162cc284ab4050e
+2	70	1784862684194094413	CMakeFiles/Charger_Release_Release_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/gpio.c.o	b63f54b4bcbd19a0
+1	88	1784862684193094430	CMakeFiles/Charger_Release_Release_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/coil.c.o	29bd46cb9cf73920
+5	112	1784862684197094362	CMakeFiles/Charger_Release_Release_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/main.c.o	7c2f2849fe98d13b
+112	148	1784862684304092544	/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/out/Charger/Release.elf	a7794dd69358cf64

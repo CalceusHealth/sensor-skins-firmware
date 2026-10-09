@@ -1,0 +1,211 @@
+{
+    "importedFrom": "Charger.cproj",
+    "version": "1.9",
+    "configurations": [
+        {
+            "name": "Release",
+            "id": "",
+            "device": "ATtiny1616",
+            "imageType": "application",
+            "imagePath": "./out/Charger/Release.elf",
+            "toolProperties": "Release-Atmel-ICE",
+            "tool": "Snap",
+            "packs": [
+                {
+                    "name": "ATtiny_DFP",
+                    "vendor": "Microchip",
+                    "version": "3.4.278"
+                }
+            ],
+            "fileSet": "Release files",
+            "toolchain": "Release-avr-gcc"
+        },
+        {
+            "name": "Debug",
+            "device": "ATtiny1616",
+            "imageType": "application",
+            "imagePath": "./out/Charger/Debug.elf",
+            "toolProperties": "Debug-Atmel-ICE",
+            "tool": "Atmel-ICE",
+            "packs": [
+                {
+                    "name": "ATtiny_DFP",
+                    "vendor": "Microchip",
+                    "version": "3.4.278"
+                }
+            ],
+            "fileSet": "Debug files",
+            "toolchain": "Debug-avr-gcc"
+        }
+    ],
+    "propertyGroups": [
+        {
+            "name": "Debug-avr-gcc",
+            "type": "toolchain",
+            "provider": "microchip.toolchains:avr-gcc@16.1.0",
+            "properties": {
+                "global.relax-branches": false,
+                "global.external-ram-check": false,
+                "compiler.call-prologues": false,
+                "compiler.no-interrupts": false,
+                "compiler.default-char-type": true,
+                "compiler.default-bitfield-type": true,
+                "compiler.optimization-level": "-O1",
+                "compiler.garbage-collect-functions": true,
+                "compiler.garbage-collect-data": true,
+                "compiler.pack-struct": true,
+                "compiler.short-enums": true,
+                "compiler.short-calls": false,
+                "compiler.no-system-directories": false,
+                "compiler.additional-warnings": true,
+                "compiler.extra-warnings": false,
+                "compiler.undefined-identifier": false,
+                "compiler.make-warnings-into-errors": false,
+                "compiler.syntax-only": false,
+                "compiler.strict-ansi": false,
+                "compiler.strict-ansi-errors": false,
+                "compiler.inhibit-all": false,
+                "compiler.verbose": false,
+                "compiler.support-ansi": false,
+                "compiler.save-temps": false,
+                "linker.no-startup-files": false,
+                "linker.no-default-libs": false,
+                "linker.exclude-standard-libraries": false,
+                "linker.omit-symbol-information": false,
+                "linker.no-shared-libraries": false,
+                "linker.generate-map-file": true,
+                "linker.v-printf": false,
+                "linker.remove-unused-sections": true,
+                "linker.rodata-writable": false,
+                "assembler.announce-version": false,
+                "compiler++.call-prologues": false,
+                "compiler++.no-interrupts": false,
+                "compiler++.default-char-type": false,
+                "compiler++.default-bitfield-type": false,
+                "compiler++.optimization-level": "-O0",
+                "compiler++.garbage-collect-functions": true,
+                "compiler++.garbage-collect-data": true,
+                "compiler++.pack-struct": false,
+                "compiler++.short-enums": false,
+                "compiler++.short-calls": false,
+                "compiler++.no-system-directories": false,
+                "compiler++.preprocess-only": false,
+                "compiler++.additional-warnings": false,
+                "compiler++.undefined-identifier": false,
+                "compiler++.make-warnings-into-errors": false,
+                "compiler++.syntax-only": false,
+                "compiler++.strict-ansi": false,
+                "compiler++.strict-ansi-errors": false,
+                "compiler++.inhibit-all": false,
+                "compiler++.verbose": false,
+                "compiler++.support-ansi": false,
+                "compiler++.save-temps": false,
+                "linker.input-libraries": "m",
+                "compiler.appendMe": [
+                    "-g2"
+                ]
+            }
+        },
+        {
+            "name": "Release-avr-gcc",
+            "type": "toolchain",
+            "provider": "microchip.toolchains:avr-gcc@16.1.0",
+            "properties": {
+                "global.relax-branches": false,
+                "global.external-ram-check": false,
+                "compiler.call-prologues": false,
+                "compiler.no-interrupts": false,
+                "compiler.default-char-type": true,
+                "compiler.default-bitfield-type": true,
+                "compiler.optimization-level": "-Os",
+                "compiler.garbage-collect-functions": true,
+                "compiler.garbage-collect-data": true,
+                "compiler.pack-struct": true,
+                "compiler.short-enums": true,
+                "compiler.short-calls": false,
+                "compiler.no-system-directories": false,
+                "compiler.additional-warnings": true,
+                "compiler.extra-warnings": false,
+                "compiler.undefined-identifier": false,
+                "compiler.make-warnings-into-errors": false,
+                "compiler.syntax-only": false,
+                "compiler.strict-ansi": false,
+                "compiler.strict-ansi-errors": false,
+                "compiler.inhibit-all": false,
+                "compiler.verbose": false,
+                "compiler.support-ansi": false,
+                "compiler.save-temps": false,
+                "linker.no-startup-files": false,
+                "linker.no-default-libs": false,
+                "linker.exclude-standard-libraries": false,
+                "linker.omit-symbol-information": false,
+                "linker.no-shared-libraries": false,
+                "linker.generate-map-file": true,
+                "linker.v-printf": false,
+                "linker.remove-unused-sections": true,
+                "linker.rodata-writable": false,
+                "assembler.announce-version": false,
+                "compiler++.call-prologues": false,
+                "compiler++.no-interrupts": false,
+                "compiler++.default-char-type": false,
+                "compiler++.default-bitfield-type": false,
+                "compiler++.optimization-level": "-O0",
+                "compiler++.garbage-collect-functions": true,
+                "compiler++.garbage-collect-data": true,
+                "compiler++.pack-struct": false,
+                "compiler++.short-enums": false,
+                "compiler++.short-calls": false,
+                "compiler++.no-system-directories": false,
+                "compiler++.preprocess-only": false,
+                "compiler++.additional-warnings": false,
+                "compiler++.undefined-identifier": false,
+                "compiler++.make-warnings-into-errors": false,
+                "compiler++.syntax-only": false,
+                "compiler++.strict-ansi": false,
+                "compiler++.strict-ansi-errors": false,
+                "compiler++.inhibit-all": false,
+                "compiler++.verbose": false,
+                "compiler++.support-ansi": false,
+                "compiler++.save-temps": false,
+                "compiler.preprocessor-macros": "NDEBUG",
+                "linker.input-libraries": "m"
+            }
+        },
+        {
+            "name": "Debug-Atmel-ICE",
+            "type": "tool",
+            "properties": {
+                "programoptions.eraseb4program": true,
+                "programoptions.preserveeeprom": true,
+                "communication.interface": "UPDI",
+                "communication.speed": "0.5"
+            }
+        },
+        {
+            "name": "Release-Atmel-ICE",
+            "type": "tool",
+            "properties": {
+                "programoptions.eraseb4program": true,
+                "programoptions.preserveeeprom": true,
+                "communication.interface": "UPDI",
+                "communication.speed": "0.5"
+            }
+        }
+    ],
+    "fileSets": [
+        {
+            "name": "Release files",
+            "files": [
+                "*{.c,.h}"
+            ],
+            "encoding": "utf-8"
+        },
+        {
+            "name": "Debug files",
+            "files": [
+                "*{.c,.h}"
+            ],
+            "encoding": "utf-8"
+        }
+    ]
+}

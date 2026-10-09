@@ -1,0 +1,1122 @@
+
+Release.elf:     file format elf32-avr
+
+Sections:
+Idx Name                     Size      VMA       LMA       File off  Algn  Flags
+  0 .data                    00000006  00803800  000003e2  00000476  2**0  CONTENTS, ALLOC, LOAD, DATA
+  1 .text                    000003e2  00000000  00000000  00000094  2**1  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss                     00000004  00803806  00803806  0000047c  2**0  ALLOC
+  3 .comment                 00000012  00000000  00000000  0000047c  2**0  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000490  2**2  CONTENTS, READONLY, OCTETS
+  5 .debug_aranges           00000090  00000000  00000000  000004d0  2**0  CONTENTS, READONLY, DEBUGGING, OCTETS
+  6 .debug_info              00004cac  00000000  00000000  00000560  2**0  CONTENTS, READONLY, DEBUGGING, OCTETS
+  7 .debug_abbrev            00001f72  00000000  00000000  0000520c  2**0  CONTENTS, READONLY, DEBUGGING, OCTETS
+  8 .debug_line              00000e63  00000000  00000000  0000717e  2**0  CONTENTS, READONLY, DEBUGGING, OCTETS
+  9 .debug_frame             000000d4  00000000  00000000  00007fe4  2**2  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 10 .debug_str               00005f31  00000000  00000000  000080b8  2**0  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 11 .debug_loc               0000009f  00000000  00000000  0000dfe9  2**0  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 12 .debug_ranges            00000078  00000000  00000000  0000e088  2**0  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+__vectors():
+../../../../crt1/gcrt1.S:61
+   0:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__ctors_end>
+../../../../crt1/gcrt1.S:67
+   4:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:68
+   8:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:69
+   c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:70
+  10:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:71
+  14:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:72
+  18:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:73
+  1c:	0c 94 32 01 	jmp	0x264	; 0x264 <__vector_7>
+../../../../crt1/gcrt1.S:74
+  20:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:75
+  24:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:76
+  28:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:77
+  2c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:78
+  30:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:79
+  34:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:80
+  38:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:81
+  3c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:82
+  40:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:83
+  44:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:84
+  48:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:85
+  4c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:86
+  50:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:87
+  54:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:88
+  58:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:89
+  5c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:90
+  60:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:91
+  64:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:92
+  68:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:93
+  6c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:94
+  70:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:95
+  74:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+../../../../crt1/gcrt1.S:96
+  78:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+
+0000007c <__ctors_end>:
+__trampolines_start():
+../../../../crt1/gcrt1.S:230
+  7c:	11 24       	eor	r1, r1
+../../../../crt1/gcrt1.S:231
+  7e:	1f be       	out	0x3f, r1	; 63
+../../../../crt1/gcrt1.S:232
+  80:	cf ef       	ldi	r28, 0xFF	; 255
+../../../../crt1/gcrt1.S:234
+  82:	cd bf       	out	0x3d, r28	; 61
+../../../../crt1/gcrt1.S:236
+  84:	df e3       	ldi	r29, 0x3F	; 63
+../../../../crt1/gcrt1.S:237
+  86:	de bf       	out	0x3e, r29	; 62
+
+00000088 <__do_copy_data>:
+.Loc.0():
+  88:	18 e3       	ldi	r17, 0x38	; 56
+
+0000008a <.Loc.1>:
+.Loc.1():
+  8a:	a0 e0       	ldi	r26, 0x00	; 0
+
+0000008c <.Loc.2>:
+.Loc.2():
+  8c:	b8 e3       	ldi	r27, 0x38	; 56
+
+0000008e <.Loc.3>:
+.Loc.3():
+  8e:	e2 ee       	ldi	r30, 0xE2	; 226
+
+00000090 <.Loc.4>:
+.Loc.4():
+  90:	f3 e0       	ldi	r31, 0x03	; 3
+
+00000092 <.Loc.5>:
+.Loc.5():
+  92:	02 c0       	rjmp	.+4      	; 0x98 <.L__do_copy_data_start>
+
+00000094 <.L__do_copy_data_loop>:
+.Loc.6():
+  94:	05 90       	lpm	r0, Z+
+
+00000096 <.Loc.7>:
+.Loc.7():
+  96:	0d 92       	st	X+, r0
+
+00000098 <.L__do_copy_data_start>:
+.Loc.8():
+  98:	a6 30       	cpi	r26, 0x06	; 6
+
+0000009a <.Loc.9>:
+.Loc.9():
+  9a:	b1 07       	cpc	r27, r17
+
+0000009c <.Loc.10>:
+.Loc.10():
+  9c:	d9 f7       	brne	.-10     	; 0x94 <.L__do_copy_data_loop>
+
+0000009e <__do_clear_bss>:
+L0^A():
+  9e:	28 e3       	ldi	r18, 0x38	; 56
+
+000000a0 <.Loc.1>:
+.Loc.1():
+  a0:	a6 e0       	ldi	r26, 0x06	; 6
+
+000000a2 <.Loc.2>:
+.Loc.2():
+  a2:	b8 e3       	ldi	r27, 0x38	; 56
+
+000000a4 <.Loc.3>:
+.Loc.3():
+  a4:	01 c0       	rjmp	.+2      	; 0xa8 <.Loc.5>
+
+000000a6 <.Loc.4>:
+.do_clear_bss_loop():
+  a6:	1d 92       	st	X+, r1
+
+000000a8 <.Loc.5>:
+.do_clear_bss_start():
+  a8:	aa 30       	cpi	r26, 0x0A	; 10
+
+000000aa <.Loc.6>:
+.Loc.6():
+  aa:	b2 07       	cpc	r27, r18
+
+000000ac <.Loc.7>:
+.Loc.7():
+  ac:	e1 f7       	brne	.-8      	; 0xa6 <.Loc.4>
+
+000000ae <L0^A>:
+L0^A():
+../../../../crt1/gcrt1.S:314
+  ae:	0e 94 59 01 	call	0x2b2	; 0x2b2 <main>
+../../../../crt1/gcrt1.S:315
+  b2:	0c 94 ef 01 	jmp	0x3de	; 0x3de <_exit>
+
+000000b6 <__bad_interrupt>:
+__vector_22():
+../../../../crt1/gcrt1.S:209
+  b6:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000ba <coil_init>:
+coil_init():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:26
+int8_t coil_init(void);
+int8_t coil_set_power(uint8_t power);
+
+
+int8_t coil_init(void) {
+	TCA0.SPLIT.CTRLA &= ~( 1 << 0 );					// disable TCA0
+  ba:	80 91 00 0a 	lds	r24, 0x0A00	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+000000be <.Loc.3>:
+  be:	8e 7f       	andi	r24, 0xFE	; 254
+  c0:	80 93 00 0a 	sts	0x0A00, r24	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+000000c4 <.Loc.4>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:27
+	TCA0.SPLIT.CTRLESET = (0b11 << 2) | (0b11 << 0);	// force reset of both timers
+  c4:	8f e0       	ldi	r24, 0x0F	; 15
+  c6:	80 93 05 0a 	sts	0x0A05, r24	; 0x800a05 <__RODATA_PM_OFFSET__+0x7f8a05>
+
+000000ca <.Loc.6>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:28
+	TCA0.SPLIT.CTRLD = (1 << 0);						// Enable Split Mode
+  ca:	21 e0       	ldi	r18, 0x01	; 1
+  cc:	20 93 03 0a 	sts	0x0A03, r18	; 0x800a03 <__RODATA_PM_OFFSET__+0x7f8a03>
+
+000000d0 <.Loc.8>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:29
+	TCA0.SPLIT.CTRLA = (PWM_PRESCALE << 1);				// set prescaler for timer clock
+  d0:	10 92 00 0a 	sts	0x0A00, r1	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+000000d4 <.Loc.10>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:31
+	
+	TCA0.SPLIT.LPER = PWM_TOP;
+  d4:	99 e3       	ldi	r25, 0x39	; 57
+  d6:	90 93 26 0a 	sts	0x0A26, r25	; 0x800a26 <__RODATA_PM_OFFSET__+0x7f8a26>
+
+000000da <.Loc.12>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:32
+	TCA0.SPLIT.HPER = PWM_TOP;
+  da:	90 93 27 0a 	sts	0x0A27, r25	; 0x800a27 <__RODATA_PM_OFFSET__+0x7f8a27>
+
+000000de <.Loc.14>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:33
+	TCA0.SPLIT.LCNT = PWM_TOP-1;
+  de:	88 e3       	ldi	r24, 0x38	; 56
+  e0:	80 93 20 0a 	sts	0x0A20, r24	; 0x800a20 <__RODATA_PM_OFFSET__+0x7f8a20>
+
+000000e4 <.Loc.16>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:34
+	TCA0.SPLIT.HCNT = PWM_TOP-1;
+  e4:	80 93 21 0a 	sts	0x0A21, r24	; 0x800a21 <__RODATA_PM_OFFSET__+0x7f8a21>
+
+000000e8 <.Loc.18>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:35
+	TCA0.SPLIT.HCMP1 = PWM_TOP; // WO4
+  e8:	90 93 2b 0a 	sts	0x0A2B, r25	; 0x800a2b <__RODATA_PM_OFFSET__+0x7f8a2b>
+
+000000ec <.Loc.20>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:36
+	TCA0.SPLIT.HCMP2 = PWM_TOP-1; // WO5
+  ec:	80 93 2d 0a 	sts	0x0A2D, r24	; 0x800a2d <__RODATA_PM_OFFSET__+0x7f8a2d>
+
+000000f0 <.Loc.22>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:39
+	
+	//TCA0.SPLIT.CTRLB = 0b01100000;						// Enable waveform output on WO5 (DRV2), WO4 (DRV1) - high byte
+	TCA0.SPLIT.CTRLB = 0b00100000;						// Enable waveform output on WO4 (DRV1) - high byte
+  f0:	80 e2       	ldi	r24, 0x20	; 32
+  f2:	80 93 01 0a 	sts	0x0A01, r24	; 0x800a01 <__RODATA_PM_OFFSET__+0x7f8a01>
+
+000000f6 <.Loc.24>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:40
+	TCA0.SPLIT.CTRLC = 0;								// Clear compare output
+  f6:	10 92 02 0a 	sts	0x0A02, r1	; 0x800a02 <__RODATA_PM_OFFSET__+0x7f8a02>
+
+000000fa <.Loc.26>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:41
+	TCA0.SPLIT.INTCTRL = 0;								// No interrupts
+  fa:	10 92 0a 0a 	sts	0x0A0A, r1	; 0x800a0a <__RODATA_PM_OFFSET__+0x7f8a0a>
+
+000000fe <.Loc.28>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:42
+	TCA0.SPLIT.DBGCTRL = 0x01;							// Run while in debug
+  fe:	20 93 0e 0a 	sts	0x0A0E, r18	; 0x800a0e <__RODATA_PM_OFFSET__+0x7f8a0e>
+
+00000102 <.Loc.30>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:44
+	
+	TCA0.SPLIT.CTRLA = TCA0.SPLIT.CTRLA | ( 1 << 0 );	// Enable
+ 102:	80 91 00 0a 	lds	r24, 0x0A00	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+00000106 <.Loc.32>:
+ 106:	81 60       	ori	r24, 0x01	; 1
+ 108:	80 93 00 0a 	sts	0x0A00, r24	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+0000010c <.Loc.33>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:47
+	
+	return 0;
+}
+ 10c:	80 e0       	ldi	r24, 0x00	; 0
+ 10e:	08 95       	ret
+
+00000110 <coil_test_presence>:
+coil_test_presence():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:51
+
+
+int8_t coil_test_presence(void) {
+	TCA0.SPLIT.CTRLA &= ~( 1 << 0 );					// disable TCA0
+ 110:	80 91 00 0a 	lds	r24, 0x0A00	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+00000114 <.Loc.38>:
+ 114:	8e 7f       	andi	r24, 0xFE	; 254
+ 116:	80 93 00 0a 	sts	0x0A00, r24	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+0000011a <.Loc.39>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:52
+	TCA0.SPLIT.CTRLESET = (0b11 << 2) | (0b11 << 0);	// force reset of both timers
+ 11a:	8f e0       	ldi	r24, 0x0F	; 15
+ 11c:	80 93 05 0a 	sts	0x0A05, r24	; 0x800a05 <__RODATA_PM_OFFSET__+0x7f8a05>
+
+00000120 <.Loc.41>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:53
+	TCA0.SPLIT.CTRLD = (1 << 0);						// Enable Split Mode
+ 120:	21 e0       	ldi	r18, 0x01	; 1
+ 122:	20 93 03 0a 	sts	0x0A03, r18	; 0x800a03 <__RODATA_PM_OFFSET__+0x7f8a03>
+
+00000126 <.Loc.43>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:54
+	TCA0.SPLIT.CTRLA = (PWM_PRESCALE << 1);				// set prescaler for timer clock
+ 126:	10 92 00 0a 	sts	0x0A00, r1	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+0000012a <.Loc.45>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:56
+	
+	TCA0.SPLIT.LPER = 250;
+ 12a:	9a ef       	ldi	r25, 0xFA	; 250
+ 12c:	90 93 26 0a 	sts	0x0A26, r25	; 0x800a26 <__RODATA_PM_OFFSET__+0x7f8a26>
+
+00000130 <.Loc.47>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:57
+	TCA0.SPLIT.HPER = 250;
+ 130:	90 93 27 0a 	sts	0x0A27, r25	; 0x800a27 <__RODATA_PM_OFFSET__+0x7f8a27>
+
+00000134 <.Loc.49>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:58
+	TCA0.SPLIT.LCNT = 250-1;
+ 134:	89 ef       	ldi	r24, 0xF9	; 249
+ 136:	80 93 20 0a 	sts	0x0A20, r24	; 0x800a20 <__RODATA_PM_OFFSET__+0x7f8a20>
+
+0000013a <.Loc.51>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:59
+	TCA0.SPLIT.HCNT = 250-1;
+ 13a:	80 93 21 0a 	sts	0x0A21, r24	; 0x800a21 <__RODATA_PM_OFFSET__+0x7f8a21>
+
+0000013e <.Loc.53>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:60
+	TCA0.SPLIT.HCMP1 = 250; // WO4
+ 13e:	90 93 2b 0a 	sts	0x0A2B, r25	; 0x800a2b <__RODATA_PM_OFFSET__+0x7f8a2b>
+
+00000142 <.Loc.55>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:61
+	TCA0.SPLIT.HCMP2 = 250-1; // WO5
+ 142:	80 93 2d 0a 	sts	0x0A2D, r24	; 0x800a2d <__RODATA_PM_OFFSET__+0x7f8a2d>
+
+00000146 <.Loc.57>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:64
+	
+	//TCA0.SPLIT.CTRLB = 0b01100000;						// Enable waveform output on WO5 (DRV2), WO4 (DRV1) - high byte
+	TCA0.SPLIT.CTRLB = 0b00100000;						// Enable waveform output on WO4 (DRV1) - high byte
+ 146:	80 e2       	ldi	r24, 0x20	; 32
+ 148:	80 93 01 0a 	sts	0x0A01, r24	; 0x800a01 <__RODATA_PM_OFFSET__+0x7f8a01>
+
+0000014c <.Loc.59>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:65
+	TCA0.SPLIT.CTRLC = 0;								// Clear compare output
+ 14c:	10 92 02 0a 	sts	0x0A02, r1	; 0x800a02 <__RODATA_PM_OFFSET__+0x7f8a02>
+
+00000150 <.Loc.61>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:66
+	TCA0.SPLIT.INTCTRL = 0;								// No interrupts
+ 150:	10 92 0a 0a 	sts	0x0A0A, r1	; 0x800a0a <__RODATA_PM_OFFSET__+0x7f8a0a>
+
+00000154 <.Loc.63>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:67
+	TCA0.SPLIT.DBGCTRL = 0x01;							// Run while in debug
+ 154:	20 93 0e 0a 	sts	0x0A0E, r18	; 0x800a0e <__RODATA_PM_OFFSET__+0x7f8a0e>
+
+00000158 <.Loc.65>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:69
+	
+	TCA0.SPLIT.CTRLA = TCA0.SPLIT.CTRLA | ( 1 << 0 );	// Enable
+ 158:	80 91 00 0a 	lds	r24, 0x0A00	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+0000015c <.Loc.67>:
+ 15c:	81 60       	ori	r24, 0x01	; 1
+ 15e:	80 93 00 0a 	sts	0x0A00, r24	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+
+00000162 <.Loc.68>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:72
+	
+	return 0;
+}
+ 162:	80 e0       	ldi	r24, 0x00	; 0
+ 164:	08 95       	ret
+
+00000166 <coil_set_power>:
+coil_set_power():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:77
+
+
+
+int8_t coil_set_power(uint8_t power) {
+	if (power > 100) power = 100;
+ 166:	85 36       	cpi	r24, 0x65	; 101
+ 168:	58 f4       	brcc	.+22     	; 0x180 <.L6>
+
+0000016a <.Loc.73>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:81
+	
+	power = power >> 2; // up to 25, top is 60
+
+	if (power == 0) {
+ 16a:	86 95       	lsr	r24
+ 16c:	86 95       	lsr	r24
+
+0000016e <.LVL1>:
+ 16e:	49 f4       	brne	.+18     	; 0x182 <.L4>
+
+00000170 <.Loc.76>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:82
+		TCA0.SPLIT.HCMP1 = PWM_TOP; // WO4
+ 170:	89 e3       	ldi	r24, 0x39	; 57
+ 172:	80 93 2b 0a 	sts	0x0A2B, r24	; 0x800a2b <__RODATA_PM_OFFSET__+0x7f8a2b>
+
+00000176 <.Loc.78>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:83
+		TCA0.SPLIT.HCMP2 = PWM_TOP-1; // WO5
+ 176:	88 e3       	ldi	r24, 0x38	; 56
+ 178:	80 93 2d 0a 	sts	0x0A2D, r24	; 0x800a2d <__RODATA_PM_OFFSET__+0x7f8a2d>
+
+0000017c <.L5>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:90
+		TCA0.SPLIT.HCMP1 = PWM_TOP-power; // WO4
+		TCA0.SPLIT.HCMP2 = PWM_TOP-power-1; // WO5
+	}
+
+	return 0;
+}
+ 17c:	80 e0       	ldi	r24, 0x00	; 0
+ 17e:	08 95       	ret
+
+00000180 <.L6>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:79
+	power = power >> 2; // up to 25, top is 60
+ 180:	89 e1       	ldi	r24, 0x19	; 25
+
+00000182 <.L4>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:85
+		TCA0.SPLIT.HCMP1 = PWM_TOP-power; // WO4
+ 182:	99 e3       	ldi	r25, 0x39	; 57
+ 184:	98 1b       	sub	r25, r24
+
+00000186 <.Loc.85>:
+ 186:	90 93 2b 0a 	sts	0x0A2B, r25	; 0x800a2b <__RODATA_PM_OFFSET__+0x7f8a2b>
+
+0000018a <.Loc.86>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:86
+		TCA0.SPLIT.HCMP2 = PWM_TOP-power-1; // WO5
+ 18a:	98 e3       	ldi	r25, 0x38	; 56
+ 18c:	98 1b       	sub	r25, r24
+
+0000018e <.Loc.88>:
+ 18e:	90 93 2d 0a 	sts	0x0A2D, r25	; 0x800a2d <__RODATA_PM_OFFSET__+0x7f8a2d>
+ 192:	f4 cf       	rjmp	.-24     	; 0x17c <.L5>
+
+00000194 <coil_read_fb>:
+coil_read_fb():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:94
+
+
+uint16_t coil_read_fb(void) {
+	ADC0.CTRLA &= ~ADC_ENABLE_bm;  // stop running ADC
+ 194:	80 91 00 06 	lds	r24, 0x0600	; 0x800600 <__RODATA_PM_OFFSET__+0x7f8600>
+
+00000198 <.Loc.92>:
+ 198:	8e 7f       	andi	r24, 0xFE	; 254
+ 19a:	80 93 00 06 	sts	0x0600, r24	; 0x800600 <__RODATA_PM_OFFSET__+0x7f8600>
+
+0000019e <.Loc.93>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:95
+	ADC0.CTRLA = 0; // 10bit resolution, no free running, don't run in standby
+ 19e:	10 92 00 06 	sts	0x0600, r1	; 0x800600 <__RODATA_PM_OFFSET__+0x7f8600>
+
+000001a2 <.Loc.95>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:96
+	ADC0.CTRLB = 0x02; // accumulate 4 results, so 12bit resolution
+ 1a2:	82 e0       	ldi	r24, 0x02	; 2
+ 1a4:	80 93 01 06 	sts	0x0601, r24	; 0x800601 <__RODATA_PM_OFFSET__+0x7f8601>
+
+000001a8 <.Loc.97>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:97
+	ADC0.CTRLC = 0b01010011; // reduced input impedance, use VDD as reference, clk/16
+ 1a8:	93 e5       	ldi	r25, 0x53	; 83
+ 1aa:	90 93 02 06 	sts	0x0602, r25	; 0x800602 <__RODATA_PM_OFFSET__+0x7f8602>
+
+000001ae <.Loc.100>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:98
+	ADC0.CTRLD = 0b00100000; // add first run delay, no successive delays
+ 1ae:	90 e2       	ldi	r25, 0x20	; 32
+ 1b0:	90 93 03 06 	sts	0x0603, r25	; 0x800603 <__RODATA_PM_OFFSET__+0x7f8603>
+
+000001b4 <.Loc.101>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:99
+	ADC0.CTRLE = 0; // no window comparator
+ 1b4:	10 92 04 06 	sts	0x0604, r1	; 0x800604 <__RODATA_PM_OFFSET__+0x7f8604>
+
+000001b8 <.Loc.103>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:100
+	ADC0.SAMPCTRL = 2; // sample length before hold and conversion
+ 1b8:	80 93 05 06 	sts	0x0605, r24	; 0x800605 <__RODATA_PM_OFFSET__+0x7f8605>
+
+000001bc <.Loc.105>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:101
+	ADC0.MUXPOS = 6; // AIN6
+ 1bc:	86 e0       	ldi	r24, 0x06	; 6
+ 1be:	80 93 06 06 	sts	0x0606, r24	; 0x800606 <__RODATA_PM_OFFSET__+0x7f8606>
+
+000001c2 <.Loc.107>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:102
+	ADC0.CTRLA |= ADC_ENABLE_bm;   // start running ADC
+ 1c2:	80 91 00 06 	lds	r24, 0x0600	; 0x800600 <__RODATA_PM_OFFSET__+0x7f8600>
+
+000001c6 <.Loc.109>:
+ 1c6:	81 60       	ori	r24, 0x01	; 1
+ 1c8:	80 93 00 06 	sts	0x0600, r24	; 0x800600 <__RODATA_PM_OFFSET__+0x7f8600>
+
+000001cc <.Loc.110>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:103
+	ADC0.COMMAND = 1;
+ 1cc:	81 e0       	ldi	r24, 0x01	; 1
+ 1ce:	80 93 08 06 	sts	0x0608, r24	; 0x800608 <__RODATA_PM_OFFSET__+0x7f8608>
+
+000001d2 <.L8>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:104 (discriminator 1)
+	while (ADC0.COMMAND);
+ 1d2:	80 91 08 06 	lds	r24, 0x0608	; 0x800608 <__RODATA_PM_OFFSET__+0x7f8608>
+
+000001d6 <.Loc.115>:
+ 1d6:	81 11       	cpse	r24, r1
+ 1d8:	fc cf       	rjmp	.-8      	; 0x1d2 <.L8>
+
+000001da <.Loc.116>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:105
+	ADC0.CTRLA &= ~ADC_ENABLE_bm;  // stop running ADC
+ 1da:	80 91 00 06 	lds	r24, 0x0600	; 0x800600 <__RODATA_PM_OFFSET__+0x7f8600>
+
+000001de <.Loc.118>:
+ 1de:	8e 7f       	andi	r24, 0xFE	; 254
+ 1e0:	80 93 00 06 	sts	0x0600, r24	; 0x800600 <__RODATA_PM_OFFSET__+0x7f8600>
+
+000001e4 <.Loc.119>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c:107
+	return ADC0.RES;
+}
+ 1e4:	80 91 10 06 	lds	r24, 0x0610	; 0x800610 <__RODATA_PM_OFFSET__+0x7f8610>
+ 1e8:	90 91 11 06 	lds	r25, 0x0611	; 0x800611 <__RODATA_PM_OFFSET__+0x7f8611>
+ 1ec:	08 95       	ret
+
+000001ee <gpio_init>:
+gpio_init():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:18
+#include <avr/io.h>
+
+void gpio_init(void) { // reset with clamp on output
+	// ADC PINS
+	// Disable output driver.
+	VCOIL_PORT  .DIRCLR = (1 << VCOIL_PIN);
+ 1ee:	80 e4       	ldi	r24, 0x40	; 64
+ 1f0:	80 93 02 04 	sts	0x0402, r24	; 0x800402 <__RODATA_PM_OFFSET__+0x7f8402>
+
+000001f4 <.Loc.3>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:19
+	VBUS_PORT   .DIRCLR = (1 << VBUS_PIN);
+ 1f4:	80 e8       	ldi	r24, 0x80	; 128
+ 1f6:	80 93 02 04 	sts	0x0402, r24	; 0x800402 <__RODATA_PM_OFFSET__+0x7f8402>
+
+000001fa <.Loc.5>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:22
+
+	// Set pins: Interrupt disabled. Input buffer disabled. Pull-up Disabled.
+	VCOIL_PORT  .VCOIL_CTRL   = (INPUT_DISABLE << ISC);
+ 1fa:	84 e0       	ldi	r24, 0x04	; 4
+ 1fc:	80 93 16 04 	sts	0x0416, r24	; 0x800416 <__RODATA_PM_OFFSET__+0x7f8416>
+
+00000200 <.Loc.7>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:23
+	VBUS_PORT   .VBUS_CTRL    = (INPUT_DISABLE << ISC);
+ 200:	80 93 17 04 	sts	0x0417, r24	; 0x800417 <__RODATA_PM_OFFSET__+0x7f8417>
+
+00000204 <.Loc.10>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:27
+	
+	// LEDS
+	// Enable output driver, set to 1 (red LED by default)
+	LED1_R_PORT.DIRSET = (1 << LED1_R_PIN);
+ 204:	22 e0       	ldi	r18, 0x02	; 2
+ 206:	20 93 41 04 	sts	0x0441, r18	; 0x800441 <__RODATA_PM_OFFSET__+0x7f8441>
+
+0000020a <.Loc.11>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:28
+	LED1_G_PORT.DIRSET = (1 << LED1_G_PIN);
+ 20a:	80 93 41 04 	sts	0x0441, r24	; 0x800441 <__RODATA_PM_OFFSET__+0x7f8441>
+
+0000020e <.Loc.13>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:29
+	LED1_B_PORT.DIRSET = (1 << LED1_B_PIN);
+ 20e:	91 e0       	ldi	r25, 0x01	; 1
+ 210:	90 93 41 04 	sts	0x0441, r25	; 0x800441 <__RODATA_PM_OFFSET__+0x7f8441>
+
+00000214 <.Loc.15>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:30
+	LED1_R_PORT.OUTCLR = (1 << LED1_R_PIN);
+ 214:	20 93 46 04 	sts	0x0446, r18	; 0x800446 <__RODATA_PM_OFFSET__+0x7f8446>
+
+00000218 <.Loc.17>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:31
+	LED1_G_PORT.OUTCLR = (1 << LED1_G_PIN);
+ 218:	80 93 46 04 	sts	0x0446, r24	; 0x800446 <__RODATA_PM_OFFSET__+0x7f8446>
+
+0000021c <.Loc.19>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:32
+	LED1_B_PORT.OUTCLR = (1 << LED1_B_PIN);
+ 21c:	90 93 46 04 	sts	0x0446, r25	; 0x800446 <__RODATA_PM_OFFSET__+0x7f8446>
+
+00000220 <.Loc.21>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:35
+	
+	// Set FETs to off for now.
+	DRV1_PORT.DIRSET = (1 << DRV1_PIN);
+ 220:	90 e1       	ldi	r25, 0x10	; 16
+ 222:	90 93 01 04 	sts	0x0401, r25	; 0x800401 <__RODATA_PM_OFFSET__+0x7f8401>
+
+00000226 <.Loc.23>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:36
+	DRV2_PORT.DIRSET = (1 << DRV2_PIN);
+ 226:	80 e2       	ldi	r24, 0x20	; 32
+ 228:	80 93 01 04 	sts	0x0401, r24	; 0x800401 <__RODATA_PM_OFFSET__+0x7f8401>
+
+0000022c <.Loc.25>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:37
+	DRV1_PORT.OUTSET = (1 << DRV1_PIN);
+ 22c:	90 93 05 04 	sts	0x0405, r25	; 0x800405 <__RODATA_PM_OFFSET__+0x7f8405>
+
+00000230 <.Loc.27>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:38
+	DRV2_PORT.OUTCLR = (1 << DRV2_PIN);
+ 230:	80 93 06 04 	sts	0x0406, r24	; 0x800406 <__RODATA_PM_OFFSET__+0x7f8406>
+
+00000234 <.Loc.29>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c:39
+}
+ 234:	08 95       	ret
+
+00000236 <RTC_init>:
+RTC_init():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:29 (discriminator 1)
+static volatile int16_t isr_timer = 0;
+
+
+void RTC_init(void) {
+	/* Initialize RTC: */
+	while (RTC.STATUS > 0);               // Wait for all register to be synchronized
+ 236:	80 91 41 01 	lds	r24, 0x0141	; 0x800141 <__RODATA_PM_OFFSET__+0x7f8141>
+
+0000023a <.Loc.3>:
+ 23a:	81 11       	cpse	r24, r1
+ 23c:	fc cf       	rjmp	.-8      	; 0x236 <RTC_init>
+
+0000023e <.L3>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:30 (discriminator 1)
+	while (RTC.PITSTATUS > 0);            // Wait for everything to be synchronised
+ 23e:	80 91 51 01 	lds	r24, 0x0151	; 0x800151 <__RODATA_PM_OFFSET__+0x7f8151>
+
+00000242 <.Loc.6>:
+ 242:	81 11       	cpse	r24, r1
+ 244:	fc cf       	rjmp	.-8      	; 0x23e <.L3>
+
+00000246 <.Loc.7>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:32
+	
+	RTC.CLKSEL = RTC_CLKSEL_INT32K_gc;    // 32.768kHz Internal Ultra-Low-Power Oscillator (OSCULP32K); other option is 1.024kHz
+ 246:	10 92 47 01 	sts	0x0147, r1	; 0x800147 <__RODATA_PM_OFFSET__+0x7f8147>
+
+0000024a <.Loc.10>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:33
+	RTC.PITINTFLAGS = RTC_PI_bm;          // Clear interrupt flag by writing '1' (required)
+ 24a:	81 e0       	ldi	r24, 0x01	; 1
+ 24c:	80 93 53 01 	sts	0x0153, r24	; 0x800153 <__RODATA_PM_OFFSET__+0x7f8153>
+
+00000250 <.Loc.11>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:34
+	RTC.PITINTCTRL = RTC_PI_bm;           // PIT Interrupt: enabled */
+ 250:	80 93 52 01 	sts	0x0152, r24	; 0x800152 <__RODATA_PM_OFFSET__+0x7f8152>
+
+00000254 <.Loc.13>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:36
+	//RTC.PITCTRLA = RTC_PERIOD_CYC16384_gc // RTC Clock Cycles 16384, resulting in 32.768kHz/16384 = 2Hz
+	RTC.PITCTRLA = RTC_PERIOD_CYC256_gc
+ 254:	89 e3       	ldi	r24, 0x39	; 57
+ 256:	80 93 50 01 	sts	0x0150, r24	; 0x800150 <__RODATA_PM_OFFSET__+0x7f8150>
+
+0000025a <.L4>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:39 (discriminator 1)
+	| RTC_PITEN_bm;                       // Enable PIT counter: enabled
+	#define MS_PER_TICK 8
+	while (RTC.PITSTATUS > 0);            // Wait for everything to be synchronised
+ 25a:	80 91 51 01 	lds	r24, 0x0151	; 0x800151 <__RODATA_PM_OFFSET__+0x7f8151>
+
+0000025e <.Loc.18>:
+ 25e:	81 11       	cpse	r24, r1
+ 260:	fc cf       	rjmp	.-8      	; 0x25a <.L4>
+
+00000262 <.Loc.19>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:40
+}
+ 262:	08 95       	ret
+
+00000264 <__vector_7>:
+__vector_7():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:42
+
+ISR(RTC_PIT_vect) {
+ 264:	8f 93       	push	r24
+ 266:	8f b7       	in	r24, 0x3f	; 63
+ 268:	8f 93       	push	r24
+ 26a:	9f 93       	push	r25
+
+0000026c <.LCFI0>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:43
+	RTC.PITINTFLAGS = RTC_PI_bm;          // Clear interrupt flag by writing '1' (required)
+ 26c:	81 e0       	ldi	r24, 0x01	; 1
+ 26e:	80 93 53 01 	sts	0x0153, r24	; 0x800153 <__RODATA_PM_OFFSET__+0x7f8153>
+
+00000272 <.Loc.23>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:44
+	if (isr_timer >= 0) isr_timer -= MS_PER_TICK;
+ 272:	80 91 07 38 	lds	r24, 0x3807	; 0x803807 <isr_timer>
+ 276:	90 91 08 38 	lds	r25, 0x3808	; 0x803808 <isr_timer+0x1>
+
+0000027a <.Loc.25>:
+ 27a:	97 fd       	sbrc	r25, 7
+ 27c:	09 c0       	rjmp	.+18     	; 0x290 <.L8>
+
+0000027e <.Loc.26>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:44 (discriminator 1)
+ 27e:	80 91 07 38 	lds	r24, 0x3807	; 0x803807 <isr_timer>
+ 282:	90 91 08 38 	lds	r25, 0x3808	; 0x803808 <isr_timer+0x1>
+ 286:	08 97       	sbiw	r24, 0x08	; 8
+ 288:	80 93 07 38 	sts	0x3807, r24	; 0x803807 <isr_timer>
+ 28c:	90 93 08 38 	sts	0x3808, r25	; 0x803808 <isr_timer+0x1>
+
+00000290 <.L8>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:45
+}
+ 290:	9f 91       	pop	r25
+ 292:	8f 91       	pop	r24
+ 294:	8f bf       	out	0x3f, r24	; 63
+ 296:	8f 91       	pop	r24
+ 298:	18 95       	reti
+
+0000029a <wait_for_ms>:
+wait_for_ms():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:48
+
+void wait_for_ms(int16_t ms) {
+	isr_timer = ms;
+ 29a:	80 93 07 38 	sts	0x3807, r24	; 0x803807 <isr_timer>
+ 29e:	90 93 08 38 	sts	0x3808, r25	; 0x803808 <isr_timer+0x1>
+
+000002a2 <.L12>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:51
+	do {
+	//sleep_cpu();
+	} while (isr_timer > 0);
+ 2a2:	80 91 07 38 	lds	r24, 0x3807	; 0x803807 <isr_timer>
+ 2a6:	90 91 08 38 	lds	r25, 0x3808	; 0x803808 <isr_timer+0x1>
+ 2aa:	18 16       	cp	r1, r24
+ 2ac:	19 06       	cpc	r1, r25
+ 2ae:	cc f3       	brlt	.-14     	; 0x2a2 <.L12>
+
+000002b0 <.Loc.35>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:52
+}
+ 2b0:	08 95       	ret
+
+000002b2 <main>:
+main():
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:56
+
+int main(void)
+{
+	last_reset = RSTCTRL.RSTFR;
+ 2b2:	80 91 40 00 	lds	r24, 0x0040	; 0x800040 <__RODATA_PM_OFFSET__+0x7f8040>
+
+000002b6 <.Loc.39>:
+ 2b6:	80 93 09 38 	sts	0x3809, r24	; 0x803809 <last_reset>
+
+000002ba <.Loc.40>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:57
+	RSTCTRL.RSTFR = 0x3F;
+ 2ba:	8f e3       	ldi	r24, 0x3F	; 63
+ 2bc:	80 93 40 00 	sts	0x0040, r24	; 0x800040 <__RODATA_PM_OFFSET__+0x7f8040>
+
+000002c0 <.Loc.42>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:58
+	gpio_init();
+ 2c0:	0e 94 f7 00 	call	0x1ee	; 0x1ee <gpio_init>
+
+000002c4 <.L16>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:60 (discriminator 1)
+	static volatile uint32_t timer=100000;
+	while (--timer > 1);
+ 2c4:	80 91 02 38 	lds	r24, 0x3802	; 0x803802 <timer.2>
+ 2c8:	90 91 03 38 	lds	r25, 0x3803	; 0x803803 <timer.2+0x1>
+ 2cc:	a0 91 04 38 	lds	r26, 0x3804	; 0x803804 <timer.2+0x2>
+ 2d0:	b0 91 05 38 	lds	r27, 0x3805	; 0x803805 <timer.2+0x3>
+ 2d4:	01 97       	sbiw	r24, 0x01	; 1
+ 2d6:	a0 40       	sbci	r26, 0x00	; 0
+ 2d8:	b0 40       	sbci	r27, 0x00	; 0
+
+000002da <.Loc.47>:
+ 2da:	80 93 02 38 	sts	0x3802, r24	; 0x803802 <timer.2>
+ 2de:	90 93 03 38 	sts	0x3803, r25	; 0x803803 <timer.2+0x1>
+ 2e2:	a0 93 04 38 	sts	0x3804, r26	; 0x803804 <timer.2+0x2>
+ 2e6:	b0 93 05 38 	sts	0x3805, r27	; 0x803805 <timer.2+0x3>
+ 2ea:	02 97       	sbiw	r24, 0x02	; 2
+ 2ec:	a0 40       	sbci	r26, 0x00	; 0
+ 2ee:	b0 40       	sbci	r27, 0x00	; 0
+ 2f0:	48 f7       	brcc	.-46     	; 0x2c4 <.L16>
+
+000002f2 <.Loc.48>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:62
+	
+	RTC.PITINTCTRL = 0x00; // disable RTC interrupt
+ 2f2:	10 92 52 01 	sts	0x0152, r1	; 0x800152 <__RODATA_PM_OFFSET__+0x7f8152>
+
+000002f6 <.Loc.50>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:63
+	RTC.PITINTFLAGS = 0x01; // Clear interrupt flag
+ 2f6:	81 e0       	ldi	r24, 0x01	; 1
+ 2f8:	80 93 53 01 	sts	0x0153, r24	; 0x800153 <__RODATA_PM_OFFSET__+0x7f8153>
+
+000002fc <.Loc.52>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:64
+	set_sleep_mode(SLEEP_MODE_IDLE);
+ 2fc:	80 91 50 00 	lds	r24, 0x0050	; 0x800050 <__RODATA_PM_OFFSET__+0x7f8050>
+ 300:	89 7f       	andi	r24, 0xF9	; 249
+ 302:	80 93 50 00 	sts	0x0050, r24	; 0x800050 <__RODATA_PM_OFFSET__+0x7f8050>
+
+00000306 <.Loc.54>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:65
+	CCP = 0xD8;
+ 306:	88 ed       	ldi	r24, 0xD8	; 216
+ 308:	84 bf       	out	0x34, r24	; 52
+
+0000030a <.Loc.57>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:66
+	CLKCTRL.MCLKCTRLA = CLKCTRL_CLKSEL_OSC20M_gc;
+ 30a:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__RODATA_PM_OFFSET__+0x7f8060>
+
+0000030e <.L17>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:67 (discriminator 1)
+	while (CLKCTRL.MCLKSTATUS & CLKCTRL_SOSC_bm); // wait for oscillator switch
+ 30e:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <__RODATA_PM_OFFSET__+0x7f8063>
+
+00000312 <.Loc.62>:
+ 312:	80 fd       	sbrc	r24, 0
+ 314:	fc cf       	rjmp	.-8      	; 0x30e <.L17>
+
+00000316 <.Loc.63>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:68
+	CCP = 0xD8;
+ 316:	88 ed       	ldi	r24, 0xD8	; 216
+ 318:	84 bf       	out	0x34, r24	; 52
+
+0000031a <.Loc.65>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:69
+	CLKCTRL.MCLKCTRLB = 0b00000001; // divide by 2 for main clock of 10MHz
+ 31a:	81 e0       	ldi	r24, 0x01	; 1
+ 31c:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <__RODATA_PM_OFFSET__+0x7f8061>
+
+00000320 <.Loc.67>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:71
+	
+	cli();
+ 320:	f8 94       	cli
+
+00000322 <.Loc.68>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:80
+	TCB0.CNT = 0;			// reset count
+	TCB0.EVCTRL = 0;		// no input capture
+	TCB0.INTCTRL = 0x01;	// enable interrupt on capture
+	TCB0.INTFLAGS = 0x01;	// reset interrupt flag
+	TCB0.CTRLA |= 0x01;		// enable timer from CLK_PER*/
+	gpio_init();
+ 322:	0e 94 f7 00 	call	0x1ee	; 0x1ee <gpio_init>
+
+00000326 <.LVL3>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:81
+	RTC_init();
+ 326:	0e 94 1b 01 	call	0x236	; 0x236 <RTC_init>
+
+0000032a <.LVL4>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:82
+	set_sleep_mode(SLEEP_MODE_IDLE);
+ 32a:	80 91 50 00 	lds	r24, 0x0050	; 0x800050 <__RODATA_PM_OFFSET__+0x7f8050>
+ 32e:	89 7f       	andi	r24, 0xF9	; 249
+ 330:	80 93 50 00 	sts	0x0050, r24	; 0x800050 <__RODATA_PM_OFFSET__+0x7f8050>
+
+00000334 <.Loc.72>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:83
+	sleep_enable();         // Enable sleep mode
+ 334:	80 91 50 00 	lds	r24, 0x0050	; 0x800050 <__RODATA_PM_OFFSET__+0x7f8050>
+ 338:	81 60       	ori	r24, 0x01	; 1
+ 33a:	80 93 50 00 	sts	0x0050, r24	; 0x800050 <__RODATA_PM_OFFSET__+0x7f8050>
+
+0000033e <.Loc.75>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:84
+	sei();					// enable interrupts
+ 33e:	78 94       	sei
+
+00000340 <.Loc.77>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:86
+	
+	coil_test_presence();
+ 340:	0e 94 88 00 	call	0x110	; 0x110 <coil_test_presence>
+
+00000344 <.LBB2>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:99
+			uint16_t output = coil_read_fb();
+			if ((output < min)&&(output>1800)) min = output;
+			if (output > min+50) {
+				++power_on;
+			} else {
+				LED1_R_PORT.OUTSET = (1 << LED1_R_PIN);
+ 344:	12 e0       	ldi	r17, 0x02	; 2
+
+00000346 <.Loc.79>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:101
+				LED1_G_PORT.OUTCLR = (1 << LED1_G_PIN);
+				LED1_B_PORT.OUTCLR = (1 << LED1_B_PIN);
+ 346:	c1 e0       	ldi	r28, 0x01	; 1
+ 348:	d4 e0       	ldi	r29, 0x04	; 4
+
+0000034a <.LBE2>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:112
+		LED1_G_PORT.OUTSET = (1 << LED1_G_PIN);
+		LED1_B_PORT.OUTSET = (1 << LED1_B_PIN);
+		coil_init();
+		coil_set_power(25);
+		wait_for_ms(10000);
+		power_on = 98;
+ 34a:	02 e6       	ldi	r16, 0x62	; 98
+
+0000034c <.L25>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:90
+		coil_test_presence();
+ 34c:	0e 94 88 00 	call	0x110	; 0x110 <coil_test_presence>
+
+00000350 <.LVL6>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:91
+		wait_for_ms(20);
+ 350:	84 e1       	ldi	r24, 0x14	; 20
+ 352:	90 e0       	ldi	r25, 0x00	; 0
+ 354:	0e 94 4d 01 	call	0x29a	; 0x29a <wait_for_ms>
+
+00000358 <.L18>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:92 (discriminator 1)
+		while (power_on < 100) {
+ 358:	80 91 06 38 	lds	r24, 0x3806	; 0x803806 <power_on.0>
+ 35c:	84 36       	cpi	r24, 0x64	; 100
+ 35e:	90 f0       	brcs	.+36     	; 0x384 <.L24>
+
+00000360 <.Loc.88>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:106
+		LED1_R_PORT.OUTSET = (1 << LED1_R_PIN);
+ 360:	10 93 45 04 	sts	0x0445, r17	; 0x800445 <__RODATA_PM_OFFSET__+0x7f8445>
+
+00000364 <.Loc.90>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:107
+		LED1_G_PORT.OUTSET = (1 << LED1_G_PIN);
+ 364:	d0 93 45 04 	sts	0x0445, r29	; 0x800445 <__RODATA_PM_OFFSET__+0x7f8445>
+
+00000368 <.Loc.92>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:108
+		LED1_B_PORT.OUTSET = (1 << LED1_B_PIN);
+ 368:	c0 93 45 04 	sts	0x0445, r28	; 0x800445 <__RODATA_PM_OFFSET__+0x7f8445>
+
+0000036c <.Loc.94>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:109
+		coil_init();
+ 36c:	0e 94 5d 00 	call	0xba	; 0xba <coil_init>
+
+00000370 <.LVL8>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:110
+		coil_set_power(25);
+ 370:	89 e1       	ldi	r24, 0x19	; 25
+ 372:	0e 94 b3 00 	call	0x166	; 0x166 <coil_set_power>
+
+00000376 <.LVL9>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:111
+		wait_for_ms(10000);
+ 376:	80 e1       	ldi	r24, 0x10	; 16
+ 378:	97 e2       	ldi	r25, 0x27	; 39
+ 37a:	0e 94 4d 01 	call	0x29a	; 0x29a <wait_for_ms>
+
+0000037e <.LVL10>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:112
+		power_on = 98;
+ 37e:	00 93 06 38 	sts	0x3806, r16	; 0x803806 <power_on.0>
+
+00000382 <.Loc.100>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:90 (discriminator 1)
+		coil_test_presence();
+ 382:	e4 cf       	rjmp	.-56     	; 0x34c <.L25>
+
+00000384 <.L24>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:93
+			wait_for_ms(3);
+ 384:	83 e0       	ldi	r24, 0x03	; 3
+ 386:	90 e0       	ldi	r25, 0x00	; 0
+ 388:	0e 94 4d 01 	call	0x29a	; 0x29a <wait_for_ms>
+
+0000038c <.LVL11>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:94
+			uint16_t output = coil_read_fb();
+ 38c:	0e 94 ca 00 	call	0x194	; 0x194 <coil_read_fb>
+
+00000390 <.LVL12>:
+ 390:	9c 01       	movw	r18, r24
+
+00000392 <.LVL13>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:95
+			if ((output < min)&&(output>1800)) min = output;
+ 392:	40 91 00 38 	lds	r20, 0x3800	; 0x803800 <min.1>
+ 396:	50 91 01 38 	lds	r21, 0x3801	; 0x803801 <min.1+0x1>
+
+0000039a <.Loc.106>:
+ 39a:	84 17       	cp	r24, r20
+ 39c:	95 07       	cpc	r25, r21
+ 39e:	48 f4       	brcc	.+18     	; 0x3b2 <.L20>
+
+000003a0 <.Loc.107>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:95 (discriminator 1)
+ 3a0:	29 30       	cpi	r18, 0x09	; 9
+ 3a2:	87 e0       	ldi	r24, 0x07	; 7
+ 3a4:	38 07       	cpc	r19, r24
+ 3a6:	28 f0       	brcs	.+10     	; 0x3b2 <.L20>
+
+000003a8 <.Loc.108>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:95 (discriminator 2)
+ 3a8:	20 93 00 38 	sts	0x3800, r18	; 0x803800 <min.1>
+ 3ac:	30 93 01 38 	sts	0x3801, r19	; 0x803801 <min.1+0x1>
+ 3b0:	a9 01       	movw	r20, r18
+
+000003b2 <.L20>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:102
+				if (power_on > 0) --power_on;
+ 3b2:	90 91 06 38 	lds	r25, 0x3806	; 0x803806 <power_on.0>
+
+000003b6 <.Loc.112>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:96
+			if (output > min+50) {
+ 3b6:	4e 5c       	subi	r20, 0xCE	; 206
+ 3b8:	5f 4f       	sbci	r21, 0xFF	; 255
+
+000003ba <.Loc.113>:
+ 3ba:	42 17       	cp	r20, r18
+ 3bc:	53 07       	cpc	r21, r19
+ 3be:	20 f4       	brcc	.+8      	; 0x3c8 <.L22>
+
+000003c0 <.Loc.114>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:97
+				++power_on;
+ 3c0:	9f 5f       	subi	r25, 0xFF	; 255
+
+000003c2 <.L34>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:102 (discriminator 1)
+				if (power_on > 0) --power_on;
+ 3c2:	90 93 06 38 	sts	0x3806, r25	; 0x803806 <power_on.0>
+ 3c6:	c8 cf       	rjmp	.-112    	; 0x358 <.L18>
+
+000003c8 <.L22>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:99
+				LED1_R_PORT.OUTSET = (1 << LED1_R_PIN);
+ 3c8:	10 93 45 04 	sts	0x0445, r17	; 0x800445 <__RODATA_PM_OFFSET__+0x7f8445>
+
+000003cc <.Loc.118>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:100
+				LED1_G_PORT.OUTCLR = (1 << LED1_G_PIN);
+ 3cc:	d0 93 46 04 	sts	0x0446, r29	; 0x800446 <__RODATA_PM_OFFSET__+0x7f8446>
+
+000003d0 <.Loc.120>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:101
+				LED1_B_PORT.OUTCLR = (1 << LED1_B_PIN);
+ 3d0:	c0 93 46 04 	sts	0x0446, r28	; 0x800446 <__RODATA_PM_OFFSET__+0x7f8446>
+
+000003d4 <.Loc.122>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:102
+				if (power_on > 0) --power_on;
+ 3d4:	90 30       	cpi	r25, 0x00	; 0
+ 3d6:	09 f4       	brne	.+2      	; 0x3da <.Loc.124>
+
+000003d8 <L0^A>:
+ 3d8:	bf cf       	rjmp	.-130    	; 0x358 <.L18>
+
+000003da <.Loc.124>:
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c:102 (discriminator 1)
+ 3da:	91 50       	subi	r25, 0x01	; 1
+ 3dc:	f2 cf       	rjmp	.-28     	; 0x3c2 <.L34>
+
+000003de <_exit>:
+L0^A():
+ 3de:	f8 94       	cli
+
+000003e0 <__stop_program>:
+__stop_program():
+ 3e0:	ff cf       	rjmp	.-2      	; 0x3e0 <__stop_program>

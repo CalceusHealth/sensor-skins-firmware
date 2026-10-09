@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug",
+  "command": "/usr/bin/avr-gcc -DDebug=Debug -D__ATtiny1616__ -I/home/grey/.mchp_packs/Microchip/ATtiny_DFP/3.4.278/include -x c -fdiagnostics-color=always -g -gdwarf-2 -mmcu=attiny1616 -B/home/grey/.mchp_packs/Microchip/ATtiny_DFP/3.4.278/gcc/dev/attiny1616 -x c -c -funsigned-char -funsigned-bitfields -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -o CMakeFiles/Charger_Debug_Debug_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/coil.c.o -c \"/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c\"",
+  "file": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/coil.c",
+  "output": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug/CMakeFiles/Charger_Debug_Debug_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/coil.c.o"
+},
+{
+  "directory": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug",
+  "command": "/usr/bin/avr-gcc -DDebug=Debug -D__ATtiny1616__ -I/home/grey/.mchp_packs/Microchip/ATtiny_DFP/3.4.278/include -x c -fdiagnostics-color=always -g -gdwarf-2 -mmcu=attiny1616 -B/home/grey/.mchp_packs/Microchip/ATtiny_DFP/3.4.278/gcc/dev/attiny1616 -x c -c -funsigned-char -funsigned-bitfields -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -o CMakeFiles/Charger_Debug_Debug_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/gpio.c.o -c \"/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c\"",
+  "file": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/gpio.c",
+  "output": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug/CMakeFiles/Charger_Debug_Debug_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/gpio.c.o"
+},
+{
+  "directory": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug",
+  "command": "/usr/bin/avr-gcc -DDebug=Debug -D__ATtiny1616__ -I/home/grey/.mchp_packs/Microchip/ATtiny_DFP/3.4.278/include -x c -fdiagnostics-color=always -g -gdwarf-2 -mmcu=attiny1616 -B/home/grey/.mchp_packs/Microchip/ATtiny_DFP/3.4.278/gcc/dev/attiny1616 -x c -c -funsigned-char -funsigned-bitfields -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -o CMakeFiles/Charger_Debug_Debug_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/main.c.o -c \"/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c\"",
+  "file": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/main.c",
+  "output": "/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug/CMakeFiles/Charger_Debug_Debug_avr_gcc_compile.dir/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid_Orthotic_v2_Charger_Firmware_R3/main.c.o"
+}
+]

@@ -1,0 +1,9 @@
+{
+    "mplab.clangd.compileCommandsDir": "${workspaceFolder}/_build/Charger/Release",
+    "memory-inspector.debugTypes": [
+        "arm-debugger",
+        "embedded-debug",
+        "gdb",
+        "mplab-core-da"
+    ]
+}

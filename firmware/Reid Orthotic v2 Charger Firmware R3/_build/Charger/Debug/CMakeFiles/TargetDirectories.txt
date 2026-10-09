@@ -1,0 +1,4 @@
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug/CMakeFiles/Charger_Debug_Debug_avr_gcc_compile.dir
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug/CMakeFiles/Charger_Debug_image_mliI62_Z.dir
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug/CMakeFiles/edit_cache.dir
+/home/grey/Documents/2026/work/calceusHealth/sensor-skins-firmware/firmware/Reid Orthotic v2 Charger Firmware R3/_build/Charger/Debug/CMakeFiles/rebuild_cache.dir
