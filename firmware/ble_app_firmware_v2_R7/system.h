@@ -37,6 +37,34 @@ void system_deinit(void);
 // line (GPIO sense) or reset. Does not return.
 void system_enter_deep_shutdown(void);
 
+// SEN-182: reset-reason capture + RAM "black box". RESETREAS is latched at
+// system_init() (then cleared so each boot reports only its own cause) and a
+// small record in .non_init RAM survives pin/soft resets but not a power loss,
+// so the app can tell "reset pin pulled" from "supply dropped" after a field
+// drop-out. Reported by ;QI (RST=/BOOT=/PREV*=).
+#define SYSTEM_BB_EVENT_NONE				0
+#define SYSTEM_BB_EVENT_PROTECTION_SLEEP	1	// low-battery recovery sleep entered
+#define SYSTEM_BB_EVENT_SYSTEM_OFF			2	// firmware UVLO -> sd_power_system_off
+#define SYSTEM_BB_EVENT_REBOOT_CMD			3	// ;CR
+
+typedef struct system_blackbox_prev_t {
+	uint8_t  valid;			// 1 = record below survived the last reset (magic + checksum OK)
+	uint32_t boot_count;	// boots since the record was last lost
+	uint32_t time_s;		// device clock (s) at the last update before the reset
+	uint16_t vbat_mv;		// last averaged vbat
+	uint16_t vdd_mv;		// last nRF rail
+	uint8_t  batt_state;	// 'C' charging confirmed, 'K' otherwise
+	uint8_t  event;			// last SYSTEM_BB_EVENT_* before the reset
+	uint16_t event_vbat_mv;
+	uint32_t event_time_s;
+} system_blackbox_prev_t;
+
+uint32_t system_reset_reason(void);					// NRF_POWER->RESETREAS as found at boot
+uint32_t system_boot_count(void);
+const system_blackbox_prev_t* system_blackbox_prev(void);
+void system_blackbox_update(uint16_t vbat_mv, uint16_t vdd_mv, uint8_t batt_state);
+void system_blackbox_event(uint8_t event);
+
 void system_wdt_init(void);
 void system_wdt_kick(void);
 

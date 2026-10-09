@@ -146,7 +146,12 @@
  
 
 #ifndef NRF_BL_DFU_ENTER_METHOD_PINRESET
-#define NRF_BL_DFU_ENTER_METHOD_PINRESET 1
+// SEN-182: 0. Field RHS drop-outs were traced to pin resets (SS_DFU found
+// advertising at MAC+1 after each drop); with 1, every reset-pin event parked
+// the unit in DFU for NRF_BL_DFU_INACTIVITY_TIMEOUT_MS and the bootloader
+// cleared RESETREAS.RESETPIN before the app could log it. DFU entry remains
+// available via GPREGRET (;CR from the app).
+#define NRF_BL_DFU_ENTER_METHOD_PINRESET 0
 #endif
 
 // <q> NRF_BL_DFU_ENTER_METHOD_GPREGRET  - Enter DFU mode when bit 1 (0-indexed) is set in the NRF_POWER_GPREGRET register.

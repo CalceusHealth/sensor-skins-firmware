@@ -150,6 +150,31 @@ void msg_process_packet(void)
 							(unsigned int)(session_active ? 1 : 0),
 							(unsigned int)(main_loop_period_ms ? (1000u / main_loop_period_ms) : 0)
 						);
+						// SEN-182: reset forensics. RST = RESETREAS at this boot (hex:
+						// 0 = power-on/brownout, 1 = reset pin, 2 = watchdog, 4 = soft
+						// reset, 10000 = System OFF wake). BOOT = boots since the RAM
+						// record was last lost. PREV = 1 if the pre-reset record
+						// survived (RAM kept = power did not drop), then its device
+						// time, vbat, VDD, charge state, last event (1 protection
+						// sleep, 2 System OFF, 3 ;CR) with the vbat/time at that event.
+						{
+							const system_blackbox_prev_t* prev = system_blackbox_prev();
+							msg_tx_buffer_end += snprintf(
+								(uint8_t*)msg_tx_buffer+msg_tx_buffer_end,
+								MSG_TX_BUFFER_SIZE-msg_tx_buffer_end,
+								",RST=%X,BOOT=%u,PREV=%u,PREVT=%u,PREVVBAT=%u,PREVVDD=%u,PREVST=%c,PREVEV=%u,PREVEVVBAT=%u,PREVEVT=%u",
+								(unsigned int)system_reset_reason(),
+								(unsigned int)system_boot_count(),
+								(unsigned int)prev->valid,
+								(unsigned int)prev->time_s,
+								(unsigned int)prev->vbat_mv,
+								(unsigned int)prev->vdd_mv,
+								prev->valid && prev->batt_state ? (char)prev->batt_state : '-',
+								(unsigned int)prev->event,
+								(unsigned int)prev->event_vbat_mv,
+								(unsigned int)prev->event_time_s
+							);
+						}
 					msg_add_endline();
 					ble_reid_tx((uint8_t*) msg_tx_buffer, msg_tx_buffer_end);
 					break;

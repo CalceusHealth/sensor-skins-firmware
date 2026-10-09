@@ -563,6 +563,7 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 	// dominant sleep drain (deep-discharge kill chain, see SLEEP_LOGIC_V2_PROPOSAL).
 	// Protection (recovery) sleep powers the IMU down entirely: motion must not
 	// wake a critically low cell, so the wake engine buys nothing there.
+	if (recovery_sleep) system_blackbox_event(SYSTEM_BB_EVENT_PROTECTION_SLEEP); // SEN-182
 	if (recovery_sleep) lsm6dsm_deinit();
 	else lsm6dsm_enter_wom();
 
@@ -584,6 +585,7 @@ static void enter_device_sleep(uint64_t* timer, int32_t* summary_counter, uint8_
 			battery_check_divider = 0;
 			battery_update();
 			update_charging_state_history();
+			system_blackbox_update(battery_pack_voltage_mv(), 0, charging_confirmed ? 'C' : 'K'); // SEN-182
 		}
 
 		if (recovery_sleep) {
@@ -660,6 +662,10 @@ int main(void)
 		static uint8_t charging_state_sample_divider = 0;
 		if (++battery_update_divider >= 8) {
 			battery_update_divider = 0;
+			// SEN-182: keep the RAM black box current (every 8th loop: 1 s at the
+			// 8 Hz default, 80 ms at 100 Hz) so a reset report carries the last
+			// known vbat/VDD/charge state from before the event.
+			system_blackbox_update(battery_pack_voltage_mv(), ble_data.vdd_mv, charging_confirmed ? 'C' : 'K');
 			// vbat is acquired in-sequence by measure_sensors() on its own
 			// time-based cadence (VBAT_SAMPLE_PERIOD_MS), so no ADC read here --
 			// this slot only samples charge state and checks the protection

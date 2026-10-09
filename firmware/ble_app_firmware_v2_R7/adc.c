@@ -283,6 +283,12 @@ int32_t adc_read_vbat_raw_presettled(void)
 
 	if ((adc_current_state != ADC_IDLE)||(nrfx_saadc_is_busy())) { nrf_gpio_pin_clear(PIN_VBAT_ON); return 0; }
 
+	// SEN-182: a ;QB handled mid-settle (battery_update / adc_read_vbat_raw_fresh)
+	// clears the divider gate; the awake sequence then arrived here believing it
+	// was settled and converted the decaying node (~0.3-1.4 V at >=50 Hz, which
+	// passed the 500 mV validity floor). Only convert if the gate is still up.
+	if (!nrf_gpio_pin_out_read(PIN_VBAT_ON)) return 0;
+
 	adc_current_state = ADC_ONESHOT;
     ret_err = nrfx_saadc_channel_uninit(0);
 	if (ret_err == NRFX_SUCCESS) ret_err = nrfx_saadc_channel_init(0,&adc_channel_vbat);
