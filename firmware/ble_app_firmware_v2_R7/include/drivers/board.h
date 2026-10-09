@@ -1,21 +1,21 @@
 /*===========================================
 //
-// gpio.h
+// board.h
 // Written by Alex Gilmour
 // Copyright (c) 2024, CarbonCircuits
 // All rights reserved.
 //
 //=========================================*/
 
-#ifndef GPIO_H_
-#define GPIO_H_
+// Pin assignment of the insole PCB. Left and right use the same board but route
+// the sensors to different pins, so the side is chosen at build time
+// (REID_LHS / REID_RHS in configure_firmware.h). Pure data: system.c configures
+// the pins and each driver uses the ones it owns.
 
-#include <stdint.h>
-#include "nrf_gpio.h"
+#ifndef BOARD_H_
+#define BOARD_H_
+
 #include "configure_firmware.h"
-#include "system.h"
-#include "nordic_common.h"
-#include "nrf.h"
 
 // adc pins
 #define ADC_VDD			(NRF_SAADC_INPUT_VDD)
@@ -117,12 +117,5 @@
 
 #define PIN_RESET		(21)
 
-void gpio_init(void);
-void gpio_deinit(void);
-
-uint8_t gpio_bq_chg_asserted(void);
-uint8_t gpio_bq_pg_asserted(void);
-
-
-#endif // GPIO_H_ 
+#endif // BOARD_H_
 

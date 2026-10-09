@@ -7,10 +7,30 @@
 //
 //=========================================*/
 
-#include "ble_reid.h"
-#include "flash.h"
-#include "system.h"
+#include "drivers/ble_reid.h"
+#include "drivers/system.h"
 #include "configure_firmware.h"
+
+#include <string.h>
+
+#include "ble_hci.h"
+#include "ble_advdata.h"
+#include "ble_advertising.h"
+#include "ble_conn_params.h"
+#include "nrf_sdh.h"
+#include "nrf_sdh_soc.h"
+#include "nrf_sdh_ble.h"
+#include "nrf_ble_gatt.h"
+#include "nrf_ble_qwr.h"
+#include "ble_nus.h"
+#include "nordic_common.h"
+#include "nrf.h"
+#include "app_util_platform.h"
+
+#include "app_timer.h"
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_default_backends.h"
 
 #define APP_BLE_CONN_CFG_TAG            1                                           /**< A tag identifying the SoftDevice BLE configuration. */
 #define NUS_SERVICE_UUID_TYPE           BLE_UUID_TYPE_VENDOR_BEGIN                  /**< UUID type for the Nordic UART Service (vendor specific). */
@@ -55,13 +75,15 @@ static void nrf_qwr_error_handler(uint32_t nrf_error);
 static void conn_params_error_handler(uint32_t nrf_error);
 
 static volatile uint8_t ble_connection_status = 0;
+static void (*ble_rx_handler)(uint8_t rx_byte);
 
 volatile uint8_t bluetooth_dev_name[] = DEVICE_NAME;
 
-void ble_reid_init(void)
+void ble_reid_init(void (*rx_handler)(uint8_t rx_byte))
 {
     ret_code_t err_code = NRF_SUCCESS;
 	ble_connection_status = 0;
+	ble_rx_handler = rx_handler;
 
 /*******************************************
 ble_stack_init - initializes the SoftDevice and the BLE event interrupt
@@ -223,20 +245,6 @@ ble_stack_init - initializes the SoftDevice and the BLE event interrupt
 	sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
 	err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
 	APP_ERROR_CHECK(err_code);
-}
-
-void ble_reid_deinit(void)
-{
-	ret_code_t err_code = sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
-	ble_advertising_start(&m_advertising, BLE_ADV_MODE_IDLE);
-    sd_ble_gap_adv_stop(m_advertising.adv_handle);
-    
-    err_code = nrf_sdh_disable_request();
-	while ((err_code != NRF_SUCCESS)&&(err_code != NRF_ERROR_INVALID_STATE))
-	{
-		system_delay_cycles(10000);
-		err_code = nrf_sdh_disable_request();
-	}
 }
 
 void ble_reid_force_disconnect(void)
@@ -409,7 +417,7 @@ static void nus_data_handler(ble_nus_evt_t * p_evt)
 	
 		for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
         {
-			msg_rx_next_byte(p_evt->params.rx_data.p_data[i]);
+			if (ble_rx_handler) ble_rx_handler(p_evt->params.rx_data.p_data[i]);
 		}
     }
 
@@ -440,9 +448,6 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
             ble_connection_status = 0;
             break;
         case BLE_ADV_EVT_IDLE:
-			#ifdef ENABLE_SHUTDOWN
-			//system_shutdown();
-			#endif
 			(void) sd_ble_gap_adv_stop(m_advertising.adv_handle);
 			ble_advertising_start(&m_advertising, BLE_ADV_MODE_SLOW);
             break;

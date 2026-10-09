@@ -7,43 +7,26 @@
 //
 //=========================================*/
 
+// BLE link: SoftDevice, advertising and the Nordic UART Service.
 
 #ifndef BLE_REID_H
 #define BLE_REID_H
 
 #include <stdint.h>
-#include "messaging.h"
-#include "configure_firmware.h"
-#include "flash.h"
 
-#include "ble_hci.h"
-#include "ble_advdata.h"
-#include "ble_advertising.h"
-#include "ble_conn_params.h"
-#include "nrf_sdh.h"
-#include "nrf_sdh_soc.h"
-#include "nrf_sdh_ble.h"
-#include "nrf_ble_gatt.h"
-#include "nrf_ble_qwr.h"
-#include "ble_nus.h"
-#include "nordic_common.h"
-#include "nrf.h"
-#include "app_util_platform.h"
-
-#include "app_timer.h"
-#include "nrf_log.h"
-#include "nrf_log_ctrl.h"
-#include "nrf_log_default_backends.h"
-
-void ble_reid_init(void);
-void ble_reid_deinit(void);
+// Starts the SoftDevice, the Nordic UART Service and fast advertising.
+// rx_handler is called for every byte received, from the BLE event interrupt.
+void ble_reid_init(void (*rx_handler)(uint8_t rx_byte));
 
 void ble_reid_force_disconnect(void);
+// Sleep-state BLE: drop any connection and advertise slowly (APP_ADV_INTERVAL_SLOW).
 void ble_reid_enter_lifeline(void);
 void ble_advertise_again(void);
 
+// Blocking send for command replies: retries while the SoftDevice queue is full.
 void ble_reid_tx(uint8_t* data, uint16_t length);
 void ble_reid_tx_stream(uint8_t* data, uint16_t length); // SEN-59: non-blocking, for the high-rate stream flush
+// Largest notification payload the current link can carry.
 uint16_t ble_reid_max_tx_len(void);
 uint8_t ble_is_connected(void);
 

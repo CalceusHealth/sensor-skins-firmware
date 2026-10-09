@@ -24,22 +24,25 @@
 
 #define STREAM_BINARY_V2_MAX_ROWS 3
 
-// final release switches
-	#define ENABLE_CODE_PROTECT
-	#define ENABLE_HARDFAULT_RECOVERY
-	#define ENABLE_COPE_WITH_ERRORS
-//	#define ENABLE_BAD_RESET_DETECTION
-	#define ENABLE_DEBUG
-	#define ENABLE_SLEEP
+// Build switches. Each one is referenced by the code or by tools/common.sh.
+	#define ENABLE_CODE_PROTECT			// set APPROTECT on first boot (compiled out while ENABLE_DEBUG is defined)
+	#define ENABLE_HARDFAULT_RECOVERY	// reset on a HardFault or SDK error instead of hanging
+	#define ENABLE_DEBUG				// RTT logging
+	#define ENABLE_SLEEP				// sleep the CPU between interrupts
+// No code reads the next switch: tools/common.sh greps this line to tag the
+// package name. Keep it on a line of its own.
 	#define ENABLE_SLEEP_SMART_IDLE
-//	#define ENABLE_SHUTDOWN
-	#define WAIT_FOR_TX_OF_EVERY_PACKET
+	#define WAIT_FOR_TX_OF_EVERY_PACKET	// command replies retry until the SoftDevice accepts them
+// Stream every measurement over BLE (binary stream, see stream.h).
+// tools/common.sh comments this line out for the `nostream` variant, so keep
+// it on a line of its own.
 	#define SEND_EVERY_MEAS_OVER_BLE
-//	#define STREAM_PROTOCOL_ASCII_V1
-//	#define ENABLE_FLASH_SUMMARY	// legacy 5-min summary-to-flash; OFF for stream/nostream (raw-NVMC write drops BLE every ~343s). Enabled only for the `summary` build variant.
-	#define STREAM_PROTOCOL_BINARY_V2	// SEN-53: binary stream migration (>8Hz). ASCII_V1 above disabled (exactly one allowed).
+// Accept the ;CK (bench keep-awake) and ;CX (session active) commands. Off:
+// the firmware has never routed them (they answer ;EC), so the session latch
+// in power.c has never run on a device. Read SEN-181 before switching it on.
+//	#define ENABLE_SESSION_COMMANDS
 
-#define MAIN_LOOP_TIME_MS	125		// default loop period (8Hz); runtime value lives in main_loop_period_ms, settable via ;CF <hz>
+#define MAIN_LOOP_TIME_MS	125		// default frame period (8Hz); changed at runtime with ;CF <hz>
 #define STREAM_BINARY_V2_MAX_LATENCY_MS (2 * MAIN_LOOP_TIME_MS)
 // Bounds for the runtime ;CF <hz> sample-rate command (SEN-57). Requesting above
 // the real ceiling just makes the loop run measurement-bound; the achieved rate
@@ -47,25 +50,11 @@
 #define MIN_STREAM_RATE_HZ	1
 #define MAX_STREAM_RATE_HZ	200
 
-#if defined(STREAM_PROTOCOL_ASCII_V1) && defined(STREAM_PROTOCOL_BINARY_V2)
-#error Only one stream protocol may be enabled
-#endif
-
-#if !defined(STREAM_PROTOCOL_ASCII_V1) && !defined(STREAM_PROTOCOL_BINARY_V2)
-#error A stream protocol must be enabled
-#endif
-
-/*#define MEASURE_TEMP_EVERY_N	(60*1000/MAIN_LOOP_TIME_MS)
-#define NEW_SUMMARY_EVERY_N		(300*1000/MAIN_LOOP_TIME_MS)*/
-
-//#define MEASURE_TEMP_EVERY_N	(12*1000/MAIN_LOOP_TIME_MS) // each measurement iteration will cycle through a different sensor
-#define MEASURE_TEMP_EVERY_N	(80) // (legacy, frame-count) superseded by TEMP_SAMPLE_PERIOD_MS
 // Time-based temp cadence (SEN-58): the LMT01 read is a ~90ms blocking pulse-count,
 // so gate it on elapsed time, not frame count -- otherwise at high stream rates it
 // fires far too often (e.g. every 0.8s at 100Hz) and stalls the loop. One sensor
 // per period -> each of the 5 sensors updated every 5x this. 60s -> 5min/sensor.
 #define TEMP_SAMPLE_PERIOD_MS	60000
-#define NEW_SUMMARY_EVERY_N		(300*1000/MAIN_LOOP_TIME_MS)
 
 #define MSG_MAX_RECORDS_PER_REQUEST		101
 
@@ -160,19 +149,8 @@
     #define BLE_TX_POWER_CONN	(4)
     //Supported tx_power values: -40dBm, -20dBm, -16dBm, -12dBm, -8dBm, -4dBm, 0dBm, +3dBm and +4dBm.
 
-/**< The advertising interval (in units of 0.625 ms. This value corresponds to 40 ms). */
-//#define APP_ADV_INTERVAL				64                                          
-//#define APP_ADV_INTERVAL				160                                          
-//#define APP_ADV_INTERVAL				320
-//#define APP_ADV_INTERVAL				244
-//#define APP_ADV_INTERVAL				338
-//#define APP_ADV_INTERVAL				510
-//#define APP_ADV_INTERVAL				668
+// Fast advertising interval, in units of 0.625 ms: 874 = 546 ms.
 #define APP_ADV_INTERVAL				874
-//#define APP_ADV_INTERVAL				1216
-//#define APP_ADV_INTERVAL				1364
-//#define APP_ADV_INTERVAL				1636
-//#define APP_ADV_INTERVAL				2056
 
 // Slow advertising interval used by the BLE lifeline (sleep-state advertising).
 // 8000 units * 0.625 ms = 5 seconds between adverts. ~5 uA average system current.
