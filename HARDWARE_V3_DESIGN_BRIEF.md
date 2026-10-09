@@ -311,7 +311,7 @@ Absolute currents are therefore approximate. Comparisons between options are the
 - [ ] Send the magnet RFQ (`v3_concept/magnet_carrier_RFQ.md`), starting with AMF Magnetics. Decide which pole faces up on insole and puck.
 
 **Layout and fit**
-- [x] Add the per-size sensor drawings (XXS–XXL) to `hardware/` (CAL1000–CAL1060).
+- [x] Per-size sensor drawings (XXS–XXL, CAL1000–CAL1060) collected. Kept on Google Drive, not in git (14–22 MB print exports); copy into `hardware/` to run the layout tools.
 - [x] Front-battery layout drawn for every size (`v3_concept/sizes/`). One battery pose for all sizes: **45°, parallel to the FPC tail's diagonal edge** (as on the existing flat devices), 2.2 mm in front of the board, so the header, 18 mm lead route and service hatch are identical across the range; size S sets the pose (3.1 mm from its orthotic edge). The tails meet the sensor layer the same way at every size; the 120° C magnet sits flush with the board top in one orientation. Per-size true sections (A–A) added. Result: S–XXL fit. **XS: the 31 mm pack misses by one corner** (24 mm² past the 3 mm edge margin; a 24 mm pack fits). **XXS does not fit the board itself** with full-length tails (board crosses the orthotic edge; pack ≤ 12 mm).
 - [ ] Decide XS/XXS: shorter tails, a shorter cell, or a smaller board.
 - [ ] Confirm the R4 pad 2 / pad 3 mapping with one meter reading off the puck (section 3.4, Test points).
@@ -341,7 +341,7 @@ Absolute currents are therefore approximate. Comparisons between options are the
 | R4 production record: gerbers, BOM, pick-and-place | `artefacts/SSII Orthotics Electronics - Design Verification/` |
 | R4 schematic PDF | `artefacts/Reid Orthotic v2 R4.pdf` |
 | R3 3D assembly model (sensor layer, board, battery, coil) | `artefacts/Reid Orthotic v2 R3 MECH/` |
-| Sensor drawings (Reid Print), one per size: CAL1000 = XXS (orthotic 240 × 81.1 mm) … CAL1020 = S … CAL1060 | `hardware/CAL10x0 V2 Rev*.jpg` |
+| Sensor drawings (Reid Print), one per size: CAL1000 = XXS (orthotic 240 × 81.1 mm) … CAL1020 = S … CAL1060 | Google Drive (not in git); copy to `hardware/CAL10x0 V2 Rev*.jpg` for `tools/size_plans.py` / `layout_study.py` |
 | Test-point pad numbering on R4 (photo; gitignored, local copy only) | `artefacts/pins.png` |
 | Photo of the current build (coil on bridge) | `hardware/RHS.jpg` |
 | Sensor pad positions | `artefacts/all_sensor_coordinates.csv`, `artefacts/{FSR,CAP}-{L,R}.png` |
